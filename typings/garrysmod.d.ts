@@ -333,6 +333,533 @@ declare function xpcall(this: void, func: UnknownFunc, errorCallback: UnknownFun
 
 /**
 * 
+* This function takes a numeric indexed table and return all the members as a vararg. If specified, it will start at the given index and end at end index.
+* 
+* @name unpack
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/unpack
+* @param {void} this - no description
+* @param {table} tbl - The table to generate the vararg from.
+* @param {number} startIndex - Which index to start from. Optional.
+* @param {number} endIndex - Which index to end at. Optional, even if you set StartIndex.
+* @returns {any[]} - Output values
+**/
+declare function unpack(this: void, tbl: table, startIndex?: number, endIndex?: number): any[]
+
+/**
+* 
+* Returns a string representing the name of the type of the passed object.
+* 
+* @name type
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/type
+* @param {void} this - no description
+* @param {any} obj - The object to get the type of.
+* @returns {string} - The name of the object's type.
+**/
+declare function type(this: void, obj: any): string
+
+/**
+* 
+* Attempts to convert the value to a string. If the value is an object and its metatable has defined the __tostring metamethod, this will call that function.
+* @print function also uses this functionality.
+* 
+* @name tostring
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/tostring
+* @param {void} this - no description
+* @param {any} value - The object to be converted to a string.
+* @returns {string} - The string representation of the value.
+**/
+declare function tostring(this: void, value: any): string
+
+/**
+* 
+* Attempts to convert the value to a number.
+* Returns nil on failure.
+* 
+* @name tonumber
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/tonumber
+* @param {void} this - no description
+* @param {any} value - The value to convert. Can be a number or string.
+* @param {number} base - The [numeric base](https://en.wikipedia.org/wiki/Radix) used in the string. Can be any integer between 2 and 36, inclusive.
+* @returns {number} - The numeric representation of the value with the given base, or nil if the conversion failed.
+**/
+declare function tonumber(this: void, value: any, base?: number): number
+
+/**
+* 
+* Attempts to return an appropriate boolean for the given value
+* 
+* @name tobool
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/tobool
+* @param {void} this - no description
+* @param {any} val - The object to be converted to a boolean
+* @returns {boolean} - **false** for the boolean false.**false** for "false".**false** for "0".**false** for numeric 0.**false** for nil.**true** otherwise.
+**/
+declare function tobool(this: void, val: any): boolean
+
+/**
+* 
+* Sets, changes or removes a table's metatable. Returns Tab (the first argument).
+* 
+* @name setmetatable
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/setmetatable
+* @param {void} this - no description
+* @param {table} Tab - The table who's metatable to change.
+* @param {table} Metatable - The metatable to assign.If it's nil, the metatable will be removed.
+* @returns {table} - The first argument.
+**/
+declare function setmetatable(this: void, Tab: table, Metatable: table): table
+
+/**
+* 
+* Sets the enviroment for a function or a stack level, if a function is passed, the return value will be the function, otherwise nil.
+* 
+* @name setfenv
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/setfenv
+* @param {void} this - no description
+* @param {function} location - The function to set the enviroment for or a number representing stack level.
+* @param {table} enviroment - Table to be used as enviroment.
+* @returns {void}
+**/
+declare function setfenv(this: void, location: UnknownFunc, enviroment: table): void
+
+/**
+* 
+* Used to select single values from a vararg or get the count of values in it.
+* 
+* @name select
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/select
+* @param {void} this - no description
+* @param {number | string} parameter - Can be a @number type or @string type.
+* * If it's a string and starts with "#", the function will return the amount of values in the vararg (ignoring the rest of the string).
+* * If it's a positive number, the function will return all values starting from the given index.
+* * If the number is negative, it will return the amount specified from the end instead of the beginning. This mode will not be compiled by LuaJIT.
+* @param {any[]} ...vararg - The vararg. These are the values from which you want to select.
+* @returns {number | any[]} - Returns a @number type or @vararg type, depending on the select method.
+**/
+declare function select(this: void, parameter: number | string, ...vararg: any[]): number | any[]
+
+/**
+* 
+* First tries to load a binary module with the given name, if unsuccessful, it tries to load a Lua module with the given name.
+* 
+* @name require
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/require
+* @bug #1041 Running this function with @pcall function or @xpcall function will still print an error that counts towards sv_kickerrornum.
+* @param {void} this - no description
+* @param {string} name - The name of the module to be loaded.
+* @returns {void}
+**/
+declare function require(this: void, name: string): void
+
+/**
+* 
+* Sets the value with the specified key from the table without calling the __newindex method.
+* 
+* @name rawset
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/rawset
+* @param {void} this - no description
+* @param {table} table - Table to get the value from.
+* @param {any} index - The index to get the value from.
+* @param {any} value - The value to set for the specified key.
+* @returns {void}
+**/
+declare function rawset(this: void, table: table, index: any, value: any): void
+
+/**
+* 
+* Gets the value with the specified key from the table without calling the __index method.
+* 
+* @name rawget
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/rawget
+* @param {void} this - no description
+* @param {table} table - Table to get the value from.
+* @param {any} index - The index to get the value from.
+* @returns {any} - The value.
+**/
+declare function rawget(this: void, table: table, index: any): any
+
+/**
+* 
+* Compares the two values without calling their __eq operator.
+* 
+* @name rawequal
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/rawequal
+* @param {void} this - no description
+* @param {any} value1 - The first value to compare.
+* @param {any} value2 - The second value to compare.
+* @returns {boolean} - Whether or not the two values are equal.
+**/
+declare function rawequal(this: void, value1: any, value2: any): boolean
+
+/**
+* 
+* Writes every given argument to the console.
+* Automatically attempts to convert each argument to a string. (See @tostring function)
+* Separates arguments with a tab character (*"\t"*).
+* 
+* @name print
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/print
+* @param {void} this - no description
+* @param {any[]} ...args - List of values to print.
+* @returns {void}
+**/
+declare function print(this: void, ...args: any[]): void
+
+/**
+* 
+* Calls a function and catches an error that can be thrown while the execution of the call.
+* 
+* @name pcall
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/pcall
+* @bug #1976 Using this function with @include function will break autorefresh.
+* @bug #2036 This cannot stop errors from hooks called from the engine.
+* @bug #2498 This does not stop @Error function and @ErrorNoHalt function from sending error messages to the server (if called clientside) or calling the @GamemodeHooks:OnLuaError hook. The success boolean returned will always return true and thus you will not get the error message returned. @error function does not exhibit these behaviours.
+* @bug #3112 This does not stop errors incurred by @include function.
+* @param {void} this - no description
+* @param {function} func - Function to be executed and of which the errors should be caught of
+* @param {any[]} ...arguments - Arguments to call the function with.
+* @returns {boolean} - If the function had no errors occur within it.
+* @returns {any[]} - If an error occurred, this will be a string containing the error message. Otherwise, this will be the return values of the function passed in.
+* @tupleReturn
+**/
+declare function pcall(this: void, func: UnknownFunc, ...arguments: any[]): [boolean, any[]]
+
+/**
+* 
+* Returns an iterator function(@next function) for a for loop that will return the values of the specified table in an arbitrary order.
+* For alphabetical **key** order use @SortedPairs function.
+* For alphabetical **value** order use @SortedPairsByValue function.
+* 
+* @name pairs
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/pairs
+* @param {void} this - no description
+* @param {table} tab - The table to iterate over
+* @returns {function} - The iterator (@next function)
+* @returns {table} - The table being iterated over
+* @returns {any} - **nil** (for the constructor)
+* @tupleReturn
+**/
+declare function pairs(this: void, tab: table): [UnknownFunc, table, any]
+
+/**
+* 
+* Returns the next key and value pair in a table.
+* 
+* @name next
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/next
+* @note Table keys in Lua have no specific order, and will be returned in whatever order they exist in memory. This may not always be in ascending order or alphabetical order. If you need to iterate over an array in order, use @ipairs function.
+* @param {void} this - no description
+* @param {table} tab - The table
+* @param {any} prevKey - The previous key in the table.
+* @returns {any} - The next key for the table. If the previous key was nil, this will be the first key in the table. If the previous key was the last key in the table, this will be nil.
+* @returns {any} - The value associated with that key. If the previous key was the last key in the table, this will be nil.
+* @tupleReturn
+**/
+declare function next(this: void, tab: table, prevKey?: any): [any, any]
+
+/**
+* 
+* Returns a new userdata object.
+* 
+* @name newproxy
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/newproxy
+* @param {void} this - no description
+* @param {boolean} addMetatable - If true, the userdata will get its own metatable automatically.
+* @returns {userdata} - The newly created userdata.
+**/
+declare function newproxy(this: void, addMetatable?: boolean): userdata
+
+/**
+* 
+* Creates a table with the specified module name and sets the function environment for said table.
+* Any passed loaders are called with the table as an argument. An example of this is @package.seeall.
+* 
+* @name module
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/module
+* @param {void} this - no description
+* @param {string} name - The name of the module. This will be used to access the module table in the runtime environment.
+* @param {any[]} ...loaders - Calls each function passed with the new table as an argument.
+* @returns {void}
+**/
+declare function module(this: void, name: string, ...loaders: any[]): void
+
+/**
+* 
+* Returns if the passed object is a @Vector type.
+* 
+* @name isvector
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/isvector
+* @param {void} this - no description
+* @param {any} variable - The variable to perform the type check for.
+* @returns {boolean} - True if the variable is a @Vector type.
+**/
+declare function isvector(this: void, variable: any): boolean
+
+/**
+* 
+* Returns if the passed object is a @table type.
+* 
+* @name istable
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/istable
+* @param {void} this - no description
+* @param {any} variable - The variable to perform the type check for.
+* @returns {boolean} - True if the variable is a @table type.
+**/
+declare function istable(this: void, variable: any): boolean
+
+/**
+* 
+* Returns if the passed object is a @string type.
+* 
+* @name isstring
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/isstring
+* @param {void} this - no description
+* @param {any} variable - The variable to perform the type check for.
+* @returns {boolean} - True if the variable is a @string type.
+**/
+declare function isstring(this: void, variable: any): boolean
+
+/**
+* 
+* Returns if the passed object is a @Panel type.
+* 
+* @name ispanel
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/ispanel
+* @param {void} this - no description
+* @param {any} variable - The variable to perform the type check for.
+* @returns {boolean} - True if the variable is a @Panel type.
+**/
+declare function ispanel(this: void, variable: any): boolean
+
+/**
+* 
+* Returns if the passed object is a @number type.
+* 
+* @name isnumber
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/isnumber
+* @param {void} this - no description
+* @param {any} variable - The variable to perform the type check for.
+* @returns {boolean} - True if the variable is a @number type.
+**/
+declare function isnumber(this: void, variable: any): boolean
+
+/**
+* 
+* Returns whether the passed object is a @VMatrix type.
+* 
+* @name ismatrix
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/ismatrix
+* @param {void} this - no description
+* @param {any} variable - The variable to perform the type check for.
+* @returns {boolean} - True if the variable is a @VMatrix type.
+**/
+declare function ismatrix(this: void, variable: any): boolean
+
+/**
+* 
+* Returns if the passed object is a @function type.
+* 
+* @name isfunction
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/isfunction
+* @param {void} this - no description
+* @param {any} variable - The variable to perform the type check for.
+* @returns {boolean} - True if the variable is a @function type.
+**/
+declare function isfunction(this: void, variable: any): boolean
+
+/**
+* 
+* Returns if the passed object is an @Entity type.
+* 
+* @name isentity
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/isentity
+* @param {void} this - no description
+* @param {any} variable - The variable to perform the type check for.
+* @returns {boolean} - True if the variable is an @Entity type.
+**/
+declare function isentity(this: void, variable: any): boolean
+
+/**
+* 
+* Returns if the passed object is a @boolean type.
+* 
+* @name isbool
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/isbool
+* @param {void} this - no description
+* @param {any} variable - The variable to perform the type check for.
+* @returns {boolean} - True if the variable is a @boolean type.
+**/
+declare function isbool(this: void, variable: any): boolean
+
+/**
+* 
+* Returns if the passed object is an @Angle type.
+* 
+* @name isangle
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/isangle
+* @param {void} this - no description
+* @param {any} variable - The variable to perform the type check for.
+* @returns {boolean} - True if the variable is an @Angle type.
+**/
+declare function isangle(this: void, variable: any): boolean
+
+/**
+* 
+* Returns an iterator function for a for loop, to return ordered key-value pairs from a table.
+* This will only iterate though **numerical** keys, and these must also be **sequential**; starting at 1 with no gaps.
+* For unordered pairs, see @pairs function.
+* For pairs sorted by key in alphabetical order, see @SortedPairs function.
+* 
+* @name ipairs
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/ipairs
+* @param {void} this - no description
+* @param {table} tab - The table to iterate over.
+* @returns {function} - The iterator function.
+* @returns {table} - The table being iterated over
+* @returns {number} - The origin index **=0**
+* @tupleReturn
+**/
+declare function ipairs(this: void, tab: table): [UnknownFunc, table, number]
+
+/**
+* 
+* Executes a Lua script.
+* 
+* @name include
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/include
+* @note Addon files (.gma files) do not support relative parent folders (*..* notation).
+* @note Please make sure your file names are unique, the filesystem is shared across all addons, so a file named "lua/config.lua" in your addon may be overwritten by the same file in another addon.
+* @warning The file you are attempting to include MUST NOT be empty or the include will fail. Files over a certain size may fail as well.
+* @warning If the file you are including is clientside or shared, it **must** be @AddCSLuaFile function'd or this function will error saying the file doesn't exist.
+* @bug #1976 @pcall functioning this function will break autorefresh.
+* @param {void} this - no description
+* @param {string} fileName - The name of the script to be executed. The path must be either relative to the current file, or be an absolute path (relative to and excluding the lua/ folder).
+* @returns {any[]} - Anything that the executed Lua script returns.
+**/
+declare function include(this: void, fileName: string): any[]
+
+/**
+* 
+* Returns the metatable of an object. This function obeys the metatable's __metatable field, and will return that field if the metatable has it set.
+* Use @debug.getmetatable if you want the true metatable of the object.
+* 
+* @name getmetatable
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/getmetatable
+* @param {void} this - no description
+* @param {any} object - The value to return the metatable of.
+* @returns {any} - The metatable of the value. This is not always a table.
+**/
+declare function getmetatable(this: void, object: any): any
+
+/**
+* 
+* Returns the environment table of either the stack level or the function specified.
+* 
+* @name getfenv
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/getfenv
+* @param {void} this - no description
+* @param {function} location - The object to get the enviroment from. Can also be a number that specifies the function at that stack level: Level 1 is the function calling getfenv.
+* @returns {table} - The environment.
+**/
+declare function getfenv(this: void, location?: UnknownFunc): table
+
+/**
+* 
+* Returns the current floored dynamic memory usage of Lua in kilobytes.
+* 
+* @name gcinfo
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/gcinfo
+* @param {void} this - no description
+* @returns {number} - The current floored dynamic memory usage of Lua, in kilobytes.
+**/
+declare function gcinfo(this: void): number
+
+/**
+* 
+* Throws a Lua error and breaks out of the current call stack.
+* 
+* @name error
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/error
+* @param {void} this - no description
+* @param {string} message - The error message to throw.
+* @param {number} errorLevel - The level to throw the error at.
+* @returns {void}
+**/
+declare function error(this: void, message: string, errorLevel?: number): void
+
+/**
+* 
+* Executes the specified action on the garbage collector.
+* 
+* @name collectgarbage
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/collectgarbage
+* @param {void} this - no description
+* @param {string} action - The action to run.
+* Valid actions are "collect", "stop", "restart", "count", "step", "setpause" and "setstepmul".
+* @param {number} arg - The argument of the specified action, only applicable for "step", "setpause" and "setstepmul".
+* @returns {any} - If the action is count this is the number of kilobytes of memory used by Lua.
+* If the action is step this is true if a garbage collection cycle was finished.
+* If the action is setpause this is the previous value for the GC's pause.
+* If the action is setstepmul this is the previous value for the GC's step.
+**/
+declare function collectgarbage(this: void, action?: string, arg: number): any
+
+/**
+* 
+* If the result of the first argument is false or nil, an error is thrown with the second argument as the message.
+* 
+* @name assert
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/assert
+* @param {void} this - no description
+* @param {any} expression - The expression to assert.
+* @param {string} errorMessage - The error message to throw when assertion fails. This is only type-checked if the assertion fails.
+* @param {any[]} ...returns - Any arguments past the error message will be returned by a successful assert.
+* @returns {any} - If successful, returns the first argument.
+* @returns {any} - If successful, returns the error message. This will be nil if the second argument wasn't specified.
+* Since the second argument is only type-checked if the assertion fails, this doesn't have to be a string.
+* @returns {any[]} - Returns any arguments past the error message.
+* @tupleReturn
+**/
+declare function assert(this: void, expression: any, errorMessage?: string, ...returns?: any[]): [any, any, any[]]
+
+/**
+* 
 * Translates the specified position and angle into the specified coordinate system.
 * 
 * @name WorldToLocal
@@ -379,15 +906,49 @@ declare function VisualizeLayout(this: void, panel: Panel): void
 
 /**
 * 
-* Returns the time in seconds it took to render the VGUI.
+* Returns a random vector whose components are each between min(inclusive), max(exclusive).
 * 
-* @name VGUIFrameTime
-* @realm client, menu
-* @wiki https://wiki.garrysmod.com/page/Global/VGUIFrameTime
+* @name VectorRand
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/VectorRand
 * @param {void} this - no description
+* @param {number} min - Min bound inclusive.
+* @param {number} max - Max bound exclusive.
+* @returns {Vector} - The random direction vector.
+**/
+declare function VectorRand(this: void, min?: number, max?: number): Vector
+
+/**
+* 
+* Creates a @Vector type object.
+* 
+* @name Vector
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/Vector
+* @note This function creates a new unique object. It's a good practice to localize your vectors.
+* @param {void} this - no description
+* @param {number} x - The x component of the vector.
+* If this is a @Vector type, this function will return a copy of the given vector.
+* If this is a @string type, this function will try to parse the string as a vector. If it fails, it returns a 0 vector.
+* (See examples)
+* @param {number} y - The y component of the vector.
+* @param {number} z - The z component of the vector.
+* @returns {Vector} - The created vector object.
+**/
+declare function Vector(this: void, x?: number, y?: number, z?: number): Vector
+
+/**
+* 
+* Returns if a panel is safe to use.
+* 
+* @name ValidPanel
+* @realm client, menu
+* @wiki https://wiki.garrysmod.com/page/Global/ValidPanel
+* @param {void} this - no description
+* @param {Panel} panel - The panel to validate.
 * @returns {void}
 **/
-declare function VGUIFrameTime(this: void): void
+declare function ValidPanel(this: void, panel: Panel): void
 
 /**
 * 
@@ -407,48 +968,40 @@ declare function VGUIRect(this: void, x: number, y: number, w: number, h: number
 
 /**
 * 
-* Returns a random vector whose components are each between min(inclusive), max(exclusive).
+* Returns the time in seconds it took to render the VGUI.
 * 
-* @name VectorRand
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/VectorRand
-* @param {void} this - no description
-* @param {number} min - Min bound inclusive.
-* @param {number} max - Max bound exclusive.
-* @returns {Vector} - The random direction vector.
-**/
-declare function VectorRand(this: void, min: number, max: number): Vector
-
-/**
-* 
-* Creates a @Vector type object.
-* 
-* @name Vector
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/Vector
-* @param {void} this - no description
-* @param {number} x - The x component of the vector.
-* If this is a @Vector type, this function will return a copy of the given vector.
-* If this is a @string type, this function will try to parse the string as a vector. If it fails, it returns a 0 vector.
-* (See examples)
-* @param {number} y - The y component of the vector.
-* @param {number} z - The z component of the vector.
-* @returns {Vector} - The created vector object.
-**/
-declare function Vector(this: void, x: number, y: number, z: number): Vector
-
-/**
-* 
-* Returns if a panel is safe to use.
-* 
-* @name ValidPanel
+* @name VGUIFrameTime
 * @realm client, menu
-* @wiki https://wiki.garrysmod.com/page/Global/ValidPanel
+* @wiki https://wiki.garrysmod.com/page/Global/VGUIFrameTime
 * @param {void} this - no description
-* @param {Panel} panel - The panel to validate.
 * @returns {void}
 **/
-declare function ValidPanel(this: void, panel: Panel): void
+declare function VGUIFrameTime(this: void): void
+
+/**
+* 
+* Runs JavaScript on the loading screen panel (@GetLoadPanel function).
+* 
+* @name UpdateLoadPanel
+* @realm menu
+* @wiki https://wiki.garrysmod.com/page/Global/UpdateLoadPanel
+* @param {void} this - no description
+* @param {string} javascript - JavaScript to run on the loading panel.
+* @returns {void}
+**/
+declare function UpdateLoadPanel(this: void, javascript: string): void
+
+/**
+* 
+* Returns the current asynchronous in-game time.
+* 
+* @name UnPredictedCurTime
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/UnPredictedCurTime
+* @param {void} this - no description
+* @returns {number} - The asynchronous in-game time.
+**/
+declare function UnPredictedCurTime(this: void): number
 
 /**
 * 
@@ -481,70 +1034,18 @@ declare function UTIL_IsUselessModel(this: void, modelName: string): boolean
 
 /**
 * 
-* Runs JavaScript on the loading screen panel (@GetLoadPanel function).
-* 
-* @name UpdateLoadPanel
-* @realm menu
-* @wiki https://wiki.garrysmod.com/page/Global/UpdateLoadPanel
-* @param {void} this - no description
-* @param {string} javascript - JavaScript to run on the loading panel.
-* @returns {void}
-**/
-declare function UpdateLoadPanel(this: void, javascript: string): void
-
-/**
-* 
-* Returns the current asynchronous in-game time.
-* 
-* @name UnPredictedCurTime
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/UnPredictedCurTime
-* @param {void} this - no description
-* @returns {number} - The asynchronous in-game time.
-**/
-declare function UnPredictedCurTime(this: void): number
-
-/**
-* 
-* Gets the associated type ID of the variable.
+* Gets the associated type ID of the variable. Unlike @type function, this does not work with @no value type - an argument must be provided.
 * 
 * @name TypeID
 * @realm client, server
 * @wiki https://wiki.garrysmod.com/page/Global/TypeID
-* @bug  This does not work properly with _LOADLIB objects.
+* @bug  This returns garbage for _LOADLIB objects.
+* @bug  This returns TYPE_NIL for @proto types.
 * @param {void} this - no description
 * @param {any} variable - The variable to get the type ID of.
 * @returns {TYPE} - The type ID of the variable. See the @TYPE enum.
 **/
 declare function TypeID(this: void, variable: any): TYPE
-
-/**
-* 
-* This function takes a numeric indexed table and return all the members as a vararg. If specified, it will start at the given index and end at end index.
-* 
-* @name unpack
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/unpack
-* @param {void} this - no description
-* @param {table} tbl - The table to generate the vararg from.
-* @param {number} startIndex - Which index to start from. Optional.
-* @param {number} endIndex - Which index to end at. Optional, even if you set StartIndex.
-* @returns {any[]} - Output values
-**/
-declare function unpack(this: void, tbl: table, startIndex: number, endIndex: number): any[]
-
-/**
-* 
-* Returns a string representing the name of the type of the passed object.
-* 
-* @name type
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/type
-* @param {void} this - no description
-* @param {any} obj - The object to get the type of.
-* @returns {string} - The name of the object's type.
-**/
-declare function type(this: void, obj: any): string
 
 /**
 * 
@@ -562,35 +1063,6 @@ declare function TranslateDownloadableName(this: void, filename: string): string
 
 /**
 * 
-* Attempts to convert the value to a string. If the value is an object and its metatable has defined the __tostring metamethod, this will call that function.
-* @print function also uses this functionality.
-* 
-* @name tostring
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/tostring
-* @param {void} this - no description
-* @param {any} value - The object to be converted to a string.
-* @returns {string} - The string representation of the value.
-**/
-declare function tostring(this: void, value: any): string
-
-/**
-* 
-* Attempts to convert the value to a number.
-* Returns nil on failure.
-* 
-* @name tonumber
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/tonumber
-* @param {void} this - no description
-* @param {any} value - The value to convert. Can be a number or string.
-* @param {number} base - The [numeric base](https://en.wikipedia.org/wiki/Radix) used in the string. Can be any integer between 2 and 36, inclusive.
-* @returns {number} - The numeric representation of the value with the given base, or nil if the conversion failed.
-**/
-declare function tonumber(this: void, value: any, base: number): number
-
-/**
-* 
 * Toggles whether or not the named map is favorited in the new game list.
 * 
 * @name ToggleFavourite
@@ -604,25 +1076,12 @@ declare function ToggleFavourite(this: void, map: string): void
 
 /**
 * 
-* Attempts to return an appropriate boolean for the given value
-* 
-* @name tobool
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/tobool
-* @param {void} this - no description
-* @param {any} val - The object to be converted to a boolean
-* @returns {boolean} - **false** for the boolean false.**false** for "false".**false** for "0".**false** for numeric 0.**false** for nil.**true** otherwise.
-**/
-declare function tobool(this: void, val: any): boolean
-
-/**
-* 
 * Returns a sine value that fluctuates based on @CurTime function. The value returned will be between the start value plus/minus the range value.
-* Due to a bug, the range arguments don't work as intended. The existing (bugged) behavior is documented below.
 * 
 * @name TimedSin
 * @realm client, server, menu
 * @wiki https://wiki.garrysmod.com/page/Global/TimedSin
+* @bug  The range arguments don't work as intended. The existing (bugged) behavior is documented below.
 * @param {void} this - no description
 * @param {number} frequency - The frequency of fluctuation, in [hertz](https://en.wikipedia.org/wiki/hertz)
 * @param {number} origin - The center value of the sine wave.
@@ -674,6 +1133,18 @@ declare function TauntCamera(this: void): table
 
 /**
 * 
+* Returns a highly accurate time in seconds since the start up, ideal for benchmarking.
+* 
+* @name SysTime
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/SysTime
+* @param {void} this - no description
+* @returns {number} - Uptime of the server.
+**/
+declare function SysTime(this: void): number
+
+/**
+* 
 * Suppress any networking from the server to the specified player. This is automatically called by the engine before/after a player fires their weapon, reloads, or causes any other similar shared-predicted event to occur.
 * 
 * @name SuppressHostEvents
@@ -687,64 +1158,12 @@ declare function SuppressHostEvents(this: void, suppressPlayer: Player): void
 
 /**
 * 
-* Returns a highly accurate time in seconds since the start up, ideal for benchmarking.
-* 
-* @name SysTime
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/SysTime
-* @param {void} this - no description
-* @returns {number} - Uptime of the server.
-**/
-declare function SysTime(this: void): number
-
-/**
-* 
-* Returns a number based on the Size argument and your screen's width. Alias of @ScreenScale function.
-* 
-* @name SScale
-* @realm client
-* @wiki https://wiki.garrysmod.com/page/Global/SScale
-* @param {void} this - no description
-* @param {number} Size - The number you want to scale.
-* @returns {void}
-**/
-declare function SScale(this: void, Size: number): void
-
-/**
-* 
-* Returns the ordinal suffix of a given number.
-* 
-* @name STNDRD
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/STNDRD
-* @param {void} this - no description
-* @param {number} num - The number to find the ordinal suffix of.
-* @returns {string} - suffix
-**/
-declare function STNDRD(this: void, num: number): string
-
-/**
-* 
-* Returns the input value in an escaped form so that it can safely be used inside of queries. The returned value is surrounded by quotes unless noQuotes is true. Alias of @sql.SQLStr
-* 
-* @name SQLStr
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/SQLStr
-* @param {void} this - no description
-* @param {string} input - String to be escaped
-* @param {boolean} noQuotes - Whether the returned value should be surrounded in quotes or not
-* @returns {string} - Escaped input
-**/
-declare function SQLStr(this: void, input: string, noQuotes: boolean): string
-
-/**
-* 
 * Returns the duration of the sound specified in seconds.
 * 
 * @name SoundDuration
 * @realm client, server
 * @wiki https://wiki.garrysmod.com/page/Global/SoundDuration
-* @bug #936 This only works properly for .wav files serverside.
+* @bug #936 This only works properly for .wav files.
 * @param {void} this - no description
 * @param {string} soundName - The sound file path.
 * @returns {number} - Sound duration in seconds.
@@ -753,11 +1172,12 @@ declare function SoundDuration(this: void, soundName: string): number
 
 /**
 * 
-* Runs @util.PrecacheSound and returns the string
+* Runs @util.PrecacheSound and returns the string.
 * 
 * @name Sound
 * @realm client, server, menu
 * @wiki https://wiki.garrysmod.com/page/Global/Sound
+* @bug  @util.PrecacheSound does nothing and therefore so does this function
 * @param {void} this - no description
 * @param {string} soundPath - The soundpath to precache
 * @returns {string} - The string passed as the first argument
@@ -780,7 +1200,7 @@ declare function Sound(this: void, soundPath: string): string
 * @returns {table} - The table which will be iterated over
 * @tupleReturn
 **/
-declare function SortedPairsByValue(this: void, table: table, descending: boolean): [UnknownFunc, table]
+declare function SortedPairsByValue(this: void, table: table, descending?: boolean): [UnknownFunc, table]
 
 /**
 * 
@@ -799,7 +1219,7 @@ declare function SortedPairsByValue(this: void, table: table, descending: boolea
 * @returns {table} - The table the iterator was created for.
 * @tupleReturn
 **/
-declare function SortedPairsByMemberValue(this: void, table: table, memberKey: any, descending: boolean): [UnknownFunc, table]
+declare function SortedPairsByMemberValue(this: void, table: table, memberKey: any, descending?: boolean): [UnknownFunc, table]
 
 /**
 * 
@@ -817,7 +1237,7 @@ declare function SortedPairsByMemberValue(this: void, table: table, memberKey: a
 * @returns {table} - The table being iterated over
 * @tupleReturn
 **/
-declare function SortedPairs(this: void, table: table, desc: boolean): [UnknownFunc, table]
+declare function SortedPairs(this: void, table: table, desc?: boolean): [UnknownFunc, table]
 
 /**
 * 
@@ -831,20 +1251,6 @@ declare function SortedPairs(this: void, table: table, desc: boolean): [UnknownF
 * @returns {void}
 **/
 declare function SetPhysConstraintSystem(this: void, constraintSystem: Entity): void
-
-/**
-* 
-* Sets, changes or removes a table's metatable. Returns Tab (the first argument).
-* 
-* @name setmetatable
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/setmetatable
-* @param {void} this - no description
-* @param {table} Tab - The table who's metatable to change.
-* @param {table} Metatable - The metatable to assign.If it's nil, the metatable will be removed.
-* @returns {table} - The first argument.
-**/
-declare function setmetatable(this: void, Tab: table, Metatable: table): table
 
 /**
 * 
@@ -954,20 +1360,6 @@ declare function SetGlobalAngle(this: void, index: any, angle: Angle): void
 
 /**
 * 
-* Sets the enviroment for a function or a stack level, if a function is passed, the return value will be the function, otherwise nil.
-* 
-* @name setfenv
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/setfenv
-* @param {void} this - no description
-* @param {function} location - The function to set the enviroment for or a number representing stack level.
-* @param {table} enviroment - Table to be used as enviroment.
-* @returns {void}
-**/
-declare function setfenv(this: void, location: UnknownFunc, enviroment: table): void
-
-/**
-* 
 * Adds the given string to the computers clipboard, which can then be pasted in or outside of GMod with Ctrl + V.
 * 
 * @name SetClipboardText
@@ -1010,20 +1402,16 @@ declare function SendUserMessage(this: void, name: string, recipients: CRecipien
 
 /**
 * 
-* Used to select single values from a vararg or get the count of values in it.
+* Returns a number based on the Size argument and your screen's width. The screen's width is always equal to size 640. This function is primarily used for scaling font sizes.
 * 
-* @name select
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/select
+* @name ScreenScale
+* @realm client
+* @wiki https://wiki.garrysmod.com/page/Global/ScreenScale
 * @param {void} this - no description
-* @param {number | string} parameter - Can be a @number type or @string type.
-* * If it's a string and starts with "#", the function will return the amount of values in the vararg (ignoring the rest of the string).
-* * If it's a positive number, the function will return all values starting from the given index.
-* * If the number is negative, it will return the amount specified from the end instead of the beginning.
-* @param {any[]} ...vararg - The vararg. These are the values from which you want to select.
-* @returns {number | any[]} - Returns a @number type or @vararg type, depending on the select method.
+* @param {number} Size - The number you want to scale.
+* @returns {void}
 **/
-declare function select(this: void, parameter: number | string, ...vararg: any[]): number | any[]
+declare function ScreenScale(this: void, Size: number): void
 
 /**
 * 
@@ -1036,19 +1424,6 @@ declare function select(this: void, parameter: number | string, ...vararg: any[]
 * @returns {number} - The width of the game's window in pixels
 **/
 declare function ScrW(this: void): number
-
-/**
-* 
-* Returns a number based on the Size argument and your screen's width. The screen's width is always equal to size 640. This function is primarily used for scaling font sizes.
-* 
-* @name ScreenScale
-* @realm client
-* @wiki https://wiki.garrysmod.com/page/Global/ScreenScale
-* @param {void} this - no description
-* @param {number} Size - The number you want to scale.
-* @returns {void}
-**/
-declare function ScreenScale(this: void, Size: number): void
 
 /**
 * 
@@ -1119,6 +1494,46 @@ declare function SafeRemoveEntity(this: void, ent: Entity): void
 
 /**
 * 
+* Returns a number based on the Size argument and your screen's width. Alias of @ScreenScale function.
+* 
+* @name SScale
+* @realm client
+* @wiki https://wiki.garrysmod.com/page/Global/SScale
+* @param {void} this - no description
+* @param {number} Size - The number you want to scale.
+* @returns {void}
+**/
+declare function SScale(this: void, Size: number): void
+
+/**
+* 
+* Returns the input value in an escaped form so that it can safely be used inside of queries. The returned value is surrounded by quotes unless noQuotes is true. Alias of @sql.SQLStr
+* 
+* @name SQLStr
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/SQLStr
+* @param {void} this - no description
+* @param {string} input - String to be escaped
+* @param {boolean} noQuotes - Whether the returned value should be surrounded in quotes or not
+* @returns {string} - Escaped input
+**/
+declare function SQLStr(this: void, input: string, noQuotes?: boolean): string
+
+/**
+* 
+* Returns the ordinal suffix of a given number.
+* 
+* @name STNDRD
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/STNDRD
+* @param {void} this - no description
+* @param {number} num - The number to find the ordinal suffix of.
+* @returns {string} - suffix
+**/
+declare function STNDRD(this: void, num: number): string
+
+/**
+* 
 * Alias of @RunString function.
 * 
 * @name RunStringEx
@@ -1143,7 +1558,7 @@ declare function RunStringEx(this: void): void
 * @param {boolean} handleError - If false, this function will return a string containing any error messages instead of throwing an error.
 * @returns {string} - If handleError is false, the error message (if any).
 **/
-declare function RunString(this: void, code: string, identifier: string, handleError: boolean): string
+declare function RunString(this: void, code: string, identifier?: string, handleError?: boolean): string
 
 /**
 * 
@@ -1207,17 +1622,18 @@ declare function RestoreCursorPosition(this: void): void
 
 /**
 * 
-* First tries to load a binary module with the given name, if unsuccessful, it tries to load a Lua module with the given name.
+* Renders the Super Depth of Field post-process effect
 * 
-* @name require
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/require
-* @bug #1041 Running this function with @pcall function or @xpcall function will still print an error that counts towards sv_kickerrornum.
+* @name RenderSuperDoF
+* @realm client
+* @wiki https://wiki.garrysmod.com/page/Global/RenderSuperDoF
 * @param {void} this - no description
-* @param {string} name - The name of the module to be loaded.
+* @param {Vector} viewOrigin - Origin to render the effect at
+* @param {Angle} viewAngles - Angles to render the effect at
+* @param {number} viewFOV - Field of View to render the effect at
 * @returns {void}
 **/
-declare function require(this: void, name: string): void
+declare function RenderSuperDoF(this: void, viewOrigin: Vector, viewAngles: Angle, viewFOV: number): void
 
 /**
 * 
@@ -1232,21 +1648,6 @@ declare function require(this: void, name: string): void
 * @returns {void}
 **/
 declare function RenderStereoscopy(this: void, viewOrigin: Vector, viewAngles: Angle): void
-
-/**
-* 
-* Renders the Super Depth of Field post-process effect
-* 
-* @name RenderSuperDoF
-* @realm client
-* @wiki https://wiki.garrysmod.com/page/Global/RenderSuperDoF
-* @param {void} this - no description
-* @param {Vector} viewOrigin - Origin to render the effect at
-* @param {Angle} viewAngles - Angles to render the effect at
-* @param {number} viewFOV - Field of View to render the effect at
-* @returns {void}
-**/
-declare function RenderSuperDoF(this: void, viewOrigin: Vector, viewAngles: Angle, viewFOV: number): void
 
 /**
 * 
@@ -1374,49 +1775,6 @@ declare function RealFrameTime(this: void): number
 
 /**
 * 
-* Sets the value with the specified key from the table without calling the __newindex method.
-* 
-* @name rawset
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/rawset
-* @param {void} this - no description
-* @param {table} table - Table to get the value from.
-* @param {any} index - The index to get the value from.
-* @param {any} value - The value to set for the specified key.
-* @returns {void}
-**/
-declare function rawset(this: void, table: table, index: any, value: any): void
-
-/**
-* 
-* Gets the value with the specified key from the table without calling the __index method.
-* 
-* @name rawget
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/rawget
-* @param {void} this - no description
-* @param {table} table - Table to get the value from.
-* @param {any} index - The index to get the value from.
-* @returns {any} - The value.
-**/
-declare function rawget(this: void, table: table, index: any): any
-
-/**
-* 
-* Compares the two values without calling their __eq operator.
-* 
-* @name rawequal
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/rawequal
-* @param {void} this - no description
-* @param {any} value1 - The first value to compare.
-* @param {any} value2 - The second value to compare.
-* @returns {boolean} - Whether or not the two values are equal.
-**/
-declare function rawequal(this: void, value1: any, value2: any): boolean
-
-/**
-* 
 * Returns an iterator function that can be used to loop through a table in random order
 * 
 * @name RandomPairs
@@ -1439,7 +1797,7 @@ declare function RandomPairs(this: void, table: table, descending: boolean): Unk
 * @wiki https://wiki.garrysmod.com/page/Global/ProtectedCall
 * @param {void} this - no description
 * @param {function} func - Function to run
-* @returns {boolean} - Were there any errors or not
+* @returns {boolean} - Whether the function executed successfully or not
 **/
 declare function ProtectedCall(this: void, func: UnknownFunc): boolean
 
@@ -1468,7 +1826,7 @@ declare function ProjectedTexture(this: void): ProjectedTexture
 * @param {table} done - Internal argument, you shouldn't normally change this. Used to check if a nested table has already been printed so it doesn't get caught in a loop.
 * @returns {void}
 **/
-declare function PrintTable(this: void, tableToPrint: table, indent: number, done: table): void
+declare function PrintTable(this: void, tableToPrint: table, indent?: number, done?: table): void
 
 /**
 * 
@@ -1484,21 +1842,6 @@ declare function PrintTable(this: void, tableToPrint: table, indent: number, don
 * @returns {void}
 **/
 declare function PrintMessage(this: void, type: HUD, message: string): void
-
-/**
-* 
-* Writes every given argument to the console.
-* Automatically attempts to convert each argument to a string. (See @tostring function)
-* Separates arguments with a tab character (*"\t"*).
-* 
-* @name print
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/print
-* @param {void} this - no description
-* @param {any[]} ...args - List of values to print.
-* @returns {void}
-**/
-declare function print(this: void, ...args: any[]): void
 
 /**
 * 
@@ -1585,26 +1928,6 @@ declare function Player(this: void, playerIndex: number): Player
 
 /**
 * 
-* Calls a function and catches an error that can be thrown while the execution of the call.
-* 
-* @name pcall
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/pcall
-* @bug #1976 Using this function with @include function will break autorefresh.
-* @bug #2036 This cannot stop errors from hooks called from the engine.
-* @bug #2498 This does not stop @Error function and @ErrorNoHalt function from sending error messages to the server (if called clientside) or calling the @GamemodeHooks:OnLuaError hook. The success boolean returned will always return true and thus you will not get the error message returned. @error function does not exhibit these behaviours.
-* @bug #3112 This does not stop errors incurred by @include function.
-* @param {void} this - no description
-* @param {function} func - Function to be executed and of which the errors should be caught of
-* @param {any[]} ...arguments - Arguments to call the function with.
-* @returns {boolean} - If the function had no errors occur within it.
-* @returns {any[]} - If an error occurred, this will be a string containing the error message. Otherwise, this will be the return values of the function passed in.
-* @tupleReturn
-**/
-declare function pcall(this: void, func: UnknownFunc, ...arguments: any[]): [boolean, any[]]
-
-/**
-* 
 * Creates a path for the bot to follow
 * 
 * @name Path
@@ -1665,7 +1988,7 @@ declare function ParticleEffectAttach(this: void, particleName: string, attachTy
 * @param {Entity} parent - If set, the particle will be parented to the entity.
 * @returns {void}
 **/
-declare function ParticleEffect(this: void, particleName: string, position: Vector, angles: Angle, parent: Entity): void
+declare function ParticleEffect(this: void, particleName: string, position: Vector, angles: Angle, parent?: Entity): void
 
 /**
 * 
@@ -1679,24 +2002,6 @@ declare function ParticleEffect(this: void, particleName: string, position: Vect
 * @returns {string} - The particle file.
 **/
 declare function Particle(this: void, file: string): string
-
-/**
-* 
-* Returns an iterator function(@next function) for a for loop that will return the values of the specified table in an arbitrary order.
-* For alphabetical **key** order use @SortedPairs function.
-* For alphabetical **value** order use @SortedPairsByValue function.
-* 
-* @name pairs
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/pairs
-* @param {void} this - no description
-* @param {table} tab - The table to iterate over
-* @returns {function} - The iterator (@next function)
-* @returns {table} - The table being iterated over
-* @returns {any} - **nil** (for the constructor)
-* @tupleReturn
-**/
-declare function pairs(this: void, tab: table): [UnknownFunc, table, any]
 
 /**
 * 
@@ -1775,36 +2080,6 @@ declare function NumDownloadables(this: void): number
 
 /**
 * 
-* Returns the next key and value pair in a table.
-* 
-* @name next
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/next
-* @note Table keys in Lua have no specific order, and will be returned in whatever order they exist in memory. This may not always be in ascending order or alphabetical order. If you need to iterate over an array in order, use @ipairs function.
-* @param {void} this - no description
-* @param {table} tab - The table
-* @param {any} prevKey - The previous key in the table.
-* @returns {any} - The next key for the table. If the previous key was nil, this will be the first key in the table. If the previous key was the last key in the table, this will be nil.
-* @returns {any} - The value associated with that key. If the previous key was the last key in the table, this will be nil.
-* @tupleReturn
-**/
-declare function next(this: void, tab: table, prevKey: any): [any, any]
-
-/**
-* 
-* Returns a new userdata object.
-* 
-* @name newproxy
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/newproxy
-* @param {void} this - no description
-* @param {boolean} addMetatable - If true, the userdata will get its own metatable automatically.
-* @returns {userdata} - The newly created userdata.
-**/
-declare function newproxy(this: void, addMetatable: boolean): userdata
-
-/**
-* 
 * Returns named color defined in resource/ClientScheme.res.
 * 
 * @name NamedColor
@@ -1875,21 +2150,6 @@ declare function Msg(this: void, ...args: any[]): void
 
 /**
 * 
-* Creates a table with the specified module name and sets the function environment for said table.
-* Any passed loaders are called with the table as an argument. An example of this is @package.seeall.
-* 
-* @name module
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/module
-* @param {void} this - no description
-* @param {string} name - The name of the module. This will be used to access the module table in the runtime environment.
-* @param {any[]} ...loaders - Calls each function passed with the new table as an argument.
-* @returns {void}
-**/
-declare function module(this: void, name: string, ...loaders: any[]): void
-
-/**
-* 
 * Runs @util.PrecacheModel and returns the string
 * 
 * @name Model
@@ -1912,7 +2172,7 @@ declare function Model(this: void, model: string): string
 * @param {IMaterial} mat - The material the mesh is intended to be rendered with. It's merely a hint that tells that mesh what vertex format it should use.
 * @returns {IMesh} - The created object.
 **/
-declare function Mesh(this: void, mat: IMaterial): IMesh
+declare function Mesh(this: void, mat?: IMaterial): IMesh
 
 /**
 * 
@@ -1926,7 +2186,7 @@ declare function Mesh(this: void, mat: IMaterial): IMesh
 * Can be a @VMatrix type to copy its data.
 * @returns {VMatrix} - New matrix.
 **/
-declare function Matrix(this: void, data: table): VMatrix
+declare function Matrix(this: void, data?: table): VMatrix
 
 /**
 * 
@@ -1936,6 +2196,7 @@ declare function Matrix(this: void, data: table): VMatrix
 * @realm client, server, menu
 * @wiki https://wiki.garrysmod.com/page/Global/Material
 * @note When using .png or .jpg textures, try to make their sizes Power Of 2 (1, 2, 4, 8, 16, 32, 64, etc). While images are no longer scaled to Power of 2 sizes since February 2019, it is a good practice for things like icons, etc.
+* @note Since paths are relative to the materials folder, resource paths like ../data/MyImage.jpg will work since ".." translates to moving up a parent directory in the file tree.
 * @note This feature only works when importing .png or .jpeg image files
 * @param {void} this - no description
 * @param {string} materialName - The material name or path. The path is relative to the **materials/ ** folder. You do not need to add **materials/ ** to your path.
@@ -1946,7 +2207,21 @@ declare function Matrix(this: void, data: table): VMatrix
 * @returns {number} - How long it took for the function to run
 * @tupleReturn
 **/
-declare function Material(this: void, materialName: string, pngParameters: string): [IMaterial, number]
+declare function Material(this: void, materialName: string, pngParameters?: string): [IMaterial, number]
+
+/**
+* 
+* Returns a localisation for the given token, if none is found it will return the default(second) parameter.
+* 
+* @name Localize
+* @realm client, menu
+* @wiki https://wiki.garrysmod.com/page/Global/Localize
+* @param {void} this - no description
+* @param {string} localisationToken - The token to find a translation for.
+* @param {string} def - The default value to be returned if no translation was found.
+* @returns {void}
+**/
+declare function Localize(this: void, localisationToken: string, def: string): void
 
 /**
 * 
@@ -1980,20 +2255,6 @@ declare function LocalToWorld(this: void, localPos: Vector, localAng: Angle, ori
 * @returns {Player} - The player object representing the client.
 **/
 declare function LocalPlayer(this: void): Player
-
-/**
-* 
-* Returns a localisation for the given token, if none is found it will return the default(second) parameter.
-* 
-* @name Localize
-* @realm client, menu
-* @wiki https://wiki.garrysmod.com/page/Global/Localize
-* @param {void} this - no description
-* @param {string} localisationToken - The token to find a translation for.
-* @param {string} def - The default value to be returned if no translation was found.
-* @returns {void}
-**/
-declare function Localize(this: void, localisationToken: string, def: string): void
 
 /**
 * 
@@ -2037,6 +2298,21 @@ declare function LerpVector(this: void, fraction: number, from: Vector, to: Vect
 
 /**
 * 
+* Returns point between first and second angle using given fraction and linear interpolation
+* 
+* @name LerpAngle
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/LerpAngle
+* @param {void} this - no description
+* @param {number} ratio - Ratio of progress through values
+* @param {Angle} angleStart - Angle to begin from
+* @param {Angle} angleEnd - Angle to end at
+* @returns {Angle} - angle
+**/
+declare function LerpAngle(this: void, ratio: number, angleStart: Angle, angleEnd: Angle): Angle
+
+/**
+* 
 * Performs a linear interpolation from the start number to the end number.
 * This function provides a very efficient and easy way to smooth out movements.
 * 
@@ -2050,21 +2326,6 @@ declare function LerpVector(this: void, fraction: number, from: Vector, to: Vect
 * @returns {number} - The result of the linear interpolation, (1 - t) * from + t * to.
 **/
 declare function Lerp(this: void, t: number, from: number, to: number): number
-
-/**
-* 
-* Returns point between first and second angle using given fraction and linear interpolation
-* 
-* @name LerpAngle
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/LerpAngle
-* @param {void} this - no description
-* @param {number} ratio - Ratio of progress through values
-* @param {Angle} angleStart - Angle to begin from
-* @param {Angle} angleEnd - Angle to end at
-* @returns {Angle} - angle
-**/
-declare function LerpAngle(this: void, ratio: number, angleStart: Angle, angleEnd: Angle): Angle
 
 /**
 * 
@@ -2091,7 +2352,20 @@ declare function LanguageChanged(this: void, lang: string): void
 * @param {Panel} parent - Optional. The panel to parent the DLabel to
 * @returns {Panel} - The created DLabel
 **/
-declare function Label(this: void, text: string, parent: Panel): Panel
+declare function Label(this: void, text: string, parent?: Panel): Panel
+
+/**
+* 
+* Joins the server with the specified IP.
+* 
+* @name JoinServer
+* @realm menu
+* @wiki https://wiki.garrysmod.com/page/Global/JoinServer
+* @param {void} this - no description
+* @param {string} IP - The IP of the server to join
+* @returns {void}
+**/
+declare function JoinServer(this: void, IP: string): void
 
 /**
 * 
@@ -2131,32 +2405,6 @@ declare function JS_Utility(this: void, htmlPanel: Panel): void
 * @returns {void}
 **/
 declare function JS_Language(this: void, htmlPanel: Panel): void
-
-/**
-* 
-* Joins the server with the specified IP.
-* 
-* @name JoinServer
-* @realm menu
-* @wiki https://wiki.garrysmod.com/page/Global/JoinServer
-* @param {void} this - no description
-* @param {string} IP - The IP of the server to join
-* @returns {void}
-**/
-declare function JoinServer(this: void, IP: string): void
-
-/**
-* 
-* Returns if the passed object is a @Vector type.
-* 
-* @name isvector
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/isvector
-* @param {void} this - no description
-* @param {any} variable - The variable to perform the type check for.
-* @returns {boolean} - True if the variable is a @Vector type.
-**/
-declare function isvector(this: void, variable: any): boolean
 
 /**
 * 
@@ -2216,58 +2464,6 @@ declare function IsTableOfEntitiesValid(this: void, table: table): boolean
 
 /**
 * 
-* Returns if the passed object is a @table type.
-* 
-* @name istable
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/istable
-* @param {void} this - no description
-* @param {any} variable - The variable to perform the type check for.
-* @returns {boolean} - True if the variable is a @table type.
-**/
-declare function istable(this: void, variable: any): boolean
-
-/**
-* 
-* Returns if the passed object is a @string type.
-* 
-* @name isstring
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/isstring
-* @param {void} this - no description
-* @param {any} variable - The variable to perform the type check for.
-* @returns {boolean} - True if the variable is a @string type.
-**/
-declare function isstring(this: void, variable: any): boolean
-
-/**
-* 
-* Returns if the passed object is a @Panel type.
-* 
-* @name ispanel
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/ispanel
-* @param {void} this - no description
-* @param {any} variable - The variable to perform the type check for.
-* @returns {boolean} - True if the variable is a @Panel type.
-**/
-declare function ispanel(this: void, variable: any): boolean
-
-/**
-* 
-* Returns if the passed object is a @number type.
-* 
-* @name isnumber
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/isnumber
-* @param {void} this - no description
-* @param {any} variable - The variable to perform the type check for.
-* @returns {boolean} - True if the variable is a @number type.
-**/
-declare function isnumber(this: void, variable: any): boolean
-
-/**
-* 
 * Checks whether or not a game is currently mounted. Uses data given by @engine.GetGames.
 * 
 * @name IsMounted
@@ -2281,19 +2477,6 @@ declare function IsMounted(this: void, game: string): boolean
 
 /**
 * 
-* Returns whether the passed object is a @VMatrix type.
-* 
-* @name ismatrix
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/ismatrix
-* @param {void} this - no description
-* @param {any} variable - The variable to perform the type check for.
-* @returns {boolean} - True if the variable is a @VMatrix type.
-**/
-declare function ismatrix(this: void, variable: any): boolean
-
-/**
-* 
 * Returns true if the client is currently playing either a singleplayer or multiplayer game.
 * 
 * @name IsInGame
@@ -2303,19 +2486,6 @@ declare function ismatrix(this: void, variable: any): boolean
 * @returns {boolean} - True if we are in a game.
 **/
 declare function IsInGame(this: void): boolean
-
-/**
-* 
-* Returns if the passed object is a @function type.
-* 
-* @name isfunction
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/isfunction
-* @param {void} this - no description
-* @param {any} variable - The variable to perform the type check for.
-* @returns {boolean} - True if the variable is a @function type.
-**/
-declare function isfunction(this: void, variable: any): boolean
 
 /**
 * 
@@ -2358,19 +2528,6 @@ declare function IsFriendEntityName(this: void, className: string): boolean
 * @returns {boolean} - Whether or not this is the first time being predicted.
 **/
 declare function IsFirstTimePredicted(this: void): boolean
-
-/**
-* 
-* Returns if the passed object is an @Entity type.
-* 
-* @name isentity
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/isentity
-* @param {void} this - no description
-* @param {any} variable - The variable to perform the type check for.
-* @returns {boolean} - True if the variable is an @Entity type.
-**/
-declare function isentity(this: void, variable: any): boolean
 
 /**
 * 
@@ -2437,51 +2594,6 @@ declare function IsColor(this: void, Object: any): boolean
 
 /**
 * 
-* Returns if the passed object is a @boolean type.
-* 
-* @name isbool
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/isbool
-* @param {void} this - no description
-* @param {any} variable - The variable to perform the type check for.
-* @returns {boolean} - True if the variable is a @boolean type.
-**/
-declare function isbool(this: void, variable: any): boolean
-
-/**
-* 
-* Returns if the passed object is an @Angle type.
-* 
-* @name isangle
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/isangle
-* @param {void} this - no description
-* @param {any} variable - The variable to perform the type check for.
-* @returns {boolean} - True if the variable is an @Angle type.
-**/
-declare function isangle(this: void, variable: any): boolean
-
-/**
-* 
-* Returns an iterator function for a for loop, to return ordered key-value pairs from a table.
-* This will only iterate though **numerical** keys, and these must also be **sequential**; starting at 1 with no gaps.
-* For unordered pairs, see @pairs function.
-* For pairs sorted by key in alphabetical order, see @SortedPairs function.
-* 
-* @name ipairs
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/ipairs
-* @param {void} this - no description
-* @param {table} tab - The table to iterate over.
-* @returns {function} - The iterator function.
-* @returns {table} - The table being iterated over
-* @returns {number} - The origin index **=0**
-* @tupleReturn
-**/
-declare function ipairs(this: void, tab: table): [UnknownFunc, table, number]
-
-/**
-* 
 * This function works exactly the same as @include function both clientside and serverside.
 * The only difference is that on the serverside it also calls @AddCSLuaFile function on the filename, so that it gets sent to the client.
 * 
@@ -2496,31 +2608,12 @@ declare function IncludeCS(this: void, filename?: string): void
 
 /**
 * 
-* Executes a Lua script.
-* 
-* @name include
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/include
-* @note Addon files (.gma files) do not support relative parent folders (*..* notation).
-* @note Please make sure your file names are unique, the filesystem is shared across all addons, so a file named "lua/config.lua" in your addon may be overwritten by the same file in another addon.
-* @warning The file you are attempting to include MUST NOT be empty or the include will fail. Files over a certain size may fail as well.
-* @warning If the file you are including is clientside or shared, it **must** be @AddCSLuaFile function'd or this function will error saying the file doesn't exist.
-* @bug #1976 @pcall functioning this function will break autorefresh.
-* @param {void} this - no description
-* @param {string} fileName - The name of the script to be executed. The path must be either relative to the current file, or be an absolute path (relative to and excluding the lua/ folder).
-* @returns {any[]} - Anything that the executed Lua script returns.
-**/
-declare function include(this: void, fileName: string): any[]
-
-/**
-* 
 * Launches an asynchronous http request with the given parameters.
 * 
 * @name HTTP
 * @realm client, server, menu
 * @wiki https://wiki.garrysmod.com/page/Global/HTTP
-* @bug #2232 This cannot send or receive multiple headers at once.
-* @bug #3190 This can crash on Linux.
+* @bug #2232 This cannot send or receive multiple headers with the same name.
 * @param {void} this - no description
 * @param {HTTPRequest} parameters - The request parameters. See @HTTPRequest structure.
 * @returns {boolean} - true if we made a request, nil if we failed.
@@ -2529,19 +2622,35 @@ declare function HTTP(this: void, parameters: HTTPRequest): boolean
 
 /**
 * 
-* Converts a color from HSV color space into RGB color space and returns a @IColor structure.
+* Converts a color from [HSV color space](https://en.wikipedia.org/wiki/HSL_and_HSV) into RGB color space and returns a @IColor structure.
 * 
 * @name HSVToColor
 * @realm client, server, menu
 * @wiki https://wiki.garrysmod.com/page/Global/HSVToColor
 * @bug #2407 The returned color will not have the color metatable.
 * @param {void} this - no description
-* @param {number} hue - Hue in degrees.
-* @param {number} saturation - Saturation from 0 - 1.
-* @param {number} value - Value from 0 - 1.
+* @param {number} hue - The hue in degrees from 0-360.
+* @param {number} saturation - The saturation from 0-1.
+* @param {number} value - The value from 0-1.
 * @returns {IColor} - The @IColor structure created from the HSV color space.
 **/
 declare function HSVToColor(this: void, hue: number, saturation: number, value: number): IColor
+
+/**
+* 
+* Converts a color from [HSL color space](https://en.wikipedia.org/wiki/HSL_and_HSV) into RGB color space and returns a @IColor structure.
+* 
+* @name HSLToColor
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/HSLToColor
+* @bug #2407 The returned color will not have the color metatable.
+* @param {void} this - no description
+* @param {number} hue - The hue in degrees from 0-360.
+* @param {number} saturation - The saturation from 0-1.
+* @param {number} value - The lightness from 0-1.
+* @returns {IColor} - The @IColor structure created from the HSL color space.
+**/
+declare function HSLToColor(this: void, hue: number, saturation: number, value: number): IColor
 
 /**
 * 
@@ -2609,7 +2718,7 @@ declare function GetRenderTargetEx(this: void, name: string, width: number, heig
 * @param {boolean} additive - Sets whenever the rt should be additive.
 * @returns {ITexture} - The render target
 **/
-declare function GetRenderTarget(this: void, name: string, width: number, height: number, additive: boolean): ITexture
+declare function GetRenderTarget(this: void, name: string, width: number, height: number, additive?: boolean): ITexture
 
 /**
 * 
@@ -2622,20 +2731,6 @@ declare function GetRenderTarget(this: void, name: string, width: number, height
 * @returns {Panel} - The overlay panel
 **/
 declare function GetOverlayPanel(this: void): Panel
-
-/**
-* 
-* Returns the metatable of an object. This function obeys the metatable's __metatable field, and will return that field if the metatable has it set.
-* Use @debug.getmetatable if you want the true metatable of the object.
-* 
-* @name getmetatable
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/getmetatable
-* @param {void} this - no description
-* @param {any} object - The value to return the metatable of.
-* @returns {any} - The metatable of the value. This is not always a table.
-**/
-declare function getmetatable(this: void, object: any): any
 
 /**
 * 
@@ -2675,6 +2770,18 @@ declare function GetLoadPanel(this: void): Panel
 
 /**
 * 
+* Returns the name of the current server.
+* 
+* @name GetHostName
+* @realm client, server
+* @wiki https://wiki.garrysmod.com/page/Global/GetHostName
+* @param {void} this - no description
+* @returns {string} - The name of the server.
+**/
+declare function GetHostName(this: void): string
+
+/**
+* 
 * Returns the panel that is used as a wrapper for the HUD.
 * See also @vgui.GetWorldPanel
 * 
@@ -2685,18 +2792,6 @@ declare function GetLoadPanel(this: void): Panel
 * @returns {Panel} - The HUD panel
 **/
 declare function GetHUDPanel(this: void): Panel
-
-/**
-* 
-* Returns the name of the current server.
-* 
-* @name GetHostName
-* @realm client, server
-* @wiki https://wiki.garrysmod.com/page/Global/GetHostName
-* @param {void} this - no description
-* @returns {void}
-**/
-declare function GetHostName(this: void): void
 
 /**
 * 
@@ -2724,7 +2819,7 @@ declare function GetGlobalVector(this: void, Index: string, def: Vector): Vector
 * @param {string} def - The value to return if the global value is not set.
 * @returns {string} - The global value, or the default if the global value is not set.
 **/
-declare function GetGlobalString(this: void, index: string, def: string): string
+declare function GetGlobalString(this: void, index: string, def?: string): string
 
 /**
 * 
@@ -2739,21 +2834,7 @@ declare function GetGlobalString(this: void, index: string, def: string): string
 * @param {number} def - The value to return if the global value is not set.
 * @returns {number} - The global value, or the default if the global value is not set.
 **/
-declare function GetGlobalInt(this: void, index: string, def: number): number
-
-/**
-* 
-* Returns an entity that is shared between the server and all clients.
-* 
-* @name GetGlobalEntity
-* @realm client, server
-* @wiki https://wiki.garrysmod.com/page/Global/GetGlobalEntity
-* @param {void} this - no description
-* @param {string} index - The unique index to identify the global value with.
-* @param {Entity} def - The value to return if the global value is not set.
-* @returns {Entity} - The global value, or the default if the global value is not set.
-**/
-declare function GetGlobalEntity(this: void, index: string, def: Entity): Entity
+declare function GetGlobalInt(this: void, index: string, def?: number): number
 
 /**
 * 
@@ -2767,7 +2848,21 @@ declare function GetGlobalEntity(this: void, index: string, def: Entity): Entity
 * @param {number} def - The value to return if the global value is not set.
 * @returns {number} - The global value, or the default if the global value is not set.
 **/
-declare function GetGlobalFloat(this: void, index: string, def: number): number
+declare function GetGlobalFloat(this: void, index: string, def?: number): number
+
+/**
+* 
+* Returns an entity that is shared between the server and all clients.
+* 
+* @name GetGlobalEntity
+* @realm client, server
+* @wiki https://wiki.garrysmod.com/page/Global/GetGlobalEntity
+* @param {void} this - no description
+* @param {string} index - The unique index to identify the global value with.
+* @param {Entity} def - The value to return if the global value is not set.
+* @returns {Entity} - The global value, or the default if the global value is not set.
+**/
+declare function GetGlobalEntity(this: void, index: string, def?: Entity): Entity
 
 /**
 * 
@@ -2781,7 +2876,7 @@ declare function GetGlobalFloat(this: void, index: string, def: number): number
 * @param {boolean} def - The value to return if the global value is not set.
 * @returns {boolean} - The global value, or the default if the global value is not set.
 **/
-declare function GetGlobalBool(this: void, index: string, def: boolean): boolean
+declare function GetGlobalBool(this: void, index: string, def?: boolean): boolean
 
 /**
 * 
@@ -2795,7 +2890,7 @@ declare function GetGlobalBool(this: void, index: string, def: boolean): boolean
 * @param {Angle} def - The value to return if the global value is not set.
 * @returns {Angle} - The global value, or default if the global is not set.
 **/
-declare function GetGlobalAngle(this: void, index: string, def: Angle): Angle
+declare function GetGlobalAngle(this: void, index: string, def?: Angle): Angle
 
 /**
 * 
@@ -2808,19 +2903,6 @@ declare function GetGlobalAngle(this: void, index: string, def: Angle): Angle
 * @returns {table} - table of file names
 **/
 declare function GetDownloadables(this: void): table
-
-/**
-* 
-* Returns the environment table of either the stack level or the function specified.
-* 
-* @name getfenv
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/getfenv
-* @param {void} this - no description
-* @param {function} location - The object to get the enviroment from. Can also be a number that specifies the function at that stack level: Level 1 is the function calling getfenv.
-* @returns {table} - The environment.
-**/
-declare function getfenv(this: void, location: UnknownFunc): table
 
 /**
 * 
@@ -2889,28 +2971,17 @@ declare function GetConVarNumber(this: void, name: string): number
 
 /**
 * 
-* Gets the ConVar with the specified name. This function caches the ConVar object internally.
+* Gets the @ConVar type with the specified name.
 * 
 * @name GetConVar
 * @realm client, server, menu
 * @wiki https://wiki.garrysmod.com/page/Global/GetConVar
+* @note This function uses @GetConVar_Internal function internally, but caches the result in Lua for quicker lookups.
 * @param {void} this - no description
 * @param {string} name - Name of the ConVar to get
-* @returns {ConVar} - The ConVar object
+* @returns {ConVar | ConVar} - The @ConVar type object, or nil if no such @ConVar type was found.
 **/
-declare function GetConVar(this: void, name: string): ConVar
-
-/**
-* 
-* Returns the current floored dynamic memory usage of Lua in kilobytes.
-* 
-* @name gcinfo
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/gcinfo
-* @param {void} this - no description
-* @returns {number} - The current floored dynamic memory usage of Lua, in kilobytes.
-**/
-declare function gcinfo(this: void): number
+declare function GetConVar(this: void, name: string): ConVar | ConVar
 
 /**
 * 
@@ -3051,26 +3122,11 @@ declare function EyeAngles(this: void): Angle
 * @name ErrorNoHalt
 * @realm client, server, menu
 * @wiki https://wiki.garrysmod.com/page/Global/ErrorNoHalt
-* @bug #1810 Using this function in the menu state exits the menu.
 * @param {void} this - no description
 * @param {any[]} ...arguments - Converts all arguments to strings and prints them with no spacing.
 * @returns {void}
 **/
 declare function ErrorNoHalt(this: void, ...arguments: any[]): void
-
-/**
-* 
-* Throws a Lua error and breaks out of the current call stack.
-* 
-* @name error
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/error
-* @param {void} this - no description
-* @param {string} message - The error message to throw.
-* @param {number} errorLevel - The level to throw the error at.
-* @returns {void}
-**/
-declare function error(this: void, message: string, errorLevel: number): void
 
 /**
 * 
@@ -3123,7 +3179,7 @@ declare function EndTooltip(this: void, panel: Panel): void
 * @param {number} pitch - The pitch of the sound, 0-255
 * @returns {void}
 **/
-declare function EmitSound(this: void, soundName: string, position: Vector, entity: number, channel: CHAN, volume: number, soundLevel: SNDLVL, soundFlags: SND, pitch: number): void
+declare function EmitSound(this: void, soundName: string, position: Vector, entity: number, channel?: CHAN, volume?: number, soundLevel?: SNDLVL, soundFlags?: SND, pitch?: number): void
 
 /**
 * 
@@ -3143,7 +3199,7 @@ declare function EmitSound(this: void, soundName: string, position: Vector, enti
 * @param {number} pitch - The pitch of the sound, 0-255
 * @returns {void}
 **/
-declare function EmitSentence(this: void, soundName: string, position: Vector, entity: number, channel: CHAN, volume: number, soundLevel: SNDLVL, soundFlags: SND, pitch: number): void
+declare function EmitSentence(this: void, soundName: string, position: Vector, entity: number, channel?: CHAN, volume?: number, soundLevel?: SNDLVL, soundFlags?: SND, pitch?: number): void
 
 /**
 * 
@@ -3188,7 +3244,7 @@ declare function EffectData(this: void): CEffectData
 * @param {boolean} elight - Allocates an elight instead of a dlight. Elights have a higher light limit and do not light the world (making the "noworld" parameter have no effect).
 * @returns {DynamicLight} - A DynamicLight structured table. See @DynamicLight structure
 **/
-declare function DynamicLight(this: void, index: number, elight: boolean): DynamicLight
+declare function DynamicLight(this: void, index: number, elight?: boolean): DynamicLight
 
 /**
 * 
@@ -3250,6 +3306,19 @@ declare function DrawSunbeams(this: void, darken: number, multiplier: number, su
 
 /**
 * 
+* Draws the sobel shader, which detects edges and draws a black border.
+* 
+* @name DrawSobel
+* @realm client
+* @wiki https://wiki.garrysmod.com/page/Global/DrawSobel
+* @param {void} this - no description
+* @param {number} Threshold - Determines the threshold of edges. A value of 0 will make your screen completely black.
+* @returns {void}
+**/
+declare function DrawSobel(this: void, Threshold: number): void
+
+/**
+* 
 * Draws the sharpen shader, which creates more contrast.
 * 
 * @name DrawSharpen
@@ -3261,19 +3330,6 @@ declare function DrawSunbeams(this: void, darken: number, multiplier: number, su
 * @returns {void}
 **/
 declare function DrawSharpen(this: void, Contrast: number, Distance: number): void
-
-/**
-* 
-* Draws the sobel shader, which detects edges and draws a black border.
-* 
-* @name DrawSobel
-* @realm client
-* @wiki https://wiki.garrysmod.com/page/Global/DrawSobel
-* @param {void} this - no description
-* @param {number} Threshold - Determines the threshold of edges. A value of 0 will make your screen completely black.
-* @returns {void}
-**/
-declare function DrawSobel(this: void, Threshold: number): void
 
 /**
 * 
@@ -3306,17 +3362,17 @@ declare function DrawMaterialOverlay(this: void, Material: string, RefractAmount
 
 /**
 * 
-* Draws the currently active main menu background image and handles transitioning between background images.
-* This is called by default in the menu panel's Paint hook.
+* Draws the Color Modify shader, which can be used to adjust colors on screen.
+* [Category:Post_Processing](https://wiki.garrysmod.com/page/Category:Post_Processing)
 * 
-* @name DrawBackground
-* @realm menu
-* @wiki https://wiki.garrysmod.com/page/Global/DrawBackground
-* @internal
+* @name DrawColorModify
+* @realm client
+* @wiki https://wiki.garrysmod.com/page/Global/DrawColorModify
 * @param {void} this - no description
+* @param {table} modifyParameters - Color modification parameters. See @g_colourmodify shader and the example below. Note that if you leave out a field, it will retain its last value which may have changed if another caller uses this function.
 * @returns {void}
 **/
-declare function DrawBackground(this: void): void
+declare function DrawColorModify(this: void, modifyParameters: table): void
 
 /**
 * 
@@ -3341,44 +3397,17 @@ declare function DrawBloom(this: void, Darken: number, Multiply: number, SizeX: 
 
 /**
 * 
-* Draws the Color Modify shader, which can be used to adjust colors on screen.
-* [Category:Post_Processing](https://wiki.garrysmod.com/page/Category:Post_Processing)
+* Draws the currently active main menu background image and handles transitioning between background images.
+* This is called by default in the menu panel's Paint hook.
 * 
-* @name DrawColorModify
-* @realm client
-* @wiki https://wiki.garrysmod.com/page/Global/DrawColorModify
-* @param {void} this - no description
-* @param {table} modifyParameters - Color modification parameters. See @g_colourmodify shader and the example below. Note that if you leave out a field, it will retain its last value which may have changed if another caller uses this function.
-* @returns {void}
-**/
-declare function DrawColorModify(this: void, modifyParameters: table): void
-
-/**
-* 
-* Cancels any existing DOF post-process effects.
-* Begins the DOF post-process effect.
-* 
-* @name DOF_Start
-* @realm client
-* @wiki https://wiki.garrysmod.com/page/Global/DOF Start
-* @param {void} this - no description
-* @returns {void}
-**/
-declare function DOF_Start(this: void): void
-
-/**
-* 
-* A hacky method used to fix some bugs regarding DoF.
-* 
-* @name DOFModeHack
-* @realm client
-* @wiki https://wiki.garrysmod.com/page/Global/DOFModeHack
+* @name DrawBackground
+* @realm menu
+* @wiki https://wiki.garrysmod.com/page/Global/DrawBackground
 * @internal
 * @param {void} this - no description
-* @param {boolean} enable - Enables or disables depth-of-field mode
 * @returns {void}
 **/
-declare function DOFModeHack(this: void, enable: boolean): void
+declare function DrawBackground(this: void): void
 
 /**
 * 
@@ -3393,18 +3422,6 @@ declare function DOFModeHack(this: void, enable: boolean): void
 * @returns {void}
 **/
 declare function DisableClipping(this: void, disable: boolean): void
-
-/**
-* 
-* Cancels current DOF post-process effect started with @DOF_Start function
-* 
-* @name DOF_Kill
-* @realm client
-* @wiki https://wiki.garrysmod.com/page/Global/DOF Kill
-* @param {void} this - no description
-* @returns {void}
-**/
-declare function DOF_Kill(this: void): void
 
 /**
 * 
@@ -3423,7 +3440,7 @@ declare function DOF_Kill(this: void): void
 * @param {string} cancelText - Allows you to override text of the "Cancel" button
 * @returns {DFrame} - The created @DFrame type
 **/
-declare function Derma_StringRequest(this: void, title: string, subtitle: string, def: string, confirm: UnknownFunc, cancel: UnknownFunc, confirmText: string, cancelText: string): DFrame
+declare function Derma_StringRequest(this: void, title: string, subtitle: string, def: string, confirm: UnknownFunc, cancel?: UnknownFunc, confirmText?: string, cancelText?: string): DFrame
 
 /**
 * 
@@ -3445,7 +3462,7 @@ declare function Derma_StringRequest(this: void, title: string, subtitle: string
 * @param {function} btn4func - The function to run if the user clicks the fourth button.
 * @returns {Panel} - The Panel object of the created window.
 **/
-declare function Derma_Query(this: void, text: string, title: string, btn1text: string, btn1func: UnknownFunc, btn2text: string, btn2func: UnknownFunc, btn3text: string, btn3func: UnknownFunc, btn4text: string, btn4func: UnknownFunc): Panel
+declare function Derma_Query(this: void, text?: string, title?: string, btn1text: string, btn1func?: UnknownFunc, btn2text?: string, btn2func?: UnknownFunc, btn3text?: string, btn3func?: UnknownFunc, btn4text?: string, btn4func?: UnknownFunc): Panel
 
 /**
 * 
@@ -3589,6 +3606,45 @@ declare function DamageInfo(this: void): CTakeDamageInfo
 
 /**
 * 
+* Cancels any existing DOF post-process effects.
+* Begins the DOF post-process effect.
+* 
+* @name DOF_Start
+* @realm client
+* @wiki https://wiki.garrysmod.com/page/Global/DOF Start
+* @param {void} this - no description
+* @returns {void}
+**/
+declare function DOF_Start(this: void): void
+
+/**
+* 
+* Cancels current DOF post-process effect started with @DOF_Start function
+* 
+* @name DOF_Kill
+* @realm client
+* @wiki https://wiki.garrysmod.com/page/Global/DOF Kill
+* @param {void} this - no description
+* @returns {void}
+**/
+declare function DOF_Kill(this: void): void
+
+/**
+* 
+* A hacky method used to fix some bugs regarding DoF.
+* 
+* @name DOFModeHack
+* @realm client
+* @wiki https://wiki.garrysmod.com/page/Global/DOFModeHack
+* @internal
+* @param {void} this - no description
+* @param {boolean} enable - Enables or disables depth-of-field mode
+* @returns {void}
+**/
+declare function DOFModeHack(this: void, enable: boolean): void
+
+/**
+* 
 * Returns the uptime of the server in seconds (to at least 4 decimal places)
 * This is a synchronised value and affected by various factors such as host_timescale (or @game.GetTimeScale) and the server being paused - either by sv_pausable or all players disconnecting.
 * You should use this function for timing in-game events but not for real-world events.
@@ -3632,7 +3688,7 @@ declare function CreateSprite(this: void, material: IMaterial): DSprite
 * @param {CRecipientFilter} filter - A @CRecipientFilter type of the players that will have this sound networked to them.
 * @returns {CSoundPatch} - The sound object
 **/
-declare function CreateSound(this: void, targetEnt: Entity, soundName: string, filter: CRecipientFilter): CSoundPatch
+declare function CreateSound(this: void, targetEnt: Entity, soundName: string, filter?: CRecipientFilter): CSoundPatch
 
 /**
 * 
@@ -3678,7 +3734,7 @@ declare function CreatePhysCollideBox(this: void, mins: Vector, maxs: Vector): P
 * @param {Vector} offset - The offset from the @EntityFuncs:GetPos of the entity we are attaching this CP to.
 * @returns {CNewParticleEffect} - The created particle system.
 **/
-declare function CreateParticleSystem(this: void, ent: Entity, effect: string, partAttachment: PATTACH, entAttachment: number, offset: Vector): CNewParticleEffect
+declare function CreateParticleSystem(this: void, ent: Entity, effect: string, partAttachment: PATTACH, entAttachment?: number, offset?: Vector): CNewParticleEffect
 
 /**
 * 
@@ -3714,9 +3770,11 @@ declare function CreateMaterial(this: void, name: string, shaderName: string, ma
 * @param {string} value - Default value of the convar. Can also be a number.
 * @param {FCVAR} flags - Flags of the convar, see @FCVAR enum, either as bitflag or as table.
 * @param {string} helptext - The help text to show in the console.
+* @param {number} min - If set, the ConVar cannot be changed to a number lower than this value.
+* @param {number} max - If set, the ConVar cannot be changed to a number higher than this value.
 * @returns {ConVar} - The convar created.
 **/
-declare function CreateConVar(this: void, name: string, value: string, flags: FCVAR, helptext?: string): ConVar
+declare function CreateConVar(this: void, name: string, value: string, flags?: FCVAR, helptext?: string, min?: number, max?: number): ConVar
 
 /**
 * 
@@ -3734,9 +3792,11 @@ declare function CreateConVar(this: void, name: string, value: string, flags: FC
 * @param {boolean} shouldsave - Should the ConVar be saved across sessions
 * @param {boolean} userinfo - Should the ConVar and its containing data be sent to the server when it has changed. This make the convar accessible from server using @Player:GetInfoNum and similar functions.
 * @param {string} helptext - Help text to display in the console.
+* @param {number} min - If set, the convar cannot be changed to a number lower than this value.
+* @param {number} max - If set, the convar cannot be changed to a number higher than this value.
 * @returns {ConVar} - Created convar.
 **/
-declare function CreateClientConVar(this: void, name: string, def: string, shouldsave: boolean, userinfo: boolean, helptext: string): ConVar
+declare function CreateClientConVar(this: void, name: string, def: string, shouldsave?: boolean, userinfo?: boolean, helptext?: string, min?: number, max?: number): ConVar
 
 /**
 * 
@@ -3780,7 +3840,7 @@ declare function ConsoleAutoComplete(this: void, text: string): table
 * @returns {string} - The error string. Will be nil if there were no errors or the function handles errors (third argument is true).
 * @tupleReturn
 **/
-declare function CompileString(this: void, code: string, identifier: string, HandleError: boolean): [UnknownFunc, string]
+declare function CompileString(this: void, code: string, identifier: string, HandleError?: boolean): [UnknownFunc, string]
 
 /**
 * 
@@ -3804,12 +3864,28 @@ declare function CompileFile(this: void, path: string): UnknownFunc
 * @wiki https://wiki.garrysmod.com/page/Global/ColorToHSV
 * @param {void} this - no description
 * @param {Color} color - The @IColor structure.
-* @returns {number} - The hue in degrees.
-* @returns {number} - The saturation in the range 0-1.
-* @returns {number} - The value in the range 0-1.
+* @returns {number} - The hue in degrees [0, 360).
+* @returns {number} - The saturation in the range [0, 1].
+* @returns {number} - The value in the range [0, 1].
 * @tupleReturn
 **/
 declare function ColorToHSV(this: void, color: Color): [number, number, number]
+
+/**
+* 
+* Converts a @IColor structure into HSL color space.
+* 
+* @name ColorToHSL
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/ColorToHSL
+* @param {void} this - no description
+* @param {Color} color - The @IColor structure.
+* @returns {number} - The hue in degrees [0, 360).
+* @returns {number} - The saturation in the range [0, 1].
+* @returns {number} - The lightness in the range [0, 1].
+* @tupleReturn
+**/
+declare function ColorToHSL(this: void, color: Color): [number, number, number]
 
 /**
 * 
@@ -3822,7 +3898,7 @@ declare function ColorToHSV(this: void, color: Color): [number, number, number]
 * @param {boolean} a - Should alpha be randomized.
 * @returns {IColor} - The created @IColor structure.
 **/
-declare function ColorRand(this: void, a: boolean): IColor
+declare function ColorRand(this: void, a?: boolean): IColor
 
 /**
 * 
@@ -3845,6 +3921,7 @@ declare function ColorAlpha(this: void, color: Color, alpha: number): IColor
 * @name Color
 * @realm client, server, menu
 * @wiki https://wiki.garrysmod.com/page/Global/Color
+* @note This function creates a new table for the color. It's a good practice to localize your colors.
 * @param {void} this - no description
 * @param {number} r - An integer from 0-255 describing the red value of the color.
 * @param {number} g - An integer from 0-255 describing the green value of the color.
@@ -3852,25 +3929,7 @@ declare function ColorAlpha(this: void, color: Color, alpha: number): IColor
 * @param {number} a - An integer from 0-255 describing the alpha (transparency) of the color.
 * @returns {IColor} - The created @IColor structure.
 **/
-declare function Color(this: void, r: number, g: number, b: number, a: number): IColor
-
-/**
-* 
-* Executes the specified action on the garbage collector.
-* 
-* @name collectgarbage
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/collectgarbage
-* @param {void} this - no description
-* @param {string} action - The action to run.
-* Valid actions are "collect", "stop", "restart", "count", "step", "setpause" and "setstepmul".
-* @param {number} arg - The argument of the specified action, only applicable for "step", "setpause" and "setstepmul".
-* @returns {any} - If the action is count this is the number of kilobytes of memory used by Lua.
-* If the action is step this is true if a garbage collection cycle was finished.
-* If the action is setpause this is the previous value for the GC's pause.
-* If the action is setstepmul this is the previous value for the GC's step.
-**/
-declare function collectgarbage(this: void, action: string, arg: number): any
+declare function Color(this: void, r: number, g: number, b: number, a?: number): IColor
 
 /**
 * 
@@ -3913,7 +3972,7 @@ declare function ClientsideScene(this: void, name: string, targetEnt: Entity): C
 * @param {RENDERGROUP} renderGroup - The @RENDERGROUP enum to assign.
 * @returns {CSEnt} - The newly created client-side ragdoll. ( C_ClientRagdoll )
 **/
-declare function ClientsideRagdoll(this: void, model: string, renderGroup: RENDERGROUP): CSEnt
+declare function ClientsideRagdoll(this: void, model: string, renderGroup?: RENDERGROUP): CSEnt
 
 /**
 * 
@@ -3931,7 +3990,7 @@ declare function ClientsideRagdoll(this: void, model: string, renderGroup: RENDE
 * @param {RENDERGROUP} renderGroup - The rendergroup of the entity, see @RENDERGROUP enum.
 * @returns {CSEnt} - Created client-side model. ( C_BaseFlex )
 **/
-declare function ClientsideModel(this: void, model: string, renderGroup: RENDERGROUP): CSEnt
+declare function ClientsideModel(this: void, model: string, renderGroup?: RENDERGROUP): CSEnt
 
 /**
 * 
@@ -4027,25 +4086,6 @@ declare function BroadcastLua(this: void, code: string): void
 
 /**
 * 
-* If the result of the first argument is false or nil, an error is thrown with the second argument as the message.
-* 
-* @name assert
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/assert
-* @param {void} this - no description
-* @param {any} expression - The expression to assert.
-* @param {string} errorMessage - The error message to throw when assertion fails. This is only type-checked if the assertion fails.
-* @param {any[]} ...returns - Any arguments past the error message will be returned by a successful assert.
-* @returns {any} - If successful, returns the first argument.
-* @returns {any} - If successful, returns the error message. This will be nil if the second argument wasn't specified.
-* Since the second argument is only type-checked if the assertion fails, this doesn't have to be a string.
-* @returns {any[]} - Returns any arguments past the error message.
-* @tupleReturn
-**/
-declare function assert(this: void, expression: any, errorMessage: string, ...returns: any[]): [any, any, any[]]
-
-/**
-* 
 * Returns an angle with a randomized pitch, yaw, and roll between min(inclusive), max(exclusive).
 * 
 * @name AngleRand
@@ -4056,7 +4096,7 @@ declare function assert(this: void, expression: any, errorMessage: string, ...re
 * @param {number} max - Max bound exclusive.
 * @returns {Angle} - The randomly generated angle.
 **/
-declare function AngleRand(this: void, min: number, max: number): Angle
+declare function AngleRand(this: void, min?: number, max?: number): Angle
 
 /**
 * 
@@ -4065,6 +4105,7 @@ declare function AngleRand(this: void, min: number, max: number): Angle
 * @name Angle
 * @realm client, server, menu
 * @wiki https://wiki.garrysmod.com/page/Global/Angle
+* @note This function creates a new unique object. It's a good practice to localize your angles.
 * @param {void} this - no description
 * @param {number} pitch - The pitch value of the angle.
 * If this is an @Angle type, this function will return a copy of the given angle.
@@ -4074,7 +4115,21 @@ declare function AngleRand(this: void, min: number, max: number): Angle
 * @param {number} roll - The roll value of the angle.
 * @returns {Angle} - Created angle
 **/
-declare function Angle(this: void, pitch: number, yaw: number, roll: number): Angle
+declare function Angle(this: void, pitch?: number, yaw?: number, roll?: number): Angle
+
+/**
+* 
+* Loads the specified image from the /cache folder, used in combination @steamworks.Download.
+* Most addons will provide a 512x512 png image.
+* 
+* @name AddonMaterial
+* @realm client, menu
+* @wiki https://wiki.garrysmod.com/page/Global/AddonMaterial
+* @param {void} this - no description
+* @param {string} name - The name of the file.
+* @returns {IMaterial} - The material, returns nil if the cached file is not an image.
+**/
+declare function AddonMaterial(this: void, name: string): IMaterial
 
 /**
 * 
@@ -4108,7 +4163,7 @@ declare function Add_NPC_Class(this: void, name: string): void
 * @param {Entity} ent - Which entity you want to associate with the World Tip. This argument is optional. If set to a valid entity, this will override the position set in *pos* with the Entity's position.
 * @returns {void}
 **/
-declare function AddWorldTip(this: void, entindex: number, text: string, dieTime: number, pos: Vector, ent?: Entity): void
+declare function AddWorldTip(this: void, entindex?: number, text: string, dieTime?: number, pos?: Vector, ent?: Entity): void
 
 /**
 * 
@@ -4125,17 +4180,19 @@ declare function AddOriginToPVS(this: void, position: Vector): void
 
 /**
 * 
-* Loads the specified image from the /cache folder, used in combination @steamworks.Download.
-* Most addons will provide a 512x512 png image.
+* Tells the engine to register a console command. If the command was ran, the engine calls @concommand.Run.
 * 
-* @name AddonMaterial
-* @realm client, menu
-* @wiki https://wiki.garrysmod.com/page/Global/AddonMaterial
+* @name AddConsoleCommand
+* @realm client, server, menu
+* @wiki https://wiki.garrysmod.com/page/Global/AddConsoleCommand
+* @internal Use @concommand.Add instead.
 * @param {void} this - no description
-* @param {string} name - The name of the file.
-* @returns {IMaterial} - The material, returns nil if the cached file is not an image.
+* @param {string} name - The name of the console command to add.
+* @param {string} helpText - The help text.
+* @param {FCVAR} flags - Concommand flags using @FCVAR enum
+* @returns {void}
 **/
-declare function AddonMaterial(this: void, name: string): IMaterial
+declare function AddConsoleCommand(this: void, name: string, helpText: string, flags: FCVAR): void
 
 /**
 * 
@@ -4153,22 +4210,6 @@ declare function AddonMaterial(this: void, name: string): IMaterial
 * @returns {void}
 **/
 declare function AddCSLuaFile(this: void, file?: string): void
-
-/**
-* 
-* Tells the engine to register a console command. If the command was ran, the engine calls @concommand.Run.
-* 
-* @name AddConsoleCommand
-* @realm client, server, menu
-* @wiki https://wiki.garrysmod.com/page/Global/AddConsoleCommand
-* @internal Use @concommand.Add instead.
-* @param {void} this - no description
-* @param {string} name - The name of the console command to add.
-* @param {string} helpText - The help text.
-* @param {FCVAR} flags - Concommand flags using @FCVAR enum
-* @returns {void}
-**/
-declare function AddConsoleCommand(this: void, name: string, helpText: string, flags: FCVAR): void
 
 /**
 * 
@@ -4198,9 +4239,145 @@ declare function AddBackgroundImage(this: void, path: string): void
 * @param {FORCE} force - The type the setter should force to (uses @FORCE enum).
 * @returns {void}
 **/
-declare function AccessorFunc(this: void, tab: table, key: any, name: string, force: FORCE): void
+declare function AccessorFunc(this: void, tab: table, key: any, name: string, force?: FORCE): void
 
 
+/**
+* @wiki https://wiki.garrysmod.com/page/Enums/kRenderFx
+* @enum kRenderFx
+* @description Used by @EntityFuncs:SetRenderFX and returned by @EntityFuncs:GetRenderFX.
+* Most of these require alpha value of entitys color to be less than 255 to have any visible effect.
+* @compileMembersOnly
+**/
+declare enum kRenderFx  {
+  /**
+  * @param kRenderFxNone - None. No change.
+  **/
+  kRenderFxNone = 0,
+  /**
+  * @param kRenderFxPulseSlow - Slowly pulses the entitys transparency, +-15 to the current alpha.
+  **/
+  kRenderFxPulseSlow = 1,
+  /**
+  * @param kRenderFxPulseFast - Quickly pulses the entitys transparency, +-15 to the current alpha.
+  **/
+  kRenderFxPulseFast = 2,
+  /**
+  * @param kRenderFxPulseSlowWide - Slowly pulses the entitys transparency, +-60 to the current alpha.
+  **/
+  kRenderFxPulseSlowWide = 3,
+  /**
+  * @param kRenderFxPulseFastWide - Quickly pulses the entitys transparency, +-60 to the current alpha.
+  **/
+  kRenderFxPulseFastWide = 4,
+  /**
+  * @param kRenderFxFadeSlow - Slowly fades away the entity, making it completely invisible.Starts from whatever alpha the entity currently has set.
+  **/
+  kRenderFxFadeSlow = 5,
+  /**
+  * @param kRenderFxFadeFast - Quickly fades away the entity, making it completely invisible.Starts from whatever alpha the entity currently has set.
+  **/
+  kRenderFxFadeFast = 6,
+  /**
+  * @param kRenderFxSolidSlow - Slowly solidifies the entity, making it fully opaque.Starts from whatever alpha the entity currently has set.
+  **/
+  kRenderFxSolidSlow = 7,
+  /**
+  * @param kRenderFxSolidFast - Quickly solidifies the entity, making it fully opaque.Starts from whatever alpha the entity currently has set.
+  **/
+  kRenderFxSolidFast = 8,
+  /**
+  * @param kRenderFxStrobeSlow - Slowly switches the entitys transparency between its alpha and 0.
+  **/
+  kRenderFxStrobeSlow = 9,
+  /**
+  * @param kRenderFxStrobeFast - Quickly switches the entitys transparency between its alpha and 0.
+  **/
+  kRenderFxStrobeFast = 10,
+  /**
+  * @param kRenderFxStrobeFaster - Very quickly switches the entitys transparency between its alpha and 0.
+  **/
+  kRenderFxStrobeFaster = 11,
+  /**
+  * @param kRenderFxFlickerSlow - Same as Strobe Slow, but the interval is more randomized.
+  **/
+  kRenderFxFlickerSlow = 12,
+  /**
+  * @param kRenderFxFlickerFast - Same as Strobe Fast, but the interval is more randomized.
+  **/
+  kRenderFxFlickerFast = 13,
+  /**
+  * @param kRenderFxNoDissipation - no description
+  **/
+  kRenderFxNoDissipation = 14,
+  /**
+  * @param kRenderFxDistort - Flickers ( randomizes ) the entitys transparency
+  **/
+  kRenderFxDistort = 15,
+  /**
+  * @param kRenderFxHologram - Same as Distort, but fades the entity away the farther you are from it.
+  **/
+  kRenderFxHologram = 16,
+  /**
+  * @param kRenderFxExplode - no description
+  **/
+  kRenderFxExplode = 17,
+  /**
+  * @param kRenderFxGlowShell - no description
+  **/
+  kRenderFxGlowShell = 18,
+  /**
+  * @param kRenderFxClampMinScale - no description
+  **/
+  kRenderFxClampMinScale = 19,
+  /**
+  * @param kRenderFxEnvRain - no description
+  **/
+  kRenderFxEnvRain = 20,
+  /**
+  * @param kRenderFxEnvSnow - no description
+  **/
+  kRenderFxEnvSnow = 21,
+  /**
+  * @param kRenderFxSpotlight - no description
+  **/
+  kRenderFxSpotlight = 22,
+  /**
+  * @param kRenderFxRagdoll - no description
+  **/
+  kRenderFxRagdoll = 23,
+  /**
+  * @param kRenderFxPulseFastWider - Quickly pulses the entitys transparency, from 0 to 255.
+  **/
+  kRenderFxPulseFastWider = 24,
+}
+/**
+* @wiki https://wiki.garrysmod.com/page/Enums/ USE
+* @warning There is no guarantee to receive both ON and OFF signals. A signal will only be sent when pushing or letting go of the use key while actually aiming at the entity, so an ON signal might not be followed by an OFF signal if the player is aiming somewhere else when releasing the key, and similarly, an OFF signal may not be preceded by an ON signal if the player started aiming at the entity only after pressing the key.
+* Therefore, this method of input is unreliable and should not be used.
+* @enum _USE
+* @description Enumerations used by @EntityFuncs:SetUseType. Affects when @EntityHooks:Use is triggered.
+* Not to be confused with @USE enum used for @EntityHooks:Use and others.
+* @compileMembersOnly
+**/
+declare enum _USE  {
+  /**
+  * @param CONTINUOUS_USE - Fire a [USE_ON](https://wiki.garrysmod.com/page/Enums/USE) signal every tick as long as the player holds their use key and aims at the target.
+  **/
+  CONTINUOUS_USE = 0,
+  /**
+  * @param ONOFF_USE - Fires a [USE_ON](https://wiki.garrysmod.com/page/Enums/USE) signal when starting to use an entity, and a [USE_OFF](https://wiki.garrysmod.com/page/Enums/USE) signal when letting go.
+  **/
+  ONOFF_USE = 1,
+  /**
+  * @param DIRECTIONAL_USE - Like a wheel turning.
+  **/
+  DIRECTIONAL_USE = 2,
+  /**
+  * @param SIMPLE_USE - Fire a [USE_ON](https://wiki.garrysmod.com/page/Enums/USE) signal only once when player presses their use key while aiming at the target.
+  **/
+  SIMPLE_USE = 3,
+}
 /**
 * @wiki https://wiki.garrysmod.com/page/Enums/WEAPON PROFICIENCY
 * @enum WEAPON_PROFICIENCY
@@ -4229,33 +4406,6 @@ declare enum WEAPON_PROFICIENCY  {
   * @param WEAPON_PROFICIENCY_PERFECT - The NPC will almost never miss their shots.
   **/
   WEAPON_PROFICIENCY_PERFECT = 4,
-}
-/**
-* @wiki https://wiki.garrysmod.com/page/Enums/ USE
-* @warning There is no guarantee to receive both ON and OFF signals. A signal will only be sent when pushing or letting go of the use key while actually aiming at the entity, so an ON signal might not be followed by an OFF signal if the player is aiming somewhere else when releasing the key, and similarly, an OFF signal may not be preceded by an ON signal if the player started aiming at the entity only after pressing the key.
-* Therefore, this method of input is unreliable and should not be used.
-* @enum _USE
-* @description Enumerations used by @EntityFuncs:SetUseType. Affects when @EntityHooks:Use is triggered.
-* Not to be confused with @USE enum used for @EntityHooks:Use and others.
-* @compileMembersOnly
-**/
-declare enum _USE  {
-  /**
-  * @param CONTINUOUS_USE - Fire a [USE_ON](https://wiki.garrysmod.com/page/Enums/USE) signal every tick as long as the player holds their use key and aims at the target.
-  **/
-  CONTINUOUS_USE = 0,
-  /**
-  * @param ONOFF_USE - Fires a [USE_ON](https://wiki.garrysmod.com/page/Enums/USE) signal when starting to use an entity, and a [USE_OFF](https://wiki.garrysmod.com/page/Enums/USE) signal when letting go.
-  **/
-  ONOFF_USE = 1,
-  /**
-  * @param DIRECTIONAL_USE - Like a wheel turning.
-  **/
-  DIRECTIONAL_USE = 2,
-  /**
-  * @param SIMPLE_USE - Fire a [USE_ON](https://wiki.garrysmod.com/page/Enums/USE) signal only once when player presses their use key while aiming at the target.
-  **/
-  SIMPLE_USE = 3,
 }
 /**
 * @wiki https://wiki.garrysmod.com/page/Enums/USE
@@ -4295,7 +4445,7 @@ declare enum TYPE  {
   **/
   TYPE_NONE = -1,
   /**
-  * @param TYPE_INVALID - Invalid type
+  * @param TYPE_INVALID - no description
   **/
   TYPE_INVALID = -1,
   /**
@@ -4379,7 +4529,7 @@ declare enum TYPE  {
   **/
   TYPE_USERCMD = 19,
   /**
-  * @param TYPE_SCRIPTEDVEHICLE - Leftover from pre-GMod 13 days
+  * @param TYPE_SCRIPTEDVEHICLE - no description
   **/
   TYPE_SCRIPTEDVEHICLE = 20,
   /**
@@ -4471,33 +4621,17 @@ declare enum TYPE  {
   **/
   TYPE_PHYSCOLLIDE = 42,
   /**
+  * @param TYPE_SURFACEINFO - @SurfaceInfo type
+  **/
+  TYPE_SURFACEINFO = 43,
+  /**
   * @param TYPE_COUNT - Amount of TYPE_* enums
   **/
-  TYPE_COUNT = 43,
+  TYPE_COUNT = 44,
   /**
   * @param TYPE_COLOR - Metatable of a @IColor structure.
   **/
   TYPE_COLOR = 255,
-}
-/**
-* @wiki https://wiki.garrysmod.com/page/Enums/TRANSMIT
-* @enum TRANSMIT
-* @description Enumerations used in @EntityHooks:UpdateTransmitState hook.
-* @compileMembersOnly
-**/
-declare enum TRANSMIT  {
-  /**
-  * @param TRANSMIT_ALWAYS - Always transmit the entity
-  **/
-  TRANSMIT_ALWAYS = 0,
-  /**
-  * @param TRANSMIT_NEVER - Never transmit the entity, default for point entities
-  **/
-  TRANSMIT_NEVER = 1,
-  /**
-  * @param TRANSMIT_PVS - Transmit when entity is in players view
-  **/
-  TRANSMIT_PVS = 2,
 }
 /**
 * @wiki https://wiki.garrysmod.com/page/Enums/TRACER
@@ -4554,6 +4688,26 @@ declare enum TEXT_ALIGN  {
   * @param TEXT_ALIGN_BOTTOM - Align the text on the bottom
   **/
   TEXT_ALIGN_BOTTOM = 4,
+}
+/**
+* @wiki https://wiki.garrysmod.com/page/Enums/TRANSMIT
+* @enum TRANSMIT
+* @description Enumerations used in @EntityHooks:UpdateTransmitState hook.
+* @compileMembersOnly
+**/
+declare enum TRANSMIT  {
+  /**
+  * @param TRANSMIT_ALWAYS - Always transmit the entity
+  **/
+  TRANSMIT_ALWAYS = 0,
+  /**
+  * @param TRANSMIT_NEVER - Never transmit the entity, default for point entities
+  **/
+  TRANSMIT_NEVER = 1,
+  /**
+  * @param TRANSMIT_PVS - Transmit when entity is in players view
+  **/
+  TRANSMIT_PVS = 2,
 }
 /**
 * @wiki https://wiki.garrysmod.com/page/Enums/TEXTUREFLAGS
@@ -4718,6 +4872,26 @@ declare enum TEXFILTER  {
   ANISOTROPIC = 3,
 }
 /**
+* @wiki https://wiki.garrysmod.com/page/Enums/TEAM
+* @enum TEAM
+* @description Default defined teams in Garry's Mod. This does not include any custom teams created in custom gamemodes. Enumerations to use with @Player:Team
+* @compileMembersOnly
+**/
+declare enum TEAM  {
+  /**
+  * @param TEAM_CONNECTING - Connecting team ID, set when player connects to the server
+  **/
+  TEAM_CONNECTING = 0,
+  /**
+  * @param TEAM_UNASSIGNED - Unassigned team ID, set right after player connected
+  **/
+  TEAM_UNASSIGNED = 1001,
+  /**
+  * @param TEAM_SPECTATOR - Spectator team ID
+  **/
+  TEAM_SPECTATOR = 1002,
+}
+/**
 * @wiki https://wiki.garrysmod.com/page/Enums/SURF
 * @enum SURF
 * @description Surface flags, used by the @TraceResult structure.
@@ -4788,26 +4962,6 @@ declare enum SURF  {
   * @param SURF_HITBOX - This surface is part of an entity's hitbox
   **/
   SURF_HITBOX = 32768,
-}
-/**
-* @wiki https://wiki.garrysmod.com/page/Enums/TEAM
-* @enum TEAM
-* @description Default defined teams in Garry's Mod. This does not include any custom teams created in custom gamemodes. Enumerations to use with @Player:Team
-* @compileMembersOnly
-**/
-declare enum TEAM  {
-  /**
-  * @param TEAM_CONNECTING - Connecting team ID, set when player connects to the server
-  **/
-  TEAM_CONNECTING = 0,
-  /**
-  * @param TEAM_UNASSIGNED - Unassigned team ID, set right after player connected
-  **/
-  TEAM_UNASSIGNED = 1001,
-  /**
-  * @param TEAM_SPECTATOR - Spectator team ID
-  **/
-  TEAM_SPECTATOR = 1002,
 }
 /**
 * @wiki https://wiki.garrysmod.com/page/Enums/STUDIO
@@ -5215,93 +5369,6 @@ declare enum SIM  {
   SIM_GLOBAL_FORCE = 4,
 }
 /**
-* @wiki https://wiki.garrysmod.com/page/Enums/SENSORBONE
-* @enum SENSORBONE
-* @description Enumerations used by Kinect SDK bindings.
-**/
-declare enum SENSORBONE  {
-  /**
-  * @param SHOULDER_RIGHT - no description
-  **/
-  SHOULDER_RIGHT = 8,
-  /**
-  * @param SHOULDER_LEFT - no description
-  **/
-  SHOULDER_LEFT = 4,
-  /**
-  * @param HIP - no description
-  **/
-  HIP = 0,
-  /**
-  * @param ELBOW_RIGHT - no description
-  **/
-  ELBOW_RIGHT = 9,
-  /**
-  * @param KNEE_RIGHT - no description
-  **/
-  KNEE_RIGHT = 17,
-  /**
-  * @param WRIST_RIGHT - no description
-  **/
-  WRIST_RIGHT = 10,
-  /**
-  * @param ANKLE_LEFT - no description
-  **/
-  ANKLE_LEFT = 14,
-  /**
-  * @param FOOT_LEFT - no description
-  **/
-  FOOT_LEFT = 15,
-  /**
-  * @param WRIST_LEFT - no description
-  **/
-  WRIST_LEFT = 6,
-  /**
-  * @param FOOT_RIGHT - no description
-  **/
-  FOOT_RIGHT = 19,
-  /**
-  * @param HAND_RIGHT - no description
-  **/
-  HAND_RIGHT = 11,
-  /**
-  * @param SHOULDER - no description
-  **/
-  SHOULDER = 2,
-  /**
-  * @param HIP_LEFT - no description
-  **/
-  HIP_LEFT = 12,
-  /**
-  * @param HIP_RIGHT - no description
-  **/
-  HIP_RIGHT = 16,
-  /**
-  * @param HAND_LEFT - no description
-  **/
-  HAND_LEFT = 7,
-  /**
-  * @param ANKLE_RIGHT - no description
-  **/
-  ANKLE_RIGHT = 18,
-  /**
-  * @param SPINE - no description
-  **/
-  SPINE = 1,
-  /**
-  * @param ELBOW_LEFT - no description
-  **/
-  ELBOW_LEFT = 5,
-  /**
-  * @param KNEE_LEFT - no description
-  **/
-  KNEE_LEFT = 13,
-  /**
-  * @param HEAD - no description
-  **/
-  HEAD = 3,
-}
-/**
 * @wiki https://wiki.garrysmod.com/page/Enums/SF
 * @note This is not a full list of available spawnflags, there are *a lot* more, each unique to each entity, you can find out more on the [Valve Developer Community](https://developer.valvesoftware.com/wiki/Main_Page) website for the entities in question.
 * @enum SF
@@ -5426,6 +5493,93 @@ declare enum SF  {
   * @param SF_ROLLERMINE_FRIENDLY - Makes the rollermine friendly
   **/
   SF_ROLLERMINE_FRIENDLY = 65536,
+}
+/**
+* @wiki https://wiki.garrysmod.com/page/Enums/SENSORBONE
+* @enum SENSORBONE
+* @description Enumerations used by Kinect SDK bindings.
+**/
+declare enum SENSORBONE  {
+  /**
+  * @param SHOULDER_RIGHT - no description
+  **/
+  SHOULDER_RIGHT = 8,
+  /**
+  * @param SHOULDER_LEFT - no description
+  **/
+  SHOULDER_LEFT = 4,
+  /**
+  * @param HIP - no description
+  **/
+  HIP = 0,
+  /**
+  * @param ELBOW_RIGHT - no description
+  **/
+  ELBOW_RIGHT = 9,
+  /**
+  * @param KNEE_RIGHT - no description
+  **/
+  KNEE_RIGHT = 17,
+  /**
+  * @param WRIST_RIGHT - no description
+  **/
+  WRIST_RIGHT = 10,
+  /**
+  * @param ANKLE_LEFT - no description
+  **/
+  ANKLE_LEFT = 14,
+  /**
+  * @param FOOT_LEFT - no description
+  **/
+  FOOT_LEFT = 15,
+  /**
+  * @param WRIST_LEFT - no description
+  **/
+  WRIST_LEFT = 6,
+  /**
+  * @param FOOT_RIGHT - no description
+  **/
+  FOOT_RIGHT = 19,
+  /**
+  * @param HAND_RIGHT - no description
+  **/
+  HAND_RIGHT = 11,
+  /**
+  * @param SHOULDER - no description
+  **/
+  SHOULDER = 2,
+  /**
+  * @param HIP_LEFT - no description
+  **/
+  HIP_LEFT = 12,
+  /**
+  * @param HIP_RIGHT - no description
+  **/
+  HIP_RIGHT = 16,
+  /**
+  * @param HAND_LEFT - no description
+  **/
+  HAND_LEFT = 7,
+  /**
+  * @param ANKLE_RIGHT - no description
+  **/
+  ANKLE_RIGHT = 18,
+  /**
+  * @param SPINE - no description
+  **/
+  SPINE = 1,
+  /**
+  * @param ELBOW_LEFT - no description
+  **/
+  ELBOW_LEFT = 5,
+  /**
+  * @param KNEE_LEFT - no description
+  **/
+  KNEE_LEFT = 13,
+  /**
+  * @param HEAD - no description
+  **/
+  HEAD = 3,
 }
 /**
 * @wiki https://wiki.garrysmod.com/page/Enums/SCREENFADE
@@ -5924,6 +6078,105 @@ declare enum RENDERMODE  {
   RENDERMODE_NONE = 10,
 }
 /**
+* @wiki https://wiki.garrysmod.com/page/Enums/RENDERGROUP
+* @enum RENDERGROUP
+* @description Enumerations used by @ClientsideModel function, ENT.RenderGroup in @IEntity structure and @EntityFuncs:GetRenderGroup.
+* @compileMembersOnly
+**/
+declare enum RENDERGROUP  {
+  /**
+  * @param RENDERGROUP_STATIC_HUGE - Huge static prop, possibly leftover from goldsrc
+  **/
+  RENDERGROUP_STATIC_HUGE = 0,
+  /**
+  * @param RENDERGROUP_OPAQUE_HUGE - Huge opaque entity, possibly leftover from goldsrc
+  **/
+  RENDERGROUP_OPAQUE_HUGE = 1,
+  /**
+  * @param RENDERGROUP_STATIC - Static props?
+  **/
+  RENDERGROUP_STATIC = 6,
+  /**
+  * @param RENDERGROUP_OPAQUE - For non transparent/solid entities.
+  * For scripted entities, this will have @EntityHooks:Draw called
+  **/
+  RENDERGROUP_OPAQUE = 7,
+  /**
+  * @param RENDERGROUP_TRANSLUCENT - For translucent/transparent entities
+  * For scripted entities, this will have @EntityHooks:DrawTranslucent called
+  **/
+  RENDERGROUP_TRANSLUCENT = 8,
+  /**
+  * @param RENDERGROUP_BOTH - For both translucent/transparent and opaque/solid anim entities
+  * For scripted entities, this will have both, @EntityHooks:Draw and @EntityHooks:DrawTranslucent called
+  **/
+  RENDERGROUP_BOTH = 9,
+  /**
+  * @param RENDERGROUP_VIEWMODEL - Solid weapon view models
+  **/
+  RENDERGROUP_VIEWMODEL = 10,
+  /**
+  * @param RENDERGROUP_VIEWMODEL_TRANSLUCENT - Transparent overlays etc
+  **/
+  RENDERGROUP_VIEWMODEL_TRANSLUCENT = 11,
+  /**
+  * @param RENDERGROUP_OPAQUE_BRUSH - For brush entities
+  **/
+  RENDERGROUP_OPAQUE_BRUSH = 12,
+  /**
+  * @param RENDERGROUP_OTHER - Unclassfied. Won't get drawn.
+  **/
+  RENDERGROUP_OTHER = 13,
+}
+/**
+* @wiki https://wiki.garrysmod.com/page/Enums/PLAYER
+* @enum PLAYER_ANIM
+* @description Enumerations used by @EntityFuncs:SetAnimation
+* @compileMembersOnly
+**/
+declare enum PLAYER_ANIM  {
+  /**
+  * @param PLAYER_IDLE - no description
+  **/
+  PLAYER_IDLE = 0,
+  /**
+  * @param PLAYER_WALK - no description
+  **/
+  PLAYER_WALK = 1,
+  /**
+  * @param PLAYER_JUMP - no description
+  **/
+  PLAYER_JUMP = 2,
+  /**
+  * @param PLAYER_SUPERJUMP - no description
+  **/
+  PLAYER_SUPERJUMP = 3,
+  /**
+  * @param PLAYER_DIE - no description
+  **/
+  PLAYER_DIE = 4,
+  /**
+  * @param PLAYER_ATTACK1 - Player attack according to current hold type, used in SWEPs
+  **/
+  PLAYER_ATTACK1 = 5,
+  /**
+  * @param PLAYER_IN_VEHICLE - no description
+  **/
+  PLAYER_IN_VEHICLE = 6,
+  /**
+  * @param PLAYER_RELOAD - Player reload according to current hold type, used in SWEPs
+  **/
+  PLAYER_RELOAD = 7,
+  /**
+  * @param PLAYER_START_AIMING - no description
+  **/
+  PLAYER_START_AIMING = 8,
+  /**
+  * @param PLAYER_LEAVE_AIMING - no description
+  **/
+  PLAYER_LEAVE_AIMING = 9,
+}
+/**
 * @wiki https://wiki.garrysmod.com/page/Enums/PLAYERANIMEVENT
 * @enum PLAYERANIMEVENT
 * @description Used by @GamemodeHooks:DoAnimationEvent and @Player:DoCustomAnimEvent.
@@ -6028,105 +6281,6 @@ declare enum PLAYERANIMEVENT  {
   PLAYERANIMEVENT_CANCEL_RELOAD = 23,
 }
 /**
-* @wiki https://wiki.garrysmod.com/page/Enums/RENDERGROUP
-* @enum RENDERGROUP
-* @description Enumerations used by @ClientsideModel function, ENT.RenderGroup in @IEntity structure and @EntityFuncs:GetRenderGroup.
-* @compileMembersOnly
-**/
-declare enum RENDERGROUP  {
-  /**
-  * @param RENDERGROUP_STATIC_HUGE - Huge static prop, possibly leftover from goldsrc
-  **/
-  RENDERGROUP_STATIC_HUGE = 0,
-  /**
-  * @param RENDERGROUP_OPAQUE_HUGE - Huge opaque entity, possibly leftover from goldsrc
-  **/
-  RENDERGROUP_OPAQUE_HUGE = 1,
-  /**
-  * @param RENDERGROUP_STATIC - Static props?
-  **/
-  RENDERGROUP_STATIC = 6,
-  /**
-  * @param RENDERGROUP_OPAQUE - For non transparent/solid entities.
-  * For scripted entities, this will have @EntityHooks:Draw called
-  **/
-  RENDERGROUP_OPAQUE = 7,
-  /**
-  * @param RENDERGROUP_TRANSLUCENT - For translucent/transparent entities
-  * For scripted entities, this will have @EntityHooks:DrawTranslucent called
-  **/
-  RENDERGROUP_TRANSLUCENT = 8,
-  /**
-  * @param RENDERGROUP_BOTH - For both translucent/transparent and opaque/solid anim entities
-  * For scripted entities, this will have both, @EntityHooks:Draw and @EntityHooks:DrawTranslucent called
-  **/
-  RENDERGROUP_BOTH = 9,
-  /**
-  * @param RENDERGROUP_VIEWMODEL - Solid weapon view models
-  **/
-  RENDERGROUP_VIEWMODEL = 10,
-  /**
-  * @param RENDERGROUP_VIEWMODEL_TRANSLUCENT - Transparent overlays etc
-  **/
-  RENDERGROUP_VIEWMODEL_TRANSLUCENT = 11,
-  /**
-  * @param RENDERGROUP_OPAQUE_BRUSH - For brush entities
-  **/
-  RENDERGROUP_OPAQUE_BRUSH = 12,
-  /**
-  * @param RENDERGROUP_OTHER - Unclassfied. Won't get drawn.
-  **/
-  RENDERGROUP_OTHER = 13,
-}
-/**
-* @wiki https://wiki.garrysmod.com/page/Enums/PLAYER
-* @enum PLAYER_ANIM
-* @description Enumerations used by @EntityFuncs:SetAnimation
-* @compileMembersOnly
-**/
-declare enum PLAYER_ANIM  {
-  /**
-  * @param PLAYER_IDLE - no description
-  **/
-  PLAYER_IDLE = 0,
-  /**
-  * @param PLAYER_WALK - no description
-  **/
-  PLAYER_WALK = 1,
-  /**
-  * @param PLAYER_JUMP - no description
-  **/
-  PLAYER_JUMP = 2,
-  /**
-  * @param PLAYER_SUPERJUMP - no description
-  **/
-  PLAYER_SUPERJUMP = 3,
-  /**
-  * @param PLAYER_DIE - no description
-  **/
-  PLAYER_DIE = 4,
-  /**
-  * @param PLAYER_ATTACK1 - Player attack according to current hold type, used in SWEPs
-  **/
-  PLAYER_ATTACK1 = 5,
-  /**
-  * @param PLAYER_IN_VEHICLE - no description
-  **/
-  PLAYER_IN_VEHICLE = 6,
-  /**
-  * @param PLAYER_RELOAD - Player reload according to current hold type, used in SWEPs
-  **/
-  PLAYER_RELOAD = 7,
-  /**
-  * @param PLAYER_START_AIMING - no description
-  **/
-  PLAYER_START_AIMING = 8,
-  /**
-  * @param PLAYER_LEAVE_AIMING - no description
-  **/
-  PLAYER_LEAVE_AIMING = 9,
-}
-/**
 * @wiki https://wiki.garrysmod.com/page/Enums/PATTACH
 * @enum PATTACH
 * @description Enumerations used by @ParticleEffectAttach function.
@@ -6157,6 +6311,51 @@ declare enum PATTACH  {
   * @param PATTACH_WORLDORIGIN - Particle spawns in the beginning of coordinates ( Vector( 0, 0, 0 ) ), used for control points that don't attach to an entity
   **/
   PATTACH_WORLDORIGIN = 5,
+}
+/**
+* @wiki https://wiki.garrysmod.com/page/Enums/NavTraverseType
+* @note These enumerations do not exist in game and are listed here only for reference!
+* @enum NavTraverseType
+* @description Enumerations used by @CNavArea:GetParentHow.
+* @compileMembersOnly
+**/
+declare enum NavTraverseType  {
+  /**
+  * @param GO_NORTH - no description
+  **/
+  GO_NORTH = 0,
+  /**
+  * @param GO_EAST - no description
+  **/
+  GO_EAST = 1,
+  /**
+  * @param GO_SOUTH - no description
+  **/
+  GO_SOUTH = 2,
+  /**
+  * @param GO_WEST - no description
+  **/
+  GO_WEST = 3,
+  /**
+  * @param GO_LADDER_UP - no description
+  **/
+  GO_LADDER_UP = 4,
+  /**
+  * @param GO_LADDER_DOWN - no description
+  **/
+  GO_LADDER_DOWN = 5,
+  /**
+  * @param GO_JUMP - no description
+  **/
+  GO_JUMP = 6,
+  /**
+  * @param GO_ELEVATOR_UP - no description
+  **/
+  GO_ELEVATOR_UP = 7,
+  /**
+  * @param GO_ELEVATOR_DOWN - no description
+  **/
+  GO_ELEVATOR_DOWN = 8,
 }
 /**
 * @wiki https://wiki.garrysmod.com/page/Enums/OBS MODE
@@ -6193,6 +6392,62 @@ declare enum OBS_MODE  {
   * @param OBS_MODE_ROAMING - Free roam/noclip-alike. Does not work from @GamemodeHooks:PlayerDeath
   **/
   OBS_MODE_ROAMING = 6,
+}
+/**
+* @wiki https://wiki.garrysmod.com/page/Enums/NavDir
+* @note These enumerations do not exist in game and are listed here only for reference!
+* @enum NavDir
+* @description Enumerations used by @CNavArea type methods.
+* These Enums correspond to each side of a @CNavArea type
+* @compileMembersOnly
+**/
+declare enum NavDir  {
+  /**
+  * @param NORTH - North from given @CNavArea type
+  **/
+  NORTH = 0,
+  /**
+  * @param EAST - East from given @CNavArea type
+  **/
+  EAST = 1,
+  /**
+  * @param SOUTH - South from given @CNavArea type
+  **/
+  SOUTH = 2,
+  /**
+  * @param WEST - West from given @CNavArea type
+  **/
+  WEST = 3,
+}
+/**
+* @wiki https://wiki.garrysmod.com/page/Enums/NavCorner
+* @note These enumerations do not exist in game and are listed here only for reference!
+* @enum NavCorner
+* @description Enumerations used by @CNavArea type methods.
+* These Enums correspond to each corner of a @CNavArea type
+* @compileMembersOnly
+**/
+declare enum NavCorner  {
+  /**
+  * @param NORTH_WEST - North West Corner
+  **/
+  NORTH_WEST = 0,
+  /**
+  * @param NORTH_EAST - North East Corner
+  **/
+  NORTH_EAST = 1,
+  /**
+  * @param SOUTH_EAST - South East Corner
+  **/
+  SOUTH_EAST = 2,
+  /**
+  * @param SOUTH_WEST - South West Corner
+  **/
+  SOUTH_WEST = 3,
+  /**
+  * @param NUM_CORNERS - Represents all corners, only applicable to certain functions, such as @CNavArea:PlaceOnGround.
+  **/
+  NUM_CORNERS = 4,
 }
 /**
 * @wiki https://wiki.garrysmod.com/page/Enums/NUM
@@ -6372,107 +6627,6 @@ declare enum NAV_MESH  {
   NAV_MESH_NAV_BLOCKER = -2147483648,
 }
 /**
-* @wiki https://wiki.garrysmod.com/page/Enums/NavTraverseType
-* @note These enumerations do not exist in game and are listed here only for reference!
-* @enum NavTraverseType
-* @description Enumerations used by @CNavArea:GetParentHow.
-* @compileMembersOnly
-**/
-declare enum NavTraverseType  {
-  /**
-  * @param GO_NORTH - no description
-  **/
-  GO_NORTH = 0,
-  /**
-  * @param GO_EAST - no description
-  **/
-  GO_EAST = 1,
-  /**
-  * @param GO_SOUTH - no description
-  **/
-  GO_SOUTH = 2,
-  /**
-  * @param GO_WEST - no description
-  **/
-  GO_WEST = 3,
-  /**
-  * @param GO_LADDER_UP - no description
-  **/
-  GO_LADDER_UP = 4,
-  /**
-  * @param GO_LADDER_DOWN - no description
-  **/
-  GO_LADDER_DOWN = 5,
-  /**
-  * @param GO_JUMP - no description
-  **/
-  GO_JUMP = 6,
-  /**
-  * @param GO_ELEVATOR_UP - no description
-  **/
-  GO_ELEVATOR_UP = 7,
-  /**
-  * @param GO_ELEVATOR_DOWN - no description
-  **/
-  GO_ELEVATOR_DOWN = 8,
-}
-/**
-* @wiki https://wiki.garrysmod.com/page/Enums/NavDir
-* @note These enumerations do not exist in game and are listed here only for reference!
-* @enum NavDir
-* @description Enumerations used by @CNavArea type methods.
-* These Enums correspond to each side of a @CNavArea type
-* @compileMembersOnly
-**/
-declare enum NavDir  {
-  /**
-  * @param NORTH - North from given @CNavArea type
-  **/
-  NORTH = 0,
-  /**
-  * @param EAST - East from given @CNavArea type
-  **/
-  EAST = 1,
-  /**
-  * @param SOUTH - South from given @CNavArea type
-  **/
-  SOUTH = 2,
-  /**
-  * @param WEST - West from given @CNavArea type
-  **/
-  WEST = 3,
-}
-/**
-* @wiki https://wiki.garrysmod.com/page/Enums/NavCorner
-* @note These enumerations do not exist in game and are listed here only for reference!
-* @enum NavCorner
-* @description Enumerations used by @CNavArea type methods.
-* These Enums correspond to each corner of a @CNavArea type
-* @compileMembersOnly
-**/
-declare enum NavCorner  {
-  /**
-  * @param NORTH_WEST - North West Corner
-  **/
-  NORTH_WEST = 0,
-  /**
-  * @param NORTH_EAST - North East Corner
-  **/
-  NORTH_EAST = 1,
-  /**
-  * @param SOUTH_EAST - South East Corner
-  **/
-  SOUTH_EAST = 2,
-  /**
-  * @param SOUTH_WEST - South West Corner
-  **/
-  SOUTH_WEST = 3,
-  /**
-  * @param NUM_CORNERS - Represents all corners, only applicable to certain functions, such as @CNavArea:PlaceOnGround.
-  **/
-  NUM_CORNERS = 4,
-}
-/**
 * @wiki https://wiki.garrysmod.com/page/Enums/MOVETYPE
 * @enum MOVETYPE
 * @description Enumerations used by @EntityFuncs:SetMoveType and @EntityFuncs:GetMoveType.
@@ -6529,6 +6683,34 @@ declare enum MOVETYPE  {
   MOVETYPE_CUSTOM = 11,
 }
 /**
+* @wiki https://wiki.garrysmod.com/page/Enums/MOVECOLLIDE
+* @enum MOVECOLLIDE
+* @description Enumerations used by @EntityFuncs:SetMoveCollide and @EntityFuncs:GetMoveCollide.
+* @compileMembersOnly
+**/
+declare enum MOVECOLLIDE  {
+  /**
+  * @param MOVECOLLIDE_DEFAULT - Default behavior
+  **/
+  MOVECOLLIDE_DEFAULT = 0,
+  /**
+  * @param MOVECOLLIDE_FLY_BOUNCE - Entity bounces, reflects, based on elasticity of surface and object - applies friction (adjust velocity)
+  **/
+  MOVECOLLIDE_FLY_BOUNCE = 1,
+  /**
+  * @param MOVECOLLIDE_FLY_CUSTOM - @EntityHooks:Touch will modify the velocity however it likes
+  **/
+  MOVECOLLIDE_FLY_CUSTOM = 2,
+  /**
+  * @param MOVECOLLIDE_FLY_SLIDE - Entity slides along surfaces (no bounce) - applies friciton (adjusts velocity)
+  **/
+  MOVECOLLIDE_FLY_SLIDE = 3,
+  /**
+  * @param MOVECOLLIDE_COUNT - Number of different movecollides
+  **/
+  MOVECOLLIDE_COUNT = 4,
+}
+/**
 * @wiki https://wiki.garrysmod.com/page/Enums/MOUSE
 * @enum MOUSE
 * @description Enumerations used by:
@@ -6579,34 +6761,6 @@ declare enum MOUSE  {
   * @param MOUSE_COUNT - Mouse button count
   **/
   MOUSE_COUNT = 7,
-}
-/**
-* @wiki https://wiki.garrysmod.com/page/Enums/MOVECOLLIDE
-* @enum MOVECOLLIDE
-* @description Enumerations used by @EntityFuncs:SetMoveCollide and @EntityFuncs:GetMoveCollide.
-* @compileMembersOnly
-**/
-declare enum MOVECOLLIDE  {
-  /**
-  * @param MOVECOLLIDE_DEFAULT - Default behavior
-  **/
-  MOVECOLLIDE_DEFAULT = 0,
-  /**
-  * @param MOVECOLLIDE_FLY_BOUNCE - Entity bounces, reflects, based on elasticity of surface and object - applies friction (adjust velocity)
-  **/
-  MOVECOLLIDE_FLY_BOUNCE = 1,
-  /**
-  * @param MOVECOLLIDE_FLY_CUSTOM - @EntityHooks:Touch will modify the velocity however it likes
-  **/
-  MOVECOLLIDE_FLY_CUSTOM = 2,
-  /**
-  * @param MOVECOLLIDE_FLY_SLIDE - Entity slides along surfaces (no bounce) - applies friciton (adjusts velocity)
-  **/
-  MOVECOLLIDE_FLY_SLIDE = 3,
-  /**
-  * @param MOVECOLLIDE_COUNT - Number of different movecollides
-  **/
-  MOVECOLLIDE_COUNT = 4,
 }
 /**
 * @wiki https://wiki.garrysmod.com/page/Enums/MATERIAL RT DEPTH
@@ -6929,115 +7083,6 @@ declare enum MASK  {
   * @param MASK_WATER - Anything that has water-like physics
   **/
   MASK_WATER = 16432,
-}
-/**
-* @wiki https://wiki.garrysmod.com/page/Enums/kRenderFx
-* @enum kRenderFx
-* @description Used by @EntityFuncs:SetRenderFX and returned by @EntityFuncs:GetRenderFX.
-* Most of these require alpha value of entitys color to be less than 255 to have any visible effect.
-* @compileMembersOnly
-**/
-declare enum kRenderFx  {
-  /**
-  * @param kRenderFxNone - None. No change.
-  **/
-  kRenderFxNone = 0,
-  /**
-  * @param kRenderFxPulseSlow - Slowly pulses the entitys transparency, +-15 to the current alpha.
-  **/
-  kRenderFxPulseSlow = 1,
-  /**
-  * @param kRenderFxPulseFast - Quickly pulses the entitys transparency, +-15 to the current alpha.
-  **/
-  kRenderFxPulseFast = 2,
-  /**
-  * @param kRenderFxPulseSlowWide - Slowly pulses the entitys transparency, +-60 to the current alpha.
-  **/
-  kRenderFxPulseSlowWide = 3,
-  /**
-  * @param kRenderFxPulseFastWide - Quickly pulses the entitys transparency, +-60 to the current alpha.
-  **/
-  kRenderFxPulseFastWide = 4,
-  /**
-  * @param kRenderFxFadeSlow - Slowly fades away the entity, making it completely invisible.Starts from whatever alpha the entity currently has set.
-  **/
-  kRenderFxFadeSlow = 5,
-  /**
-  * @param kRenderFxFadeFast - Quickly fades away the entity, making it completely invisible.Starts from whatever alpha the entity currently has set.
-  **/
-  kRenderFxFadeFast = 6,
-  /**
-  * @param kRenderFxSolidSlow - Slowly solidifies the entity, making it fully opaque.Starts from whatever alpha the entity currently has set.
-  **/
-  kRenderFxSolidSlow = 7,
-  /**
-  * @param kRenderFxSolidFast - Quickly solidifies the entity, making it fully opaque.Starts from whatever alpha the entity currently has set.
-  **/
-  kRenderFxSolidFast = 8,
-  /**
-  * @param kRenderFxStrobeSlow - Slowly switches the entitys transparency between its alpha and 0.
-  **/
-  kRenderFxStrobeSlow = 9,
-  /**
-  * @param kRenderFxStrobeFast - Quickly switches the entitys transparency between its alpha and 0.
-  **/
-  kRenderFxStrobeFast = 10,
-  /**
-  * @param kRenderFxStrobeFaster - Very quickly switches the entitys transparency between its alpha and 0.
-  **/
-  kRenderFxStrobeFaster = 11,
-  /**
-  * @param kRenderFxFlickerSlow - Same as Strobe Slow, but the interval is more randomized.
-  **/
-  kRenderFxFlickerSlow = 12,
-  /**
-  * @param kRenderFxFlickerFast - Same as Strobe Fast, but the interval is more randomized.
-  **/
-  kRenderFxFlickerFast = 13,
-  /**
-  * @param kRenderFxNoDissipation - no description
-  **/
-  kRenderFxNoDissipation = 14,
-  /**
-  * @param kRenderFxDistort - Flickers ( randomizes ) the entitys transparency
-  **/
-  kRenderFxDistort = 15,
-  /**
-  * @param kRenderFxHologram - Same as Distort, but fades the entity away the farther you are from it.
-  **/
-  kRenderFxHologram = 16,
-  /**
-  * @param kRenderFxExplode - no description
-  **/
-  kRenderFxExplode = 17,
-  /**
-  * @param kRenderFxGlowShell - no description
-  **/
-  kRenderFxGlowShell = 18,
-  /**
-  * @param kRenderFxClampMinScale - no description
-  **/
-  kRenderFxClampMinScale = 19,
-  /**
-  * @param kRenderFxEnvRain - no description
-  **/
-  kRenderFxEnvRain = 20,
-  /**
-  * @param kRenderFxEnvSnow - no description
-  **/
-  kRenderFxEnvSnow = 21,
-  /**
-  * @param kRenderFxSpotlight - no description
-  **/
-  kRenderFxSpotlight = 22,
-  /**
-  * @param kRenderFxRagdoll - no description
-  **/
-  kRenderFxRagdoll = 23,
-  /**
-  * @param kRenderFxPulseFastWider - Quickly pulses the entitys transparency, from 0 to 255.
-  **/
-  kRenderFxPulseFastWider = 24,
 }
 /**
 * @wiki https://wiki.garrysmod.com/page/Enums/KEY
@@ -8142,164 +8187,6 @@ declare enum FORCE  {
   FORCE_BOOL = 3,
 }
 /**
-* @wiki https://wiki.garrysmod.com/page/Enums/FFT
-* @enum FFT
-* @description Enumerations used by @IGModAudioChannel:FFT. Clientside only.
-* @compileMembersOnly
-**/
-declare enum FFT  {
-  /**
-  * @param FFT_256 - 128 levels
-  **/
-  FFT_256 = 0,
-  /**
-  * @param FFT_512 - 256 levels
-  **/
-  FFT_512 = 1,
-  /**
-  * @param FFT_1024 - 512 levels
-  **/
-  FFT_1024 = 2,
-  /**
-  * @param FFT_2048 - 1024 levels
-  **/
-  FFT_2048 = 3,
-  /**
-  * @param FFT_4096 - 2048 levels
-  **/
-  FFT_4096 = 4,
-  /**
-  * @param FFT_8192 - 4096 levels
-  **/
-  FFT_8192 = 5,
-  /**
-  * @param FFT_16384 - 8192 levels
-  **/
-  FFT_16384 = 6,
-  /**
-  * @param FFT_32768 - 16384 levels
-  **/
-  FFT_32768 = 7,
-}
-/**
-* @wiki https://wiki.garrysmod.com/page/Enums/FCVAR
-* @enum FCVAR
-* @description Enumerations used by @concommand.Add, @CreateClientConVar function and @CreateConVar function.
-* @compileMembersOnly
-**/
-declare enum FCVAR  {
-  /**
-  * @param FCVAR_ARCHIVE - Save the @ConVar type value into config.cfg
-  * Reported as "a" by *cvarlist*, except Lua @ConVar types
-  **/
-  FCVAR_ARCHIVE = 128,
-  /**
-  * @param FCVAR_ARCHIVE_XBOX - Save the @ConVar type value into config.cfg on XBox
-  **/
-  FCVAR_ARCHIVE_XBOX = 16777216,
-  /**
-  * @param FCVAR_CHEAT - Requires sv_cheats to be enabled to change the @ConVar type or run the command
-  * Reported as "cheat" by *cvarlist*
-  **/
-  FCVAR_CHEAT = 16384,
-  /**
-  * @param FCVAR_CLIENTCMD_CAN_EXECUTE - IVEngineClient::ClientCmd is allowed to execute this command
-  * Reported as "clientcmd_can_execute" by *cvarlist*
-  **/
-  FCVAR_CLIENTCMD_CAN_EXECUTE = 1073741824,
-  /**
-  * @param FCVAR_CLIENTDLL - @ConVar type is defined by the client DLL.This flag is set automatically
-  * Reported as "cl" by *cvarlist*
-  **/
-  FCVAR_CLIENTDLL = 8,
-  /**
-  * @param FCVAR_DEMO - Force the @ConVar type to be recorded by demo recordings.
-  * Reported as "demo" by *cvarlist*
-  **/
-  FCVAR_DEMO = 65536,
-  /**
-  * @param FCVAR_DONTRECORD - Opposite of FCVAR_DEMO, ensures the @ConVar type is not recorded in demos
-  * Reported as "norecord" by *cvarlist*
-  **/
-  FCVAR_DONTRECORD = 131072,
-  /**
-  * @param FCVAR_GAMEDLL - @ConVar type is defined by the game DLL.This flag is set automatically
-  * Reported as "sv" by *cvarlist*
-  **/
-  FCVAR_GAMEDLL = 4,
-  /**
-  * @param FCVAR_LUA_CLIENT - Set automatically on all ConVars and console commands created by the client Lua state.
-  * Reported as "lua_client" by *cvarlist*
-  **/
-  FCVAR_LUA_CLIENT = 262144,
-  /**
-  * @param FCVAR_LUA_SERVER - Set automatically on all ConVars and console commands created by the server Lua state.
-  * Reported as "lua_server" by *cvarlist*
-  **/
-  FCVAR_LUA_SERVER = 524288,
-  /**
-  * @param FCVAR_NEVER_AS_STRING - Tells the engine to never print this variable as a string since it contains control sequences
-  * Reported as "numeric" by *cvarlist*
-  **/
-  FCVAR_NEVER_AS_STRING = 4096,
-  /**
-  * @param FCVAR_NONE - No flags
-  **/
-  FCVAR_NONE = 0,
-  /**
-  * @param FCVAR_NOTIFY - For serverside @ConVar types, notifies all players with blue chat text when the value gets changed
-  * Reported as "nf" by *cvarlist*
-  **/
-  FCVAR_NOTIFY = 256,
-  /**
-  * @param FCVAR_NOT_CONNECTED - Makes the @ConVar type not changeable while connected to a server or in singleplayer
-  **/
-  FCVAR_NOT_CONNECTED = 4194304,
-  /**
-  * @param FCVAR_PRINTABLEONLY - Forces the @ConVar type to only have printable characters ( No control characters )
-  * Reported as "print" by *cvarlist*
-  **/
-  FCVAR_PRINTABLEONLY = 1024,
-  /**
-  * @param FCVAR_PROTECTED - Makes the @ConVar type value hidden from all clients ( For example sv_password )
-  * Reported as "prot" by *cvarlist*
-  **/
-  FCVAR_PROTECTED = 32,
-  /**
-  * @param FCVAR_REPLICATED - For serverside @ConVar types, it will send its value to all clients. The @ConVar type with the same name must also exist on the client!
-  * Reported as "rep" by *cvarlist*
-  **/
-  FCVAR_REPLICATED = 8192,
-  /**
-  * @param FCVAR_SERVER_CANNOT_QUERY - Prevents the server from querying value of this @ConVar type
-  **/
-  FCVAR_SERVER_CANNOT_QUERY = 536870912,
-  /**
-  * @param FCVAR_SERVER_CAN_EXECUTE - Makes the command only executable from the server console
-  * Reported as "server_can_execute" by *cvarlist*
-  **/
-  FCVAR_SERVER_CAN_EXECUTE = 268435456,
-  /**
-  * @param FCVAR_SPONLY - Executing the command or changing the @ConVar type is only allowed in singleplayer
-  * Reported as "sp" by *cvarlist*
-  **/
-  FCVAR_SPONLY = 64,
-  /**
-  * @param FCVAR_UNLOGGED - Don't log the @ConVar type changes to console/log files/users
-  * Reported as "log" by *cvarlist*
-  **/
-  FCVAR_UNLOGGED = 2048,
-  /**
-  * @param FCVAR_UNREGISTERED - If this is set, the convar will become anonymous and won't show up in the 'find' results.
-  **/
-  FCVAR_UNREGISTERED = 1,
-  /**
-  * @param FCVAR_USERINFO - For clientside commands, sends the value to the server
-  * Reported as "user" by *cvarlist*
-  **/
-  FCVAR_USERINFO = 512,
-}
-/**
 * @wiki https://wiki.garrysmod.com/page/Enums/FL
 * @bug  Bots will still be able to look around.
 * @enum FL
@@ -8435,6 +8322,164 @@ declare enum FL  {
   * @param FL_UNBLOCKABLE_BY_PLAYER - This moving door can't be blocked by the player
   **/
   FL_UNBLOCKABLE_BY_PLAYER = -2147483648,
+}
+/**
+* @wiki https://wiki.garrysmod.com/page/Enums/FFT
+* @enum FFT
+* @description Enumerations used by @IGModAudioChannel:FFT. Clientside only.
+* @compileMembersOnly
+**/
+declare enum FFT  {
+  /**
+  * @param FFT_256 - 128 levels
+  **/
+  FFT_256 = 0,
+  /**
+  * @param FFT_512 - 256 levels
+  **/
+  FFT_512 = 1,
+  /**
+  * @param FFT_1024 - 512 levels
+  **/
+  FFT_1024 = 2,
+  /**
+  * @param FFT_2048 - 1024 levels
+  **/
+  FFT_2048 = 3,
+  /**
+  * @param FFT_4096 - 2048 levels
+  **/
+  FFT_4096 = 4,
+  /**
+  * @param FFT_8192 - 4096 levels
+  **/
+  FFT_8192 = 5,
+  /**
+  * @param FFT_16384 - 8192 levels
+  **/
+  FFT_16384 = 6,
+  /**
+  * @param FFT_32768 - 16384 levels
+  **/
+  FFT_32768 = 7,
+}
+/**
+* @wiki https://wiki.garrysmod.com/page/Enums/FCVAR
+* @enum FCVAR
+* @description Enumerations used by @concommand.Add, @CreateClientConVar function and @CreateConVar function.
+* @compileMembersOnly
+**/
+declare enum FCVAR  {
+  /**
+  * @param FCVAR_ARCHIVE - Save the @ConVar type value into config.cfg
+  * Reported as "a" by *cvarlist*, except Lua @ConVar types
+  **/
+  FCVAR_ARCHIVE = 128,
+  /**
+  * @param FCVAR_ARCHIVE_XBOX - Save the @ConVar type value into config.cfg on XBox
+  **/
+  FCVAR_ARCHIVE_XBOX = 16777216,
+  /**
+  * @param FCVAR_CHEAT - Requires sv_cheats to be enabled to change the @ConVar type or run the command
+  * Reported as "cheat" by *cvarlist*
+  **/
+  FCVAR_CHEAT = 16384,
+  /**
+  * @param FCVAR_CLIENTCMD_CAN_EXECUTE - IVEngineClient::ClientCmd is allowed to execute this command
+  * Reported as "clientcmd_can_execute" by *cvarlist*
+  **/
+  FCVAR_CLIENTCMD_CAN_EXECUTE = 1073741824,
+  /**
+  * @param FCVAR_CLIENTDLL - @ConVar type is defined by the client DLL.This flag is set automatically
+  * Reported as "cl" by *cvarlist*
+  **/
+  FCVAR_CLIENTDLL = 8,
+  /**
+  * @param FCVAR_DEMO - Force the @ConVar type to be recorded by demo recordings.
+  * Reported as "demo" by *cvarlist*
+  **/
+  FCVAR_DEMO = 65536,
+  /**
+  * @param FCVAR_DONTRECORD - Opposite of FCVAR_DEMO, ensures the @ConVar type is not recorded in demos
+  * Reported as "norecord" by *cvarlist*
+  **/
+  FCVAR_DONTRECORD = 131072,
+  /**
+  * @param FCVAR_GAMEDLL - @ConVar type is defined by the game DLL.This flag is set automatically
+  * Reported as "sv" by *cvarlist*
+  **/
+  FCVAR_GAMEDLL = 4,
+  /**
+  * @param FCVAR_LUA_CLIENT - Set automatically on all ConVars and console commands created by the client Lua state.
+  * Reported as "lua_client" by *cvarlist*
+  **/
+  FCVAR_LUA_CLIENT = 262144,
+  /**
+  * @param FCVAR_LUA_SERVER - Set automatically on all ConVars and console commands created by the server Lua state.
+  * Reported as "lua_server" by *cvarlist*
+  **/
+  FCVAR_LUA_SERVER = 524288,
+  /**
+  * @param FCVAR_NEVER_AS_STRING - Tells the engine to never print this variable as a string.
+  * Reported as "numeric" by *cvarlist*
+  **/
+  FCVAR_NEVER_AS_STRING = 4096,
+  /**
+  * @param FCVAR_NONE - No flags
+  **/
+  FCVAR_NONE = 0,
+  /**
+  * @param FCVAR_NOTIFY - For serverside @ConVar types, notifies all players with blue chat text when the value gets changed
+  * Reported as "nf" by *cvarlist*
+  **/
+  FCVAR_NOTIFY = 256,
+  /**
+  * @param FCVAR_NOT_CONNECTED - Makes the @ConVar type not changeable while connected to a server or in singleplayer
+  **/
+  FCVAR_NOT_CONNECTED = 4194304,
+  /**
+  * @param FCVAR_PRINTABLEONLY - Forces the @ConVar type to only have printable characters ( No control characters )
+  * Reported as "print" by *cvarlist*
+  **/
+  FCVAR_PRINTABLEONLY = 1024,
+  /**
+  * @param FCVAR_PROTECTED - Makes the @ConVar type value hidden from all clients ( For example sv_password )
+  * Reported as "prot" by *cvarlist*
+  **/
+  FCVAR_PROTECTED = 32,
+  /**
+  * @param FCVAR_REPLICATED - For serverside @ConVar types, it will send its value to all clients. The @ConVar type with the same name must also exist on the client!
+  * Reported as "rep" by *cvarlist*
+  **/
+  FCVAR_REPLICATED = 8192,
+  /**
+  * @param FCVAR_SERVER_CANNOT_QUERY - Prevents the server from querying value of this @ConVar type
+  **/
+  FCVAR_SERVER_CANNOT_QUERY = 536870912,
+  /**
+  * @param FCVAR_SERVER_CAN_EXECUTE - The server is allowed to execute this command on clients.
+  * Reported as "server_can_execute" by *cvarlist*
+  **/
+  FCVAR_SERVER_CAN_EXECUTE = 268435456,
+  /**
+  * @param FCVAR_SPONLY - Executing the command or changing the @ConVar type is only allowed in singleplayer
+  * Reported as "sp" by *cvarlist*
+  **/
+  FCVAR_SPONLY = 64,
+  /**
+  * @param FCVAR_UNLOGGED - Don't log the @ConVar type changes to console/log files/users
+  * Reported as "log" by *cvarlist*
+  **/
+  FCVAR_UNLOGGED = 2048,
+  /**
+  * @param FCVAR_UNREGISTERED - If this is set, the convar will become anonymous and won't show up in the 'find' results.
+  **/
+  FCVAR_UNREGISTERED = 1,
+  /**
+  * @param FCVAR_USERINFO - For clientside commands, sends the value to the server
+  * Reported as "user" by *cvarlist*
+  **/
+  FCVAR_USERINFO = 512,
 }
 /**
 * @wiki https://wiki.garrysmod.com/page/Enums/EFL
@@ -8626,7 +8671,24 @@ declare enum EF  {
   EF_FOLLOWBONE = 1024,
 }
 /**
+* @wiki https://wiki.garrysmod.com/page/Enums/DOF
+* @enum DOF
+* @description Internal globals for SimpleDoF. Clientside only.
+* @compileMembersOnly
+**/
+declare enum DOF  {
+  /**
+  * @param DOF_OFFSET - no description
+  **/
+  DOF_OFFSET = 256,
+  /**
+  * @param DOF_SPACING - no description
+  **/
+  DOF_SPACING = 512,
+}
+/**
 * @wiki https://wiki.garrysmod.com/page/Enums/DOCK
+* @note These enumerations doesn't have DOCK_ prefix, this is an exception from all other enumerations.
 * @enum DOCK
 * @description Enumerations used by @Panel:Dock.
 * @compileMembersOnly
@@ -8796,22 +8858,6 @@ declare enum DMG  {
   * @param DMG_MISSILEDEFENSE - Damage from npc_missiledefense, npc_combinegunship, or monster_mortar
   **/
   DMG_MISSILEDEFENSE = 2147483648,
-}
-/**
-* @wiki https://wiki.garrysmod.com/page/Enums/DOF
-* @enum DOF
-* @description Internal globals for SimpleDoF. Clientside only.
-* @compileMembersOnly
-**/
-declare enum DOF  {
-  /**
-  * @param DOF_OFFSET - no description
-  **/
-  DOF_OFFSET = 256,
-  /**
-  * @param DOF_SPACING - no description
-  **/
-  DOF_SPACING = 512,
 }
 /**
 * @wiki https://wiki.garrysmod.com/page/Enums/DISPSURF
@@ -16413,6 +16459,385 @@ declare interface IWeaponHooksCustomAmmoDisplayReturn  {
   
 }
 /**
+* @wiki https://wiki.garrysmod.com/page/Shaders/sobel
+* @interface sobel
+* @description Applies a "sobel" effect.
+**/
+/**
+* @wiki https://wiki.garrysmod.com/page/Shaders/gmodscreenspace
+* @interface gmodscreenspace
+* @description The shader used for screenspace effects.
+**/
+/**
+* @wiki https://wiki.garrysmod.com/page/Shaders/g texturize
+* @interface g_texturize
+* @description Replaces every pixel with a part of the texture set by $basetexture.
+* The texture used must be power of 2 and be 8 times as high as wide in order to function.
+* The shader replaces every pixel with a part of the texture depending on it's brightness.
+* Dark areas will use the upper parts of the texture and brighter parts the lower parts of the texture.
+**/
+/**
+* @wiki https://wiki.garrysmod.com/page/Shaders/g sunbeams
+* @interface g_sunbeams
+* @description Creates a "sun beam" effect.
+**/
+/**
+* @wiki https://wiki.garrysmod.com/page/Shaders/g sky
+* @interface g_sky
+* @description This shader was especially designed to be used with with maps, in particular the cube maps(up, down, front, back, left, right), they allow to modify the ambiance of a map.
+**/
+/**
+* @wiki https://wiki.garrysmod.com/page/Shaders/g sharpen
+* @interface g_sharpen
+* @description Sharpens the contents of the screenspace
+**/
+/**
+* @wiki https://wiki.garrysmod.com/page/Shaders/g refract
+* @interface g_refract
+* @description Shader used for the now-absent Morph post-processing effect. This effect can be restored with an [addon](http://steamcommunity.com/sharedfiles/filedetails/?id=501088470) available on the Workshop.
+**/
+/**
+* @wiki https://wiki.garrysmod.com/page/Shaders/g premultiplied
+* @interface g_premultiplied
+* @description Renders a texture using premultiplied alpha blending. This is used by Awesomium panels.
+**/
+/**
+* @wiki https://wiki.garrysmod.com/page/Shaders/g downsample
+* @interface g_downsample
+* @description Downsamples the screenspace
+**/
+/**
+* @wiki https://wiki.garrysmod.com/page/Shaders/g colourmodify
+* @interface g_colourmodify
+* @description Allows modifying the coloring of the screenspace. A material with this shader exists at @Material function( "pp/colour" ), which is used by @DrawColorModify function.
+**/
+/**
+* @wiki https://wiki.garrysmod.com/page/Shaders/g bokehblur
+* @interface g_bokehblur
+* @description A bokeh blur shader which applies screen blur depending on distance.
+**/
+/**
+* @wiki https://wiki.garrysmod.com/page/Shaders/g blury
+* @interface g_blury
+* @description Blurs the screenspace on the y axis
+**/
+/**
+* @wiki https://wiki.garrysmod.com/page/Shaders/g blurx
+* @interface g_blurx
+* @description Blurs $basetexture in the x direction.
+**/
+/**
+* @wiki https://wiki.garrysmod.com/page/Shaders/g bloom
+* @interface g_bloom
+* @description A simple bloom shader. See @DrawBloom function if you wish to use it in your code.
+**/
+declare interface Shaders  {
+  
+}
+
+declare interface sobel  {
+  /**
+  * @param {number} threshold The threshold of the edge finding
+  **/
+  threshold: number
+  
+}
+
+declare interface gmodscreenspace  {
+  /**
+  * @param {boolean} texturealpha Use Texture Alpha
+  **/
+  texturealpha: boolean
+  
+  /**
+  * @param {boolean} vertexalpha Use Vertex Alpha
+  **/
+  vertexalpha: boolean
+  
+  /**
+  * @param {boolean} vertexcolor Use Vertex Color
+  **/
+  vertexcolor: boolean
+  
+  /**
+  * @param {number} blur Blur this buffer
+  **/
+  blur: number
+  
+}
+
+declare interface g_texturize  {
+  /**
+  * @param {number} scalex The size of the texturing on the x axis
+  **/
+  scalex: number
+  
+  /**
+  * @param {number} scaley The size of the texturing on the y axis
+  **/
+  scaley: number
+  
+}
+
+declare interface g_sunbeams  {
+  /**
+  * @param {number} darken The strength of the darkening
+  **/
+  darken: number
+  
+  /**
+  * @param {number} multiply The strength of the multplier
+  **/
+  multiply: number
+  
+  /**
+  * @param {number} sunx The screen x position of the sun (from 0 - 1)
+  **/
+  sunx: number
+  
+  /**
+  * @param {number} suny The screen y position of the sun (from 0 - 1)
+  **/
+  suny: number
+  
+  /**
+  * @param {number} sunsize The "size" of the sun
+  **/
+  sunsize: number
+  
+}
+
+declare interface g_sky  {
+  /**
+  * @param {Vector} bottomcolor The top bottom of the texture(used for gradient)
+  **/
+  bottomcolor: Vector
+  
+  /**
+  * @param {Vector} duskcolor The dusk color
+  **/
+  duskcolor: Vector
+  
+  /**
+  * @param {number} duskscale The scale of the dusk
+  **/
+  duskscale: number
+  
+  /**
+  * @param {number} duskintensity The intensity of the dusk
+  **/
+  duskintensity: number
+  
+  /**
+  * @param {number} fadebias The fade bias
+  **/
+  fadebias: number
+  
+  /**
+  * @param {number} hdrscale The HDR scale
+  **/
+  hdrscale: number
+  
+  /**
+  * @param {Vector} suncolor The color of the sun
+  **/
+  suncolor: Vector
+  
+  /**
+  * @param {Vector} sunnormal The normal of the sun
+  **/
+  sunnormal: Vector
+  
+  /**
+  * @param {number} sunsize The size of the sun
+  **/
+  sunsize: number
+  
+  /**
+  * @param {Vector} topcolor The top color of the texture(used for gradient)
+  **/
+  topcolor: Vector
+  
+}
+
+declare interface g_sharpen  {
+  /**
+  * @param {number} contrast The contrast to use
+  **/
+  contrast: number
+  
+  /**
+  * @param {number} distance The distance to assume
+  **/
+  distance: number
+  
+}
+
+declare interface g_refract  {
+  /**
+  * @param {number} refractamount Refract amount
+  **/
+  refractamount: number
+  
+  /**
+  * @param {number} bluramount no description
+  **/
+  bluramount: number
+  
+  /**
+  * @param {ITexture} fbtexture Texture/Render target to apply the morph to
+  **/
+  fbtexture: ITexture
+  
+  /**
+  * @param {ITexture} normalmap Texture that holds the morph directions - red channel for X, green channel for Y.
+  **/
+  normalmap: ITexture
+  
+}
+
+declare interface g_premultiplied  {
+  /**
+  * @param {ITexture} basetexture The texture to render.
+  **/
+  basetexture: ITexture
+  
+}
+
+declare interface g_downsample  {
+  /**
+  * @param {number} darken The strength of the darkening
+  **/
+  darken: number
+  
+  /**
+  * @param {number} multiply The strength of the multiplier
+  **/
+  multiply: number
+  
+}
+
+declare interface g_colourmodify  {
+  /**
+  * @param {number} pp_colour_addr The add color's red value. 0 (black) means no change.
+  **/
+  pp_colour_addr: number
+  
+  /**
+  * @param {number} pp_colour_addg The add color's green value. 0 (black) means no change.
+  **/
+  pp_colour_addg: number
+  
+  /**
+  * @param {number} pp_colour_addb The add color's blue value. 0 (black) means no change.
+  **/
+  pp_colour_addb: number
+  
+  /**
+  * @param {number} pp_colour_brightness This value will be added to every pixel's R, G, and B values. 0 means no change.
+  **/
+  pp_colour_brightness: number
+  
+  /**
+  * @param {number} pp_colour_colour The saturation value. Setting this to 0 will turn the image to grey-scale. 1 means no change.
+  **/
+  pp_colour_colour: number
+  
+  /**
+  * @param {number} pp_colour_contrast Every pixel's R, G, and B values will each be multiplied by this number. 1 means no change.
+  **/
+  pp_colour_contrast: number
+  
+  /**
+  * @param {number} pp_colour_mulr The multiply color's red value. 0 (black) means no change.
+  **/
+  pp_colour_mulr: number
+  
+  /**
+  * @param {number} pp_colour_mulg The multiply color's green value. 0 (black) means no change.
+  **/
+  pp_colour_mulg: number
+  
+  /**
+  * @param {number} pp_colour_mulb The multiply color's blue value. 0 (black) means no change.
+  **/
+  pp_colour_mulb: number
+  
+  /**
+  * @param {ITexture} fbtexture The texture to apply the color modifications to. It is expected, but not required, that the material will be drawn onto this texture.
+  * "fbtexture" most likely stands for "frame buffer texture", but this works with any texture, including @render.GetSuperFPTex.
+  **/
+  fbtexture: ITexture
+  
+}
+
+declare interface g_bokehblur  {
+  /**
+  * @param {IMaterial} depthtext The depth texture, usually should be "_rt_FullFrameFB"
+  **/
+  depthtext: IMaterial
+  
+  /**
+  * @param {number} focus The focus distance?
+  **/
+  focus: number
+  
+  /**
+  * @param {number} focusradius The focus radius?
+  **/
+  focusradius: number
+  
+  /**
+  * @param {number} size The strength of the blur
+  **/
+  size: number
+  
+}
+
+declare interface g_blury  {
+  /**
+  * @param {number} size The strength of the blur
+  **/
+  size: number
+  
+}
+
+declare interface g_blurx  {
+  /**
+  * @param {ITexture} basetexture The texture to blur.
+  **/
+  basetexture: ITexture
+  
+  /**
+  * @param {number} size The strength of the blur. Actually the number of pixels between samples from $basetexture.
+  **/
+  size: number
+  
+}
+
+declare interface g_bloom  {
+  /**
+  * @param {number} levelb The multiplier for blue
+  **/
+  levelb: number
+  
+  /**
+  * @param {number} levelg The multiplier for the green
+  **/
+  levelg: number
+  
+  /**
+  * @param {number} levelr The multiplier for the red
+  **/
+  levelr: number
+  
+  /**
+  * @param {number} colormul The general multiplier for all colors
+  **/
+  colormul: number
+  
+}
+/**
 * @wiki https://wiki.garrysmod.com/page/Structures/ViewData
 * @interface ViewData
 * @description Table structure used for @render.RenderView.
@@ -16482,16 +16907,6 @@ declare interface IWeaponHooksCustomAmmoDisplayReturn  {
 * @description Table returned by @VectorFuncs:ToScreen.
 **/
 /**
-* @wiki https://wiki.garrysmod.com/page/Structures/TOOL
-* @validate
-* @interface ITool
-* @description The TOOL table is used in Sandbox tool creation. You can find a list of callbacks on the [TOOL Hooks](https://wiki.garrysmod.com/page/Category:TOOL%20Hooks) page and a list of methods on the [Tool Functions](https://wiki.garrysmod.com/page/Category:Tool) page. Do note that some of the fields below have no effect on server-side operations.
-* The tool information box drawn on the HUD while your tool is selected has 2 values that are set by @language.Add.
-* "tool.[tool mode].name" - The tool name (Note this is NOT the same as TOOL.Name)
-* "tool.[tool mode].desc" - The tool description
-* Ensure that all tool file names are entirely lowercase.  Including capital letters can lead to unintended behavior.
-**/
-/**
 * @wiki https://wiki.garrysmod.com/page/Structures/TextureData
 * @interface TextureData
 * @description Used for @draw.TexturedQuad.
@@ -16507,12 +16922,14 @@ declare interface IWeaponHooksCustomAmmoDisplayReturn  {
 * @description Table is one element from @team.GetAllTeams.
 **/
 /**
-* @wiki https://wiki.garrysmod.com/page/Structures/SWEP
-* @warning The gamemode and view models **must** support this feature for it to work!
-* You can find more information here: [Using Viewmodel Hands](https://wiki.garrysmod.com/page/Using_Viewmodel_Hands)
-* @interface IWeapon
-* @description Information about a SWEP, used by @SandboxHooks:PlayerGiveSWEP and SWEP creation. For list of callbacks, see [Category:WEAPON_Hooks](https://wiki.garrysmod.com/page/Category:WEAPON_Hooks).
-* While some of the fields may be serverside or clientside only, it is recommended to provide them on both so addons could use their values.
+* @wiki https://wiki.garrysmod.com/page/Structures/TOOL
+* @note You can use the spawnmenu_reload``` console command to rebuild tool CPanels.
+* @interface ITool
+* @description The TOOL table is used in Sandbox tool creation. You can find a list of callbacks on the [TOOL Hooks](https://wiki.garrysmod.com/page/Category:TOOL%20Hooks) page and a list of methods on the [Tool Functions](https://wiki.garrysmod.com/page/Category:Tool) page. Do note that some of the fields below have no effect on server-side operations.
+* The tool information box drawn on the HUD while your tool is selected has 2 values that are set by @language.Add.
+* "tool.[tool mode].name" - The tool name (Note this is NOT the same as TOOL.Name)
+* "tool.[tool mode].desc" - The tool description
+* Ensure that all tool file names are entirely lowercase.  Including capital letters can lead to unintended behavior.
 **/
 /**
 * @wiki https://wiki.garrysmod.com/page/Structures/SurfacePropertyData
@@ -16526,19 +16943,27 @@ declare interface IWeaponHooksCustomAmmoDisplayReturn  {
 * @description Returned by @util.GetSunInfo.
 **/
 /**
-* @wiki https://wiki.garrysmod.com/page/Structures/ServerQueryData
-* @interface ServerQueryData
-* @description Used for @serverlist.Query.
-**/
-/**
 * @wiki https://wiki.garrysmod.com/page/Structures/SoundData
 * @interface SoundData
 * @description Table used in @sound.Add and @sound.GetProperties.
 **/
 /**
+* @wiki https://wiki.garrysmod.com/page/Structures/ServerQueryData
+* @interface ServerQueryData
+* @description Used for @serverlist.Query.
+**/
+/**
 * @wiki https://wiki.garrysmod.com/page/Structures/SequenceInfo
 * @interface SequenceInfo
 * @description Used by @EntityFuncs:GetSequenceInfo.
+**/
+/**
+* @wiki https://wiki.garrysmod.com/page/Structures/SWEP
+* @warning The gamemode and view models **must** support this feature for it to work!
+* You can find more information here: [Using Viewmodel Hands](https://wiki.garrysmod.com/page/Using_Viewmodel_Hands)
+* @interface IWeapon
+* @description Information about a SWEP, used by @SandboxHooks:PlayerGiveSWEP and SWEP creation. For list of callbacks, see [Category:WEAPON_Hooks](https://wiki.garrysmod.com/page/Category:WEAPON_Hooks).
+* While some of the fields may be serverside or clientside only, it is recommended to provide them on both so addons could use their values.
 **/
 /**
 * @wiki https://wiki.garrysmod.com/page/Structures/RenderCaptureData
@@ -16565,11 +16990,6 @@ declare interface IWeaponHooksCustomAmmoDisplayReturn  {
 * UV coordinates describe which part of a given texture should be drawn at a vertex - your graphics card's interpolator will fill in space between vertices. UV coords range from 0-1, with 0 being top/left and 1 being bottom/right. If you're using a texture these are mandatory.
 **/
 /**
-* @wiki https://wiki.garrysmod.com/page/Structures/PhysProperties
-* @interface PhysProperties
-* @description Structure used by @construct.SetPhysProp.
-**/
-/**
 * @wiki https://wiki.garrysmod.com/page/Structures/PhysicsObjectSave
 * @interface PhysicsObjectSave
 * @description Structure used in storing/restoring physics object attributes.
@@ -16580,6 +17000,11 @@ declare interface IWeaponHooksCustomAmmoDisplayReturn  {
 * ```
 **/
 /**
+* @wiki https://wiki.garrysmod.com/page/Structures/PhysProperties
+* @interface PhysProperties
+* @description Structure used by @construct.SetPhysProp.
+**/
+/**
 * @wiki https://wiki.garrysmod.com/page/Structures/PhysEnvPerformanceSettings
 * @interface PhysEnvPerformanceSettings
 * @description Table used by @physenv.SetPerformanceSettings.
@@ -16588,6 +17013,11 @@ declare interface IWeaponHooksCustomAmmoDisplayReturn  {
 * @wiki https://wiki.garrysmod.com/page/Structures/PathSegment
 * @interface PathSegment
 * @description Structure represents a path segment, returned by @PathFollower:GetCurrentGoal, @PathFollower:FirstSegment and @PathFollower:LastSegment.
+**/
+/**
+* @wiki https://wiki.garrysmod.com/page/Structures/PLAYER
+* @interface PLAYER
+* @description This page describes all **default** fields for a [player class](https://wiki.garrysmod.com/page/Player_Classes).
 **/
 /**
 * @wiki https://wiki.garrysmod.com/page/Structures/OperatingParams
@@ -16644,17 +17074,17 @@ declare interface IWeaponHooksCustomAmmoDisplayReturn  {
 * * @EntityHooks:OnDuplicated
 **/
 /**
+* @wiki https://wiki.garrysmod.com/page/Structures/EmitSoundInfo
+* @interface EmitSoundInfo
+* @description Passed as argument of @GamemodeHooks:EntityEmitSound.
+**/
+/**
 * @wiki https://wiki.garrysmod.com/page/Structures/ENT
 * @interface IEntity
 * @description Information about the ENT structure.
 * To learn more about scripted entities, [see this page](https://wiki.garrysmod.com/page/Scripted_Entities).
 * For list of callbacks, see [ENT Hooks](https://wiki.garrysmod.com/page/Category:ENTITY_Hooks).
 * While some of the fields may be serverside or clientside only, it is recommended to provide them on both so addons could use their values.
-**/
-/**
-* @wiki https://wiki.garrysmod.com/page/Structures/EmitSoundInfo
-* @interface EmitSoundInfo
-* @description Passed as argument of @GamemodeHooks:EntityEmitSound.
 **/
 /**
 * @wiki https://wiki.garrysmod.com/page/Structures/DynamicLight
@@ -16690,11 +17120,6 @@ declare interface IWeaponHooksCustomAmmoDisplayReturn  {
 * @description Table that maintains information on the creation menu tabs. Each key of the table represents the name of the tab. See @spawnmenu.AddCreationTab and @spawnmenu.GetCreationTabs.
 **/
 /**
-* @wiki https://wiki.garrysmod.com/page/Structures/Color
-* @interface IColor
-* @description Table created by the @Color function function and used in various situations.
-**/
-/**
 * @wiki https://wiki.garrysmod.com/page/Structures/CollisionData
 * @note Sometimes, the value of 'Speed' can be different from getting the length calculated from 'OurOldVelocity', even though they should be the same, or close to same. It's recommended to do 'OurOldVelocity:Length()' instead.
 * ```
@@ -16706,6 +17131,11 @@ declare interface IWeaponHooksCustomAmmoDisplayReturn  {
 * ```
 * @interface CollisionData
 * @description Passed as argument of @EntityHooks:PhysicsCollide.
+**/
+/**
+* @wiki https://wiki.garrysmod.com/page/Structures/Color
+* @interface IColor
+* @description Table created by the @Color function function and used in various situations.
 **/
 /**
 * @wiki https://wiki.garrysmod.com/page/Structures/CamData
@@ -17628,74 +18058,6 @@ declare interface ToScreenData  {
   
 }
 
-declare interface ITool  {
-  /**
-  * @AddToMenu {boolean}: If set to false, the tool won't be added to the tool menu and players will have to access it by other means.
-  **/
-  AddToMenu: boolean
-  
-  /**
-  * @Category {string}: The tool menu category under which the tool should be listed.
-  **/
-  Category: string
-  
-  /**
-  * @Command {string}: The console command to execute upon being selected in the Q menu.
-  **/
-  Command: string
-  
-  /**
-  * @Name {string}: The name of the tool in the Q menu.
-  * Common practice is to set this to "#tool.[lua filename].name" to match the name displayed in the tool information box.
-  **/
-  Name: string
-  
-  /**
-  * @ConfigName {string}: The name of the configuration file. Broken.
-  **/
-  ConfigName: string
-  
-  /**
-  * @ClientConVar {table}: A key-value ( convar name-default value ) table containing the client-side convars to create. All convars will be prefixed with the filename of the tool.
-  * You can later use @ToolFuncs:GetClientNumber or @ToolFuncs:GetClientInfo to retrieve these values.
-  **/
-  ClientConVar: table
-  
-  /**
-  * @ServerConVar {table}: Same as above, but created server-side instead.
-  **/
-  ServerConVar: table
-  
-  /**
-  * @BuildCPanel {function}: The function that is called to build the context menu for your tool. It has one argument, namely the context menu's base panel to which all of your custom panels are going to be parented to.
-  * While it might sound like a hook, it isn't - you won't receive a self argument inside the function.
-  **/
-  BuildCPanel: UnknownFunc
-  
-  /**
-  * @Information {table}: Allows you to override the tool usage information shown when the tool is equipped.
-  * See [Tool Information Display](https://wiki.garrysmod.com/page/Tool%20Information%20Display) for more information.
-  **/
-  Information: table
-  
-  /**
-  * @LastMessage {number}: Set this to CurTime() on the client to make the tools information box on the HUD flash white.
-  **/
-  LastMessage: number
-  
-  /**
-  * @Message {string}: Does nothing. Was used in conjunction with LastMessage in very old versions of the game.
-  **/
-  Message: string
-  
-  /**
-  * @Mode {string}: Class name of the tool. (name of the .lua file)
-  * This is set automatically.
-  **/
-  Mode: string
-  
-}
-
 declare interface TextureData  {
   /**
   * @texture {number}: surface.GetTextureID number of the texture to be drawn.
@@ -17782,6 +18144,354 @@ declare interface TeamData  {
   * @Score {number}: Score of the team
   **/
   Score: number
+  
+}
+
+declare interface ITool  {
+  /**
+  * @AddToMenu {boolean}: If set to false, the tool won't be added to the tool menu and players will have to access it by other means.
+  **/
+  AddToMenu: boolean
+  
+  /**
+  * @Category {string}: The tool menu category under which the tool should be listed.
+  **/
+  Category: string
+  
+  /**
+  * @Command {string}: The console command to execute upon being selected in the Q menu.
+  **/
+  Command: string
+  
+  /**
+  * @Name {string}: The name of the tool in the Q menu.
+  * Common practice is to set this to "#tool.[lua filename].name" to match the name displayed in the tool information box.
+  **/
+  Name: string
+  
+  /**
+  * @ClientConVar {table}: A key-value ( convar name-default value ) table containing the client-side convars to create. All convars will be prefixed with the filename of the tool.
+  * You can later use @ToolFuncs:GetClientNumber or @ToolFuncs:GetClientInfo to retrieve these values.
+  **/
+  ClientConVar: table
+  
+  /**
+  * @ServerConVar {table}: Same as above, but created server-side instead.
+  **/
+  ServerConVar: table
+  
+  /**
+  * @BuildCPanel {DForm}: The function that is called to build the context menu for your tool. It has one argument, namely the context menu's base panel to which all of your custom panels are going to be parented to.
+  * While it might sound like a hook, it isn't - you won't receive a self argument inside the function. The only argument you will receive is a @DForm type that represents the CPanel.
+  **/
+  BuildCPanel: DForm
+  
+  /**
+  * @Information {table}: Allows you to override the tool usage information shown when the tool is equipped.
+  * See [Tool Information Display](https://wiki.garrysmod.com/page/Tool%20Information%20Display) for more information.
+  **/
+  Information: table
+  
+  /**
+  * @Mode {string}: Class name of the tool. (name of the .lua file)
+  * This is set automatically.
+  **/
+  Mode: string
+  
+}
+
+declare interface SurfacePropertyData  {
+  /**
+  * @name {string}: The name of the surface property, identical to @util.GetSurfacePropName.
+  **/
+  name: string
+  
+  /**
+  * @hardnessFactor {number}: How hard a surface is. If this is greater than or equal to another surfaces's hardThreshold, a hard impact sound will be used.
+  **/
+  hardnessFactor: number
+  
+  /**
+  * @hardThreshold {number}: Hardness threshold for impact sounds. HitSurface.hardnessFactor >= InflictorSurface.hardThreshold - hard impact sound (depends on hardVelocityThreshold's value), HitSurface.hardnessFactor = HitSurface.hardVelocityThreshold - hard impact sound (depends on hardThreshold's value), impactSpeed = InflictorSurface.roughThreshold - rough friction sound, HitSurface.roughnessFactor  0 - true.
+  **/
+  hardThreshold: number
+  
+  /**
+  * @jumpFactor {number}: Scalar multiplier for player jump height - or more accurately, applied z-axis velocity on a surface. For example, 1 - normal jump, 2 - twice as high, and 0.5 - half as high.
+  **/
+  jumpFactor: number
+  
+  /**
+  * @material {MAT}: The surface material. See @MAT enum.
+  **/
+  material: MAT
+  
+  /**
+  * @maxSpeedFactor {number}: Scalar multiplier for player speed. Achieves this by multiplying @CMoveData:SetMaxSpeed in @GamemodeHooks:Move.
+  **/
+  maxSpeedFactor: number
+  
+  /**
+  * @dampening {number}: This is the physical drag on an object when in contact with this surface (0 - x, 0 none to x a lot).
+  **/
+  dampening: number
+  
+  /**
+  * @density {number}: Material density in kg / m^3 (water is 1000). If a surface's density is < 1000, it will float in water. This is used to calculate the total mass of an object.
+  **/
+  density: number
+  
+  /**
+  * @elasticity {number}: Collision elasticity - used to compute coefficient of restitution represented as a number 0.0 - 1.0. 0.01 is soft, 1.0 is hard.
+  **/
+  elasticity: number
+  
+  /**
+  * @friction {number}: Physical friction used to slow entities touching the surface represented as a number 0.0 - 1.0. 0.01 is slick, 1.0 is completely rough.
+  **/
+  friction: number
+  
+  /**
+  * @thickness {number}: Material thickness. If this is 0, the material is not volumetrically solid, and thus the object mass will be calculated as "volume * 0.0254^3 * density" where 0.0254 is meters per inch. If non-zero, the mass will be "surfacearea * thickness * 0.0254^3 * density".
+  **/
+  thickness: number
+  
+  /**
+  * @breakSound {string}: Sound to play when a prop or func_breakable is broken.
+  **/
+  breakSound: string
+  
+  /**
+  * @bulletImpactSound {string}: Bullet impact sound with this surface.
+  **/
+  bulletImpactSound: string
+  
+  /**
+  * @impactHardSound {string}: Physical impact sound when hitting surfaces hard.
+  **/
+  impactHardSound: string
+  
+  /**
+  * @impactSoftSound {string}: Physical impact sound when hitting surfaces softly.
+  **/
+  impactSoftSound: string
+  
+  /**
+  * @rollingSound {string}: Unused sound.
+  **/
+  rollingSound: string
+  
+  /**
+  * @scrapeRoughSound {string}: Friction sound when roughly scraping against an entity.
+  **/
+  scrapeRoughSound: string
+  
+  /**
+  * @scrapeSmoothSound {string}: Friction sound when smoothly scraping against an entity.
+  **/
+  scrapeSmoothSound: string
+  
+  /**
+  * @stepLeftSound {string}: Footstep sound for left foot.
+  **/
+  stepLeftSound: string
+  
+  /**
+  * @stepRightSound {string}: Footstep sound for right foot.
+  **/
+  stepRightSound: string
+  
+  /**
+  * @strainSound {string}: Unused sound.
+  **/
+  strainSound: string
+  
+}
+
+declare interface SunInfo  {
+  /**
+  * @direction {Vector}: The suns direction relative to 0,0,0
+  **/
+  direction: Vector
+  
+  /**
+  * @obstruction {number}: Indicates how obstructed the sun is, 1 not visible, 0 fully visible
+  **/
+  obstruction: number
+  
+}
+
+declare interface SoundData  {
+  /**
+  * @channel {CHAN}: The sound channel to play in. See @CHAN enum
+  **/
+  channel: CHAN
+  
+  /**
+  * @name {string}: The name of the sound.
+  **/
+  name: string
+  
+  /**
+  * @pitchend {number}: The pitch end. Deprecated, use pitch.
+  **/
+  pitchend: number
+  
+  /**
+  * @pitchstart {number}: The initial pitch. Deprecated, use pitch.
+  **/
+  pitchstart: number
+  
+  /**
+  * @level {SNDLVL}: The soundlevel of the sound in dB. See @SNDLVL enum.
+  **/
+  level: SNDLVL
+  
+  /**
+  * @sound {string}: The sound file to be used in this sound effect. Can be a table of sound files. Relative to "sound" directory (must be in a subfolder, so sound/test.wav will not work).
+  **/
+  sound: string
+  
+  /**
+  * @volume {number}: The volume of the sound as a decimal between 0 and 1. Can be a table of two numbers, a minimum and a maximum value.
+  **/
+  volume: number
+  
+  /**
+  * @pitch {number}: The pitch of the sound. Can be a table of two numbers, a minimum and a maximum value.
+  **/
+  pitch: number
+  
+}
+
+declare interface ServerQueryData  {
+  /**
+  * @GameDir {string}: The game directory to get the servers for
+  **/
+  GameDir: string
+  
+  /**
+  * @Type {string}: Type of servers to retrieve. Valid values are:
+  * * "internet"
+  * * "favorite"
+  * * "history"
+  * * "lan"
+  **/
+  Type: string
+  
+  /**
+  * @AppID {number}: Steam application ID to get the servers for
+  **/
+  AppID: number
+  
+  /**
+  * @Callback {function}: Called when a new server is found and queried. Arguments:
+  * Return false to stop the query.
+  **/
+  Callback: StructuresServerQueryDataCallback
+  
+  /**
+  * @Finished {function}: Called when the query is finished. No arguments
+  **/
+  Finished: UnknownFunc
+  
+}
+
+declare interface SequenceInfo  {
+  /**
+  * @label {string}: Name of the sequence.
+  **/
+  label: string
+  
+  /**
+  * @activityname {string}: Name of the activity this sequence is attached to.
+  **/
+  activityname: string
+  
+  /**
+  * @activity {ACT}: The activity ID associated with this sequence. See @ACT enum.
+  **/
+  activity: ACT
+  
+  /**
+  * @actweight {number}: How likely this sequence is to be picked when playing an activity its attached to. -1 means this is the only sequence for that activity. (needs validation)
+  **/
+  actweight: number
+  
+  /**
+  * @flags {number}: The looping and other flags of this sequence.
+  **/
+  flags: number
+  
+  /**
+  * @numevents {number}: Number of animation events this sequence has.
+  **/
+  numevents: number
+  
+  /**
+  * @numblends {number}: no description
+  **/
+  numblends: number
+  
+  /**
+  * @bbmin {number}: Mins part of the bounding box for this sequence
+  **/
+  bbmin: number
+  
+  /**
+  * @bbmax {number}: Maxs part of the bounding box for this sequence
+  **/
+  bbmax: number
+  
+  /**
+  * @fadeintime {number}: ideal cross fade in time (0.2 default)
+  **/
+  fadeintime: number
+  
+  /**
+  * @fadeouttime {number}: ideal cross fade out time (0.2 default)
+  **/
+  fadeouttime: number
+  
+  /**
+  * @localentrynode {number}: transition node at entry
+  **/
+  localentrynode: number
+  
+  /**
+  * @localexitnode {number}: transition node at exit
+  **/
+  localexitnode: number
+  
+  /**
+  * @nodeflags {number}: Transition rules
+  **/
+  nodeflags: number
+  
+  /**
+  * @lastframe {number}: Frame that should generate EndOFSequence
+  **/
+  lastframe: number
+  
+  /**
+  * @nextseq {number}: If non 0, the next sequence for auto advancing sequences
+  **/
+  nextseq: number
+  
+  /**
+  * @pose {number}: no description
+  **/
+  pose: number
+  
+  /**
+  * @cycleposeindex {number}: If non 0, index of pose parameter to be used as cycle index. This means that the sequence playback will be controlled by a pose parameter.
+  **/
+  cycleposeindex: number
+  
+  /**
+  * @anims {table}: A 1-based array of all animationIDs associated with this sequence. For use with @EntityFuncs:GetAnimInfo.
+  **/
+  anims: table
   
 }
 
@@ -18022,301 +18732,6 @@ declare interface IStructuresIWeaponPrimary  {
   
 }
 
-declare interface SurfacePropertyData  {
-  /**
-  * @name {string}: The name of the surface property, identical to @util.GetSurfacePropName.
-  **/
-  name: string
-  
-  /**
-  * @hardnessFactor {number}: How hard a surface is. If this is greater than or equal to another surfaces's hardThreshold, a hard impact sound will be used.
-  **/
-  hardnessFactor: number
-  
-  /**
-  * @hardThreshold {number}: Hardness threshold for impact sounds. HitSurface.hardnessFactor >= InflictorSurface.hardThreshold - hard impact sound (depends on hardVelocityThreshold's value), HitSurface.hardnessFactor = HitSurface.hardVelocityThreshold - hard impact sound (depends on hardThreshold's value), impactSpeed = InflictorSurface.roughThreshold - rough friction sound, HitSurface.roughnessFactor  0 - true.
-  **/
-  hardThreshold: number
-  
-  /**
-  * @jumpFactor {number}: Scalar multiplier for player jump height - or more accurately, applied z-axis velocity on a surface. For example, 1 - normal jump, 2 - twice as high, and 0.5 - half as high.
-  **/
-  jumpFactor: number
-  
-  /**
-  * @material {MAT}: The surface material. See @MAT enum.
-  **/
-  material: MAT
-  
-  /**
-  * @maxSpeedFactor {number}: Scalar multiplier for player speed. Achieves this by multiplying @CMoveData:SetMaxSpeed in @GamemodeHooks:Move.
-  **/
-  maxSpeedFactor: number
-  
-  /**
-  * @dampening {number}: This is the physical drag on an object when in contact with this surface (0 - x, 0 none to x a lot).
-  **/
-  dampening: number
-  
-  /**
-  * @density {number}: Material density in kg / m^3 (water is 1000). If a surface's density is < 1000, it will float in water. This is used to calculate the total mass of an object.
-  **/
-  density: number
-  
-  /**
-  * @elasticity {number}: Collision elasticity - used to compute coefficient of restitution represented as a number 0.0 - 1.0. 0.01 is soft, 1.0 is hard.
-  **/
-  elasticity: number
-  
-  /**
-  * @friction {number}: Physical friction used to slow entities touching the surface represented as a number 0.0 - 1.0. 0.01 is slick, 1.0 is completely rough.
-  **/
-  friction: number
-  
-  /**
-  * @thickness {number}: Material thickness. If this is 0, the material is not volumetrically solid, and thus the object mass will be calculated as "volume * 0.0254^3 * density" where 0.0254 is meters per inch. If non-zero, the mass will be "surfacearea * thickness * 0.0254^3 * density".
-  **/
-  thickness: number
-  
-  /**
-  * @breakSound {string}: Sound to play when a prop or func_breakable is broken.
-  **/
-  breakSound: string
-  
-  /**
-  * @bulletImpactSound {string}: Bullet impact sound with this surface.
-  **/
-  bulletImpactSound: string
-  
-  /**
-  * @impactHardSound {string}: Physical impact sound when hitting surfaces hard.
-  **/
-  impactHardSound: string
-  
-  /**
-  * @impactSoftSound {string}: Physical impact sound when hitting surfaces softly.
-  **/
-  impactSoftSound: string
-  
-  /**
-  * @rollingSound {string}: Unused sound.
-  **/
-  rollingSound: string
-  
-  /**
-  * @scrapeRoughSound {string}: Friction sound when roughly scraping against an entity.
-  **/
-  scrapeRoughSound: string
-  
-  /**
-  * @scrapeSmoothSound {string}: Friction sound when smoothly scraping against an entity.
-  **/
-  scrapeSmoothSound: string
-  
-  /**
-  * @stepLeftSound {string}: Footstep sound for left foot.
-  **/
-  stepLeftSound: string
-  
-  /**
-  * @stepRightSound {string}: Footstep sound for right foot.
-  **/
-  stepRightSound: string
-  
-  /**
-  * @strainSound {string}: Unused sound.
-  **/
-  strainSound: string
-  
-}
-
-declare interface SunInfo  {
-  /**
-  * @direction {Vector}: The suns direction relative to 0,0,0
-  **/
-  direction: Vector
-  
-  /**
-  * @obstruction {number}: Indicates how obstructed the sun is, 1 not visible, 0 fully visible
-  **/
-  obstruction: number
-  
-}
-
-declare interface ServerQueryData  {
-  /**
-  * @GameDir {string}: The game directory to get the servers for
-  **/
-  GameDir: string
-  
-  /**
-  * @Type {string}: Type of servers to retrieve. Valid values are:
-  * * "internet"
-  * * "favorite"
-  * * "history"
-  * * "lan"
-  **/
-  Type: string
-  
-  /**
-  * @AppID {number}: Steam application ID to get the servers for
-  **/
-  AppID: number
-  
-  /**
-  * @Callback {function}: Called when a new server is found and queried. Arguments:
-  * Return false to stop the query.
-  **/
-  Callback: StructuresServerQueryDataCallback
-  
-  /**
-  * @Finished {function}: Called when the query is finished. No arguments
-  **/
-  Finished: UnknownFunc
-  
-}
-
-declare interface SoundData  {
-  /**
-  * @channel {CHAN}: The sound channel to play in. See @CHAN enum
-  **/
-  channel: CHAN
-  
-  /**
-  * @name {string}: The name of the sound.
-  **/
-  name: string
-  
-  /**
-  * @pitchend {number}: The pitch end. Deprecated, use pitch.
-  **/
-  pitchend: number
-  
-  /**
-  * @pitchstart {number}: The initial pitch. Deprecated, use pitch.
-  **/
-  pitchstart: number
-  
-  /**
-  * @level {SNDLVL}: The soundlevel of the sound in dB. See @SNDLVL enum.
-  **/
-  level: SNDLVL
-  
-  /**
-  * @sound {string}: The sound file to be used in this sound effect. Can be a table of sound files. Relative to "sound" directory.
-  **/
-  sound: string
-  
-  /**
-  * @volume {number}: The volume of the sound as a decimal between 0 and 1. Can be a table of two numbers, a minimum and a maximum value.
-  **/
-  volume: number
-  
-  /**
-  * @pitch {number}: The pitch of the sound. Can be a table of two numbers, a minimum and a maximum value.
-  **/
-  pitch: number
-  
-}
-
-declare interface SequenceInfo  {
-  /**
-  * @label {string}: Name of the sequence.
-  **/
-  label: string
-  
-  /**
-  * @activityname {string}: Name of the activity this sequence is attached to.
-  **/
-  activityname: string
-  
-  /**
-  * @activity {ACT}: The activity ID associated with this sequence. See @ACT enum.
-  **/
-  activity: ACT
-  
-  /**
-  * @actweight {number}: How likely this sequence is to be picked when playing an activity its attached to. -1 means this is the only sequence for that activity. (needs validation)
-  **/
-  actweight: number
-  
-  /**
-  * @flags {number}: The looping and other flags of this sequence.
-  **/
-  flags: number
-  
-  /**
-  * @numevents {number}: Number of animation events this sequence has.
-  **/
-  numevents: number
-  
-  /**
-  * @numblends {number}: no description
-  **/
-  numblends: number
-  
-  /**
-  * @bbmin {number}: Mins part of the bounding box for this sequence
-  **/
-  bbmin: number
-  
-  /**
-  * @bbmax {number}: Maxs part of the bounding box for this sequence
-  **/
-  bbmax: number
-  
-  /**
-  * @fadeintime {number}: ideal cross fade in time (0.2 default)
-  **/
-  fadeintime: number
-  
-  /**
-  * @fadeouttime {number}: ideal cross fade out time (0.2 default)
-  **/
-  fadeouttime: number
-  
-  /**
-  * @localentrynode {number}: transition node at entry
-  **/
-  localentrynode: number
-  
-  /**
-  * @localexitnode {number}: transition node at exit
-  **/
-  localexitnode: number
-  
-  /**
-  * @nodeflags {number}: Transition rules
-  **/
-  nodeflags: number
-  
-  /**
-  * @lastframe {number}: Frame that should generate EndOFSequence
-  **/
-  lastframe: number
-  
-  /**
-  * @nextseq {number}: If non 0, the next sequence for auto advancing sequences
-  **/
-  nextseq: number
-  
-  /**
-  * @pose {number}: no description
-  **/
-  pose: number
-  
-  /**
-  * @cycleposeindex {number}: If non 0, index of pose parameter to be used as cycle index. This means that the sequence playback will be controlled by a pose parameter.
-  **/
-  cycleposeindex: number
-  
-  /**
-  * @anims {table}: A 1-based array of all animationIDs associated with this sequence. For use with @EntityFuncs:GetAnimInfo.
-  **/
-  anims: table
-  
-}
-
 declare interface RenderCaptureData  {
   /**
   * @format {string}: Format of the capture. Valid formats are: jpeg, png
@@ -18414,7 +18829,7 @@ declare interface RenderCamData  {
   znear: number
   
   /**
-  * @subrect {boolean}: m_bRenderToSubrectOfLargerScreen
+  * @subrect {boolean}: Set to true if this is to draw into a subrect of the larger screen.
   **/
   subrect: boolean
   
@@ -18574,19 +18989,6 @@ declare interface PolygonVertex  {
   
 }
 
-declare interface PhysProperties  {
-  /**
-  * @GravityToggle {boolean}: Enables or disables gravity for the entity
-  **/
-  GravityToggle: boolean
-  
-  /**
-  * @Material {string}: Sets the physics material for the entity
-  **/
-  Material: string
-  
-}
-
 declare interface PhysicsObjectSave  {
   /**
   * @Pos {Vector}: The entity's world position made local with @WorldToLocal function
@@ -18612,6 +19014,19 @@ declare interface PhysicsObjectSave  {
   * @Sleep {boolean}: Whether the entity is dormant or not. @PhysObj:IsAsleep
   **/
   Sleep: boolean
+  
+}
+
+declare interface PhysProperties  {
+  /**
+  * @GravityToggle {boolean}: Enables or disables gravity for the entity
+  **/
+  GravityToggle: boolean
+  
+  /**
+  * @Material {string}: Sets the physics material for the entity
+  **/
+  Material: string
   
 }
 
@@ -18719,6 +19134,84 @@ declare interface PathSegment  {
   * * 5 is climbing a ladder down (unused)
   **/
   type: number
+  
+}
+
+declare interface PLAYER  {
+  /**
+  * @DisplayName {string}: The 'nice' name of the player class for display in User Interface and such.
+  **/
+  DisplayName: string
+  
+  /**
+  * @WalkSpeed {number}: How fast to move when not running
+  **/
+  WalkSpeed: number
+  
+  /**
+  * @RunSpeed {number}: How fast to move when running/sprinting
+  **/
+  RunSpeed: number
+  
+  /**
+  * @CrouchedWalkSpeed {number}: Multiply walk speed by this when crouching
+  **/
+  CrouchedWalkSpeed: number
+  
+  /**
+  * @DuckSpeed {number}: How fast to go from not ducking, to ducking
+  **/
+  DuckSpeed: number
+  
+  /**
+  * @UnDuckSpeed {number}: How fast to go from ducking, to not ducking
+  **/
+  UnDuckSpeed: number
+  
+  /**
+  * @JumpPower {number}: How powerful a jump should be
+  **/
+  JumpPower: number
+  
+  /**
+  * @CanUseFlashlight {boolean}: Can the player use the flashlight
+  **/
+  CanUseFlashlight: boolean
+  
+  /**
+  * @MaxHealth {number}: Max health we can have
+  **/
+  MaxHealth: number
+  
+  /**
+  * @StartHealth {number}: How much health we start with
+  **/
+  StartHealth: number
+  
+  /**
+  * @StartArmor {number}: How much armour we start with
+  **/
+  StartArmor: number
+  
+  /**
+  * @DropWeaponOnDie {boolean}: Do we drop our weapon when we die
+  **/
+  DropWeaponOnDie: boolean
+  
+  /**
+  * @TeammateNoCollide {boolean}: Do we collide with teammates or run straight through them
+  **/
+  TeammateNoCollide: boolean
+  
+  /**
+  * @AvoidPlayers {boolean}: Automatically swerves around other players
+  **/
+  AvoidPlayers: boolean
+  
+  /**
+  * @UseVMHands {boolean}: Uses viewmodel hands
+  **/
+  UseVMHands: boolean
   
 }
 
@@ -19216,6 +19709,73 @@ declare interface EntityCopyData  {
   
 }
 
+declare interface EmitSoundInfo  {
+  /**
+  * @SoundName {string}: The file path of the played sound.
+  * Sounds prefixed with ) tell the sound engine that it is a spatial sound; this allows the sound to emit from a specific location within the world.
+  * Sounds prefixed with ^ tell the sound engine that it is a distance based sound. The left channel of the .wav is the 'near' sound that will play when the sound originates close to you, and the right channel is the 'far' sound that will play when the sound originates far from you.
+  **/
+  SoundName: string
+  
+  /**
+  * @OriginalSoundName {string}: The original file path or soundscript name.
+  * Even if the SoundName value is changed, the OriginalSoundName value will remain the same.
+  * Sounds may be returned as soundscripts (for example, "Weapon_357.Single") instead of the sound's file path. You can use @sound.GetProperties to retrieve the actual file path.
+  **/
+  OriginalSoundName: string
+  
+  /**
+  * @SoundTime {number}: The time at which the sound should be played.
+  * If equal to 0 or CurTime(), the sound is played immediately. If greater than CurTime(), the sound is played with a delay. If less than CurTime(), part of the sound is skipped.
+  **/
+  SoundTime: number
+  
+  /**
+  * @DSP {number}: The DSP (digital signal processing) preset applied to the sound.
+  * There are approximately 134 different presets defined by the Source engine between 0 and 133. These presets represent different types of 'rooms' or environments.
+  * [List of DSP's](https://developer.valvesoftware.com/wiki/Dsp_presets)
+  **/
+  DSP: number
+  
+  /**
+  * @SoundLevel {SNDLVL}: The sound's attenuation, a number between 0 (low) and 511 (high)
+  * This determines how fast the sound drops away. A higher value means the sound can be heard farther away.
+  * See @SNDLVL enum.
+  **/
+  SoundLevel: SNDLVL
+  
+  /**
+  * @Pitch {number}: The pitch of the played sound, a number between 0 (low) and 255 (high), where 100 is the sound's original pitch.
+  **/
+  Pitch: number
+  
+  /**
+  * @Flags {SND}: The bit flags of the played sound. See @SND enum for available options.
+  **/
+  Flags: SND
+  
+  /**
+  * @Channel {CHAN}: The sound's channel. See @CHAN enum for available options.
+  **/
+  Channel: CHAN
+  
+  /**
+  * @Volume {number}: The volume of the played sound, return as a decimal number between 0 (low) and 1 (high).
+  **/
+  Volume: number
+  
+  /**
+  * @Entity {Entity}: The entity that played the sound.
+  **/
+  Entity: Entity
+  
+  /**
+  * @Pos {Vector}: The origin of the played sound.
+  **/
+  Pos: Vector
+  
+}
+
 declare interface IEntity  {
   /**
   * @Base {string}: The base entity to derive from. This **must** be a valid Lua entity
@@ -19315,73 +19875,6 @@ declare interface IEntity  {
   * @DoNotDuplicate {boolean}: (Serverside) If set, the entity will not be duplicated via the built-in duplicator system.
   **/
   DoNotDuplicate: boolean
-  
-}
-
-declare interface EmitSoundInfo  {
-  /**
-  * @SoundName {string}: The file path of the played sound.
-  * Sounds prefixed with ) tell the sound engine that it is a spatial sound; this allows the sound to emit from a specific location within the world.
-  * Sounds prefixed with ^ tell the sound engine that it is a distance based sound. The left channel of the .wav is the 'near' sound that will play when the sound originates close to you, and the right channel is the 'far' sound that will play when the sound originates far from you.
-  **/
-  SoundName: string
-  
-  /**
-  * @OriginalSoundName {string}: The original file path or soundscript name.
-  * Even if the SoundName value is changed, the OriginalSoundName value will remain the same.
-  * Sounds may be returned as soundscripts (for example, "Weapon_357.Single") instead of the sound's file path. You can use @sound.GetProperties to retrieve the actual file path.
-  **/
-  OriginalSoundName: string
-  
-  /**
-  * @SoundTime {number}: The time at which the sound should be played.
-  * If equal to 0 or CurTime(), the sound is played immediately. If greater than CurTime(), the sound is played with a delay. If less than CurTime(), part of the sound is skipped.
-  **/
-  SoundTime: number
-  
-  /**
-  * @DSP {number}: The DSP (digital signal processing) preset applied to the sound.
-  * There are approximately 134 different presets defined by the Source engine between 0 and 133. These presets represent different types of 'rooms' or environments.
-  * [List of DSP's](https://developer.valvesoftware.com/wiki/Dsp_presets)
-  **/
-  DSP: number
-  
-  /**
-  * @SoundLevel {SNDLVL}: The sound's attenuation, a number between 0 (low) and 511 (high)
-  * This determines how fast the sound drops away. A higher value means the sound can be heard farther away.
-  * See @SNDLVL enum.
-  **/
-  SoundLevel: SNDLVL
-  
-  /**
-  * @Pitch {number}: The pitch of the played sound, a number between 0 (low) and 255 (high), where 100 is the sound's original pitch.
-  **/
-  Pitch: number
-  
-  /**
-  * @Flags {SND}: The bit flags of the played sound. See @SND enum for available options.
-  **/
-  Flags: SND
-  
-  /**
-  * @Channel {CHAN}: The sound's channel. See @CHAN enum for available options.
-  **/
-  Channel: CHAN
-  
-  /**
-  * @Volume {number}: The volume of the played sound, return as a decimal number between 0 (low) and 1 (high).
-  **/
-  Volume: number
-  
-  /**
-  * @Entity {Entity}: The entity that played the sound.
-  **/
-  Entity: Entity
-  
-  /**
-  * @Pos {Vector}: The origin of the played sound.
-  **/
-  Pos: Vector
   
 }
 
@@ -19547,6 +20040,7 @@ declare interface DebugInfo  {
   /**
   * @activelines {table}: A table of all the active lines in the function - that is, lines with code that actually does something (not blank lines or lines with comments only).
   * The table keys will be line numbers, and their values will all be true. Lines that are inactive are simply not included in the table - they have the value nil.
+  * It doesn't check for activeline in subfunctions.
   * **Option: L**
   **/
   activelines: table
@@ -19626,29 +20120,6 @@ declare interface CreationMenus  {
   
 }
 
-declare interface IColor  {
-  /**
-  * @r {number}: The red channel
-  **/
-  r: number
-  
-  /**
-  * @g {number}: The green channel
-  **/
-  g: number
-  
-  /**
-  * @b {number}: The blue channel
-  **/
-  b: number
-  
-  /**
-  * @a {number}: The alpha channel
-  **/
-  a: number
-  
-}
-
 declare interface CollisionData  {
   /**
   * @HitPos {Vector}: The collision position
@@ -19694,6 +20165,29 @@ declare interface CollisionData  {
   * @PhysObject {PhysObj}: Entity's physics object
   **/
   PhysObject: PhysObj
+  
+}
+
+declare interface IColor  {
+  /**
+  * @r {number}: The red channel
+  **/
+  r: number
+  
+  /**
+  * @g {number}: The green channel
+  **/
+  g: number
+  
+  /**
+  * @b {number}: The blue channel
+  **/
+  b: number
+  
+  /**
+  * @a {number}: The alpha channel
+  **/
+  a: number
   
 }
 
@@ -20040,403 +20534,6 @@ declare interface AmmoData  {
   flags: AMMO
   
 }
-/**
-* @wiki https://wiki.garrysmod.com/page/Shaders/sobel
-* @interface sobel
-* @description Applies a "sobel" effect.
-**/
-/**
-* @wiki https://wiki.garrysmod.com/page/Shaders/g texturize
-* @interface g_texturize
-* @description Replaces every pixel with a part of the texture set by $basetexture.
-* The texture used must be power of 2 and be 8 times as high as wide in order to function.
-* The shader replaces every pixel with a part of the texture depending on it's brightness.
-* Dark areas will use the upper parts of the texture and brighter parts the lower parts of the texture.
-**/
-/**
-* @wiki https://wiki.garrysmod.com/page/Shaders/g sunbeams
-* @interface g_sunbeams
-* @description Creates a "sun beam" effect.
-**/
-/**
-* @wiki https://wiki.garrysmod.com/page/Shaders/g sky
-* @interface g_sky
-* @description This shader was especially designed to be used with with maps, in particular the cube maps(up, down, front, back, left, right), they allow to modify the ambiance of a map.
-**/
-/**
-* @wiki https://wiki.garrysmod.com/page/Shaders/g sharpen
-* @interface g_sharpen
-* @description Sharpens the contents of the screenspace
-**/
-/**
-* @wiki https://wiki.garrysmod.com/page/Shaders/g refract
-* @interface g_refract
-* @description Shader used for the now-absent Morph post-processing effect. This effect can be restored with an [addon](http://steamcommunity.com/sharedfiles/filedetails/?id=501088470) available on the Workshop.
-**/
-/**
-* @wiki https://wiki.garrysmod.com/page/Shaders/g premultiplied
-* @interface g_premultiplied
-* @description Renders a texture using premultiplied alpha blending. This is used by Awesomium panels.
-**/
-/**
-* @wiki https://wiki.garrysmod.com/page/Shaders/g downsample
-* @interface g_downsample
-* @description Downsamples the screenspace
-**/
-/**
-* @wiki https://wiki.garrysmod.com/page/Shaders/g colourmodify
-* @interface g_colourmodify
-* @description Allows modifying the coloring of the screenspace. A material with this shader exists at @Material function( "pp/colour" ), which is used by @DrawColorModify function.
-**/
-/**
-* @wiki https://wiki.garrysmod.com/page/Shaders/g bokehblur
-* @interface g_bokehblur
-* @description A bokeh blur shader which applies screen blur depending on distance.
-**/
-/**
-* @wiki https://wiki.garrysmod.com/page/Shaders/g blury
-* @interface g_blury
-* @description Blurs the screenspace on the y axis
-**/
-/**
-* @wiki https://wiki.garrysmod.com/page/Shaders/g blurx
-* @interface g_blurx
-* @description Blurs $basetexture in the x direction.
-**/
-/**
-* @wiki https://wiki.garrysmod.com/page/Shaders/g bloom
-* @interface g_bloom
-* @description A simple bloom shader. See @DrawBloom function if you wish to use it in your code.
-**/
-/**
-* @wiki https://wiki.garrysmod.com/page/Shaders/gmodscreenspace
-* @interface gmodscreenspace
-* @description The shader used for screenspace effects.
-**/
-declare interface Shaders  {
-  
-}
-
-declare interface sobel  {
-  /**
-  * @param {number} threshold The threshold of the edge finding
-  **/
-  threshold: number
-  
-}
-
-declare interface g_texturize  {
-  /**
-  * @param {number} scalex The size of the texturing on the x axis
-  **/
-  scalex: number
-  
-  /**
-  * @param {number} scaley The size of the texturing on the y axis
-  **/
-  scaley: number
-  
-}
-
-declare interface g_sunbeams  {
-  /**
-  * @param {number} darken The strength of the darkening
-  **/
-  darken: number
-  
-  /**
-  * @param {number} multiply The strength of the multplier
-  **/
-  multiply: number
-  
-  /**
-  * @param {number} sunx The screen x position of the sun (from 0 - 1)
-  **/
-  sunx: number
-  
-  /**
-  * @param {number} suny The screen y position of the sun (from 0 - 1)
-  **/
-  suny: number
-  
-  /**
-  * @param {number} sunsize The "size" of the sun
-  **/
-  sunsize: number
-  
-}
-
-declare interface g_sky  {
-  /**
-  * @param {Vector} bottomcolor The top bottom of the texture(used for gradient)
-  **/
-  bottomcolor: Vector
-  
-  /**
-  * @param {Vector} duskcolor The dusk color
-  **/
-  duskcolor: Vector
-  
-  /**
-  * @param {number} duskscale The scale of the dusk
-  **/
-  duskscale: number
-  
-  /**
-  * @param {number} duskintensity The intensity of the dusk
-  **/
-  duskintensity: number
-  
-  /**
-  * @param {number} fadebias The fade bias
-  **/
-  fadebias: number
-  
-  /**
-  * @param {number} hdrscale The HDR scale
-  **/
-  hdrscale: number
-  
-  /**
-  * @param {Vector} suncolor The color of the sun
-  **/
-  suncolor: Vector
-  
-  /**
-  * @param {Vector} sunnormal The normal of the sun
-  **/
-  sunnormal: Vector
-  
-  /**
-  * @param {number} sunsize The size of the sun
-  **/
-  sunsize: number
-  
-  /**
-  * @param {Vector} topcolor The top color of the texture(used for gradient)
-  **/
-  topcolor: Vector
-  
-}
-
-declare interface g_sharpen  {
-  /**
-  * @param {number} contrast The contrast to use
-  **/
-  contrast: number
-  
-  /**
-  * @param {number} distance The distance to assume
-  **/
-  distance: number
-  
-}
-
-declare interface g_refract  {
-  /**
-  * @param {number} refractamount Refract amount
-  **/
-  refractamount: number
-  
-  /**
-  * @param {number} bluramount no description
-  **/
-  bluramount: number
-  
-  /**
-  * @param {ITexture} fbtexture Texture/Render target to apply the morph to
-  **/
-  fbtexture: ITexture
-  
-  /**
-  * @param {ITexture} normalmap Texture that holds the morph directions - red channel for X, green channel for Y.
-  **/
-  normalmap: ITexture
-  
-}
-
-declare interface g_premultiplied  {
-  /**
-  * @param {ITexture} basetexture The texture to render.
-  **/
-  basetexture: ITexture
-  
-}
-
-declare interface g_downsample  {
-  /**
-  * @param {number} darken The strength of the darkening
-  **/
-  darken: number
-  
-  /**
-  * @param {number} multiply The strength of the multiplier
-  **/
-  multiply: number
-  
-}
-
-declare interface g_colourmodify  {
-  /**
-  * @param {number} pp_colour_addr The add color's red value. 0 (black) means no change.
-  **/
-  pp_colour_addr: number
-  
-  /**
-  * @param {number} pp_colour_addg The add color's green value. 0 (black) means no change.
-  **/
-  pp_colour_addg: number
-  
-  /**
-  * @param {number} pp_colour_addb The add color's blue value. 0 (black) means no change.
-  **/
-  pp_colour_addb: number
-  
-  /**
-  * @param {number} pp_colour_brightness This value will be added to every pixel's R, G, and B values. 0 means no change.
-  **/
-  pp_colour_brightness: number
-  
-  /**
-  * @param {number} pp_colour_colour The saturation value. Setting this to 0 will turn the image to grey-scale. 1 means no change.
-  **/
-  pp_colour_colour: number
-  
-  /**
-  * @param {number} pp_colour_contrast Every pixel's R, G, and B values will each be multiplied by this number. 1 means no change.
-  **/
-  pp_colour_contrast: number
-  
-  /**
-  * @param {number} pp_colour_mulr The multiply color's red value. 0 (black) means no change.
-  **/
-  pp_colour_mulr: number
-  
-  /**
-  * @param {number} pp_colour_mulg The multiply color's green value. 0 (black) means no change.
-  **/
-  pp_colour_mulg: number
-  
-  /**
-  * @param {number} pp_colour_mulb The multiply color's blue value. 0 (black) means no change.
-  **/
-  pp_colour_mulb: number
-  
-  /**
-  * @param {ITexture} fbtexture The texture to apply the color modifications to. It is expected, but not required, that the material will be drawn onto this texture.
-  * "fbtexture" most likely stands for "frame buffer texture", but this works with any texture, including @render.GetSuperFPTex.
-  **/
-  fbtexture: ITexture
-  
-}
-
-declare interface g_bokehblur  {
-  /**
-  * @param {IMaterial} depthtext The strength of the blur
-  **/
-  depthtext: IMaterial
-  
-  /**
-  * @param {number} focus The focus distance?
-  **/
-  focus: number
-  
-  /**
-  * @param {number} focusradius The focus radius?
-  **/
-  focusradius: number
-  
-  /**
-  * @param {number} size The strength of the blur
-  **/
-  size: number
-  
-}
-
-declare interface g_blury  {
-  /**
-  * @param {number} size The strength of the blur
-  **/
-  size: number
-  
-}
-
-declare interface g_blurx  {
-  /**
-  * @param {ITexture} basetexture The texture to blur.
-  **/
-  basetexture: ITexture
-  
-  /**
-  * @param {number} size The strength of the blur. Actually the number of pixels between samples from $basetexture.
-  **/
-  size: number
-  
-}
-
-declare interface g_bloom  {
-  /**
-  * @param {number} levelb The multiplier for blue
-  **/
-  levelb: number
-  
-  /**
-  * @param {number} levelg The multiplier for the green
-  **/
-  levelg: number
-  
-  /**
-  * @param {number} levelr The multiplier for the red
-  **/
-  levelr: number
-  
-  /**
-  * @param {number} colormul The general multiplier for all colors
-  **/
-  colormul: number
-  
-}
-
-declare interface gmodscreenspace  {
-  /**
-  * @param {boolean} texturealpha Use Texture Alpha
-  **/
-  texturealpha: boolean
-  
-  /**
-  * @param {boolean} vertexalpha Use Vertex Alpha
-  **/
-  vertexalpha: boolean
-  
-  /**
-  * @param {boolean} vertexcolor Use Vertex Color
-  **/
-  vertexcolor: boolean
-  
-  /**
-  * @param {number} blur Blur this buffer
-  **/
-  blur: number
-  
-}
-
-declare interface IPathFollowerGetCursorDataReturn  {
-  /**
-  * curvature - {number}: no description
-  **/
-  curvature: number
-  
-  /**
-  * forward - {Vector}: no description
-  **/
-  forward: Vector
-  
-  /**
-  * pos - {Vector}: no description
-  **/
-  pos: Vector
-  
-}
 
 declare interface IPanelRebuildSpawnIconExData  {
   /**
@@ -20461,19 +20558,6 @@ declare interface IPanelRebuildSpawnIconExData  {
   
 }
 
-declare interface IPanelGWEN_SetSizeSize  {
-  /**
-  * w - {number}: The width.
-  **/
-  w: number
-  
-  /**
-  * h - {number}: The height.
-  **/
-  h: number
-  
-}
-
 declare interface IPanelGWEN_SetPositionPos  {
   /**
   * x - {number}: The x coordinate.
@@ -20484,6 +20568,19 @@ declare interface IPanelGWEN_SetPositionPos  {
   * y - {number}: The y coordinate.
   **/
   y: number
+  
+}
+
+declare interface IPanelGWEN_SetSizeSize  {
+  /**
+  * w - {number}: The width.
+  **/
+  w: number
+  
+  /**
+  * h - {number}: The height.
+  **/
+  h: number
   
 }
 
@@ -20507,6 +20604,24 @@ declare interface IPanelGWEN_SetMarginMargins  {
   * bottom - {number}: The bottom margin.
   **/
   bottom: number
+  
+}
+
+declare interface IPathFollowerGetCursorDataReturn  {
+  /**
+  * curvature - {number}: no description
+  **/
+  curvature: number
+  
+  /**
+  * forward - {Vector}: no description
+  **/
+  forward: Vector
+  
+  /**
+  * pos - {Vector}: no description
+  **/
+  pos: Vector
   
 }
 
@@ -20710,833 +20825,138 @@ declare interface ICNavAreaGetExtentInfoReturn  {
   
 }
 
-declare interface WeaponHooks  {
+declare interface bf_read  {
   /**
   * 
-  * Allows to change players field of view while player holds the weapon.
+  * Rewinds the bitstream so it can be read again.
   * 
-  * @name WeaponHooks:TranslateFOV
-  * @predicted false
+  * @name bf_read:Reset
   * @realm client
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/TranslateFOV
-  * @bug #3564 This doesn't affect the opening of func_areaportals - @Player:GetFOV takes priority.
-  * @param {Weapon} this - no description
-  * @param {number} fov - The current/default FOV.
-  * @returns {number} - The target FOV.
+  * @wiki https://wiki.garrysmod.com/page/bf read/Reset
+  * @param {bf_read} this - no description
+  * @returns {void}
   **/
-  TranslateFOV(this: Weapon, fov: number): number
+  Reset(this: bf_read): void
   
   /**
   * 
-  * Called straight after the view model has been drawn. This is called before @GamemodeHooks:PostDrawViewModel and @WeaponHooks:PostDrawViewModel.
+  * Reads a special encoded vector normal from the bitstream and returns it, this function is not suitable to send vectors that represent a position.
   * 
-  * @name WeaponHooks:ViewModelDrawn
-  * @predicted false
+  * @name bf_read:ReadVectorNormal
   * @realm client
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/ViewModelDrawn
-  * @param {Weapon} this - no description
-  * @param {Entity} ViewModel - Players view model
-  * @returns {void}
+  * @wiki https://wiki.garrysmod.com/page/bf read/ReadVectorNormal
+  * @param {bf_read} this - no description
+  * @returns {Vector} - normal
   **/
-  ViewModelDrawn(this: Weapon, ViewModel: Entity): void
+  ReadVectorNormal(this: bf_read): Vector
   
   /**
   * 
-  * A convenience function to remove secondary ammo from clip.
+  * Reads a special encoded vector from the bitstream and returns it, this function is not suitable to send normals.
   * 
-  * @name WeaponHooks:TakeSecondaryAmmo
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/TakeSecondaryAmmo
-  * @param {Weapon} this - no description
-  * @param {number} amount - How much of secondary ammo to remove
-  * @returns {void}
-  **/
-  TakeSecondaryAmmo(this: Weapon, amount: number): void
-  
-  /**
-  * 
-  * Called when the swep thinks.
-  * This hook won't be called during the deploy animation and when using @WeaponFuncs:DefaultReload.
-  * 
-  * @name WeaponHooks:Think
-  * @predicted true
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/Think
-  * @note Despite being a predicted hook, this hook is called clientside in single player, however it will not be recognized as a predicted hook to @Player:GetCurrentCommand.
-  * @note This hook will be called before Player movement is processed on the client, and after on the server.
-  * @bug #2855 This will not be run during deploy animations after a serverside-only deploy. This usually happens after picking up and dropping an object with +use.
-  * @param {Weapon} this - no description
-  * @returns {void}
-  **/
-  Think(this: Weapon): void
-  
-  /**
-  * 
-  * Translate a player's Activity into a weapon's activity, depending on how you want the player to be holding the weapon.
-  * For example, ACT_MP_RUN becomes ACT_HL2MP_RUN_PISTOL.
-  * 
-  * @name WeaponHooks:TranslateActivity
-  * @predicted false
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/TranslateActivity
-  * @param {Weapon} this - no description
-  * @param {number} act - The activity to translate
-  * @returns {number} - The translated activity
-  **/
-  TranslateActivity(this: Weapon, act: number): number
-  
-  /**
-  * 
-  * A convenience function to remove primary ammo from clip.
-  * 
-  * @name WeaponHooks:TakePrimaryAmmo
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/TakePrimaryAmmo
-  * @param {Weapon} this - no description
-  * @param {number} amount - Amount of primary ammo to remove
-  * @returns {void}
-  **/
-  TakePrimaryAmmo(this: Weapon, amount: number): void
-  
-  /**
-  * 
-  * Should this weapon be dropped when its owner dies?
-  * This only works if the player has @Player:ShouldDropWeapon set to true.
-  * 
-  * @name WeaponHooks:ShouldDropOnDie
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/ShouldDropOnDie
-  * @param {Weapon} this - no description
-  * @returns {boolean} - Return true to drop the weapon, false otherwise. Default ( if you don't return anything ) is false.
-  **/
-  ShouldDropOnDie(this: Weapon): boolean
-  
-  /**
-  * 
-  * Called to determine if the view model should be drawn or not.
-  * 
-  * @name WeaponHooks:ShouldDrawViewModel
+  * @name bf_read:ReadVector
   * @realm client
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/ShouldDrawViewModel
-  * @param {Weapon} this - no description
-  * @returns {boolean} - Return true to draw the view model, false otherwise.
+  * @wiki https://wiki.garrysmod.com/page/bf read/ReadVector
+  * @param {bf_read} this - no description
+  * @returns {Vector} - vec
   **/
-  ShouldDrawViewModel(this: Weapon): boolean
+  ReadVector(this: bf_read): Vector
   
   /**
   * 
-  * A convenience function to create shoot effects.
+  * Reads a null terminated string from the bitstream.
   * 
-  * @name WeaponHooks:ShootEffects
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/ShootEffects
-  * @param {Weapon} this - no description
-  * @returns {void}
-  **/
-  ShootEffects(this: Weapon): void
-  
-  /**
-  * 
-  * A convenience function to shoot bullets.
-  * 
-  * @name WeaponHooks:ShootBullet
-  * @predicted false
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/ShootBullet
-  * @bug  This does not take SWEP.Primary/Secondary.Ammo into account.
-  * @param {Weapon} this - no description
-  * @param {number} damage - The damage of the bullet
-  * @param {number} num_bullets - Amount of bullets to shoot
-  * @param {number} aimcone - Spread of bullets
-  * @param {string} ammo_type - Ammo type of the bullets
-  * @param {number} force - Force of the bullets
-  * @param {number} tracer - Show a tracer on every x bullets
-  * @returns {void}
-  **/
-  ShootBullet(this: Weapon, damage: number, num_bullets: number, aimcone: number, ammo_type: string, force: number, tracer: number): void
-  
-  /**
-  * 
-  * Sets the hold type of the weapon. This must be called on **both** the server and the client to work properly.
-  * **NOTE:** You should avoid calling this function and call @WeaponFuncs:SetHoldType now.
-  * 
-  * @name WeaponHooks:SetWeaponHoldType
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/SetWeaponHoldType
-  * @param {Weapon} this - no description
-  * @param {string} name - Name of the hold type. You can find all default hold types [here](https://wiki.garrysmod.com/page/Hold_Types)
-  * @returns {void}
-  **/
-  SetWeaponHoldType(this: Weapon, name: string): void
-  
-  /**
-  * 
-  * Called when the SWEP should set up its [ Data Tables](https://wiki.garrysmod.com/page/Networking%20Entities).
-  * 
-  * @name WeaponHooks:SetupDataTables
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/SetupDataTables
-  * @param {Weapon} this - no description
-  * @returns {void}
-  **/
-  SetupDataTables(this: Weapon): void
-  
-  /**
-  * 
-  * Sets the weapon deploy speed. This value needs to match on client and server.
-  * 
-  * @name WeaponHooks:SetDeploySpeed
-  * @predicted false
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/SetDeploySpeed
-  * @param {Weapon} this - no description
-  * @param {number} speed - The value to set deploy speed to. Negative will slow down playback.
-  * @returns {void}
-  **/
-  SetDeploySpeed(this: Weapon, speed: number): void
-  
-  /**
-  * 
-  * Called when secondary attack button ( +attack2 ) is pressed.
-  * For issues with this hook being called rapidly on the client side, see the global function @IsFirstTimePredicted function.
-  * 
-  * @name WeaponHooks:SecondaryAttack
-  * @predicted true
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/SecondaryAttack
-  * @param {Weapon} this - no description
-  * @returns {void}
-  **/
-  SecondaryAttack(this: Weapon): void
-  
-  /**
-  * 
-  * . Called every frame just before @GamemodeHooks:RenderScene. Used by tool gun to render screens.
-  * 
-  * @name WeaponHooks:RenderScreen
-  * @predicted false
+  * @name bf_read:ReadString
   * @realm client
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/RenderScreen
-  * @param {Weapon} this - no description
-  * @returns {void}
+  * @wiki https://wiki.garrysmod.com/page/bf read/ReadString
+  * @param {bf_read} this - no description
+  * @returns {string} - str
   **/
-  RenderScreen(this: Weapon): void
+  ReadString(this: bf_read): string
   
   /**
   * 
-  * Called when the reload key ( +reload ) is pressed.
+  * Reads a 2 byte short from the bitstream and returns it.
   * 
-  * @name WeaponHooks:Reload
-  * @predicted true
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/Reload
-  * @param {Weapon} this - no description
-  * @returns {void}
-  **/
-  Reload(this: Weapon): void
-  
-  /**
-  * 
-  * A convenience function that draws the weapon info box, used in @WeaponHooks:DrawWeaponSelection.
-  * 
-  * @name WeaponHooks:PrintWeaponInfo
+  * @name bf_read:ReadShort
   * @realm client
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/PrintWeaponInfo
-  * @param {Weapon} this - no description
-  * @param {number} x - The x co-ordinate of box position
-  * @param {number} y - The y co-ordinate of box position
-  * @param {number} alpha - Alpha value for the box
-  * @returns {void}
+  * @wiki https://wiki.garrysmod.com/page/bf read/ReadShort
+  * @param {bf_read} this - no description
+  * @returns {number} - short
   **/
-  PrintWeaponInfo(this: Weapon, x: number, y: number, alpha: number): void
+  ReadShort(this: bf_read): number
   
   /**
   * 
-  * Called when primary attack button ( +attack ) is pressed.
-  * Since this is a [predicted](https://wiki.garrysmod.com/page/Prediction) hook, as mentioned on the bottom of the page, it has some additional behaviour to it. This is the same with all [predicted SWEP hooks](https://wiki.garrysmod.com/page/Category:Predicted_Hooks).
-  * When in singleplayer, this function is only called in the server realm. When in multiplayer, the hook will be called on both the server and the client in order to allow for [prediction](https://wiki.garrysmod.com/page/Prediction).
-  * You can force the hook to always be called on client like this:
-  * ```
-  * if ( game.SinglePlayer() ) then self:CallOnClient( "PrimaryAttack" ) end
-  * ```
-  * Note that due to prediction, in multiplayer SWEP:PrimaryAttack is called multiple times per one "shot" with the gun. To work around that, use @IsFirstTimePredicted function.
+  * Reads a 4 byte long from the bitstream and returns it.
   * 
-  * @name WeaponHooks:PrimaryAttack
-  * @predicted true
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/PrimaryAttack
-  * @param {Weapon} this - no description
-  * @returns {void}
-  **/
-  PrimaryAttack(this: Weapon): void
-  
-  /**
-  * 
-  * Allows you to modify viewmodel while the weapon in use before it is drawn. This hook only works if you haven't overridden @GamemodeHooks:PreDrawViewModel.
-  * 
-  * @name WeaponHooks:PreDrawViewModel
-  * @predicted false
+  * @name bf_read:ReadLong
   * @realm client
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/PreDrawViewModel
-  * @param {Weapon} this - no description
-  * @param {Entity} vm - This is the view model entity before it is drawn.
-  * @param {Weapon} weapon - This is the weapon that is from the view model.
-  * @param {Player} ply - The the owner of the view model.
-  * @returns {void}
+  * @wiki https://wiki.garrysmod.com/page/bf read/ReadLong
+  * @param {bf_read} this - no description
+  * @returns {number} - int
   **/
-  PreDrawViewModel(this: Weapon, vm: Entity, weapon: Weapon, ply: Player): void
+  ReadLong(this: bf_read): number
   
   /**
   * 
-  * Called after the view model has been drawn while the weapon in use. This hook is called from the default implementation of @GamemodeHooks:PostDrawViewModel, and as such, will not occur if it has been overridden.
-  * @WeaponHooks:ViewModelDrawn is an alternative hook which is always called before @GamemodeHooks:PostDrawViewModel.
+  * Reads a 4 byte float from the bitstream and returns it.
   * 
-  * @name WeaponHooks:PostDrawViewModel
-  * @predicted false
+  * @name bf_read:ReadFloat
   * @realm client
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/PostDrawViewModel
-  * @param {Weapon} this - no description
-  * @param {Entity} vm - This is the view model entity after it is drawn
-  * @param {Weapon} weapon - This is the weapon that is from the view model (same as self)
-  * @param {Player} ply - The owner of the view model
-  * @returns {void}
+  * @wiki https://wiki.garrysmod.com/page/bf read/ReadFloat
+  * @param {bf_read} this - no description
+  * @returns {number} - float
   **/
-  PostDrawViewModel(this: Weapon, vm: Entity, weapon: Weapon, ply: Player): void
+  ReadFloat(this: bf_read): number
   
   /**
   * 
-  * Called when weapon is dropped or picked up by a new player.
-  * See also @WeaponHooks:OnDrop.
+  * Reads a short representing an entity index and returns the matching entity handle.
   * 
-  * @name WeaponHooks:OwnerChanged
-  * @predicted false
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/OwnerChanged
-  * @param {Weapon} this - no description
-  * @returns {void}
-  **/
-  OwnerChanged(this: Weapon): void
-  
-  /**
-  * 
-  * Called when the weapon entity is reloaded from a Source Engine save (not the Sandbox saves or dupes) or on a changelevel (for example Half-Life 2 campaign level transitions).
-  * For the @duplicator library callbacks, see @EntityHooks:OnDuplicated.
-  * See also @saverestore library for relevant functions.
-  * 
-  * @name WeaponHooks:OnRestore
-  * @predicted false
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/OnRestore
-  * @param {Weapon} this - no description
-  * @returns {void}
-  **/
-  OnRestore(this: Weapon): void
-  
-  /**
-  * 
-  * Called when the swep is about to be removed.
-  * 
-  * @name WeaponHooks:OnRemove
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/OnRemove
-  * @param {Weapon} this - no description
-  * @returns {void}
-  **/
-  OnRemove(this: Weapon): void
-  
-  /**
-  * 
-  * Called whenever the weapons Lua script is reloaded.
-  * 
-  * @name WeaponHooks:OnReloaded
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/OnReloaded
-  * @param {Weapon} this - no description
-  * @returns {void}
-  **/
-  OnReloaded(this: Weapon): void
-  
-  /**
-  * 
-  * Called when weapon is dropped by @Player:DropWeapon.
-  * See also @WeaponHooks:OwnerChanged.
-  * 
-  * @name WeaponHooks:OnDrop
-  * @predicted false
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/OnDrop
-  * @param {Weapon} this - no description
-  * @returns {void}
-  **/
-  OnDrop(this: Weapon): void
-  
-  /**
-  * 
-  * Called when the engine sets a value for this scripted weapon.
-  * See @GamemodeHooks:EntityKeyValue for a hook that works for all entities.
-  * See @EntityHooks:KeyValue for an [SENT](https://wiki.garrysmod.com/page/Category:WEAPON%20Hooks) hook that works for scripted entities.
-  * 
-  * @name WeaponHooks:KeyValue
-  * @predicted false
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/KeyValue
-  * @param {Weapon} this - no description
-  * @param {string} key - The key that was affected.
-  * @param {string} value - The new value.
-  * @returns {boolean} - Return true to suppress this KeyValue or return false or nothing to apply this key value.
-  **/
-  KeyValue(this: Weapon, key: string, value: string): boolean
-  
-  /**
-  * 
-  * Called when the weapon entity is created.
-  * 
-  * @name WeaponHooks:Initialize
-  * @predicted false
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/Initialize
-  * @bug #2732 This is sometimes not called clientside. You can work around this by setting a variable in Initialize and check if it exists in @WeaponHooks:Think. See the example below.
-  * @bug #3015 This is not called serverside after a quicksave.
-  * @param {Weapon} this - no description
-  * @returns {void}
-  **/
-  Initialize(this: Weapon): void
-  
-  /**
-  * 
-  * This hook determines which parts of the HUD to draw.
-  * 
-  * @name WeaponHooks:HUDShouldDraw
+  * @name bf_read:ReadEntity
   * @realm client
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/HUDShouldDraw
-  * @param {Weapon} this - no description
-  * @param {string} element - The HUD element in question
-  * @returns {boolean} - Return false to hide this HUD element
+  * @wiki https://wiki.garrysmod.com/page/bf read/ReadEntity
+  * @param {bf_read} this - no description
+  * @returns {Entity} - ent
   **/
-  HUDShouldDraw(this: Weapon, element: string): boolean
+  ReadEntity(this: bf_read): Entity
   
   /**
   * 
-  * Called when weapon tries to holster.
+  * Reads a signed char and returns a number from -127 to 127 representing the ascii value of that char.
   * 
-  * @name WeaponHooks:Holster
-  * @predicted true
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/Holster
-  * @bug #2854 This is called twice for every holster clientside, one in [prediction](https://wiki.garrysmod.com/page/Prediction) and one not.
-  * @bug #3133 This function is called serverside only before @WeaponHooks:OnRemove is called.
-  * @param {Weapon} this - no description
-  * @param {Entity} weapon - The weapon we are trying switch to.
-  * @returns {boolean} - Return true to allow weapon to holster
-  **/
-  Holster(this: Weapon, weapon: Entity): boolean
-  
-  /**
-  * 
-  * This hook allows you to adjust view model position and angles.
-  * 
-  * @name WeaponHooks:GetViewModelPosition
-  * @predicted false
+  * @name bf_read:ReadChar
   * @realm client
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/GetViewModelPosition
-  * @param {Weapon} this - no description
-  * @param {Vector} EyePos - Current position
-  * @param {Angle} EyeAng - Current angle
-  * @returns {Vector} - New position
-  * @returns {Angle} - New angle
-  * @tupleReturn
+  * @wiki https://wiki.garrysmod.com/page/bf read/ReadChar
+  * @param {bf_read} this - no description
+  * @returns {number} - asciiVal
   **/
-  GetViewModelPosition(this: Weapon, EyePos: Vector, EyeAng: Angle): [Vector, Angle]
+  ReadChar(this: bf_read): number
   
   /**
   * 
-  * Allows you to override where the tracer effect comes from. ( Visual bullets )
+  * Reads 1 bit an returns a bool representing the bit.
   * 
-  * @name WeaponHooks:GetTracerOrigin
+  * @name bf_read:ReadBool
   * @realm client
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/GetTracerOrigin
-  * @param {Weapon} this - no description
-  * @returns {Vector} - The new position to start tracer effect from
+  * @wiki https://wiki.garrysmod.com/page/bf read/ReadBool
+  * @param {bf_read} this - no description
+  * @returns {boolean} - bit
   **/
-  GetTracerOrigin(this: Weapon): Vector
+  ReadBool(this: bf_read): boolean
   
   /**
   * 
-  * Called when the weapon is used by NPCs to tell the NPC how to use this weapon. Controls amount of time the NPC can rest (not shoot) between bursts.
+  * Reads an returns an angle object from the bitstream.
   * 
-  * @name WeaponHooks:GetNPCRestTimes
-  * @predicted false
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/GetNPCRestTimes
-  * @param {Weapon} this - no description
-  * @returns {number} - Minimum amount of time the NPC can rest (not shoot) between bursts in seconds. Default is 0.3 seconds.
-  * @returns {number} - Maximum amount of time the NPC can rest (not shoot) between bursts in seconds. Default is 0.66 seconds.
-  * @tupleReturn
-  **/
-  GetNPCRestTimes(this: Weapon): [number, number]
-  
-  /**
-  * 
-  * Called when the weapon is used by NPCs to tell the NPC how to use this weapon. Controls how long the NPC can or should shoot continuously.
-  * 
-  * @name WeaponHooks:GetNPCBurstSettings
-  * @predicted false
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/GetNPCBurstSettings
-  * @param {Weapon} this - no description
-  * @returns {number} - Minimum amount of bullets per burst. Default is 1.
-  * @returns {number} - Maximum amount of bullets per burst. Default is 1.
-  * @returns {number} - Delay between each shot, aka firerate. Default is 1.
-  * @tupleReturn
-  **/
-  GetNPCBurstSettings(this: Weapon): [number, number, number]
-  
-  /**
-  * 
-  * Called when the weapon is used by NPCs to determine how accurate the bullets fired should be.
-  * The inaccuracy is simulated by changing the @NPC:GetAimVector based on the value returned from this hook.
-  * 
-  * @name WeaponHooks:GetNPCBulletSpread
-  * @predicted false
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/GetNPCBulletSpread
-  * @param {Weapon} this - no description
-  * @param {WEAPON_PROFICIENCY} proficiency - How proficient the NPC is with this gun. See @WEAPON_PROFICIENCY enum
-  * @returns {number} - An amount of degrees the bullets should deviate from the NPC's @NPC:GetAimVector. Default is 15.
-  **/
-  GetNPCBulletSpread(this: Weapon, proficiency: WEAPON_PROFICIENCY): number
-  
-  /**
-  * 
-  * This hook is for NPCs, you return what they should try to do with it.
-  * 
-  * @name WeaponHooks:GetCapabilities
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/GetCapabilities
-  * @param {Weapon} this - no description
-  * @returns {CAP} - A number defining what NPC should do with the weapon. Use the @CAP enum.
-  **/
-  GetCapabilities(this: Weapon): CAP
-  
-  /**
-  * 
-  * This hook allows you to freeze players screen.
-  * 
-  * @name WeaponHooks:FreezeMovement
-  * @predicted false
+  * @name bf_read:ReadAngle
   * @realm client
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/FreezeMovement
-  * @note Player will still be able to move or shoot
-  * @param {Weapon} this - no description
-  * @returns {boolean} - Return true to freeze moving the view
+  * @wiki https://wiki.garrysmod.com/page/bf read/ReadAngle
+  * @param {bf_read} this - no description
+  * @returns {Angle} - The read angle
   **/
-  FreezeMovement(this: Weapon): boolean
-  
-  /**
-  * 
-  * Called before firing animation events, such as muzzle flashes or shell ejections.
-  * This will only be called serverside for 3000-range events, and clientside for 5000-range  and other events.
-  * 
-  * @name WeaponHooks:FireAnimationEvent
-  * @predicted false
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/FireAnimationEvent
-  * @param {Weapon} this - no description
-  * @param {Vector} pos - Position of the effect.
-  * @param {Angle} ang - Angle of the effect.
-  * @param {number} event - The event ID of happened even. See [this page](http://developer.valvesoftware.com/wiki/Animation_Events).
-  * @param {string} options - Name or options of the event.
-  * @returns {boolean} - Return true to disable the effect.
-  **/
-  FireAnimationEvent(this: Weapon, pos: Vector, ang: Angle, event: number, options: string): boolean
-  
-  /**
-  * 
-  * The player has picked up the weapon and has taken the ammo from it.
-  * The weapon will be removed immidiately after this call.
-  * 
-  * @name WeaponHooks:EquipAmmo
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/EquipAmmo
-  * @param {Weapon} this - no description
-  * @param {Player} ply - The player who picked up the weapon
-  * @returns {void}
-  **/
-  EquipAmmo(this: Weapon, ply: Player): void
-  
-  /**
-  * 
-  * Called when a player or NPC has picked the weapon up.
-  * 
-  * @name WeaponHooks:Equip
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/Equip
-  * @param {Weapon} this - no description
-  * @param {Player | NPC} NewOwner - The one who picked the weapon up. Can be @Player type or @NPC type.
-  * @returns {void}
-  **/
-  Equip(this: Weapon, NewOwner: Player | NPC): void
-  
-  /**
-  * 
-  * Called when we are about to draw the translucent world model.
-  * 
-  * @name WeaponHooks:DrawWorldModelTranslucent
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/DrawWorldModelTranslucent
-  * @param {Weapon} this - no description
-  * @returns {void}
-  **/
-  DrawWorldModelTranslucent(this: Weapon): void
-  
-  /**
-  * 
-  * Called when we are about to draw the world model.
-  * 
-  * @name WeaponHooks:DrawWorldModel
-  * @predicted false
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/DrawWorldModel
-  * @param {Weapon} this - no description
-  * @returns {void}
-  **/
-  DrawWorldModel(this: Weapon): void
-  
-  /**
-  * 
-  * This hook draws the selection icon in the weapon selection menu.
-  * 
-  * @name WeaponHooks:DrawWeaponSelection
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/DrawWeaponSelection
-  * @param {Weapon} this - no description
-  * @param {number} x - X coordinate of the selection panel
-  * @param {number} y - Y coordinate of the selection panel
-  * @param {number} width - Width of the selection panel
-  * @param {number} height - Height of the selection panel
-  * @param {number} alpha - Alpha value of the selection panel
-  * @returns {void}
-  **/
-  DrawWeaponSelection(this: Weapon, x: number, y: number, width: number, height: number, alpha: number): void
-  
-  /**
-  * 
-  * This hook allows you to draw on screen while this weapon is in use. This hook is called **before** @WeaponHooks:DrawHUD and is equivalent of @GamemodeHooks:HUDPaintBackground.
-  * 
-  * @name WeaponHooks:DrawHUDBackground
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/DrawHUDBackground
-  * @param {Weapon} this - no description
-  * @returns {void}
-  **/
-  DrawHUDBackground(this: Weapon): void
-  
-  /**
-  * 
-  * This hook allows you to draw on screen while this weapon is in use.
-  * If you want to draw a custom crosshair, consider using @WeaponHooks:DoDrawCrosshair instead.
-  * 
-  * @name WeaponHooks:DrawHUD
-  * @predicted false
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/DrawHUD
-  * @param {Weapon} this - no description
-  * @returns {void}
-  **/
-  DrawHUD(this: Weapon): void
-  
-  /**
-  * 
-  * Called so the weapon can override the impact effects it makes.
-  * 
-  * @name WeaponHooks:DoImpactEffect
-  * @predicted false
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/DoImpactEffect
-  * @param {Weapon} this - no description
-  * @param {TraceResult} tr - A @TraceResult structure from player's eyes to the impact point
-  * @param {DMG} damageType - The damage type of bullet. See @DMG enum
-  * @returns {boolean} - Return true to not do the default thing - which is to call UTIL_ImpactTrace in C++
-  **/
-  DoImpactEffect(this: Weapon, tr: TraceResult, damageType: DMG): boolean
-  
-  /**
-  * 
-  * Called when the crosshair is about to get drawn, and allows you to override it.
-  * 
-  * @name WeaponHooks:DoDrawCrosshair
-  * @predicted false
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/DoDrawCrosshair
-  * @note This function will not be called if **SWEP.DrawCrosshair** set to false.
-  * @note This function will not be called if player was affected by @Player:CrosshairDisable.
-  * @bug #2117 The arguments passed to this function are not affected by **SWEP.AccurateCrosshair**.
-  * @param {Weapon} this - no description
-  * @param {number} x - X coordinate of the crosshair.
-  * @param {number} y - Y coordinate of the crosshair.
-  * @returns {boolean} - Return true to override the default crosshair.
-  **/
-  DoDrawCrosshair(this: Weapon, x: number, y: number): boolean
-  
-  /**
-  * 
-  * Called when player has just switched to this weapon.
-  * 
-  * @name WeaponHooks:Deploy
-  * @predicted true
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/Deploy
-  * @note Due to this hook being predicted, it is not called clientside in singleplayer at all, and in multiplayer it will not be called clientside if the weapon is switched with @Player:SelectWeapon or the "use" console command, however it will be called clientside with the default weapon selection menu and when using @CUserCmd:SelectWeapon
-  * @param {Weapon} this - no description
-  * @returns {boolean} - Return true to allow switching away from this weapon using lastinv command
-  **/
-  Deploy(this: Weapon): boolean
-  
-  /**
-  * 
-  * Allows you to use any numbers you want for the ammo display on the HUD.
-  * Can be useful for weapons that don't use standard ammo.
-  * 
-  * @name WeaponHooks:CustomAmmoDisplay
-  * @predicted false
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/CustomAmmoDisplay
-  * @param {Weapon} this - no description
-  * @returns {IWeaponHooksCustomAmmoDisplayReturn} - The new ammo display settings. A table with 4 possible keys:
-  * There is **no** SecondaryClip!
-  **/
-  CustomAmmoDisplay(this: Weapon): IWeaponHooksCustomAmmoDisplayReturn
-  
-  /**
-  * 
-  * Helper function for checking for no ammo.
-  * 
-  * @name WeaponHooks:CanSecondaryAttack
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/CanSecondaryAttack
-  * @param {Weapon} this - no description
-  * @returns {boolean} - Can use secondary attack
-  **/
-  CanSecondaryAttack(this: Weapon): boolean
-  
-  /**
-  * 
-  * Helper function for checking for no ammo.
-  * 
-  * @name WeaponHooks:CanPrimaryAttack
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/CanPrimaryAttack
-  * @param {Weapon} this - no description
-  * @returns {boolean} - Can use primary attack
-  **/
-  CanPrimaryAttack(this: Weapon): boolean
-  
-  /**
-  * 
-  * Called when a Citizen NPC is looking around to a (better) weapon to pickup.
-  * 
-  * @name WeaponHooks:CanBePickedUpByNPCs
-  * @predicted false
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/CanBePickedUpByNPCs
-  * @param {Weapon} this - no description
-  * @returns {boolean} - Return true to allow this weapon to be picked up by NPCs.
-  **/
-  CanBePickedUpByNPCs(this: Weapon): boolean
-  
-  /**
-  * 
-  * Allows overriding the position and angle of the viewmodel. This hook only works if you haven't overridden @GamemodeHooks:CalcViewModelView.
-  * 
-  * @name WeaponHooks:CalcViewModelView
-  * @predicted false
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/CalcViewModelView
-  * @param {Weapon} this - no description
-  * @param {Entity} ViewModel - The viewmodel entity
-  * @param {Vector} OldEyePos - Original position (before viewmodel bobbing and swaying)
-  * @param {Angle} OldEyeAng - Original angle (before viewmodel bobbing and swaying)
-  * @param {Vector} EyePos - Current position
-  * @param {Angle} EyeAng - Current angle
-  * @returns {Vector} - New position
-  * @returns {Angle} - New angle
-  * @tupleReturn
-  **/
-  CalcViewModelView(this: Weapon, ViewModel: Entity, OldEyePos: Vector, OldEyeAng: Angle, EyePos: Vector, EyeAng: Angle): [Vector, Angle]
-  
-  /**
-  * 
-  * Allows you to adjust player view while this weapon in use.
-  * This hook is called from the default implementation of @GamemodeHooks:CalcView ([](https://github.com/garrynewman/garrysmod/blob/master/garrysmod/gamemodes/base/gamemode/cl_init.lua#L376-L383)). Therefore, it will not be called if any other hook added to CalcView returns any value, or if the current gamemode overrides the default hook and does not call the SWEP function.
-  * 
-  * @name WeaponHooks:CalcView
-  * @predicted false
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/CalcView
-  * @bug  SWEPs that define this function will not work with the [taunt camera.](https://wiki.garrysmod.com/page/Global/TauntCamera)
-  * @param {Weapon} this - no description
-  * @param {Player} ply - The owner of weapon
-  * @param {Vector} pos - Current position of players view
-  * @param {Angle} ang - Current angles of players view
-  * @param {number} fov - Current FOV of players view
-  * @returns {Vector} - New position of players view
-  * @returns {Angle} - New angle of players view
-  * @returns {number} - New FOV of players view
-  * @tupleReturn
-  **/
-  CalcView(this: Weapon, ply: Player, pos: Vector, ang: Angle, fov: number): [Vector, Angle, number]
-  
-  /**
-  * 
-  * Returns how much of secondary ammo the player has.
-  * 
-  * @name WeaponHooks:Ammo2
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/Ammo2
-  * @param {Weapon} this - no description
-  * @returns {number} - The amount of secondary ammo player has
-  **/
-  Ammo2(this: Weapon): number
-  
-  /**
-  * 
-  * Returns how much of primary ammo the player has.
-  * 
-  * @name WeaponHooks:Ammo1
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/Ammo1
-  * @param {Weapon} this - no description
-  * @returns {number} - The amount of primary ammo player has
-  **/
-  Ammo1(this: Weapon): number
-  
-  /**
-  * 
-  * Allows you to adjust the mouse sensitivity. This hook only works if you haven't overridden @GamemodeHooks:AdjustMouseSensitivity.
-  * 
-  * @name WeaponHooks:AdjustMouseSensitivity
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/AdjustMouseSensitivity
-  * @param {Weapon} this - no description
-  * @returns {number} - Sensitivity scale
-  **/
-  AdjustMouseSensitivity(this: Weapon): number
-  
-  /**
-  * 
-  * Called when another entity fires an event to this entity.
-  * 
-  * @name WeaponHooks:AcceptInput
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/WEAPON/AcceptInput
-  * @param {Weapon} this - no description
-  * @param {string} inputName - The name of the input that was triggered.
-  * @param {Entity} activator - The initial cause for the input getting triggered.
-  * @param {Entity} called - The entity that directly trigger the input.
-  * @param {string} data - The data passed.
-  * @returns {boolean} - Should we suppress the default action for this input?
-  **/
-  AcceptInput(this: Weapon, inputName: string, activator: Entity, called: Entity, data: string): boolean
+  ReadAngle(this: bf_read): Angle
   
 }
 
@@ -21579,7 +20999,7 @@ declare interface WeaponFuncs extends Entity {
   * @param {number} time - The time in seconds when the last time the weapon was fired.
   * @returns {void}
   **/
-  SetLastShootTime(this: Weapon, time: number): void
+  SetLastShootTime(this: Weapon, time?: number): void
   
   /**
   * 
@@ -21611,19 +21031,6 @@ declare interface WeaponFuncs extends Entity {
   
   /**
   * 
-  * Lets you change the number of bullets in the given weapons primary clip.
-  * 
-  * @name WeaponFuncs:SetClip1
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Weapon/SetClip1
-  * @param {Weapon} this - no description
-  * @param {number} ammo - The amount of bullets the clip should contain
-  * @returns {void}
-  **/
-  SetClip1(this: Weapon, ammo: number): void
-  
-  /**
-  * 
   * Forces weapon to play activity/animation.
   * 
   * @name WeaponFuncs:SendWeaponAnim
@@ -21634,6 +21041,19 @@ declare interface WeaponFuncs extends Entity {
   * @returns {void}
   **/
   SendWeaponAnim(this: Weapon, act: ACT): void
+  
+  /**
+  * 
+  * Lets you change the number of bullets in the given weapons primary clip.
+  * 
+  * @name WeaponFuncs:SetClip1
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Weapon/SetClip1
+  * @param {Weapon} this - no description
+  * @param {number} ammo - The amount of bullets the clip should contain
+  * @returns {void}
+  **/
+  SetClip1(this: Weapon, ammo: number): void
   
   /**
   * 
@@ -21820,18 +21240,6 @@ declare interface WeaponFuncs extends Entity {
   
   /**
   * 
-  * Returns maximum secondary clip size
-  * 
-  * @name WeaponFuncs:GetMaxClip2
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Weapon/GetMaxClip2
-  * @param {Weapon} this - no description
-  * @returns {number} - Maximum secondary clip size
-  **/
-  GetMaxClip2(this: Weapon): number
-  
-  /**
-  * 
   * Returns maximum primary clip size
   * 
   * @name WeaponFuncs:GetMaxClip1
@@ -21841,6 +21249,18 @@ declare interface WeaponFuncs extends Entity {
   * @returns {number} - Maximum primary clip size
   **/
   GetMaxClip1(this: Weapon): number
+  
+  /**
+  * 
+  * Returns maximum secondary clip size
+  * 
+  * @name WeaponFuncs:GetMaxClip2
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Weapon/GetMaxClip2
+  * @param {Weapon} this - no description
+  * @returns {number} - Maximum secondary clip size
+  **/
+  GetMaxClip2(this: Weapon): number
   
   /**
   * 
@@ -21918,7 +21338,7 @@ declare interface WeaponFuncs extends Entity {
   * @param {string} arguments - Arguments for the function, separated by spaces.
   * @returns {void}
   **/
-  CallOnClient(this: Weapon, functionName: string, arguments: string): void
+  CallOnClient(this: Weapon, functionName: string, arguments?: string): void
   
   /**
   * 
@@ -21946,365 +21366,835 @@ declare interface WeaponFuncs extends Entity {
   
 }
 
-declare interface VMatrix  {
+declare interface WeaponHooks  {
   /**
   * 
-  * Translates the matrix by the given vector aka. adds the vector to the translation.
-  * Postmultiplies the matrix by a translation matrix (A = AT).
+  * Called straight after the view model has been drawn. This is called before @GamemodeHooks:PostDrawViewModel and @WeaponHooks:PostDrawViewModel.
   * 
-  * @name VMatrix:Translate
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/VMatrix/Translate
-  * @param {VMatrix} this - no description
-  * @param {Vector} translation - Vector to translate the matrix by.
+  * @name WeaponHooks:ViewModelDrawn
+  * @predicted false
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/ViewModelDrawn
+  * @param {Weapon} this - no description
+  * @param {Entity} ViewModel - Players view model
   * @returns {void}
   **/
-  Translate(this: VMatrix, translation: Vector): void
+  ViewModelDrawn(this: Weapon, ViewModel: Entity): void
   
   /**
   * 
-  * Converts the matrix to a 4x4 table. See @Matrix function function.
+  * Allows to change players field of view while player holds the weapon.
   * 
-  * @name VMatrix:ToTable
+  * @name WeaponHooks:TranslateFOV
+  * @predicted false
   * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/VMatrix/ToTable
-  * @param {VMatrix} this - no description
-  * @returns {table} - The 4x4 table.
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/TranslateFOV
+  * @note This hook must be defined shared and return same value on both to properly affect Area Portals.
+  * @param {Weapon} this - no description
+  * @param {number} fov - The current/default FOV.
+  * @returns {number} - The target FOV.
   **/
-  ToTable(this: VMatrix): table
+  TranslateFOV(this: Weapon, fov: number): number
   
   /**
   * 
-  * Sets the up direction of the matrix.
-  * ie. The third column of the matrix, excluding the w coordinate.
+  * Translate a player's Activity into a weapon's activity, depending on how you want the player to be holding the weapon.
+  * For example, ACT_MP_RUN becomes ACT_HL2MP_RUN_PISTOL.
   * 
-  * @name VMatrix:SetUp
+  * @name WeaponHooks:TranslateActivity
+  * @predicted false
   * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/VMatrix/SetUp
-  * @param {VMatrix} this - no description
-  * @param {Vector} forward - The up direction of the matrix.
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/TranslateActivity
+  * @param {Weapon} this - no description
+  * @param {number} act - The activity to translate
+  * @returns {number} - The translated activity
+  **/
+  TranslateActivity(this: Weapon, act: number): number
+  
+  /**
+  * 
+  * Called when the swep thinks.
+  * This hook won't be called during the deploy animation and when using @WeaponFuncs:DefaultReload.
+  * 
+  * @name WeaponHooks:Think
+  * @predicted true
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/Think
+  * @note Despite being a predicted hook, this hook is called clientside in single player, however it will not be recognized as a predicted hook to @Player:GetCurrentCommand.
+  * @note This hook will be called before Player movement is processed on the client, and after on the server.
+  * @bug #2855 This will not be run during deploy animations after a serverside-only deploy. This usually happens after picking up and dropping an object with +use.
+  * @param {Weapon} this - no description
   * @returns {void}
   **/
-  SetUp(this: VMatrix, forward: Vector): void
+  Think(this: Weapon): void
   
   /**
   * 
-  * Sets the absolute translation of the matrix.
+  * A convenience function to remove secondary ammo from clip.
   * 
-  * @name VMatrix:SetTranslation
+  * @name WeaponHooks:TakeSecondaryAmmo
   * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/VMatrix/SetTranslation
-  * @param {VMatrix} this - no description
-  * @param {Vector} translation - New translation.
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/TakeSecondaryAmmo
+  * @param {Weapon} this - no description
+  * @param {number} amount - How much of secondary ammo to remove
   * @returns {void}
   **/
-  SetTranslation(this: VMatrix, translation: Vector): void
+  TakeSecondaryAmmo(this: Weapon, amount: number): void
   
   /**
   * 
-  * Modifies the scale of the matrix while preserving the rotation and translation.
+  * A convenience function to remove primary ammo from clip.
   * 
-  * @name VMatrix:SetScale
+  * @name WeaponHooks:TakePrimaryAmmo
   * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/VMatrix/SetScale
-  * @param {VMatrix} this - no description
-  * @param {Vector} scale - The scale to set.
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/TakePrimaryAmmo
+  * @param {Weapon} this - no description
+  * @param {number} amount - Amount of primary ammo to remove
   * @returns {void}
   **/
-  SetScale(this: VMatrix, scale: Vector): void
+  TakePrimaryAmmo(this: Weapon, amount: number): void
   
   /**
   * 
-  * Sets the right direction of the matrix.
-  * ie. The second column of the matrix, negated, excluding the w coordinate.
+  * Should this weapon be dropped when its owner dies?
+  * This only works if the player has @Player:ShouldDropWeapon set to true.
   * 
-  * @name VMatrix:SetRight
+  * @name WeaponHooks:ShouldDropOnDie
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/ShouldDropOnDie
+  * @param {Weapon} this - no description
+  * @returns {boolean} - Return true to drop the weapon, false otherwise. Default ( if you don't return anything ) is false.
+  **/
+  ShouldDropOnDie(this: Weapon): boolean
+  
+  /**
+  * 
+  * Called to determine if the view model should be drawn or not.
+  * 
+  * @name WeaponHooks:ShouldDrawViewModel
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/ShouldDrawViewModel
+  * @param {Weapon} this - no description
+  * @returns {boolean} - Return true to draw the view model, false otherwise.
+  **/
+  ShouldDrawViewModel(this: Weapon): boolean
+  
+  /**
+  * 
+  * A convenience function to create shoot effects.
+  * 
+  * @name WeaponHooks:ShootEffects
   * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/VMatrix/SetRight
-  * @param {VMatrix} this - no description
-  * @param {Vector} forward - The right direction of the matrix.
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/ShootEffects
+  * @param {Weapon} this - no description
   * @returns {void}
   **/
-  SetRight(this: VMatrix, forward: Vector): void
+  ShootEffects(this: Weapon): void
   
   /**
   * 
-  * Sets the forward direction of the matrix.
-  * ie. The first column of the matrix, excluding the w coordinate.
+  * A convenience function to shoot bullets.
   * 
-  * @name VMatrix:SetForward
+  * @name WeaponHooks:ShootBullet
+  * @predicted false
   * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/VMatrix/SetForward
-  * @param {VMatrix} this - no description
-  * @param {Vector} forward - The forward direction of the matrix.
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/ShootBullet
+  * @param {Weapon} this - no description
+  * @param {number} damage - The damage of the bullet
+  * @param {number} num_bullets - Amount of bullets to shoot
+  * @param {number} aimcone - Spread of bullets
+  * @param {string} ammo_type - Ammo type of the bullets
+  * @param {number} force - Force of the bullets
+  * @param {number} tracer - Show a tracer on every x bullets
   * @returns {void}
   **/
-  SetForward(this: VMatrix, forward: Vector): void
+  ShootBullet(this: Weapon, damage: number, num_bullets: number, aimcone: number, ammo_type?: string, force?: number, tracer?: number): void
   
   /**
   * 
-  * Sets a specific field in the matrix.
+  * Called when the SWEP should set up its [ Data Tables](https://wiki.garrysmod.com/page/Networking%20Entities).
   * 
-  * @name VMatrix:SetField
+  * @name WeaponHooks:SetupDataTables
   * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/VMatrix/SetField
-  * @param {VMatrix} this - no description
-  * @param {number} row - Row of the field to be set, from 1 to 4
-  * @param {number} column - Column of the field to be set, from 1 to 4
-  * @param {number} value - The value to set in that field
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/SetupDataTables
+  * @param {Weapon} this - no description
   * @returns {void}
   **/
-  SetField(this: VMatrix, row: number, column: number, value: number): void
+  SetupDataTables(this: Weapon): void
   
   /**
   * 
-  * Sets the absolute rotation of the matrix.
+  * Sets the hold type of the weapon. This must be called on **both** the server and the client to work properly.
+  * **NOTE:** You should avoid calling this function and call @WeaponFuncs:SetHoldType now.
   * 
-  * @name VMatrix:SetAngles
+  * @name WeaponHooks:SetWeaponHoldType
   * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/VMatrix/SetAngles
-  * @param {VMatrix} this - no description
-  * @param {Angle} angle - New angles.
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/SetWeaponHoldType
+  * @param {Weapon} this - no description
+  * @param {string} name - Name of the hold type. You can find all default hold types [here](https://wiki.garrysmod.com/page/Hold_Types)
   * @returns {void}
   **/
-  SetAngles(this: VMatrix, angle: Angle): void
+  SetWeaponHoldType(this: Weapon, name: string): void
   
   /**
   * 
-  * Copies values from the given matrix object.
+  * Sets the weapon deploy speed. This value needs to match on client and server.
   * 
-  * @name VMatrix:Set
+  * @name WeaponHooks:SetDeploySpeed
+  * @predicted false
   * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/VMatrix/Set
-  * @param {VMatrix} this - no description
-  * @param {VMatrix} src - The matrix to copy values from.
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/SetDeploySpeed
+  * @param {Weapon} this - no description
+  * @param {number} speed - The value to set deploy speed to. Negative will slow down playback.
   * @returns {void}
   **/
-  Set(this: VMatrix, src: VMatrix): void
+  SetDeploySpeed(this: Weapon, speed: number): void
   
   /**
   * 
-  * Scales the absolute translation with the given value.
+  * Called when secondary attack button ( +attack2 ) is pressed.
+  * For issues with this hook being called rapidly on the client side, see the global function @IsFirstTimePredicted function.
   * 
-  * @name VMatrix:ScaleTranslation
+  * @name WeaponHooks:SecondaryAttack
+  * @predicted true
   * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/VMatrix/ScaleTranslation
-  * @param {VMatrix} this - no description
-  * @param {number} scale - Value to scale the translation with.
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/SecondaryAttack
+  * @param {Weapon} this - no description
   * @returns {void}
   **/
-  ScaleTranslation(this: VMatrix, scale: number): void
+  SecondaryAttack(this: Weapon): void
   
   /**
   * 
-  * Scales the matrix by the given vector.
-  * Postmultiplies the matrix by a scaling matrix (A = AS).
+  * Called every frame just before @GamemodeHooks:RenderScene.
+  * Used by the Tool Gun to render view model screens (@ToolHooks:DrawToolScreen).
   * 
-  * @name VMatrix:Scale
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/VMatrix/Scale
-  * @param {VMatrix} this - no description
-  * @param {Vector} scale - Vector to scale with matrix with.
+  * @name WeaponHooks:RenderScreen
+  * @predicted false
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/RenderScreen
+  * @note Materials rendered in this hook require $ignorez parameter to draw properly.
+  * @param {Weapon} this - no description
   * @returns {void}
   **/
-  Scale(this: VMatrix, scale: Vector): void
+  RenderScreen(this: Weapon): void
   
   /**
   * 
-  * Rotates the matrix by the given angle.
-  * Postmultiplies the matrix by a rotation matrix (A = AR).
+  * Called when the reload key ( +reload ) is pressed.
   * 
-  * @name VMatrix:Rotate
+  * @name WeaponHooks:Reload
+  * @predicted true
   * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/VMatrix/Rotate
-  * @param {VMatrix} this - no description
-  * @param {Angle} rotation - Rotation.
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/Reload
+  * @param {Weapon} this - no description
   * @returns {void}
   **/
-  Rotate(this: VMatrix, rotation: Angle): void
+  Reload(this: Weapon): void
   
   /**
   * 
-  * Returns whether the matrix is a rotation matrix or not.
-  * Technically it checks if the forward, right and up vectors are orthogonal and normalized.
+  * A convenience function that draws the weapon info box, used in @WeaponHooks:DrawWeaponSelection.
   * 
-  * @name VMatrix:IsRotationMatrix
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/VMatrix/IsRotationMatrix
-  * @param {VMatrix} this - no description
-  * @returns {boolean} - Is the matrix a rotation matrix or not
-  **/
-  IsRotationMatrix(this: VMatrix): boolean
-  
-  /**
-  * 
-  * Returns whether the matrix is equal to Identity matrix or not.
-  * 
-  * @name VMatrix:IsIdentity
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/VMatrix/IsIdentity
-  * @param {VMatrix} this - no description
-  * @returns {boolean} - Is the matrix an Identity matrix or not
-  **/
-  IsIdentity(this: VMatrix): boolean
-  
-  /**
-  * 
-  * Inverts the matrix. This function will not fail, but only works correctly on matrices that contain only translation and/or rotation.
-  * Using this function on a matrix with modified scale may return an incorrect inverted matrix.
-  * To invert a matrix that contains other modifications, see @VMatrix:Invert.
-  * 
-  * @name VMatrix:InvertTR
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/VMatrix/InvertTR
-  * @param {VMatrix} this - no description
+  * @name WeaponHooks:PrintWeaponInfo
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/PrintWeaponInfo
+  * @param {Weapon} this - no description
+  * @param {number} x - The x co-ordinate of box position
+  * @param {number} y - The y co-ordinate of box position
+  * @param {number} alpha - Alpha value for the box
   * @returns {void}
   **/
-  InvertTR(this: VMatrix): void
+  PrintWeaponInfo(this: Weapon, x: number, y: number, alpha: number): void
   
   /**
   * 
-  * Inverts the matrix.
-  * Inverting the matrix will fail if its [determinant](https://en.wikipedia.org/wiki/Determinant) is 0 or close to 0. (ie. its "scale" in any direction is 0.)
-  * If the matrix cannot be inverted, it does not get modified.
-  * See also @VMatrix:InvertTR.
+  * Called when primary attack button ( +attack ) is pressed.
+  * Since this is a [predicted](https://wiki.garrysmod.com/page/Prediction) hook, as mentioned on the bottom of the page, it has some additional behaviour to it. This is the same with all [predicted SWEP hooks](https://wiki.garrysmod.com/page/Category:Predicted_Hooks).
+  * When in singleplayer, this function is only called in the server realm. When in multiplayer, the hook will be called on both the server and the client in order to allow for [prediction](https://wiki.garrysmod.com/page/Prediction).
+  * You can force the hook to always be called on client like this:
+  * ```
+  * if ( game.SinglePlayer() ) then self:CallOnClient( "PrimaryAttack" ) end
+  * ```
+  * Note that due to prediction, in multiplayer SWEP:PrimaryAttack is called multiple times per one "shot" with the gun. To work around that, use @IsFirstTimePredicted function.
   * 
-  * @name VMatrix:Invert
+  * @name WeaponHooks:PrimaryAttack
+  * @predicted true
   * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/VMatrix/Invert
-  * @param {VMatrix} this - no description
-  * @returns {boolean} - Whether the matrix was inverted or not
-  **/
-  Invert(this: VMatrix): boolean
-  
-  /**
-  * 
-  * Initializes the matrix as Identity matrix.
-  * 
-  * @name VMatrix:Identity
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/VMatrix/Identity
-  * @param {VMatrix} this - no description
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/PrimaryAttack
+  * @param {Weapon} this - no description
   * @returns {void}
   **/
-  Identity(this: VMatrix): void
+  PrimaryAttack(this: Weapon): void
   
   /**
   * 
-  * Gets the up direction of the matrix.
-  * ie. The third column of the matrix, excluding the w coordinate.
+  * Allows you to modify viewmodel while the weapon in use before it is drawn. This hook only works if you haven't overridden @GamemodeHooks:PreDrawViewModel.
   * 
-  * @name VMatrix:GetUp
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/VMatrix/GetUp
-  * @param {VMatrix} this - no description
-  * @returns {Vector} - The up direction of the matrix.
+  * @name WeaponHooks:PreDrawViewModel
+  * @predicted false
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/PreDrawViewModel
+  * @param {Weapon} this - no description
+  * @param {Entity} vm - This is the view model entity before it is drawn.
+  * @param {Weapon} weapon - This is the weapon that is from the view model.
+  * @param {Player} ply - The the owner of the view model.
+  * @returns {void}
   **/
-  GetUp(this: VMatrix): Vector
+  PreDrawViewModel(this: Weapon, vm: Entity, weapon: Weapon, ply: Player): void
   
   /**
   * 
-  * Returns the absolute translation of the matrix.
+  * Called after the view model has been drawn while the weapon in use. This hook is called from the default implementation of @GamemodeHooks:PostDrawViewModel, and as such, will not occur if it has been overridden.
+  * @WeaponHooks:ViewModelDrawn is an alternative hook which is always called before @GamemodeHooks:PostDrawViewModel.
   * 
-  * @name VMatrix:GetTranslation
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/VMatrix/GetTranslation
-  * @param {VMatrix} this - no description
-  * @returns {Vector} - Absolute translation of the matrix
+  * @name WeaponHooks:PostDrawViewModel
+  * @predicted false
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/PostDrawViewModel
+  * @param {Weapon} this - no description
+  * @param {Entity} vm - This is the view model entity after it is drawn
+  * @param {Weapon} weapon - This is the weapon that is from the view model (same as self)
+  * @param {Player} ply - The owner of the view model
+  * @returns {void}
   **/
-  GetTranslation(this: VMatrix): Vector
+  PostDrawViewModel(this: Weapon, vm: Entity, weapon: Weapon, ply: Player): void
   
   /**
   * 
-  * Returns the absolute scale of the matrix.
+  * Called when weapon is dropped or picked up by a new player.
+  * See also @WeaponHooks:OnDrop.
   * 
-  * @name VMatrix:GetScale
+  * @name WeaponHooks:OwnerChanged
+  * @predicted false
   * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/VMatrix/GetScale
-  * @param {VMatrix} this - no description
-  * @returns {Vector} - Absolute scale of the matrix
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/OwnerChanged
+  * @param {Weapon} this - no description
+  * @returns {void}
   **/
-  GetScale(this: VMatrix): Vector
+  OwnerChanged(this: Weapon): void
   
   /**
   * 
-  * Gets the right direction of the matrix.
-  * ie. The second column of the matrix, negated, excluding the w coordinate.
+  * Called when the weapon entity is reloaded from a Source Engine save (not the Sandbox saves or dupes) or on a changelevel (for example Half-Life 2 campaign level transitions).
+  * For the @duplicator library callbacks, see @EntityHooks:OnDuplicated.
+  * See also @saverestore library for relevant functions.
   * 
-  * @name VMatrix:GetRight
+  * @name WeaponHooks:OnRestore
+  * @predicted false
   * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/VMatrix/GetRight
-  * @param {VMatrix} this - no description
-  * @returns {Vector} - The right direction of the matrix.
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/OnRestore
+  * @param {Weapon} this - no description
+  * @returns {void}
   **/
-  GetRight(this: VMatrix): Vector
+  OnRestore(this: Weapon): void
   
   /**
   * 
-  * Returns an inverted matrix without modifying the original matrix. This function will not fail, but only works correctly on matrices that contain only translation and/or rotation.
-  * Using this function on a matrix with modified scale may return an incorrect inverted matrix.
-  * To get the inverse of a matrix that contains other modifications, see @VMatrix:GetInverse.
+  * Called when the swep is about to be removed.
   * 
-  * @name VMatrix:GetInverseTR
+  * @name WeaponHooks:OnRemove
   * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/VMatrix/GetInverseTR
-  * @param {VMatrix} this - no description
-  * @returns {VMatrix} - The inverted matrix.
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/OnRemove
+  * @param {Weapon} this - no description
+  * @returns {void}
   **/
-  GetInverseTR(this: VMatrix): VMatrix
+  OnRemove(this: Weapon): void
   
   /**
   * 
-  * Returns an inverted matrix without modifying the original matrix.
-  * Inverting the matrix will fail if its [determinant](https://en.wikipedia.org/wiki/Determinant) is 0 or close to 0. (ie. its "scale" in any direction is 0.)
-  * See also @VMatrix:GetInverseTR.
+  * Called whenever the weapons Lua script is reloaded.
   * 
-  * @name VMatrix:GetInverse
+  * @name WeaponHooks:OnReloaded
   * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/VMatrix/GetInverse
-  * @param {VMatrix} this - no description
-  * @returns {VMatrix} - The inverted matrix if possible, nil otherwise
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/OnReloaded
+  * @param {Weapon} this - no description
+  * @returns {void}
   **/
-  GetInverse(this: VMatrix): VMatrix
+  OnReloaded(this: Weapon): void
   
   /**
   * 
-  * Gets the forward direction of the matrix.
-  * ie. The first column of the matrix, excluding the w coordinate.
+  * Called when weapon is dropped by @Player:DropWeapon.
+  * See also @WeaponHooks:OwnerChanged.
   * 
-  * @name VMatrix:GetForward
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/VMatrix/GetForward
-  * @param {VMatrix} this - no description
-  * @returns {Vector} - The forward direction of the matrix.
+  * @name WeaponHooks:OnDrop
+  * @predicted false
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/OnDrop
+  * @param {Weapon} this - no description
+  * @returns {void}
   **/
-  GetForward(this: VMatrix): Vector
+  OnDrop(this: Weapon): void
   
   /**
   * 
-  * Returns a specific field in the matrix.
+  * Called when the engine sets a value for this scripted weapon.
+  * See @GamemodeHooks:EntityKeyValue for a hook that works for all entities.
+  * See @EntityHooks:KeyValue for an [SENT](https://wiki.garrysmod.com/page/Category:WEAPON%20Hooks) hook that works for scripted entities.
   * 
-  * @name VMatrix:GetField
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/VMatrix/GetField
-  * @param {VMatrix} this - no description
-  * @param {number} row - Row of the field whose value is to be retrieved, from 1 to 4
-  * @param {number} column - Column of the field whose value is to be retrieved, from 1 to 4
-  * @returns {number} - The value of the specified field
+  * @name WeaponHooks:KeyValue
+  * @predicted false
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/KeyValue
+  * @param {Weapon} this - no description
+  * @param {string} key - The key that was affected.
+  * @param {string} value - The new value.
+  * @returns {boolean} - Return true to suppress this KeyValue or return false or nothing to apply this key value.
   **/
-  GetField(this: VMatrix, row: number, column: number): number
+  KeyValue(this: Weapon, key: string, value: string): boolean
   
   /**
   * 
-  * Returns the absolute rotation of the matrix.
+  * Called when the weapon entity is created.
   * 
-  * @name VMatrix:GetAngles
+  * @name WeaponHooks:Initialize
+  * @predicted false
   * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/VMatrix/GetAngles
-  * @param {VMatrix} this - no description
-  * @returns {Angle} - Absolute rotation of the matrix
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/Initialize
+  * @note @EntityFuncs:GetOwner will return NULL at this point because the weapon is not equpped by a player or NPC yet. Use @WeaponHooks:Equip or @WeaponHooks:Deploy if you need the owner to be valid.
+  * @bug #2732 This is sometimes not called clientside. You can work around this by setting a variable in Initialize and check if it exists in @WeaponHooks:Think. See the example below.
+  * @bug #3015 This is not called serverside after a quicksave.
+  * @param {Weapon} this - no description
+  * @returns {void}
   **/
-  GetAngles(this: VMatrix): Angle
+  Initialize(this: Weapon): void
+  
+  /**
+  * 
+  * Called when weapon tries to holster.
+  * 
+  * @name WeaponHooks:Holster
+  * @predicted true
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/Holster
+  * @bug #2854 This is called twice for every holster clientside, one in [prediction](https://wiki.garrysmod.com/page/Prediction) and one not.
+  * @bug #3133 Before @WeaponHooks:OnRemove is called, this function is only called serverside.
+  * @param {Weapon} this - no description
+  * @param {Entity} weapon - The weapon we are trying switch to.
+  * @returns {boolean} - Return true to allow weapon to holster
+  **/
+  Holster(this: Weapon, weapon: Entity): boolean
+  
+  /**
+  * 
+  * This hook determines which parts of the HUD to draw.
+  * 
+  * @name WeaponHooks:HUDShouldDraw
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/HUDShouldDraw
+  * @param {Weapon} this - no description
+  * @param {string} element - The HUD element in question
+  * @returns {boolean} - Return false to hide this HUD element
+  **/
+  HUDShouldDraw(this: Weapon, element: string): boolean
+  
+  /**
+  * 
+  * This hook allows you to adjust view model position and angles.
+  * 
+  * @name WeaponHooks:GetViewModelPosition
+  * @predicted false
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/GetViewModelPosition
+  * @param {Weapon} this - no description
+  * @param {Vector} EyePos - Current position
+  * @param {Angle} EyeAng - Current angle
+  * @returns {Vector} - New position
+  * @returns {Angle} - New angle
+  * @tupleReturn
+  **/
+  GetViewModelPosition(this: Weapon, EyePos: Vector, EyeAng: Angle): [Vector, Angle]
+  
+  /**
+  * 
+  * Allows you to override where the tracer effect comes from. ( Visual bullets )
+  * 
+  * @name WeaponHooks:GetTracerOrigin
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/GetTracerOrigin
+  * @param {Weapon} this - no description
+  * @returns {Vector} - The new position to start tracer effect from
+  **/
+  GetTracerOrigin(this: Weapon): Vector
+  
+  /**
+  * 
+  * Called when the weapon is used by NPCs to tell the NPC how to use this weapon. Controls amount of time the NPC can rest (not shoot) between bursts.
+  * 
+  * @name WeaponHooks:GetNPCRestTimes
+  * @predicted false
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/GetNPCRestTimes
+  * @param {Weapon} this - no description
+  * @returns {number} - Minimum amount of time the NPC can rest (not shoot) between bursts in seconds. Default is 0.3 seconds.
+  * @returns {number} - Maximum amount of time the NPC can rest (not shoot) between bursts in seconds. Default is 0.66 seconds.
+  * @tupleReturn
+  **/
+  GetNPCRestTimes(this: Weapon): [number, number]
+  
+  /**
+  * 
+  * Called when the weapon is used by NPCs to tell the NPC how to use this weapon. Controls how long the NPC can or should shoot continuously.
+  * 
+  * @name WeaponHooks:GetNPCBurstSettings
+  * @predicted false
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/GetNPCBurstSettings
+  * @param {Weapon} this - no description
+  * @returns {number} - Minimum amount of bullets per burst. Default is 1.
+  * @returns {number} - Maximum amount of bullets per burst. Default is 1.
+  * @returns {number} - Delay between each shot, aka firerate. Default is 1.
+  * @tupleReturn
+  **/
+  GetNPCBurstSettings(this: Weapon): [number, number, number]
+  
+  /**
+  * 
+  * Called when the weapon is used by NPCs to determine how accurate the bullets fired should be.
+  * The inaccuracy is simulated by changing the @NPC:GetAimVector based on the value returned from this hook.
+  * 
+  * @name WeaponHooks:GetNPCBulletSpread
+  * @predicted false
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/GetNPCBulletSpread
+  * @param {Weapon} this - no description
+  * @param {WEAPON_PROFICIENCY} proficiency - How proficient the NPC is with this gun. See @WEAPON_PROFICIENCY enum
+  * @returns {number} - An amount of degrees the bullets should deviate from the NPC's @NPC:GetAimVector. Default is 15.
+  **/
+  GetNPCBulletSpread(this: Weapon, proficiency: WEAPON_PROFICIENCY): number
+  
+  /**
+  * 
+  * This hook allows you to freeze players screen.
+  * 
+  * @name WeaponHooks:FreezeMovement
+  * @predicted false
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/FreezeMovement
+  * @note Player will still be able to move or shoot
+  * @param {Weapon} this - no description
+  * @returns {boolean} - Return true to freeze moving the view
+  **/
+  FreezeMovement(this: Weapon): boolean
+  
+  /**
+  * 
+  * This hook is for NPCs, you return what they should try to do with it.
+  * 
+  * @name WeaponHooks:GetCapabilities
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/GetCapabilities
+  * @param {Weapon} this - no description
+  * @returns {CAP} - A number defining what NPC should do with the weapon. Use the @CAP enum.
+  **/
+  GetCapabilities(this: Weapon): CAP
+  
+  /**
+  * 
+  * Called before firing animation events, such as muzzle flashes or shell ejections.
+  * This will only be called serverside for 3000-range events, and clientside for 5000-range  and other events.
+  * 
+  * @name WeaponHooks:FireAnimationEvent
+  * @predicted false
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/FireAnimationEvent
+  * @param {Weapon} this - no description
+  * @param {Vector} pos - Position of the effect.
+  * @param {Angle} ang - Angle of the effect.
+  * @param {number} event - The event ID of happened even. See [this page](http://developer.valvesoftware.com/wiki/Animation_Events).
+  * @param {string} options - Name or options of the event.
+  * @returns {boolean} - Return true to disable the effect.
+  **/
+  FireAnimationEvent(this: Weapon, pos: Vector, ang: Angle, event: number, options: string): boolean
+  
+  /**
+  * 
+  * The player has picked up the weapon and has taken the ammo from it.
+  * The weapon will be removed immidiately after this call.
+  * 
+  * @name WeaponHooks:EquipAmmo
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/EquipAmmo
+  * @param {Weapon} this - no description
+  * @param {Player} ply - The player who picked up the weapon
+  * @returns {void}
+  **/
+  EquipAmmo(this: Weapon, ply: Player): void
+  
+  /**
+  * 
+  * Called when a player or NPC has picked the weapon up.
+  * 
+  * @name WeaponHooks:Equip
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/Equip
+  * @param {Weapon} this - no description
+  * @param {Player | NPC} NewOwner - The one who picked the weapon up. Can be @Player type or @NPC type.
+  * @returns {void}
+  **/
+  Equip(this: Weapon, NewOwner: Player | NPC): void
+  
+  /**
+  * 
+  * Called when we are about to draw the translucent world model.
+  * 
+  * @name WeaponHooks:DrawWorldModelTranslucent
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/DrawWorldModelTranslucent
+  * @param {Weapon} this - no description
+  * @returns {void}
+  **/
+  DrawWorldModelTranslucent(this: Weapon): void
+  
+  /**
+  * 
+  * Called when we are about to draw the world model.
+  * 
+  * @name WeaponHooks:DrawWorldModel
+  * @predicted false
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/DrawWorldModel
+  * @param {Weapon} this - no description
+  * @returns {void}
+  **/
+  DrawWorldModel(this: Weapon): void
+  
+  /**
+  * 
+  * This hook draws the selection icon in the weapon selection menu.
+  * 
+  * @name WeaponHooks:DrawWeaponSelection
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/DrawWeaponSelection
+  * @param {Weapon} this - no description
+  * @param {number} x - X coordinate of the selection panel
+  * @param {number} y - Y coordinate of the selection panel
+  * @param {number} width - Width of the selection panel
+  * @param {number} height - Height of the selection panel
+  * @param {number} alpha - Alpha value of the selection panel
+  * @returns {void}
+  **/
+  DrawWeaponSelection(this: Weapon, x: number, y: number, width: number, height: number, alpha: number): void
+  
+  /**
+  * 
+  * This hook allows you to draw on screen while this weapon is in use. This hook is called **before** @WeaponHooks:DrawHUD and is equivalent of @GamemodeHooks:HUDPaintBackground.
+  * 
+  * @name WeaponHooks:DrawHUDBackground
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/DrawHUDBackground
+  * @param {Weapon} this - no description
+  * @returns {void}
+  **/
+  DrawHUDBackground(this: Weapon): void
+  
+  /**
+  * 
+  * This hook allows you to draw on screen while this weapon is in use.
+  * If you want to draw a custom crosshair, consider using @WeaponHooks:DoDrawCrosshair instead.
+  * 
+  * @name WeaponHooks:DrawHUD
+  * @predicted false
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/DrawHUD
+  * @param {Weapon} this - no description
+  * @returns {void}
+  **/
+  DrawHUD(this: Weapon): void
+  
+  /**
+  * 
+  * Called so the weapon can override the impact effects it makes.
+  * 
+  * @name WeaponHooks:DoImpactEffect
+  * @predicted false
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/DoImpactEffect
+  * @param {Weapon} this - no description
+  * @param {TraceResult} tr - A @TraceResult structure from player's eyes to the impact point
+  * @param {DMG} damageType - The damage type of bullet. See @DMG enum
+  * @returns {boolean} - Return true to not do the default thing - which is to call UTIL_ImpactTrace in C++
+  **/
+  DoImpactEffect(this: Weapon, tr: TraceResult, damageType: DMG): boolean
+  
+  /**
+  * 
+  * Called when the crosshair is about to get drawn, and allows you to override it.
+  * 
+  * @name WeaponHooks:DoDrawCrosshair
+  * @predicted false
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/DoDrawCrosshair
+  * @note This function will not be called if **SWEP.DrawCrosshair** set to false.
+  * @note This function will not be called if player was affected by @Player:CrosshairDisable.
+  * @bug #2117 The arguments passed to this function are not affected by **SWEP.AccurateCrosshair**.
+  * @param {Weapon} this - no description
+  * @param {number} x - X coordinate of the crosshair.
+  * @param {number} y - Y coordinate of the crosshair.
+  * @returns {boolean} - Return true to override the default crosshair.
+  **/
+  DoDrawCrosshair(this: Weapon, x: number, y: number): boolean
+  
+  /**
+  * 
+  * Allows you to use any numbers you want for the ammo display on the HUD.
+  * Can be useful for weapons that don't use standard ammo.
+  * 
+  * @name WeaponHooks:CustomAmmoDisplay
+  * @predicted false
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/CustomAmmoDisplay
+  * @param {Weapon} this - no description
+  * @returns {IWeaponHooksCustomAmmoDisplayReturn} - The new ammo display settings. A table with 4 possible keys:
+  * There is **no** SecondaryClip!
+  **/
+  CustomAmmoDisplay(this: Weapon): IWeaponHooksCustomAmmoDisplayReturn
+  
+  /**
+  * 
+  * Called when player has just switched to this weapon.
+  * 
+  * @name WeaponHooks:Deploy
+  * @predicted true
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/Deploy
+  * @note Due to this hook being predicted, it is not called clientside in singleplayer at all, and in multiplayer it will not be called clientside if the weapon is switched with @Player:SelectWeapon or the "use" console command, however it will be called clientside with the default weapon selection menu and when using @CUserCmd:SelectWeapon
+  * @param {Weapon} this - no description
+  * @returns {boolean} - Return true to allow switching away from this weapon using lastinv command
+  **/
+  Deploy(this: Weapon): boolean
+  
+  /**
+  * 
+  * Helper function for checking for no ammo.
+  * 
+  * @name WeaponHooks:CanSecondaryAttack
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/CanSecondaryAttack
+  * @param {Weapon} this - no description
+  * @returns {boolean} - Can use secondary attack
+  **/
+  CanSecondaryAttack(this: Weapon): boolean
+  
+  /**
+  * 
+  * Helper function for checking for no ammo.
+  * 
+  * @name WeaponHooks:CanPrimaryAttack
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/CanPrimaryAttack
+  * @param {Weapon} this - no description
+  * @returns {boolean} - Can use primary attack
+  **/
+  CanPrimaryAttack(this: Weapon): boolean
+  
+  /**
+  * 
+  * Called when a Citizen NPC is looking around to a (better) weapon to pickup.
+  * 
+  * @name WeaponHooks:CanBePickedUpByNPCs
+  * @predicted false
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/CanBePickedUpByNPCs
+  * @param {Weapon} this - no description
+  * @returns {boolean} - Return true to allow this weapon to be picked up by NPCs.
+  **/
+  CanBePickedUpByNPCs(this: Weapon): boolean
+  
+  /**
+  * 
+  * Allows overriding the position and angle of the viewmodel. This hook only works if you haven't overridden @GamemodeHooks:CalcViewModelView.
+  * 
+  * @name WeaponHooks:CalcViewModelView
+  * @predicted false
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/CalcViewModelView
+  * @param {Weapon} this - no description
+  * @param {Entity} ViewModel - The viewmodel entity
+  * @param {Vector} OldEyePos - Original position (before viewmodel bobbing and swaying)
+  * @param {Angle} OldEyeAng - Original angle (before viewmodel bobbing and swaying)
+  * @param {Vector} EyePos - Current position
+  * @param {Angle} EyeAng - Current angle
+  * @returns {Vector} - New position
+  * @returns {Angle} - New angle
+  * @tupleReturn
+  **/
+  CalcViewModelView(this: Weapon, ViewModel: Entity, OldEyePos: Vector, OldEyeAng: Angle, EyePos: Vector, EyeAng: Angle): [Vector, Angle]
+  
+  /**
+  * 
+  * Allows you to adjust player view while this weapon in use.
+  * This hook is called from the default implementation of @GamemodeHooks:CalcView ([](https://github.com/garrynewman/garrysmod/blob/master/garrysmod/gamemodes/base/gamemode/cl_init.lua#L376-L383)). Therefore, it will not be called if any other hook added to CalcView returns any value, or if the current gamemode overrides the default hook and does not call the SWEP function.
+  * 
+  * @name WeaponHooks:CalcView
+  * @predicted false
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/CalcView
+  * @bug  SWEPs that define this function will not work with the [taunt camera.](https://wiki.garrysmod.com/page/Global/TauntCamera)
+  * @param {Weapon} this - no description
+  * @param {Player} ply - The owner of weapon
+  * @param {Vector} pos - Current position of players view
+  * @param {Angle} ang - Current angles of players view
+  * @param {number} fov - Current FOV of players view
+  * @returns {Vector} - New position of players view
+  * @returns {Angle} - New angle of players view
+  * @returns {number} - New FOV of players view
+  * @tupleReturn
+  **/
+  CalcView(this: Weapon, ply: Player, pos: Vector, ang: Angle, fov: number): [Vector, Angle, number]
+  
+  /**
+  * 
+  * Returns how much of secondary ammo the player has.
+  * 
+  * @name WeaponHooks:Ammo2
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/Ammo2
+  * @param {Weapon} this - no description
+  * @returns {number} - The amount of secondary ammo player has
+  **/
+  Ammo2(this: Weapon): number
+  
+  /**
+  * 
+  * Allows you to adjust the mouse sensitivity. This hook only works if you haven't overridden @GamemodeHooks:AdjustMouseSensitivity.
+  * 
+  * @name WeaponHooks:AdjustMouseSensitivity
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/AdjustMouseSensitivity
+  * @param {Weapon} this - no description
+  * @returns {number} - Sensitivity scale
+  **/
+  AdjustMouseSensitivity(this: Weapon): number
+  
+  /**
+  * 
+  * Returns how much of primary ammo the player has.
+  * 
+  * @name WeaponHooks:Ammo1
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/Ammo1
+  * @param {Weapon} this - no description
+  * @returns {number} - The amount of primary ammo player has
+  **/
+  Ammo1(this: Weapon): number
+  
+  /**
+  * 
+  * Called when another entity fires an event to this entity.
+  * 
+  * @name WeaponHooks:AcceptInput
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/WEAPON/AcceptInput
+  * @param {Weapon} this - no description
+  * @param {string} inputName - The name of the input that was triggered.
+  * @param {Entity} activator - The initial cause for the input getting triggered.
+  * @param {Entity} called - The entity that directly trigger the input.
+  * @param {string} data - The data passed.
+  * @returns {boolean} - Should we suppress the default action for this input?
+  **/
+  AcceptInput(this: Weapon, inputName: string, activator: Entity, called: Entity, data: string): boolean
   
 }
 
@@ -22857,18 +22747,6 @@ declare interface Vehicle extends Entity {
   
   /**
   * 
-  * Gets the driver of the vehicle, returns NULL if no driver is present.
-  * 
-  * @name Vehicle:GetDriver
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/Vehicle/GetDriver
-  * @param {Vehicle} this - no description
-  * @returns {Entity} - The driver of the vehicle
-  **/
-  GetDriver(this: Vehicle): Entity
-  
-  /**
-  * 
   * Returns the current speed of the vehicle in Half-Life Hammer Units (in/s). Same as @EntityFuncs:GetVelocity + @VectorFuncs:Length.
   * 
   * @name Vehicle:GetHLSpeed
@@ -22878,6 +22756,18 @@ declare interface Vehicle extends Entity {
   * @returns {number} - The speed of the vehicle
   **/
   GetHLSpeed(this: Vehicle): number
+  
+  /**
+  * 
+  * Gets the driver of the vehicle, returns NULL if no driver is present.
+  * 
+  * @name Vehicle:GetDriver
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/Vehicle/GetDriver
+  * @param {Vehicle} this - no description
+  * @returns {Entity} - The driver of the vehicle
+  **/
+  GetDriver(this: Vehicle): Entity
   
   /**
   * 
@@ -22908,6 +22798,19 @@ declare interface Vehicle extends Entity {
   
   /**
   * 
+  * Sets whether the engine is enabled or disabled, i.e. can be started or not.
+  * 
+  * @name Vehicle:EnableEngine
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/Vehicle/EnableEngine
+  * @param {Vehicle} this - no description
+  * @param {boolean} enable - Enable or disable the engine
+  * @returns {void}
+  **/
+  EnableEngine(this: Vehicle, enable: boolean): void
+  
+  /**
+  * 
   * Tries to find an Exit Point for leaving vehicle, if one is unobstructed in the direction given.
   * 
   * @name Vehicle:CheckExitPoint
@@ -22919,19 +22822,6 @@ declare interface Vehicle extends Entity {
   * @returns {Vector} - Returns the vector for exit position or nil if cannot exit that way.
   **/
   CheckExitPoint(this: Vehicle, yaw: number, distance: number): Vector
-  
-  /**
-  * 
-  * Sets whether the engine is enabled or disabled, i.e. can be started or not.
-  * 
-  * @name Vehicle:EnableEngine
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/Vehicle/EnableEngine
-  * @param {Vehicle} this - no description
-  * @param {boolean} enable - Enable or disable the engine
-  * @returns {void}
-  **/
-  EnableEngine(this: Vehicle, enable: boolean): void
   
   /**
   * 
@@ -22950,6 +22840,20 @@ declare interface Vehicle extends Entity {
 declare interface VectorFuncs  {
   /**
   * 
+  * Returns whenever the given vector is in a box created by the 2 other vectors.
+  * 
+  * @name VectorFuncs:WithinAABox
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Vector/WithinAABox
+  * @param {Vector} this - no description
+  * @param {Vector} boxStart - The first vector.
+  * @param {Vector} boxEnd - The second vector.
+  * @returns {boolean} - Is the vector in the box or not
+  **/
+  WithinAABox(this: Vector, boxStart: Vector, boxEnd: Vector): boolean
+  
+  /**
+  * 
   * Sets x, y and z to 0.
   * 
   * @name VectorFuncs:Zero
@@ -22962,17 +22866,30 @@ declare interface VectorFuncs  {
   
   /**
   * 
-  * Returns whenever the given vector is in a box created by the 2 other vectors.
+  * Returns the x, y, and z of the vector.
   * 
-  * @name VectorFuncs:WithinAABox
+  * @name VectorFuncs:Unpack
   * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Vector/WithinAABox
+  * @wiki https://wiki.garrysmod.com/page/Vector/Unpack
   * @param {Vector} this - no description
-  * @param {Vector} boxStart - The first vector.
-  * @param {Vector} boxEnd - The second vector.
-  * @returns {boolean} - Is the vector in the box or not
+  * @returns {number} - x or Vector[1].
+  * @returns {number} - y or Vector[2].
+  * @returns {number} - z or Vector[3].
+  * @tupleReturn
   **/
-  WithinAABox(this: Vector, boxStart: Vector, boxEnd: Vector): boolean
+  Unpack(this: Vector): [number, number, number]
+  
+  /**
+  * 
+  * Returns the vector as a table with three elements.
+  * 
+  * @name VectorFuncs:ToTable
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Vector/ToTable
+  * @param {Vector} this - no description
+  * @returns {table} - The table with elements 1 = x, 2 = y, 3 = z.
+  **/
+  ToTable(this: Vector): table
   
   /**
   * 
@@ -23017,6 +22934,21 @@ declare interface VectorFuncs  {
   * @returns {void}
   **/
   Sub(this: Vector, vector: Vector): void
+  
+  /**
+  * 
+  * Sets the x, y, and z of the vector.
+  * 
+  * @name VectorFuncs:SetUnpacked
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Vector/SetUnpacked
+  * @param {Vector} this - no description
+  * @param {number} x - The x component
+  * @param {number} y - The y component
+  * @param {number} z - The z component
+  * @returns {void}
+  **/
+  SetUnpacked(this: Vector, x: number, y: number, z: number): void
   
   /**
   * 
@@ -23214,19 +23146,6 @@ declare interface VectorFuncs  {
   
   /**
   * 
-  * Returns the squared distance of 2 vectors, this is faster than @VectorFuncs:Distance as calculating the square root is an expensive process.
-  * 
-  * @name VectorFuncs:DistToSqr
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Vector/DistToSqr
-  * @param {Vector} this - no description
-  * @param {Vector} otherVec - The vector to calculate the distance to.
-  * @returns {number} - Squared distance to the vector
-  **/
-  DistToSqr(this: Vector, otherVec: Vector): number
-  
-  /**
-  * 
   * Returns the pythagorean distance between the vector and the other vector.
   * 
   * @name VectorFuncs:Distance
@@ -23238,6 +23157,19 @@ declare interface VectorFuncs  {
   * @returns {number} - Distance between the vectors.
   **/
   Distance(this: Vector, otherVector: Vector): number
+  
+  /**
+  * 
+  * Returns the squared distance of 2 vectors, this is faster than @VectorFuncs:Distance as calculating the square root is an expensive process.
+  * 
+  * @name VectorFuncs:DistToSqr
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Vector/DistToSqr
+  * @param {Vector} this - no description
+  * @param {Vector} otherVec - The vector to calculate the distance to.
+  * @returns {number} - Squared distance to the vector
+  **/
+  DistToSqr(this: Vector, otherVec: Vector): number
   
   /**
   * 
@@ -23291,6 +23223,449 @@ declare interface VectorFuncs  {
   * @returns {void}
   **/
   Add(this: Vector, vector: Vector): void
+  
+}
+
+declare interface VMatrix  {
+  /**
+  * 
+  * Sets all components of the matrix to 0, also known as a [null matrix](https://en.wikipedia.org/wiki/Zero_matrix).
+  * This function is more efficient than setting each element manually.
+  * 
+  * @name VMatrix:Zero
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/VMatrix/Zero
+  * @param {VMatrix} this - no description
+  * @returns {void}
+  **/
+  Zero(this: VMatrix): void
+  
+  /**
+  * 
+  * Translates the matrix by the given vector aka. adds the vector to the translation.
+  * Postmultiplies the matrix by a translation matrix (A = AT).
+  * 
+  * @name VMatrix:Translate
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/VMatrix/Translate
+  * @param {VMatrix} this - no description
+  * @param {Vector} translation - Vector to translate the matrix by.
+  * @returns {void}
+  **/
+  Translate(this: VMatrix, translation: Vector): void
+  
+  /**
+  * 
+  * Returns each component of the matrix, expanding rows before columns.
+  * 
+  * @name VMatrix:Unpack
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/VMatrix/Unpack
+  * @param {VMatrix} this - no description
+  * @returns {number} - @VMatrix:GetField(1, 1)
+  * @returns {number} - @VMatrix:GetField(1, 2)
+  * @returns {number} - @VMatrix:GetField(1, 3)
+  * @returns {number} - @VMatrix:GetField(1, 4)
+  * @returns {number} - @VMatrix:GetField(2, 1)
+  * @returns {number} - @VMatrix:GetField(2, 2)
+  * @returns {number} - @VMatrix:GetField(2, 3)
+  * @returns {number} - @VMatrix:GetField(2, 4)
+  * @returns {number} - @VMatrix:GetField(3, 1)
+  * @returns {number} - @VMatrix:GetField(3, 2)
+  * @returns {number} - @VMatrix:GetField(3, 3)
+  * @returns {number} - @VMatrix:GetField(3, 4)
+  * @returns {number} - @VMatrix:GetField(4, 1)
+  * @returns {number} - @VMatrix:GetField(4, 2)
+  * @returns {number} - @VMatrix:GetField(4, 3)
+  * @returns {number} - @VMatrix:GetField(4, 4)
+  * @tupleReturn
+  **/
+  Unpack(this: VMatrix): [number, number, number, number, number, number, number, number, number, number, number, number, number, number, number, number]
+  
+  /**
+  * 
+  * Converts the matrix to a 4x4 table. See @Matrix function function.
+  * 
+  * @name VMatrix:ToTable
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/VMatrix/ToTable
+  * @param {VMatrix} this - no description
+  * @returns {table} - The 4x4 table.
+  **/
+  ToTable(this: VMatrix): table
+  
+  /**
+  * 
+  * Sets the up direction of the matrix.
+  * ie. The third column of the matrix, excluding the w coordinate.
+  * 
+  * @name VMatrix:SetUp
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/VMatrix/SetUp
+  * @param {VMatrix} this - no description
+  * @param {Vector} forward - The up direction of the matrix.
+  * @returns {void}
+  **/
+  SetUp(this: VMatrix, forward: Vector): void
+  
+  /**
+  * 
+  * Sets each component of the matrix.
+  * 
+  * @name VMatrix:SetUnpacked
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/VMatrix/SetUnpacked
+  * @param {VMatrix} this - no description
+  * @param {number} e11 - no description
+  * @param {number} e12 - no description
+  * @param {number} e13 - no description
+  * @param {number} e14 - no description
+  * @param {number} e21 - no description
+  * @param {number} e22 - no description
+  * @param {number} e23 - no description
+  * @param {number} e24 - no description
+  * @param {number} e31 - no description
+  * @param {number} e32 - no description
+  * @param {number} e33 - no description
+  * @param {number} e34 - no description
+  * @param {number} e41 - no description
+  * @param {number} e42 - no description
+  * @param {number} e43 - no description
+  * @param {number} e44 - no description
+  * @returns {void}
+  **/
+  SetUnpacked(this: VMatrix, e11: number, e12: number, e13: number, e14: number, e21: number, e22: number, e23: number, e24: number, e31: number, e32: number, e33: number, e34: number, e41: number, e42: number, e43: number, e44: number): void
+  
+  /**
+  * 
+  * Sets the absolute translation of the matrix.
+  * 
+  * @name VMatrix:SetTranslation
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/VMatrix/SetTranslation
+  * @param {VMatrix} this - no description
+  * @param {Vector} translation - New translation.
+  * @returns {void}
+  **/
+  SetTranslation(this: VMatrix, translation: Vector): void
+  
+  /**
+  * 
+  * Modifies the scale of the matrix while preserving the rotation and translation.
+  * 
+  * @name VMatrix:SetScale
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/VMatrix/SetScale
+  * @param {VMatrix} this - no description
+  * @param {Vector} scale - The scale to set.
+  * @returns {void}
+  **/
+  SetScale(this: VMatrix, scale: Vector): void
+  
+  /**
+  * 
+  * Sets the forward direction of the matrix.
+  * ie. The first column of the matrix, excluding the w coordinate.
+  * 
+  * @name VMatrix:SetForward
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/VMatrix/SetForward
+  * @param {VMatrix} this - no description
+  * @param {Vector} forward - The forward direction of the matrix.
+  * @returns {void}
+  **/
+  SetForward(this: VMatrix, forward: Vector): void
+  
+  /**
+  * 
+  * Sets the right direction of the matrix.
+  * ie. The second column of the matrix, negated, excluding the w coordinate.
+  * 
+  * @name VMatrix:SetRight
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/VMatrix/SetRight
+  * @param {VMatrix} this - no description
+  * @param {Vector} forward - The right direction of the matrix.
+  * @returns {void}
+  **/
+  SetRight(this: VMatrix, forward: Vector): void
+  
+  /**
+  * 
+  * Sets a specific field in the matrix.
+  * 
+  * @name VMatrix:SetField
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/VMatrix/SetField
+  * @param {VMatrix} this - no description
+  * @param {number} row - Row of the field to be set, from 1 to 4
+  * @param {number} column - Column of the field to be set, from 1 to 4
+  * @param {number} value - The value to set in that field
+  * @returns {void}
+  **/
+  SetField(this: VMatrix, row: number, column: number, value: number): void
+  
+  /**
+  * 
+  * Sets the absolute rotation of the matrix.
+  * 
+  * @name VMatrix:SetAngles
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/VMatrix/SetAngles
+  * @param {VMatrix} this - no description
+  * @param {Angle} angle - New angles.
+  * @returns {void}
+  **/
+  SetAngles(this: VMatrix, angle: Angle): void
+  
+  /**
+  * 
+  * Copies values from the given matrix object.
+  * 
+  * @name VMatrix:Set
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/VMatrix/Set
+  * @param {VMatrix} this - no description
+  * @param {VMatrix} src - The matrix to copy values from.
+  * @returns {void}
+  **/
+  Set(this: VMatrix, src: VMatrix): void
+  
+  /**
+  * 
+  * Scales the absolute translation with the given value.
+  * 
+  * @name VMatrix:ScaleTranslation
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/VMatrix/ScaleTranslation
+  * @param {VMatrix} this - no description
+  * @param {number} scale - Value to scale the translation with.
+  * @returns {void}
+  **/
+  ScaleTranslation(this: VMatrix, scale: number): void
+  
+  /**
+  * 
+  * Scales the matrix by the given vector.
+  * Postmultiplies the matrix by a scaling matrix (A = AS).
+  * 
+  * @name VMatrix:Scale
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/VMatrix/Scale
+  * @param {VMatrix} this - no description
+  * @param {Vector} scale - Vector to scale with matrix with.
+  * @returns {void}
+  **/
+  Scale(this: VMatrix, scale: Vector): void
+  
+  /**
+  * 
+  * Rotates the matrix by the given angle.
+  * Postmultiplies the matrix by a rotation matrix (A = AR).
+  * 
+  * @name VMatrix:Rotate
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/VMatrix/Rotate
+  * @param {VMatrix} this - no description
+  * @param {Angle} rotation - Rotation.
+  * @returns {void}
+  **/
+  Rotate(this: VMatrix, rotation: Angle): void
+  
+  /**
+  * 
+  * Checks whenever all fields of the matrix are 0, aka if this is a [null matrix](https://en.wikipedia.org/wiki/Zero_matrix).
+  * 
+  * @name VMatrix:IsZero
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/VMatrix/IsZero
+  * @param {VMatrix} this - no description
+  * @returns {boolean} - If the matrix is a null matrix.
+  **/
+  IsZero(this: VMatrix): boolean
+  
+  /**
+  * 
+  * Returns whether the matrix is a rotation matrix or not.
+  * Technically it checks if the forward, right and up vectors are orthogonal and normalized.
+  * 
+  * @name VMatrix:IsRotationMatrix
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/VMatrix/IsRotationMatrix
+  * @param {VMatrix} this - no description
+  * @returns {boolean} - Is the matrix a rotation matrix or not
+  **/
+  IsRotationMatrix(this: VMatrix): boolean
+  
+  /**
+  * 
+  * Returns whether the matrix is equal to Identity matrix or not.
+  * 
+  * @name VMatrix:IsIdentity
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/VMatrix/IsIdentity
+  * @param {VMatrix} this - no description
+  * @returns {boolean} - Is the matrix an Identity matrix or not
+  **/
+  IsIdentity(this: VMatrix): boolean
+  
+  /**
+  * 
+  * Inverts the matrix. This function will not fail, but only works correctly on matrices that contain only translation and/or rotation.
+  * Using this function on a matrix with modified scale may return an incorrect inverted matrix.
+  * To invert a matrix that contains other modifications, see @VMatrix:Invert.
+  * 
+  * @name VMatrix:InvertTR
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/VMatrix/InvertTR
+  * @param {VMatrix} this - no description
+  * @returns {void}
+  **/
+  InvertTR(this: VMatrix): void
+  
+  /**
+  * 
+  * Inverts the matrix.
+  * Inverting the matrix will fail if its [determinant](https://en.wikipedia.org/wiki/Determinant) is 0 or close to 0. (ie. its "scale" in any direction is 0.)
+  * If the matrix cannot be inverted, it does not get modified.
+  * See also @VMatrix:InvertTR.
+  * 
+  * @name VMatrix:Invert
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/VMatrix/Invert
+  * @param {VMatrix} this - no description
+  * @returns {boolean} - Whether the matrix was inverted or not
+  **/
+  Invert(this: VMatrix): boolean
+  
+  /**
+  * 
+  * Initializes the matrix as Identity matrix.
+  * 
+  * @name VMatrix:Identity
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/VMatrix/Identity
+  * @param {VMatrix} this - no description
+  * @returns {void}
+  **/
+  Identity(this: VMatrix): void
+  
+  /**
+  * 
+  * Gets the up direction of the matrix.
+  * ie. The third column of the matrix, excluding the w coordinate.
+  * 
+  * @name VMatrix:GetUp
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/VMatrix/GetUp
+  * @param {VMatrix} this - no description
+  * @returns {Vector} - The up direction of the matrix.
+  **/
+  GetUp(this: VMatrix): Vector
+  
+  /**
+  * 
+  * Returns the absolute translation of the matrix.
+  * 
+  * @name VMatrix:GetTranslation
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/VMatrix/GetTranslation
+  * @param {VMatrix} this - no description
+  * @returns {Vector} - Absolute translation of the matrix
+  **/
+  GetTranslation(this: VMatrix): Vector
+  
+  /**
+  * 
+  * Returns the absolute scale of the matrix.
+  * 
+  * @name VMatrix:GetScale
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/VMatrix/GetScale
+  * @param {VMatrix} this - no description
+  * @returns {Vector} - Absolute scale of the matrix
+  **/
+  GetScale(this: VMatrix): Vector
+  
+  /**
+  * 
+  * Gets the right direction of the matrix.
+  * ie. The second column of the matrix, negated, excluding the w coordinate.
+  * 
+  * @name VMatrix:GetRight
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/VMatrix/GetRight
+  * @param {VMatrix} this - no description
+  * @returns {Vector} - The right direction of the matrix.
+  **/
+  GetRight(this: VMatrix): Vector
+  
+  /**
+  * 
+  * Returns an inverted matrix without modifying the original matrix. This function will not fail, but only works correctly on matrices that contain only translation and/or rotation.
+  * Using this function on a matrix with modified scale may return an incorrect inverted matrix.
+  * To get the inverse of a matrix that contains other modifications, see @VMatrix:GetInverse.
+  * 
+  * @name VMatrix:GetInverseTR
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/VMatrix/GetInverseTR
+  * @param {VMatrix} this - no description
+  * @returns {VMatrix} - The inverted matrix.
+  **/
+  GetInverseTR(this: VMatrix): VMatrix
+  
+  /**
+  * 
+  * Returns an inverted matrix without modifying the original matrix.
+  * Inverting the matrix will fail if its [determinant](https://en.wikipedia.org/wiki/Determinant) is 0 or close to 0. (ie. its "scale" in any direction is 0.)
+  * See also @VMatrix:GetInverseTR.
+  * 
+  * @name VMatrix:GetInverse
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/VMatrix/GetInverse
+  * @param {VMatrix} this - no description
+  * @returns {VMatrix} - The inverted matrix if possible, nil otherwise
+  **/
+  GetInverse(this: VMatrix): VMatrix
+  
+  /**
+  * 
+  * Gets the forward direction of the matrix.
+  * ie. The first column of the matrix, excluding the w coordinate.
+  * 
+  * @name VMatrix:GetForward
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/VMatrix/GetForward
+  * @param {VMatrix} this - no description
+  * @returns {Vector} - The forward direction of the matrix.
+  **/
+  GetForward(this: VMatrix): Vector
+  
+  /**
+  * 
+  * Returns a specific field in the matrix.
+  * 
+  * @name VMatrix:GetField
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/VMatrix/GetField
+  * @param {VMatrix} this - no description
+  * @param {number} row - Row of the field whose value is to be retrieved, from 1 to 4
+  * @param {number} column - Column of the field whose value is to be retrieved, from 1 to 4
+  * @returns {number} - The value of the specified field
+  **/
+  GetField(this: VMatrix, row: number, column: number): number
+  
+  /**
+  * 
+  * Returns the absolute rotation of the matrix.
+  * 
+  * @name VMatrix:GetAngles
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/VMatrix/GetAngles
+  * @param {VMatrix} this - no description
+  * @returns {Angle} - Absolute rotation of the matrix
+  **/
+  GetAngles(this: VMatrix): Angle
   
 }
 
@@ -23487,18 +23862,6 @@ declare interface ToolFuncs extends Entity {
   
   /**
   * 
-  * Returns the owner of this tool.
-  * 
-  * @name ToolFuncs:GetOwner
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Tool/GetOwner
-  * @param {ToolFuncs} this - no description
-  * @returns {Entity} - Player using the tool
-  **/
-  GetOwner(this: ToolFuncs): Entity
-  
-  /**
-  * 
   * Returns the current operation of the tool set by @ToolFuncs:SetOperation.
   * 
   * @name ToolFuncs:GetOperation
@@ -23508,6 +23871,18 @@ declare interface ToolFuncs extends Entity {
   * @returns {number} - The current operation the tool is at.
   **/
   GetOperation(this: ToolFuncs): number
+  
+  /**
+  * 
+  * Returns the owner of this tool.
+  * 
+  * @name ToolFuncs:GetOwner
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Tool/GetOwner
+  * @param {ToolFuncs} this - no description
+  * @returns {Entity} - Player using the tool
+  **/
+  GetOwner(this: ToolFuncs): Entity
   
   /**
   * 
@@ -23585,7 +23960,7 @@ declare interface ToolFuncs extends Entity {
   * @param {number} def - The default value to return in case the lookup fails.
   * @returns {number} - The value of the requested @ConVar type.
   **/
-  GetClientNumber(this: ToolFuncs, name: string, def: number): number
+  GetClientNumber(this: ToolFuncs, name: string, def?: number): number
   
   /**
   * 
@@ -23691,6 +24066,129 @@ declare interface ToolFuncs extends Entity {
   
 }
 
+declare interface Task  {
+  /**
+  * 
+  * Starts the AI task as an NPC method.
+  * 
+  * @name Task:Start_FName
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/Task/Start FName
+  * @internal
+  * @param {Task} this - no description
+  * @param {NPC} target - The NPC to start the task on.
+  * @returns {void}
+  **/
+  Start_FName(this: Task, target: NPC): void
+  
+  /**
+  * 
+  * Starts the AI task.
+  * 
+  * @name Task:Start
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/Task/Start
+  * @param {Task} this - no description
+  * @param {NPC} target - The NPC to start the task on.
+  * @returns {void}
+  **/
+  Start(this: Task, target: NPC): void
+  
+  /**
+  * 
+  * Runs the AI task as an NPC method. This requires the task to be of type *TYPE_FNAME*.
+  * 
+  * @name Task:Run_FName
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/Task/Run FName
+  * @internal
+  * @param {Task} this - no description
+  * @param {NPC} target - The NPC to run the task on.
+  * @returns {void}
+  **/
+  Run_FName(this: Task, target: NPC): void
+  
+  /**
+  * 
+  * Runs the AI task.
+  * 
+  * @name Task:Run
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/Task/Run
+  * @param {Task} this - no description
+  * @param {NPC} target - The NPC to run the task on.
+  * @returns {void}
+  **/
+  Run(this: Task, target: NPC): void
+  
+  /**
+  * 
+  * Determines if the task is an NPC method-based task (*TYPE_FNAME*, 2).
+  * 
+  * @name Task:IsFNameType
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/Task/IsFNameType
+  * @param {Task} this - no description
+  * @returns {void}
+  **/
+  IsFNameType(this: Task): void
+  
+  /**
+  * 
+  * Determines if the task is an engine task (*TYPE_ENGINE*, 1).
+  * 
+  * @name Task:IsEngineType
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/Task/IsEngineType
+  * @param {Task} this - no description
+  * @returns {void}
+  **/
+  IsEngineType(this: Task): void
+  
+  /**
+  * 
+  * Initialises the AI task as NPC method-based.
+  * 
+  * @name Task:InitFunctionName
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/Task/InitFunctionName
+  * @param {Task} this - no description
+  * @param {string} startname - The name of the NPC method to call on task start.
+  * @param {string} runname - The name of the NPC method to call on task run.
+  * @param {number} taskdata - no description
+  * @returns {void}
+  **/
+  InitFunctionName(this: Task, startname: string, runname: string, taskdata: number): void
+  
+  /**
+  * 
+  * Initialises the AI task as an engine task.
+  * 
+  * @name Task:InitEngine
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/Task/InitEngine
+  * @param {Task} this - no description
+  * @param {string} taskname - The name of the task.
+  * @param {number} taskdata - no description
+  * @returns {void}
+  **/
+  InitEngine(this: Task, taskname: string, taskdata: number): void
+  
+  /**
+  * 
+  * Initialises the AI task. Called by @ai_task.New.
+  * 
+  * @name Task:Init
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/Task/Init
+  * @internal
+  * @param {Task} this - no description
+  * @returns {void}
+  **/
+  Init(this: Task): void
+  
+}
+
 declare interface ToolHooks  {
   /**
   * 
@@ -23775,14 +24273,14 @@ declare interface ToolHooks  {
   
   /**
   * 
-  * Called after the default tool screen has been drawn.
+  * Called after the default tool screen has been drawn from @WeaponHooks:RenderScreen.
   * 
   * @name ToolHooks:DrawToolScreen
   * @predicted false
   * @realm client
   * @wiki https://wiki.garrysmod.com/page/TOOL/DrawToolScreen
   * @note If this method exists on the TOOL object table, the default scrolling text will not be drawn
-  * @bug #3545 PNG rendering is broken in this rendering context.
+  * @note Materials rendered in this hook require $ignorez parameter to draw properly.
   * @param {_TOOL} this - no description
   * @param {number} width - The width of the tool's screen in pixels.
   * @param {number} height - The height of the tool's screen in pixels.
@@ -23809,7 +24307,7 @@ declare interface ToolHooks  {
   * This is also called when switching from another tool on the server.
   * 
   * @name ToolHooks:Deploy
-  * @predicted false
+  * @predicted true
   * @realm client, server
   * @wiki https://wiki.garrysmod.com/page/TOOL/Deploy
   * @param {_TOOL} this - no description
@@ -23819,126 +24317,69 @@ declare interface ToolHooks  {
   
 }
 
-declare interface Task  {
+declare interface SurfaceInfo  {
   /**
   * 
-  * Starts the AI task as an NPC method.
+  * Checks if the brush surface is water.
+  * This internally checks the **SURFDRAW_WATER** flag.
   * 
-  * @name Task:Start_FName
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/Task/Start FName
-  * @internal
-  * @param {Task} this - no description
-  * @param {NPC} target - The NPC to start the task on.
-  * @returns {void}
+  * @name SurfaceInfo:IsWater
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/SurfaceInfo/IsWater
+  * @param {SurfaceInfo} this - no description
+  * @returns {boolean} - Returns true if the surface is water.
   **/
-  Start_FName(this: Task, target: NPC): void
+  IsWater(this: SurfaceInfo): boolean
   
   /**
   * 
-  * Starts the AI task.
+  * Checks if the brush surface is displaying the skybox.
+  * This internally checks the **SURFDRAW_SKY** flag.
   * 
-  * @name Task:Start
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/Task/Start
-  * @param {Task} this - no description
-  * @param {NPC} target - The NPC to start the task on.
-  * @returns {void}
+  * @name SurfaceInfo:IsSky
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/SurfaceInfo/IsSky
+  * @param {SurfaceInfo} this - no description
+  * @returns {boolean} - Returns true if the surface is the sky.
   **/
-  Start(this: Task, target: NPC): void
+  IsSky(this: SurfaceInfo): boolean
   
   /**
   * 
-  * Runs the AI task as an NPC method. This requires the task to be of type *TYPE_FNAME*.
+  * Checks if the brush surface is a nodraw surface, meaning it will not be drawn by the engine.
+  * This internally checks the SURFDRAW_NODRAW flag.
   * 
-  * @name Task:Run_FName
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/Task/Run FName
-  * @internal
-  * @param {Task} this - no description
-  * @param {NPC} target - The NPC to run the task on.
-  * @returns {void}
+  * @name SurfaceInfo:IsNoDraw
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/SurfaceInfo/IsNoDraw
+  * @param {SurfaceInfo} this - no description
+  * @returns {boolean} - Returns true if this surface won't be drawn.
   **/
-  Run_FName(this: Task, target: NPC): void
+  IsNoDraw(this: SurfaceInfo): boolean
   
   /**
   * 
-  * Determines if the task is an NPC method-based task (*TYPE_FNAME*, 2).
+  * Returns a list of vertices the brush surface is built from.
   * 
-  * @name Task:IsFNameType
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/Task/IsFNameType
-  * @param {Task} this - no description
-  * @returns {void}
+  * @name SurfaceInfo:GetVertices
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/SurfaceInfo/GetVertices
+  * @param {SurfaceInfo} this - no description
+  * @returns {Vector[]} - A list of @Vector type points. This will usually be 4 corners of a quadrilateral in counter-clockwise order.
   **/
-  IsFNameType(this: Task): void
+  GetVertices(this: SurfaceInfo): Vector[]
   
   /**
   * 
-  * Runs the AI task.
+  * Returns the brush surface's material.
   * 
-  * @name Task:Run
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/Task/Run
-  * @param {Task} this - no description
-  * @param {NPC} target - The NPC to run the task on.
-  * @returns {void}
+  * @name SurfaceInfo:GetMaterial
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/SurfaceInfo/GetMaterial
+  * @param {SurfaceInfo} this - no description
+  * @returns {IMaterial} - Material of one portion of a brush model.
   **/
-  Run(this: Task, target: NPC): void
-  
-  /**
-  * 
-  * Determines if the task is an engine task (*TYPE_ENGINE*, 1).
-  * 
-  * @name Task:IsEngineType
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/Task/IsEngineType
-  * @param {Task} this - no description
-  * @returns {void}
-  **/
-  IsEngineType(this: Task): void
-  
-  /**
-  * 
-  * Initialises the AI task as NPC method-based.
-  * 
-  * @name Task:InitFunctionName
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/Task/InitFunctionName
-  * @param {Task} this - no description
-  * @param {string} startname - The name of the NPC method to call on task start.
-  * @param {string} runname - The name of the NPC method to call on task run.
-  * @param {number} taskdata - no description
-  * @returns {void}
-  **/
-  InitFunctionName(this: Task, startname: string, runname: string, taskdata: number): void
-  
-  /**
-  * 
-  * Initialises the AI task as an engine task.
-  * 
-  * @name Task:InitEngine
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/Task/InitEngine
-  * @param {Task} this - no description
-  * @param {string} taskname - The name of the task.
-  * @param {number} taskdata - no description
-  * @returns {void}
-  **/
-  InitEngine(this: Task, taskname: string, taskdata: number): void
-  
-  /**
-  * 
-  * Initialises the AI task. Called by @ai_task.New.
-  * 
-  * @name Task:Init
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/Task/Init
-  * @internal
-  * @param {Task} this - no description
-  * @returns {void}
-  **/
-  Init(this: Task): void
+  GetMaterial(this: SurfaceInfo): IMaterial
   
 }
 
@@ -23969,19 +24410,6 @@ declare interface Stack  {
   
   /**
   * 
-  * Pop an item from the stack
-  * 
-  * @name Stack:Pop
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Stack/Pop
-  * @param {Stack} this - no description
-  * @param {number} amount - Amount of items you want to pop.
-  * @returns {void}
-  **/
-  Pop(this: Stack, amount: number): void
-  
-  /**
-  * 
   * Push an item onto the stack
   * 
   * @name Stack:Push
@@ -23992,6 +24420,19 @@ declare interface Stack  {
   * @returns {void}
   **/
   Push(this: Stack, object: any): void
+  
+  /**
+  * 
+  * Pop an item from the stack
+  * 
+  * @name Stack:Pop
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Stack/Pop
+  * @param {Stack} this - no description
+  * @param {number} amount - Amount of items you want to pop.
+  * @returns {void}
+  **/
+  Pop(this: Stack, amount?: number): void
   
 }
 
@@ -24178,125 +24619,6 @@ declare interface SandboxHooks extends Gamemode {
   
   /**
   * 
-  * Called when a player attempts to spawn a weapon from the Q menu. ( Mouse wheel clicks on an icon )
-  * 
-  * @name SandboxHooks:PlayerSpawnSWEP
-  * @predicted false
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/SANDBOX/PlayerSpawnSWEP
-  * @param {_SANDBOX} this - no description
-  * @param {Player} ply - The player who attempted to spawn a weapon.
-  * @param {string} weapon - Class name of the weapon the player tried to spawn.
-  * @param {IWeapon} swep - Information about the weapon the player is trying to spawn, see @IWeapon structure
-  * @returns {boolean} - Can the SWEP be spawned
-  **/
-  PlayerSpawnSWEP(this: _SANDBOX, ply: Player, weapon: string, swep: IWeapon): boolean
-  
-  /**
-  * 
-  * Called to ask if player allowed to spawn a particular vehicle or not.
-  * 
-  * @name SandboxHooks:PlayerSpawnVehicle
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/SANDBOX/PlayerSpawnVehicle
-  * @param {_SANDBOX} this - no description
-  * @param {Player} ply - The player that wants to spawn that vehicle
-  * @param {string} model - The vehicle model that player wants to spawn
-  * @param {string} name - Vehicle name
-  * @param {table} table - Table of that vehicle, containing info about it
-  * @returns {boolean} - Return false to disallow spawning that vehicle
-  **/
-  PlayerSpawnVehicle(this: _SANDBOX, ply: Player, model: string, name: string, table: table): boolean
-  
-  /**
-  * 
-  * Called when a player attempts to spawn an Entity from the Q menu.
-  * 
-  * @name SandboxHooks:PlayerSpawnSENT
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/SANDBOX/PlayerSpawnSENT
-  * @param {_SANDBOX} this - no description
-  * @param {Player} ply - The player who attempted to spawn the entity.
-  * @param {string} cls - Class name of the entity the player tried to spawn.
-  * @returns {boolean} - can_spawn
-  **/
-  PlayerSpawnSENT(this: _SANDBOX, ply: Player, cls: string): boolean
-  
-  /**
-  * 
-  * Called when a player attempts to spawn a ragdoll from the Q menu.
-  * 
-  * @name SandboxHooks:PlayerSpawnRagdoll
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/SANDBOX/PlayerSpawnRagdoll
-  * @param {_SANDBOX} this - no description
-  * @param {Player} ply - The player who attempted to spawn a ragdoll.
-  * @param {string} model - Path to the model of the ragdoll the player is attempting to spawn.
-  * @returns {boolean} - Should the player be able to spawn the ragdoll or not.
-  **/
-  PlayerSpawnRagdoll(this: _SANDBOX, ply: Player, model: string): boolean
-  
-  /**
-  * 
-  * Called when a player attempts to spawn a prop from the Q menu.
-  * 
-  * @name SandboxHooks:PlayerSpawnProp
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/SANDBOX/PlayerSpawnProp
-  * @param {_SANDBOX} this - no description
-  * @param {Player} ply - The player who attempted to spawn a prop.
-  * @param {string} model - Path to the model of the prop the player is attempting to spawn.
-  * @returns {boolean} - Should the player be able to spawn the prop or not.
-  **/
-  PlayerSpawnProp(this: _SANDBOX, ply: Player, model: string): boolean
-  
-  /**
-  * 
-  * Called to ask whether player is allowed to spawn a given model. This includes props, effects and ragdolls and is called before the respective PlayerSpawn* hook.
-  * 
-  * @name SandboxHooks:PlayerSpawnObject
-  * @predicted false
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/SANDBOX/PlayerSpawnObject
-  * @param {_SANDBOX} this - no description
-  * @param {Player} ply - The player in question
-  * @param {string} model - Model path
-  * @param {number} skin - Skin number
-  * @returns {boolean} - Return false to disallow the player to spawn the given model.
-  **/
-  PlayerSpawnObject(this: _SANDBOX, ply: Player, model: string, skin: number): boolean
-  
-  /**
-  * 
-  * Called to ask if player allowed to spawn a particular NPC or not.
-  * 
-  * @name SandboxHooks:PlayerSpawnNPC
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/SANDBOX/PlayerSpawnNPC
-  * @param {_SANDBOX} this - no description
-  * @param {Player} ply - The player that wants to spawn that NPC
-  * @param {string} npc_type - The npc type that player is trying to spawn
-  * @param {string} weapon - The weapon of that NPC
-  * @returns {boolean} - Return false to disallow spawning that NPC
-  **/
-  PlayerSpawnNPC(this: _SANDBOX, ply: Player, npc_type: string, weapon: string): boolean
-  
-  /**
-  * 
-  * Called to ask if player allowed to spawn a particular effect or not.
-  * 
-  * @name SandboxHooks:PlayerSpawnEffect
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/SANDBOX/PlayerSpawnEffect
-  * @param {_SANDBOX} this - no description
-  * @param {Player} ply - The player that wants to spawn an effect
-  * @param {string} model - The effect model that player wants to spawn
-  * @returns {boolean} - Return false to disallow spawning that effect
-  **/
-  PlayerSpawnEffect(this: _SANDBOX, ply: Player, model: string): boolean
-  
-  /**
-  * 
   * Called after the player spawned a vehicle.
   * 
   * @name SandboxHooks:PlayerSpawnedVehicle
@@ -24397,6 +24719,125 @@ declare interface SandboxHooks extends Gamemode {
   * @returns {void}
   **/
   PlayerSpawnedEffect(this: _SANDBOX, ply: Player, model: string, ent: Entity): void
+  
+  /**
+  * 
+  * Called to ask if player allowed to spawn a particular vehicle or not.
+  * 
+  * @name SandboxHooks:PlayerSpawnVehicle
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/SANDBOX/PlayerSpawnVehicle
+  * @param {_SANDBOX} this - no description
+  * @param {Player} ply - The player that wants to spawn that vehicle
+  * @param {string} model - The vehicle model that player wants to spawn
+  * @param {string} name - Vehicle name
+  * @param {table} table - Table of that vehicle, containing info about it
+  * @returns {boolean} - Return false to disallow spawning that vehicle
+  **/
+  PlayerSpawnVehicle(this: _SANDBOX, ply: Player, model: string, name: string, table: table): boolean
+  
+  /**
+  * 
+  * Called when a player attempts to spawn a weapon from the Q menu. ( Mouse wheel clicks on an icon )
+  * 
+  * @name SandboxHooks:PlayerSpawnSWEP
+  * @predicted false
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/SANDBOX/PlayerSpawnSWEP
+  * @param {_SANDBOX} this - no description
+  * @param {Player} ply - The player who attempted to spawn a weapon.
+  * @param {string} weapon - Class name of the weapon the player tried to spawn.
+  * @param {IWeapon} swep - Information about the weapon the player is trying to spawn, see @IWeapon structure
+  * @returns {boolean} - Can the SWEP be spawned
+  **/
+  PlayerSpawnSWEP(this: _SANDBOX, ply: Player, weapon: string, swep: IWeapon): boolean
+  
+  /**
+  * 
+  * Called when a player attempts to spawn a ragdoll from the Q menu.
+  * 
+  * @name SandboxHooks:PlayerSpawnRagdoll
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/SANDBOX/PlayerSpawnRagdoll
+  * @param {_SANDBOX} this - no description
+  * @param {Player} ply - The player who attempted to spawn a ragdoll.
+  * @param {string} model - Path to the model of the ragdoll the player is attempting to spawn.
+  * @returns {boolean} - Should the player be able to spawn the ragdoll or not.
+  **/
+  PlayerSpawnRagdoll(this: _SANDBOX, ply: Player, model: string): boolean
+  
+  /**
+  * 
+  * Called when a player attempts to spawn an Entity from the Q menu.
+  * 
+  * @name SandboxHooks:PlayerSpawnSENT
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/SANDBOX/PlayerSpawnSENT
+  * @param {_SANDBOX} this - no description
+  * @param {Player} ply - The player who attempted to spawn the entity.
+  * @param {string} cls - Class name of the entity the player tried to spawn.
+  * @returns {boolean} - can_spawn
+  **/
+  PlayerSpawnSENT(this: _SANDBOX, ply: Player, cls: string): boolean
+  
+  /**
+  * 
+  * Called to ask whether player is allowed to spawn a given model. This includes props, effects and ragdolls and is called before the respective PlayerSpawn* hook.
+  * 
+  * @name SandboxHooks:PlayerSpawnObject
+  * @predicted false
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/SANDBOX/PlayerSpawnObject
+  * @param {_SANDBOX} this - no description
+  * @param {Player} ply - The player in question
+  * @param {string} model - Model path
+  * @param {number} skin - Skin number
+  * @returns {boolean} - Return false to disallow the player to spawn the given model.
+  **/
+  PlayerSpawnObject(this: _SANDBOX, ply: Player, model: string, skin: number): boolean
+  
+  /**
+  * 
+  * Called when a player attempts to spawn a prop from the Q menu.
+  * 
+  * @name SandboxHooks:PlayerSpawnProp
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/SANDBOX/PlayerSpawnProp
+  * @param {_SANDBOX} this - no description
+  * @param {Player} ply - The player who attempted to spawn a prop.
+  * @param {string} model - Path to the model of the prop the player is attempting to spawn.
+  * @returns {boolean} - Should the player be able to spawn the prop or not.
+  **/
+  PlayerSpawnProp(this: _SANDBOX, ply: Player, model: string): boolean
+  
+  /**
+  * 
+  * Called to ask if player allowed to spawn a particular effect or not.
+  * 
+  * @name SandboxHooks:PlayerSpawnEffect
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/SANDBOX/PlayerSpawnEffect
+  * @param {_SANDBOX} this - no description
+  * @param {Player} ply - The player that wants to spawn an effect
+  * @param {string} model - The effect model that player wants to spawn
+  * @returns {boolean} - Return false to disallow spawning that effect
+  **/
+  PlayerSpawnEffect(this: _SANDBOX, ply: Player, model: string): boolean
+  
+  /**
+  * 
+  * Called to ask if player allowed to spawn a particular NPC or not.
+  * 
+  * @name SandboxHooks:PlayerSpawnNPC
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/SANDBOX/PlayerSpawnNPC
+  * @param {_SANDBOX} this - no description
+  * @param {Player} ply - The player that wants to spawn that NPC
+  * @param {string} npc_type - The npc type that player is trying to spawn
+  * @param {string} weapon - The weapon of that NPC
+  * @returns {boolean} - Return false to disallow spawning that NPC
+  **/
+  PlayerSpawnNPC(this: _SANDBOX, ply: Player, npc_type: string, weapon: string): boolean
   
   /**
   * 
@@ -24581,20 +25022,6 @@ declare interface SandboxHooks extends Gamemode {
   
   /**
   * 
-  * This hook is used to add default categories to spawnmenu tool tabs.
-  * Do not override or hook this function, use @SandboxHooks:AddToolMenuCategories!
-  * 
-  * @name SandboxHooks:AddGamemodeToolMenuCategories
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/SANDBOX/AddGamemodeToolMenuCategories
-  * @internal
-  * @param {_SANDBOX} this - no description
-  * @returns {void}
-  **/
-  AddGamemodeToolMenuCategories(this: _SANDBOX): void
-  
-  /**
-  * 
   * This hook is used to add default tool tabs to spawnmenu.
   * Do not override or hook this function, use @SandboxHooks:AddToolMenuTabs!
   * 
@@ -24606,6 +25033,20 @@ declare interface SandboxHooks extends Gamemode {
   * @returns {void}
   **/
   AddGamemodeToolMenuTabs(this: _SANDBOX): void
+  
+  /**
+  * 
+  * This hook is used to add default categories to spawnmenu tool tabs.
+  * Do not override or hook this function, use @SandboxHooks:AddToolMenuCategories!
+  * 
+  * @name SandboxHooks:AddGamemodeToolMenuCategories
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/SANDBOX/AddGamemodeToolMenuCategories
+  * @internal
+  * @param {_SANDBOX} this - no description
+  * @returns {void}
+  **/
+  AddGamemodeToolMenuCategories(this: _SANDBOX): void
   
 }
 
@@ -25099,7 +25540,7 @@ declare interface Player  {
   * @param {number} tolerance - Reset all ViewPunch below this threshold.
   * @returns {void}
   **/
-  ViewPunchReset(this: Player, tolerance: number): void
+  ViewPunchReset(this: Player, tolerance?: number): void
   
   /**
   * 
@@ -25126,31 +25567,6 @@ declare interface Player  {
   * @returns {number} - The player's user ID
   **/
   UserID(this: Player): number
-  
-  /**
-  * 
-  * Stops the player from spectating another entity.
-  * 
-  * @name Player:UnSpectate
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/Player/UnSpectate
-  * @param {Player} this - no description
-  * @returns {void}
-  **/
-  UnSpectate(this: Player): void
-  
-  /**
-  * 
-  * Unlocks the player movement if locked previously.
-  * Will disable godmode for the player if locked previously.
-  * 
-  * @name Player:UnLock
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/Player/UnLock
-  * @param {Player} this - no description
-  * @returns {void}
-  **/
-  UnLock(this: Player): void
   
   /**
   * 
@@ -25193,16 +25609,28 @@ declare interface Player  {
   
   /**
   * 
-  * Translates @ACT enum according to the holdtype of players currently held weapon.
+  * Stops the player from spectating another entity.
   * 
-  * @name Player:TranslateWeaponActivity
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Player/TranslateWeaponActivity
+  * @name Player:UnSpectate
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/Player/UnSpectate
   * @param {Player} this - no description
-  * @param {ACT} act - The initial @ACT enum
-  * @returns {ACT} - Translated @ACT enum
+  * @returns {void}
   **/
-  TranslateWeaponActivity(this: Player, act: ACT): ACT
+  UnSpectate(this: Player): void
+  
+  /**
+  * 
+  * Unlocks the player movement if locked previously.
+  * Will disable godmode for the player if locked previously.
+  * 
+  * @name Player:UnLock
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/Player/UnLock
+  * @param {Player} this - no description
+  * @returns {void}
+  **/
+  UnLock(this: Player): void
   
   /**
   * 
@@ -25224,6 +25652,19 @@ declare interface Player  {
   * @returns {Entity} - The hit entity
   **/
   TraceHullAttack(this: Player, startPos: Vector, endPos: Vector, mins: Vector, maxs: Vector, damage: number, damageFlags: Vector, damageForce: number, damageAllNPCs: boolean): Entity
+  
+  /**
+  * 
+  * Translates @ACT enum according to the holdtype of players currently held weapon.
+  * 
+  * @name Player:TranslateWeaponActivity
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Player/TranslateWeaponActivity
+  * @param {Player} this - no description
+  * @param {ACT} act - The initial @ACT enum
+  * @returns {ACT} - Translated @ACT enum
+  **/
+  TranslateWeaponActivity(this: Player, act: ACT): ACT
   
   /**
   * 
@@ -25354,6 +25795,20 @@ declare interface Player  {
   
   /**
   * 
+  * Returns the player's SteamID. In singleplayer, this will be STEAM_ID_PENDING serverside.
+  * For Bots this will return "BOT" on the server and on the client it returns "NULL".
+  * Use @Player:AccountID for a shorter version of the SteamID.
+  * 
+  * @name Player:SteamID
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Player/SteamID
+  * @param {Player} this - no description
+  * @returns {string} - SteamID
+  **/
+  SteamID(this: Player): string
+  
+  /**
+  * 
   * Returns the player's 64bit SteamID aka CommunityID.
   * In singleplayer, this will return no value serverside.
   * In a multirun environment, this will return no value serverside for all "copies" of a player.
@@ -25369,20 +25824,6 @@ declare interface Player  {
   * @returns {string} - Player's 64bit SteamID aka CommunityID.
   **/
   SteamID64(this: Player): string
-  
-  /**
-  * 
-  * Returns the player's SteamID. In singleplayer, this will be STEAM_ID_PENDING serverside.
-  * For Bots this will return "BOT" on the server and on the client it returns "NULL".
-  * Use @Player:AccountID for a shorter version of the SteamID.
-  * 
-  * @name Player:SteamID
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Player/SteamID
-  * @param {Player} this - no description
-  * @returns {string} - SteamID
-  **/
-  SteamID(this: Player): string
   
   /**
   * 
@@ -25517,11 +25958,11 @@ declare interface Player  {
   /**
   * 
   * Sets whether the player's current weapon should drop on death.
-  * **NOTE!** This seems to be reset to false when player dies.
   * 
   * @name Player:ShouldDropWeapon
   * @realm server
   * @wiki https://wiki.garrysmod.com/page/Player/ShouldDropWeapon
+  * @note This is reset on spawn to the [player class](https://wiki.garrysmod.com/page/Player_Classes)'s **DropWeaponOnDie** field by @player_manager.OnPlayerSpawn.
   * @param {Player} this - no description
   * @param {boolean} drop - Whether to drop the player's current weapon or not
   * @returns {void}
@@ -25539,6 +25980,19 @@ declare interface Player  {
   * @returns {boolean} - shouldDraw
   **/
   ShouldDrawLocalPlayer(this: Player): boolean
+  
+  /**
+  * 
+  * Sets up the players view model hands. Calls @GamemodeHooks:PlayerSetHandsModel to set the model of the hands.
+  * 
+  * @name Player:SetupHands
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/Player/SetupHands
+  * @param {Player} this - no description
+  * @param {Entity} ent - If the player is spectating an entity, this should be the entity the player is spectating, so we can use its hands model instead.
+  * @returns {void}
+  **/
+  SetupHands(this: Player, ent: Entity): void
   
   /**
   * 
@@ -25641,19 +26095,6 @@ declare interface Player  {
   
   /**
   * 
-  * Sets up the players view model hands. Calls @GamemodeHooks:PlayerSetHandsModel to set the model of the hands.
-  * 
-  * @name Player:SetupHands
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/Player/SetupHands
-  * @param {Player} this - no description
-  * @param {Entity} ent - If the player is spectating an entity, this should be the entity the player is spectating, so we can use its hands model instead.
-  * @returns {void}
-  **/
-  SetupHands(this: Player, ent: Entity): void
-  
-  /**
-  * 
   * Sets how quickly a player un-ducks
   * 
   * @name Player:SetUnDuckSpeed
@@ -25690,6 +26131,20 @@ declare interface Player  {
   * @returns {void}
   **/
   SetSuppressPickupNotices(this: Player, doSuppress: boolean): void
+  
+  /**
+  * 
+  * Sets the player's HEV suit power.
+  * 
+  * @name Player:SetSuitPower
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Player/SetSuitPower
+  * @bug #3449 This will only work for the local player when used clientside.
+  * @param {Player} this - no description
+  * @param {number} power - The new suit power.
+  * @returns {void}
+  **/
+  SetSuitPower(this: Player, power: number): void
   
   /**
   * 
@@ -25744,7 +26199,7 @@ declare interface Player  {
   * @param {Entity} pressedWidget - The widget the player is currently using.
   * @returns {void}
   **/
-  SetPressedWidget(this: Player, pressedWidget: Entity): void
+  SetPressedWidget(this: Player, pressedWidget?: Entity): void
   
   /**
   * 
@@ -25832,20 +26287,6 @@ declare interface Player  {
   
   /**
   * 
-  * Sets the maximum speed which the player can move at.
-  * 
-  * @name Player:SetMaxSpeed
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Player/SetMaxSpeed
-  * @note This is called automatically by the engine. If you wish to limit player speed without setting their run/sprint speeds, see @CMoveData:SetMaxClientSpeed.
-  * @param {Player} this - no description
-  * @param {number} walkSpeed - The maximum speed.
-  * @returns {void}
-  **/
-  SetMaxSpeed(this: Player, walkSpeed: number): void
-  
-  /**
-  * 
   * Slows down the player movement simulation by the timescale, this is used internally in the HL2 weapon stripping sequence.
   * It achieves such behavior by multiplying the @FrameTime function by the specified timescale at the start of the movement simulation and then restoring it afterwards.
   * 
@@ -25859,6 +26300,20 @@ declare interface Player  {
   * @returns {void}
   **/
   SetLaggedMovementValue(this: Player, timescale: number): void
+  
+  /**
+  * 
+  * Sets the maximum speed which the player can move at.
+  * 
+  * @name Player:SetMaxSpeed
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Player/SetMaxSpeed
+  * @note This is called automatically by the engine. If you wish to limit player speed without setting their run/sprint speeds, see @CMoveData:SetMaxClientSpeed.
+  * @param {Player} this - no description
+  * @param {number} walkSpeed - The maximum speed.
+  * @returns {void}
+  **/
+  SetMaxSpeed(this: Player, walkSpeed: number): void
   
   /**
   * 
@@ -25913,7 +26368,7 @@ declare interface Player  {
   * @param {Entity} widget - The widget entity that the player is hovering.
   * @returns {void}
   **/
-  SetHoveredWidget(this: Player, widget: Entity): void
+  SetHoveredWidget(this: Player, widget?: Entity): void
   
   /**
   * 
@@ -25955,7 +26410,7 @@ declare interface Player  {
   * @param {number} time - the time it takes to transition to the FOV expressed in a floating point.
   * @returns {void}
   **/
-  SetFOV(this: Player, fov: number, time: number): void
+  SetFOV(this: Player, fov: number, time?: number): void
   
   /**
   * 
@@ -25986,21 +26441,6 @@ declare interface Player  {
   
   /**
   * 
-  * Applies the specified sound filter to the player.
-  * 
-  * @name Player:SetDSP
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Player/SetDSP
-  * @param {Player} this - no description
-  * @param {number} soundFilter - The index of the sound filter to apply.
-  * Pick from the [list of DSP's](https://developer.valvesoftware.com/wiki/Dsp_presets).
-  * @param {boolean} fastReset - If set to true the sound filter will be removed faster.
-  * @returns {void}
-  **/
-  SetDSP(this: Player, soundFilter: number, fastReset: boolean): void
-  
-  /**
-  * 
   * Sets the driving entity and driving mode.
   * Use @drive.PlayerStartDriving instead, see [Entity Driving](https://wiki.garrysmod.com/page/Entity%20Driving).
   * 
@@ -26013,7 +26453,7 @@ declare interface Player  {
   * @param {number} drivingMode - The driving mode index.
   * @returns {void}
   **/
-  SetDrivingEntity(this: Player, drivingEntity: Entity, drivingMode: number): void
+  SetDrivingEntity(this: Player, drivingEntity?: Entity, drivingMode: number): void
   
   /**
   * 
@@ -26027,6 +26467,21 @@ declare interface Player  {
   * @returns {void}
   **/
   SetDeaths(this: Player, deathcount: number): void
+  
+  /**
+  * 
+  * Applies the specified sound filter to the player.
+  * 
+  * @name Player:SetDSP
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Player/SetDSP
+  * @param {Player} this - no description
+  * @param {number} soundFilter - The index of the sound filter to apply.
+  * Pick from the [list of DSP's](https://developer.valvesoftware.com/wiki/Dsp_presets).
+  * @param {boolean} fastReset - If set to true the sound filter will be removed faster.
+  * @returns {void}
+  **/
+  SetDSP(this: Player, soundFilter: number, fastReset: boolean): void
   
   /**
   * 
@@ -26182,11 +26637,11 @@ declare interface Player  {
   /**
   * 
   * Executes a simple Lua string on the player.
-  * **Note:** The string is limited to 254 bytes. Consider using the [net library](https://wiki.garrysmod.com/page/Net%20Library%20Usage) for more advanced server-client interaction.
   * 
   * @name Player:SendLua
   * @realm server
   * @wiki https://wiki.garrysmod.com/page/Player/SendLua
+  * @note The string is limited to 254 bytes. Instead of sending Lua code with this function, consider using the @net library for more advanced server-client interaction, see example 2 for SendLua replacement
   * @param {Player} this - no description
   * @param {string} script - The script to execute.
   * @returns {void}
@@ -26238,7 +26693,7 @@ declare interface Player  {
   * @param {number} fadeHold - Fade effect hold time
   * @returns {void}
   **/
-  ScreenFade(this: Player, flags: SCREENFADE, clr: number, fadeTime: number, fadeHold: number): void
+  ScreenFade(this: Player, flags: SCREENFADE, clr?: number, fadeTime: number, fadeHold: number): void
   
   /**
   * 
@@ -26253,19 +26708,7 @@ declare interface Player  {
   * @param {boolean} teamOnly - Whether to send this message to our own team only.
   * @returns {void}
   **/
-  Say(this: Player, text: string, teamOnly: boolean): void
-  
-  /**
-  * 
-  * Resets both normal and duck hulls to their default values.
-  * 
-  * @name Player:ResetHull
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Player/ResetHull
-  * @param {Player} this - no description
-  * @returns {void}
-  **/
-  ResetHull(this: Player): void
+  Say(this: Player, text: string, teamOnly?: boolean): void
   
   /**
   * 
@@ -26278,6 +26721,18 @@ declare interface Player  {
   * @returns {void}
   **/
   RemoveSuit(this: Player): void
+  
+  /**
+  * 
+  * Resets both normal and duck hulls to their default values.
+  * 
+  * @name Player:ResetHull
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Player/ResetHull
+  * @param {Player} this - no description
+  * @returns {void}
+  **/
+  ResetHull(this: Player): void
   
   /**
   * 
@@ -26322,6 +26777,18 @@ declare interface Player  {
   
   /**
   * 
+  * Removes all ammo from a certain player
+  * 
+  * @name Player:RemoveAllAmmo
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/Player/RemoveAllAmmo
+  * @param {Player} this - no description
+  * @returns {void}
+  **/
+  RemoveAllAmmo(this: Player): void
+  
+  /**
+  * 
   * Displays a message either in their chat, console, or center of the screen. See also @PrintMessage function.
   * 
   * @name Player:PrintMessage
@@ -26335,18 +26802,6 @@ declare interface Player  {
   * @returns {void}
   **/
   PrintMessage(this: Player, type: HUD, message: string): void
-  
-  /**
-  * 
-  * Removes all ammo from a certain player
-  * 
-  * @name Player:RemoveAllAmmo
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/Player/RemoveAllAmmo
-  * @param {Player} this - no description
-  * @returns {void}
-  **/
-  RemoveAllAmmo(this: Player): void
   
   /**
   * 
@@ -26548,7 +27003,7 @@ declare interface Player  {
   * @param {string} reason - Reason to show for disconnection.
   * @returns {void}
   **/
-  Kick(this: Player, reason: string): void
+  Kick(this: Player, reason?: string): void
   
   /**
   * 
@@ -26684,23 +27139,11 @@ declare interface Player  {
   * @name Player:IsSuitEquipped
   * @realm client, server
   * @wiki https://wiki.garrysmod.com/page/Player/IsSuitEquipped
-  * @bug #3449 This will only work for the local player clientside.
+  * @bug #3449 This will only work for the local player when used clientside.
   * @param {Player} this - no description
   * @returns {boolean} - Is the suit equipped or not.
   **/
   IsSuitEquipped(this: Player): boolean
-  
-  /**
-  * 
-  * Returns whether the player is currently sprinting or not.
-  * 
-  * @name Player:IsSprinting
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Player/IsSprinting
-  * @param {Player} this - no description
-  * @returns {boolean} - Is the player sprinting or not
-  **/
-  IsSprinting(this: Player): boolean
   
   /**
   * 
@@ -26713,6 +27156,18 @@ declare interface Player  {
   * @returns {boolean} - isSpeaking
   **/
   IsSpeaking(this: Player): boolean
+  
+  /**
+  * 
+  * Returns whether the player is currently sprinting or not.
+  * 
+  * @name Player:IsSprinting
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Player/IsSprinting
+  * @param {Player} this - no description
+  * @returns {boolean} - Is the player sprinting or not
+  **/
+  IsSprinting(this: Player): boolean
   
   /**
   * 
@@ -26827,18 +27282,6 @@ declare interface Player  {
   
   /**
   * 
-  * Returns the player's IP address and connection port in ip:port form
-  * 
-  * @name Player:IPAddress
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/Player/IPAddress
-  * @param {Player} this - no description
-  * @returns {string} - The player's IP address and connection port
-  **/
-  IPAddress(this: Player): string
-  
-  /**
-  * 
   * Returns if the player is in a vehicle
   * 
   * @name Player:InVehicle
@@ -26848,6 +27291,18 @@ declare interface Player  {
   * @returns {boolean} - Whether the player is in a vehicle.
   **/
   InVehicle(this: Player): boolean
+  
+  /**
+  * 
+  * Returns the player's IP address and connection port in ip:port form
+  * 
+  * @name Player:IPAddress
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/Player/IPAddress
+  * @param {Player} this - no description
+  * @returns {string} - The player's IP address and connection port
+  **/
+  IPAddress(this: Player): string
   
   /**
   * 
@@ -26914,7 +27369,19 @@ declare interface Player  {
   * @param {boolean} hidePopup - Hide display popup when giving the ammo
   * @returns {number} - Ammo given.
   **/
-  GiveAmmo(this: Player, amount: number, type: string, hidePopup: boolean): number
+  GiveAmmo(this: Player, amount: number, type: string, hidePopup?: boolean): number
+  
+  /**
+  * 
+  * Returns a table of the player's weapons.
+  * 
+  * @name Player:GetWeapons
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Player/GetWeapons
+  * @param {Player} this - no description
+  * @returns {table} - All the weapons the player currently has.
+  **/
+  GetWeapons(this: Player): table
   
   /**
   * 
@@ -26929,19 +27396,7 @@ declare interface Player  {
   * @param {boolean} bNoAmmo - Set to true to not give any ammo on weapon spawn. (Reserve ammo set by DefaultClip)
   * @returns {Weapon} - The weapon given to the player, if one was given. It will return NULL if the player already has the weapon, or the weapon entity (entity with given classname) doesn't exist.
   **/
-  Give(this: Player, weaponClassName: string, bNoAmmo: boolean): Weapon
-  
-  /**
-  * 
-  * Returns a table of the player's weapons.
-  * 
-  * @name Player:GetWeapons
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Player/GetWeapons
-  * @param {Player} this - no description
-  * @returns {table} - All the weapons the player currently has.
-  **/
-  GetWeapons(this: Player): table
+  Give(this: Player, weaponClassName: string, bNoAmmo?: boolean): Weapon
   
   /**
   * 
@@ -27094,7 +27549,7 @@ declare interface Player  {
   * @param {string} mode - Classname of the tool to retrieve. ( Filename of the tool in gmod_tool/stools/ )
   * @returns {table} - TOOL table, or nil if the table wasn't found or the player doesn't have a tool gun.
   **/
-  GetTool(this: Player, mode: string): table
+  GetTool(this: Player, mode?: string): table
   
   /**
   * 
@@ -27107,6 +27562,19 @@ declare interface Player  {
   * @returns {number} - Timeout seconds.
   **/
   GetTimeoutSeconds(this: Player): number
+  
+  /**
+  * 
+  * Returns the player's HEV suit power.
+  * 
+  * @name Player:GetSuitPower
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Player/GetSuitPower
+  * @bug #3449 This will only work for the local player when used clientside.
+  * @param {Player} this - no description
+  * @returns {number} - The current suit power.
+  **/
+  GetSuitPower(this: Player): number
   
   /**
   * 
@@ -27135,19 +27603,6 @@ declare interface Player  {
   
   /**
   * 
-  * Returns the player's sprint speed.
-  * See also @Player:SetRunSpeed, @Player:GetWalkSpeed and @Player:GetMaxSpeed.
-  * 
-  * @name Player:GetRunSpeed
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Player/GetRunSpeed
-  * @param {Player} this - no description
-  * @returns {number} - The sprint speed
-  **/
-  GetRunSpeed(this: Player): number
-  
-  /**
-  * 
   * Returns the render angles for the player.
   * 
   * @name Player:GetRenderAngles
@@ -27173,6 +27628,19 @@ declare interface Player  {
   
   /**
   * 
+  * Returns the player's sprint speed.
+  * See also @Player:SetRunSpeed, @Player:GetWalkSpeed and @Player:GetMaxSpeed.
+  * 
+  * @name Player:GetRunSpeed
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Player/GetRunSpeed
+  * @param {Player} this - no description
+  * @returns {number} - The sprint speed
+  **/
+  GetRunSpeed(this: Player): number
+  
+  /**
+  * 
   * Returns players screen punch effect angle.
   * 
   * @name Player:GetPunchAngle
@@ -27182,6 +27650,19 @@ declare interface Player  {
   * @returns {Angle} - The punch angle
   **/
   GetPunchAngle(this: Player): Angle
+  
+  /**
+  * 
+  * Returns the weapon the player previously had equipped.
+  * 
+  * @name Player:GetPreviousWeapon
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Player/GetPreviousWeapon
+  * @warning This is not guaranteed to be a weapon entity so it should be checked with @EntityFuncs:IsWeapon for safety.
+  * @param {Player} this - no description
+  * @returns {Entity} - The previous weapon of the player.
+  **/
+  GetPreviousWeapon(this: Player): Entity
   
   /**
   * 
@@ -27249,7 +27730,7 @@ declare interface Player  {
   * @param {any} def - Default value if PData key doesn't exist.
   * @returns {string} - The data in the SQL database or the default value given.
   **/
-  GetPData(this: Player, key: string, def: any): string
+  GetPData(this: Player, key: string, def?: any): string
   
   /**
   * 
@@ -27438,9 +27919,8 @@ declare interface Player  {
   * @name Player:GetFOV
   * @realm client, server
   * @wiki https://wiki.garrysmod.com/page/Player/GetFOV
-  * @bug #2474 This returns an int on the server and a float on the client.
   * @param {Player} this - no description
-  * @returns {number} - FOV
+  * @returns {number} - Field of view as a float
   **/
   GetFOV(this: Player): number
   
@@ -27535,6 +28015,19 @@ declare interface Player  {
   
   /**
   * 
+  * Returns the crouched walk speed multiplier.
+  * See also @Player:GetWalkSpeed and @Player:SetCrouchedWalkSpeed.
+  * 
+  * @name Player:GetCrouchedWalkSpeed
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Player/GetCrouchedWalkSpeed
+  * @param {Player} this - no description
+  * @returns {number} - The crouched walk speed multiplier.
+  **/
+  GetCrouchedWalkSpeed(this: Player): number
+  
+  /**
+  * 
   * Returns the last command which was sent by the specified player. Can only be used in a [Predicted Hook](https://wiki.garrysmod.com/page/Category:Predicted_Hooks).
   * 
   * @name Player:GetCurrentCommand
@@ -27549,31 +28042,17 @@ declare interface Player  {
   
   /**
   * 
-  * Returns the crouched walk speed multiplier.
-  * See also @Player:GetWalkSpeed and @Player:SetCrouchedWalkSpeed.
-  * 
-  * @name Player:GetCrouchedWalkSpeed
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Player/GetCrouchedWalkSpeed
-  * @param {Player} this - no description
-  * @returns {number} - The crouched walk speed multiplier.
-  **/
-  GetCrouchedWalkSpeed(this: Player): number
-  
-  /**
-  * 
   * Gets total count of entities of same class.
   * 
   * @name Player:GetCount
   * @realm client, server
   * @wiki https://wiki.garrysmod.com/page/Player/GetCount
-  * @validate
   * @param {Player} this - no description
   * @param {string} type - Entity type to get count of.
   * @param {number} minus - If specified, it will reduce the counter by this value. Works only serverside.
   * @returns {void}
   **/
-  GetCount(this: Player, type: string, minus: number): void
+  GetCount(this: Player, type: string, minus?: number): void
   
   /**
   * 
@@ -27710,7 +28189,7 @@ declare interface Player  {
   * @param {boolean} frozen - Whether the player should be frozen.
   * @returns {void}
   **/
-  Freeze(this: Player, frozen: boolean): void
+  Freeze(this: Player, frozen?: boolean): void
   
   /**
   * 
@@ -27802,7 +28281,7 @@ declare interface Player  {
   * @param {Vector} velocity - If set and previous argument is unset, launches the weapon with given velocity. If the velocity is higher than 400, it will be clamped to 400.
   * @returns {void}
   **/
-  DropWeapon(this: Player, weapon: Weapon, target: Vector, velocity: Vector): void
+  DropWeapon(this: Player, weapon?: Weapon, target?: Vector, velocity?: Vector): void
   
   /**
   * 
@@ -27829,21 +28308,7 @@ declare interface Player  {
   * @param {Vector} velocity - If set and previous argument is unset, launches the weapon with given velocity. If the velocity is higher than 400, it will be clamped to 400.
   * @returns {void}
   **/
-  DropNamedWeapon(this: Player, cls: string, target: Vector, velocity: Vector): void
-  
-  /**
-  * 
-  * Show/Hide the player's weapon's viewmodel.
-  * 
-  * @name Player:DrawViewModel
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Player/DrawViewModel
-  * @param {Player} this - no description
-  * @param {boolean} draw - Should draw
-  * @param {number} vm - Which view model to show/hide, 0-2.
-  * @returns {void}
-  **/
-  DrawViewModel(this: Player, draw: boolean, vm: number): void
+  DropNamedWeapon(this: Player, cls: string, target?: Vector, velocity?: Vector): void
   
   /**
   * 
@@ -27857,6 +28322,20 @@ declare interface Player  {
   * @returns {void}
   **/
   DrawWorldModel(this: Player, draw: boolean): void
+  
+  /**
+  * 
+  * Show/Hide the player's weapon's viewmodel.
+  * 
+  * @name Player:DrawViewModel
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Player/DrawViewModel
+  * @param {Player} this - no description
+  * @param {boolean} draw - Should draw
+  * @param {number} vm - Which view model to show/hide, 0-2.
+  * @returns {void}
+  **/
+  DrawViewModel(this: Player, draw: boolean, vm?: number): void
   
   /**
   * 
@@ -28000,7 +28479,7 @@ declare interface Player  {
   
   /**
   * 
-  * Creates the player's ragdoll entity.
+  * Creates the player's death ragdoll entity and deletes the old one.
   * This is normally used when a player dies, to create their death ragdoll.
   * The ragdoll will be created with the player's properties such as [Position](https://wiki.garrysmod.com/page/Entity/GetPos), [Angles](https://wiki.garrysmod.com/page/Entity/GetAngles), [PlayerColor](https://wiki.garrysmod.com/page/Player/GetPlayerColor), [Velocity](https://wiki.garrysmod.com/page/Entity/GetVelocity) and [Model](https://wiki.garrysmod.com/page/Entity/GetModel).
   * You can retrieve the entity this creates with @Player:GetRagdollEntity.
@@ -28035,7 +28514,6 @@ declare interface Player  {
   * @name Player:CheckLimit
   * @realm client, server
   * @wiki https://wiki.garrysmod.com/page/Player/CheckLimit
-  * @validate
   * @param {Player} this - no description
   * @param {string} limitType - Limit type. In unmodified Sandbox possible values are:
   * * "props"
@@ -28094,10 +28572,10 @@ declare interface Player  {
   * @wiki https://wiki.garrysmod.com/page/Player/Ban
   * @param {Player} this - no description
   * @param {number} minutes - Duration of the ban in minutes (0 is permanent)
-  * @param {boolean} kick - Whether to kick the player after banning then or not
+  * @param {boolean} kick - Whether to kick the player after banning them or not
   * @returns {void}
   **/
-  Ban(this: Player, minutes: number, kick: boolean): void
+  Ban(this: Player, minutes: number, kick?: boolean): void
   
   /**
   * 
@@ -28127,18 +28605,6 @@ declare interface Player  {
   
   /**
   * 
-  * Restarts the main animation on the player, has the same effect as calling @EntityFuncs:SetCycle( 0 ).
-  * 
-  * @name Player:AnimRestartMainSequence
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Player/AnimRestartMainSequence
-  * @param {Player} this - no description
-  * @returns {void}
-  **/
-  AnimRestartMainSequence(this: Player): void
-  
-  /**
-  * 
   * Sets the sequence of the animation playing in the given gesture slot.
   * 
   * @name Player:AnimSetGestureSequence
@@ -28150,6 +28616,18 @@ declare interface Player  {
   * @returns {void}
   **/
   AnimSetGestureSequence(this: Player, slot: GESTURE_SLOT, sequenceID: number): void
+  
+  /**
+  * 
+  * Restarts the main animation on the player, has the same effect as calling @EntityFuncs:SetCycle( 0 ).
+  * 
+  * @name Player:AnimRestartMainSequence
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Player/AnimRestartMainSequence
+  * @param {Player} this - no description
+  * @returns {void}
+  **/
+  AnimRestartMainSequence(this: Player): void
   
   /**
   * 
@@ -28165,7 +28643,7 @@ declare interface Player  {
   * @param {boolean} autokill - Whether the animation should be automatically stopped. true = stops the animation, false = the animation keeps playing/looping
   * @returns {void}
   **/
-  AnimRestartGesture(this: Player, slot: GESTURE_SLOT, activity: ACT, autokill: boolean): void
+  AnimRestartGesture(this: Player, slot: GESTURE_SLOT, activity: ACT, autokill?: boolean): void
   
   /**
   * 
@@ -28232,21 +28710,7 @@ declare interface Player  {
   * @param {boolean} autokill - If the animation should not loop. true = stops the animation, false = the animation keeps playing.
   * @returns {void}
   **/
-  AddVCDSequenceToGestureSlot(this: Player, slot: GESTURE_SLOT, sequenceId: number, cycle: number, autokill: boolean): void
-  
-  /**
-  * 
-  * Adds a entity to the players list of frozen objects.
-  * 
-  * @name Player:AddFrozenPhysicsObject
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/Player/AddFrozenPhysicsObject
-  * @param {Player} this - no description
-  * @param {Entity} ent - Entity
-  * @param {PhysObj} physobj - Physics object belonging to ent
-  * @returns {void}
-  **/
-  AddFrozenPhysicsObject(this: Player, ent: Entity, physobj: PhysObj): void
+  AddVCDSequenceToGestureSlot(this: Player, slot: GESTURE_SLOT, sequenceId: number, cycle: number, autokill?: boolean): void
   
   /**
   * 
@@ -28264,6 +28728,20 @@ declare interface Player  {
   * @returns {void}
   **/
   AddPlayerOption(this: Player, name: string, timeout: number, vote_callback: UnknownFunc, draw_callback: UnknownFunc): void
+  
+  /**
+  * 
+  * Adds a entity to the players list of frozen objects.
+  * 
+  * @name Player:AddFrozenPhysicsObject
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/Player/AddFrozenPhysicsObject
+  * @param {Player} this - no description
+  * @param {Entity} ent - Entity
+  * @param {PhysObj} physobj - Physics object belonging to ent
+  * @returns {void}
+  **/
+  AddFrozenPhysicsObject(this: Player, ent: Entity, physobj: PhysObj): void
   
   /**
   * 
@@ -28298,7 +28776,6 @@ declare interface Player  {
   * @name Player:AddCount
   * @realm client, server
   * @wiki https://wiki.garrysmod.com/page/Player/AddCount
-  * @note This function is only available in Sandbox and its derivatives
   * @param {Player} this - no description
   * @param {string} str - Entity type
   * @param {Entity} ent - Entity
@@ -28313,7 +28790,6 @@ declare interface Player  {
   * @name Player:AddCleanup
   * @realm client, server
   * @wiki https://wiki.garrysmod.com/page/Player/AddCleanup
-  * @validate
   * @param {Player} this - no description
   * @param {string} type - Cleanup type
   * @param {Entity} ent - Entity to add
@@ -28333,175 +28809,6 @@ declare interface Player  {
   * @returns {number} - Player's SteamID3 aka AccountID.
   **/
   AccountID(this: Player): number
-  
-}
-
-declare interface PlayerHooks extends Player {
-  /**
-  * 
-  * Called when the player changes their weapon to another one causing their viewmodel model to change
-  * 
-  * @name PlayerHooks:ViewModelChanged
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/PLAYER/ViewModelChanged
-  * @param {Player} this - no description
-  * @param {Entity} viewmodel - The viewmodel that is changing
-  * @param {string} prev - The old model
-  * @param {string} next - The new model
-  * @returns {void}
-  **/
-  ViewModelChanged(this: Player, viewmodel: Entity, prev: string, next: string): void
-  
-  /**
-  * 
-  * Called from @GamemodeHooks:CreateMove.
-  * 
-  * @name PlayerHooks:StartMove
-  * @predicted false
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/PLAYER/StartMove
-  * @note This hook is run after the @drive.StartMove has been called.
-  * @warning This hook will not work if the current gamemode overrides @GamemodeHooks:SetupMove and does not call this hook.
-  * @param {Player} this - no description
-  * @param {CMoveData} mv - no description
-  * @param {CUserCmd} cmd - no description
-  * @returns {boolean} - Return true to prevent default action
-  **/
-  StartMove(this: Player, mv: CMoveData, cmd: CUserCmd): boolean
-  
-  /**
-  * 
-  * Called when the player spawns
-  * 
-  * @name PlayerHooks:Spawn
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/PLAYER/Spawn
-  * @param {Player} this - no description
-  * @returns {void}
-  **/
-  Spawn(this: Player): void
-  
-  /**
-  * 
-  * Setup the network table accessors.
-  * 
-  * @name PlayerHooks:SetupDataTables
-  * @predicted false
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/PLAYER/SetupDataTables
-  * @param {Player} this - no description
-  * @returns {void}
-  **/
-  SetupDataTables(this: Player): void
-  
-  /**
-  * 
-  * Called when we need to set player model from the class.
-  * 
-  * @name PlayerHooks:SetModel
-  * @predicted false
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/PLAYER/SetModel
-  * @note This will only be called if you have not overridden @GamemodeHooks:PlayerSetModel or call this function from it or anywhere else using @player_manager.RunClass
-  * @param {Player} this - no description
-  * @returns {void}
-  **/
-  SetModel(this: Player): void
-  
-  /**
-  * 
-  * Called before the viewmodel is drawn
-  * 
-  * @name PlayerHooks:PreDrawViewModel
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/PLAYER/PreDrawViewModel
-  * @param {Player} this - no description
-  * @param {Entity} viewmodel - The viewmodel
-  * @param {Entity} weapon - The weapon
-  * @returns {void}
-  **/
-  PreDrawViewModel(this: Player, viewmodel: Entity, weapon: Entity): void
-  
-  /**
-  * 
-  * Called after the viewmodel has been drawn
-  * 
-  * @name PlayerHooks:PostDrawViewModel
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/PLAYER/PostDrawViewModel
-  * @param {Player} this - no description
-  * @param {Entity} viewmodel - The viewmodel
-  * @param {Entity} weapon - The weapon
-  * @returns {void}
-  **/
-  PostDrawViewModel(this: Player, viewmodel: Entity, weapon: Entity): void
-  
-  /**
-  * 
-  * Called from @GamemodeHooks:Move.
-  * 
-  * @name PlayerHooks:Move
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/PLAYER/Move
-  * @note This hook is run after the @drive.Move has been called.
-  * @warning This hook will not work if the current gamemode overrides @GamemodeHooks:Move and does not call this hook.
-  * @param {Player} this - no description
-  * @param {CMoveData} mv - Movement information
-  * @returns {boolean} - Return true to prevent default action
-  **/
-  Move(this: Player, mv: CMoveData): boolean
-  
-  /**
-  * 
-  * Called on spawn to give the player their default loadout
-  * 
-  * @name PlayerHooks:Loadout
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/PLAYER/Loadout
-  * @param {Player} this - no description
-  * @returns {void}
-  **/
-  Loadout(this: Player): void
-  
-  /**
-  * 
-  * Called when the class object is created
-  * 
-  * @name PlayerHooks:Init
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/PLAYER/Init
-  * @param {Player} this - no description
-  * @returns {void}
-  **/
-  Init(this: Player): void
-  
-  /**
-  * 
-  * Called on player spawn to determine which hand model to use
-  * 
-  * @name PlayerHooks:GetHandsModel
-  * @predicted false
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/PLAYER/GetHandsModel
-  * @param {Player} this - no description
-  * @returns {table} - A table containing info about view model hands model to be set. See examples.
-  **/
-  GetHandsModel(this: Player): table
-  
-  /**
-  * 
-  * Called from @GamemodeHooks:FinishMove.
-  * 
-  * @name PlayerHooks:FinishMove
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/PLAYER/FinishMove
-  * @note This hook is run after the @drive.FinishMove has been called.
-  * @warning This hook will not work if the current gamemode overrides @GamemodeHooks:FinishMove and does not call this hook.
-  * @param {Player} this - no description
-  * @param {CMoveData} mv - no description
-  * @returns {boolean} - Return true to prevent default action
-  **/
-  FinishMove(this: Player, mv: CMoveData): boolean
   
 }
 
@@ -28615,7 +28922,7 @@ declare interface PhysObj  {
   * @param {boolean} teleport - no description
   * @returns {void}
   **/
-  SetPos(this: PhysObj, position: Vector, teleport: boolean): void
+  SetPos(this: PhysObj, position: Vector, teleport?: boolean): void
   
   /**
   * 
@@ -28917,13 +29224,13 @@ declare interface PhysObj  {
   
   /**
   * 
-  * Returns the volume in source units³.
+  * Returns the volume in source units³. Or nil if the PhysObj is a generated sphere or box.
   * 
   * @name PhysObj:GetVolume
   * @realm client, server
   * @wiki https://wiki.garrysmod.com/page/PhysObj/GetVolume
   * @param {PhysObj} this - no description
-  * @returns {number} - volume
+  * @returns {number} - The volume or nil if the PhysObj is a generated sphere or box.
   **/
   GetVolume(this: PhysObj): number
   
@@ -28954,13 +29261,13 @@ declare interface PhysObj  {
   
   /**
   * 
-  * Returns the surface area of the physics object in source-units².
+  * Returns the surface area of the physics object in source-units². Or nil if the PhysObj is a generated sphere or box.
   * 
   * @name PhysObj:GetSurfaceArea
   * @realm client, server
   * @wiki https://wiki.garrysmod.com/page/PhysObj/GetSurfaceArea
   * @param {PhysObj} this - no description
-  * @returns {number} - The surface area
+  * @returns {number} - The surface area or nil if the PhysObj is a generated sphere or box.
   **/
   GetSurfaceArea(this: PhysObj): number
   
@@ -29110,18 +29417,6 @@ declare interface PhysObj  {
   
   /**
   * 
-  * Returns 1 divided by the physics object's mass.
-  * 
-  * @name PhysObj:GetInvMass
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/PhysObj/GetInvMass
-  * @param {PhysObj} this - no description
-  * @returns {number} - The inverted mass.
-  **/
-  GetInvMass(this: PhysObj): number
-  
-  /**
-  * 
   * Returns the mass of the physics object.
   * 
   * @name PhysObj:GetMass
@@ -29131,6 +29426,18 @@ declare interface PhysObj  {
   * @returns {number} - The mass in kilograms.
   **/
   GetMass(this: PhysObj): number
+  
+  /**
+  * 
+  * Returns 1 divided by the physics object's mass.
+  * 
+  * @name PhysObj:GetInvMass
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/PhysObj/GetInvMass
+  * @param {PhysObj} this - no description
+  * @returns {number} - The inverted mass.
+  **/
+  GetInvMass(this: PhysObj): number
   
   /**
   * 
@@ -29208,18 +29515,6 @@ declare interface PhysObj  {
   
   /**
   * 
-  * Gets the angular velocity of the object in degrees per second.
-  * 
-  * @name PhysObj:GetAngleVelocity
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/PhysObj/GetAngleVelocity
-  * @param {PhysObj} this - no description
-  * @returns {Vector} - The angular velocity
-  **/
-  GetAngleVelocity(this: PhysObj): Vector
-  
-  /**
-  * 
   * Returns the angles of the physics object.
   * 
   * @name PhysObj:GetAngles
@@ -29229,6 +29524,18 @@ declare interface PhysObj  {
   * @returns {Angle} - The angles of the physics object.
   **/
   GetAngles(this: PhysObj): Angle
+  
+  /**
+  * 
+  * Gets the angular velocity of the object in degrees per second.
+  * 
+  * @name PhysObj:GetAngleVelocity
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/PhysObj/GetAngleVelocity
+  * @param {PhysObj} this - no description
+  * @returns {Vector} - The angular velocity
+  **/
+  GetAngleVelocity(this: PhysObj): Vector
   
   /**
   * 
@@ -29385,6 +29692,20 @@ declare interface PhysObj  {
   
   /**
   * 
+  * Rotates the object so that it's angles are aligned to the ones inputted.
+  * 
+  * @name PhysObj:AlignAngles
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/PhysObj/AlignAngles
+  * @param {PhysObj} this - no description
+  * @param {Angle} from - no description
+  * @param {Angle} to - no description
+  * @returns {Angle} - no description
+  **/
+  AlignAngles(this: PhysObj, from: Angle, to: Angle): Angle
+  
+  /**
+  * 
   * Applies the specified force to the physics object. (in Newtons)
   * 
   * @name PhysObj:ApplyForceCenter
@@ -29397,20 +29718,6 @@ declare interface PhysObj  {
   * @returns {void}
   **/
   ApplyForceCenter(this: PhysObj, force: Vector): void
-  
-  /**
-  * 
-  * Rotates the object so that it's angles are aligned to the ones inputted.
-  * 
-  * @name PhysObj:AlignAngles
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/PhysObj/AlignAngles
-  * @param {PhysObj} this - no description
-  * @param {Angle} from - no description
-  * @param {Angle} to - no description
-  * @returns {Angle} - no description
-  **/
-  AlignAngles(this: PhysObj, from: Angle, to: Angle): Angle
   
   /**
   * 
@@ -29499,375 +29806,6 @@ declare interface PhysCollide  {
   * @returns {void}
   **/
   Destroy(this: PhysCollide): void
-  
-}
-
-declare interface PathFollower  {
-  /**
-  * 
-  * Move the bot along the path.
-  * 
-  * @name PathFollower:Update
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/PathFollower/Update
-  * @param {PathFollower} this - no description
-  * @param {NextBot} bot - The bot to update along the path
-  * @returns {void}
-  **/
-  Update(this: PathFollower, bot: NextBot): void
-  
-  /**
-  * 
-  * Sets minimum range movement goal must be along path
-  * 
-  * @name PathFollower:SetMinLookAheadDistance
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/PathFollower/SetMinLookAheadDistance
-  * @param {PathFollower} this - no description
-  * @param {number} mindist - The minimum look ahead distance
-  * @returns {void}
-  **/
-  SetMinLookAheadDistance(this: PathFollower, mindist: number): void
-  
-  /**
-  * 
-  * How close we can get to the goal to call it done
-  * 
-  * @name PathFollower:SetGoalTolerance
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/PathFollower/SetGoalTolerance
-  * @param {PathFollower} this - no description
-  * @param {number} distance - The distance we're setting it to
-  * @returns {void}
-  **/
-  SetGoalTolerance(this: PathFollower, distance: number): void
-  
-  /**
-  * 
-  * Resets the age which is retrieved by @PathFollower:GetAge to 0.
-  * 
-  * @name PathFollower:ResetAge
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/PathFollower/ResetAge
-  * @param {PathFollower} this - no description
-  * @returns {void}
-  **/
-  ResetAge(this: PathFollower): void
-  
-  /**
-  * 
-  * Moves the cursor to the end of the path
-  * 
-  * @name PathFollower:MoveCursorToStart
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/PathFollower/MoveCursorToStart
-  * @param {PathFollower} this - no description
-  * @returns {void}
-  **/
-  MoveCursorToStart(this: PathFollower): void
-  
-  /**
-  * 
-  * Moves the cursor to the end of the path
-  * 
-  * @name PathFollower:MoveCursorToEnd
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/PathFollower/MoveCursorToEnd
-  * @param {PathFollower} this - no description
-  * @returns {void}
-  **/
-  MoveCursorToEnd(this: PathFollower): void
-  
-  /**
-  * 
-  * Moves the cursor of the path to the closest position compared to given vector.
-  * 
-  * @name PathFollower:MoveCursorToClosestPosition
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/PathFollower/MoveCursorToClosestPosition
-  * @param {PathFollower} this - no description
-  * @param {Vector} pos - no description
-  * @param {number} type - Seek type
-  * 0 = SEEK_ENTIRE_PATH - Search the entire path length
-  * 1 = SEEK_AHEAD - Search from current cursor position forward toward end of path
-  * 2 = SEEK_BEHIND - Search from current cursor position backward toward path start
-  * @param {number} alongLimit - no description
-  * @returns {void}
-  **/
-  MoveCursorToClosestPosition(this: PathFollower, pos: Vector, type: number, alongLimit: number): void
-  
-  /**
-  * 
-  * Sets the cursor position to given distance.
-  * For relative distance, see @PathFollower:MoveCursor.
-  * 
-  * @name PathFollower:MoveCursorTo
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/PathFollower/MoveCursorTo
-  * @param {PathFollower} this - no description
-  * @param {number} distance - The distance to move the cursor (in world units)
-  * @returns {void}
-  **/
-  MoveCursorTo(this: PathFollower, distance: number): void
-  
-  /**
-  * 
-  * Moves the cursor by give distance.
-  * For a function that sets the distance, see @PathFollower:MoveCursorTo.
-  * 
-  * @name PathFollower:MoveCursor
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/PathFollower/MoveCursor
-  * @param {PathFollower} this - no description
-  * @param {number} distance - The distance to move the cursor (in relative world units)
-  * @returns {void}
-  **/
-  MoveCursor(this: PathFollower, distance: number): void
-  
-  /**
-  * 
-  * Returns the last segment of the path.
-  * 
-  * @name PathFollower:LastSegment
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/PathFollower/LastSegment
-  * @param {PathFollower} this - no description
-  * @returns {PathSegment} - A table with @PathSegment structure.
-  **/
-  LastSegment(this: PathFollower): PathSegment
-  
-  /**
-  * 
-  * Returns true if the path is valid
-  * 
-  * @name PathFollower:IsValid
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/PathFollower/IsValid
-  * @param {PathFollower} this - no description
-  * @returns {boolean} - Wether the path is valid or not.
-  **/
-  IsValid(this: PathFollower): boolean
-  
-  /**
-  * 
-  * Invalidates the current path
-  * 
-  * @name PathFollower:Invalidate
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/PathFollower/Invalidate
-  * @param {PathFollower} this - no description
-  * @returns {void}
-  **/
-  Invalidate(this: PathFollower): void
-  
-  /**
-  * 
-  * Returns the path start position
-  * 
-  * @name PathFollower:GetStart
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/PathFollower/GetStart
-  * @param {PathFollower} this - no description
-  * @returns {Vector} - The start position
-  **/
-  GetStart(this: PathFollower): Vector
-  
-  /**
-  * 
-  * Returns the vector position of distance along path
-  * 
-  * @name PathFollower:GetPositionOnPath
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/PathFollower/GetPositionOnPath
-  * @param {PathFollower} this - no description
-  * @param {number} distance - The distance along the path to query
-  * @returns {Vector} - The position
-  **/
-  GetPositionOnPath(this: PathFollower, distance: number): Vector
-  
-  /**
-  * 
-  * Returns the minimum range movement goal must be along path.
-  * 
-  * @name PathFollower:GetMinLookAheadDistance
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/PathFollower/GetMinLookAheadDistance
-  * @param {PathFollower} this - no description
-  * @returns {number} - The minimum look ahead distance
-  **/
-  GetMinLookAheadDistance(this: PathFollower): number
-  
-  /**
-  * 
-  * Returns the total length of the path
-  * 
-  * @name PathFollower:GetLength
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/PathFollower/GetLength
-  * @param {PathFollower} this - no description
-  * @returns {number} - The length of the path
-  **/
-  GetLength(this: PathFollower): number
-  
-  /**
-  * @name PathFollower:GetHindrance
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/PathFollower/GetHindrance
-  * @param {PathFollower} this - no description
-  * @returns {Entity} - no description
-  **/
-  GetHindrance(this: PathFollower): Entity
-  
-  /**
-  * 
-  * Returns how close we can get to the goal to call it done.
-  * 
-  * @name PathFollower:GetGoalTolerance
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/PathFollower/GetGoalTolerance
-  * @param {PathFollower} this - no description
-  * @returns {number} - The distance we're setting it to
-  **/
-  GetGoalTolerance(this: PathFollower): number
-  
-  /**
-  * 
-  * Returns the path end position
-  * 
-  * @name PathFollower:GetEnd
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/PathFollower/GetEnd
-  * @param {PathFollower} this - no description
-  * @returns {Vector} - The end position
-  **/
-  GetEnd(this: PathFollower): Vector
-  
-  /**
-  * 
-  * Returns the current progress along the path
-  * 
-  * @name PathFollower:GetCursorPosition
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/PathFollower/GetCursorPosition
-  * @param {PathFollower} this - no description
-  * @returns {number} - The current progress
-  **/
-  GetCursorPosition(this: PathFollower): number
-  
-  /**
-  * 
-  * Returns the cursor data
-  * 
-  * @name PathFollower:GetCursorData
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/PathFollower/GetCursorData
-  * @param {PathFollower} this - no description
-  * @returns {IPathFollowerGetCursorDataReturn} - A table with 3 keys:
-  **/
-  GetCursorData(this: PathFollower): IPathFollowerGetCursorDataReturn
-  
-  /**
-  * 
-  * Returns the current goal data. Can return nil if the current goal is invalid, for example immediately after @PathFollower:Update.
-  * 
-  * @name PathFollower:GetCurrentGoal
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/PathFollower/GetCurrentGoal
-  * @param {PathFollower} this - no description
-  * @returns {PathSegment} - A table with @PathSegment structure.
-  **/
-  GetCurrentGoal(this: PathFollower): PathSegment
-  
-  /**
-  * 
-  * The closest position along the path to a position
-  * 
-  * @name PathFollower:GetClosestPosition
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/PathFollower/GetClosestPosition
-  * @param {PathFollower} this - no description
-  * @param {Vector} position - The point we're querying for
-  * @returns {Vector} - The closest position on the path
-  **/
-  GetClosestPosition(this: PathFollower, position: Vector): Vector
-  
-  /**
-  * 
-  * Returns all of the segments of the given path.
-  * 
-  * @name PathFollower:GetAllSegments
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/PathFollower/GetAllSegments
-  * @param {PathFollower} this - no description
-  * @returns {table[]} - A table of tables with @PathSegment structure.
-  **/
-  GetAllSegments(this: PathFollower): table[]
-  
-  /**
-  * 
-  * Returns the age since the path was built
-  * 
-  * @name PathFollower:GetAge
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/PathFollower/GetAge
-  * @param {PathFollower} this - no description
-  * @returns {number} - Path age
-  **/
-  GetAge(this: PathFollower): number
-  
-  /**
-  * 
-  * Returns the first segment of the path.
-  * 
-  * @name PathFollower:FirstSegment
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/PathFollower/FirstSegment
-  * @param {PathFollower} this - no description
-  * @returns {PathSegment} - A table with @PathSegment structure.
-  **/
-  FirstSegment(this: PathFollower): PathSegment
-  
-  /**
-  * 
-  * Draws the path. This is meant for debugging - and uses debug overlay.
-  * 
-  * @name PathFollower:Draw
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/PathFollower/Draw
-  * @param {PathFollower} this - no description
-  * @returns {void}
-  **/
-  Draw(this: PathFollower): void
-  
-  /**
-  * 
-  * Compute shortest path from bot to 'goal' via A* algorithm.
-  * 
-  * @name PathFollower:Compute
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/PathFollower/Compute
-  * @param {PathFollower} this - no description
-  * @param {NextBot} from - The nextbot we're generating for
-  * @param {Vector} to - To point
-  * @param {function} generator - A funtion that allows you to alter the path generation. See example below for the default function.
-  * @returns {boolean} - * If returns true, path was found to the goal position.
-  * * If returns false, path may either be invalid (use IsValid() to check), or valid but doesn't reach all the way to the goal.
-  **/
-  Compute(this: PathFollower, from: NextBot, to: Vector, generator: UnknownFunc): boolean
-  
-  /**
-  * 
-  * If you created your path with type "Chase" this functions should be used in place of @PathFollower:Update to cause the bot to chase the specified entity.
-  * 
-  * @name PathFollower:Chase
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/PathFollower/Chase
-  * @param {PathFollower} this - no description
-  * @param {NextBot} bot - The bot to update along the path
-  * @param {Entity} ent - The entity we want to chase
-  * @returns {void}
-  **/
-  Chase(this: PathFollower, bot: NextBot, ent: Entity): void
   
 }
 
@@ -29977,7 +29915,7 @@ declare interface Panel  {
   * @param {number} offset - The gap to leave between this and the passed panel. Negative values will cause the panel's width to increase, forming an overlap.
   * @returns {void}
   **/
-  StretchRightTo(this: Panel, tgtPanel: Panel, offset: number): void
+  StretchRightTo(this: Panel, tgtPanel: Panel, offset?: number): void
   
   /**
   * 
@@ -29991,7 +29929,7 @@ declare interface Panel  {
   * @param {number} offset - The gap to leave between this and the passed panel. Negative values will cause the panel's height to increase, forming an overlap.
   * @returns {void}
   **/
-  StretchBottomTo(this: Panel, tgtPanel: Panel, offset: number): void
+  StretchBottomTo(this: Panel, tgtPanel: Panel, offset?: number): void
   
   /**
   * 
@@ -30045,21 +29983,6 @@ declare interface Panel  {
   
   /**
   * 
-  * Resizes the panel object's width to accommodate all child objects/contents.
-  * Only works on @Label type derived panels such as @DLabel type by default, and on any panel that manually implemented @Panel:GetContentSize method.
-  * 
-  * @name Panel:SizeToContentsX
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/Panel/SizeToContentsX
-  * @note You must call this function **AFTER** setting text/font or adjusting child panels.
-  * @param {Panel} this - no description
-  * @param {number} addVal - The number of extra pixels to add to the width. Can be a negative number, to reduce the width.
-  * @returns {void}
-  **/
-  SizeToContentsX(this: Panel, addVal: number): void
-  
-  /**
-  * 
   * Resizes the panel object's height to accommodate all child objects/contents.
   * Only works on @Label type derived panels such as @DLabel type by default, and on any panel that manually implemented @Panel:GetContentSize method.
   * 
@@ -30071,7 +29994,22 @@ declare interface Panel  {
   * @param {number} addVal - The number of extra pixels to add to the height.
   * @returns {void}
   **/
-  SizeToContentsY(this: Panel, addVal: number): void
+  SizeToContentsY(this: Panel, addVal?: number): void
+  
+  /**
+  * 
+  * Resizes the panel object's width to accommodate all child objects/contents.
+  * Only works on @Label type derived panels such as @DLabel type by default, and on any panel that manually implemented @Panel:GetContentSize method.
+  * 
+  * @name Panel:SizeToContentsX
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/Panel/SizeToContentsX
+  * @note You must call this function **AFTER** setting text/font or adjusting child panels.
+  * @param {Panel} this - no description
+  * @param {number} addVal - The number of extra pixels to add to the width. Can be a negative number, to reduce the width.
+  * @returns {void}
+  **/
+  SizeToContentsX(this: Panel, addVal?: number): void
   
   /**
   * 
@@ -30105,7 +30043,7 @@ declare interface Panel  {
   * @param {boolean} sizeH - Resize the height of the panel.
   * @returns {void}
   **/
-  SizeToChildren(this: Panel, sizeW: boolean, sizeH: boolean): void
+  SizeToChildren(this: Panel, sizeW?: boolean, sizeH?: boolean): void
   
   /**
   * 
@@ -30123,7 +30061,7 @@ declare interface Panel  {
   * @param {function} callback - The function to be called once the animation finishes. Arguments are:
   * @returns {void}
   **/
-  SizeTo(this: Panel, sizeW: number, sizeH: number, time: number, delay: number, ease: number, callback: PanelSizeToCallback): void
+  SizeTo(this: Panel, sizeW?: number, sizeH?: number, time: number, delay?: number, ease?: number, callback: PanelSizeToCallback): void
   
   /**
   * 
@@ -30136,22 +30074,6 @@ declare interface Panel  {
   * @returns {void}
   **/
   Show(this: Panel): void
-  
-  /**
-  * 
-  * Sets the panels z position which determines the rendering order.
-  * Panels with lower z positions appear behind panels with higher z positions.
-  * This also controls in which order panels docked with @Panel:Dock appears.
-  * 
-  * @name Panel:SetZPos
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/Panel/SetZPos
-  * @param {Panel} this - no description
-  * @param {number} zIndex - The z position of the panel.
-  * Can't be lower than -32768 or higher than 32767.
-  * @returns {void}
-  **/
-  SetZPos(this: Panel, zIndex: number): void
   
   /**
   * 
@@ -30168,6 +30090,22 @@ declare interface Panel  {
   * @returns {void}
   **/
   SetWrap(this: Panel, wrap: boolean): void
+  
+  /**
+  * 
+  * Sets the panels z position which determines the rendering order.
+  * Panels with lower z positions appear behind panels with higher z positions.
+  * This also controls in which order panels docked with @Panel:Dock appears.
+  * 
+  * @name Panel:SetZPos
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/Panel/SetZPos
+  * @param {Panel} this - no description
+  * @param {number} zIndex - The z position of the panel.
+  * Can't be lower than -32768 or higher than 32767.
+  * @returns {void}
+  **/
+  SetZPos(this: Panel, zIndex: number): void
   
   /**
   * 
@@ -30238,7 +30176,7 @@ declare interface Panel  {
   * @param {boolean} display - True to display the vertical text scroll bar, false to hide it.
   * @returns {void}
   **/
-  SetVerticalScrollbarEnabled(this: Panel, display: boolean): void
+  SetVerticalScrollbarEnabled(this: Panel, display?: boolean): void
   
   /**
   * 
@@ -30267,16 +30205,7 @@ declare interface Panel  {
   * @param {Panel} tooltipPanel - The panel to use as the tooltip.
   * @returns {void}
   **/
-  SetTooltipPanel(this: Panel, tooltipPanel: Panel): void
-  
-  /**
-  * @name Panel:SetToolTipPanel
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/Panel/SetToolTipPanel
-  * @param {Panel} this - no description
-  * @returns {void}
-  **/
-  SetToolTipPanel(this: Panel): void
+  SetTooltipPanel(this: Panel, tooltipPanel?: Panel): void
   
   /**
   * 
@@ -30290,6 +30219,15 @@ declare interface Panel  {
   * @returns {void}
   **/
   SetTooltip(this: Panel, str: string): void
+  
+  /**
+  * @name Panel:SetToolTipPanel
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/Panel/SetToolTipPanel
+  * @param {Panel} this - no description
+  * @returns {void}
+  **/
+  SetToolTipPanel(this: Panel): void
   
   /**
   * @name Panel:SetToolTip
@@ -30470,7 +30408,7 @@ declare interface Panel  {
   * @param {number | boolean} selected - Whether the object should be selected or deselected. @Panel:IsSelected can be used to determine the selected state of the object.
   * @returns {void}
   **/
-  SetSelected(this: Panel, selected: number | boolean): void
+  SetSelected(this: Panel, selected?: number | boolean): void
   
   /**
   * 
@@ -30556,18 +30494,6 @@ declare interface Panel  {
   
   /**
   * 
-  * This function does nothing.
-  * 
-  * @name Panel:SetPaintFunction
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/Panel/SetPaintFunction
-  * @param {Panel} this - no description
-  * @returns {void}
-  **/
-  SetPaintFunction(this: Panel): void
-  
-  /**
-  * 
   * Enables or disables painting of the panel manually with @Panel:PaintManual.
   * 
   * @name Panel:SetPaintedManually
@@ -30578,6 +30504,18 @@ declare interface Panel  {
   * @returns {void}
   **/
   SetPaintedManually(this: Panel, paintedManually: boolean): void
+  
+  /**
+  * 
+  * This function does nothing.
+  * 
+  * @name Panel:SetPaintFunction
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/Panel/SetPaintFunction
+  * @param {Panel} this - no description
+  * @returns {void}
+  **/
+  SetPaintFunction(this: Panel): void
   
   /**
   * 
@@ -30659,7 +30597,7 @@ declare interface Panel  {
   * @param {string} bodygroups - The body groups to set. Each single-digit number in the string represents a separate bodygroup, **up to 9 in total**.
   * @returns {void}
   **/
-  SetModel(this: Panel, ModelPath: string, skin: number, bodygroups: string): void
+  SetModel(this: Panel, ModelPath: string, skin?: number, bodygroups?: string): void
   
   /**
   * 
@@ -30675,7 +30613,7 @@ declare interface Panel  {
   * @param {number} minH - The minimum height of the object.
   * @returns {void}
   **/
-  SetMinimumSize(this: Panel, minW: number, minH: number): void
+  SetMinimumSize(this: Panel, minW?: number, minH?: number): void
   
   /**
   * 
@@ -30702,6 +30640,21 @@ declare interface Panel  {
   * @returns {void}
   **/
   SetKeyBoardInputEnabled(this: Panel, keyboardInput: boolean): void
+  
+  /**
+  * 
+  * Sets the height of the panel.
+  * Calls @PanelHooks:OnSizeChanged and marks this panel for layout (@Panel:InvalidateLayout).
+  * See also @Panel:SetSize.
+  * 
+  * @name Panel:SetHeight
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/Panel/SetHeight
+  * @param {Panel} this - no description
+  * @param {number} height - The height to be set.
+  * @returns {void}
+  **/
+  SetHeight(this: Panel, height: number): void
   
   /**
   * 
@@ -30734,21 +30687,6 @@ declare interface Panel  {
   * @returns {void}
   **/
   SetFontInternal(this: Panel, fontName: string): void
-  
-  /**
-  * 
-  * Sets the height of the panel.
-  * Calls @PanelHooks:OnSizeChanged and marks this panel for layout (@Panel:InvalidateLayout).
-  * See also @Panel:SetSize.
-  * 
-  * @name Panel:SetHeight
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/Panel/SetHeight
-  * @param {Panel} this - no description
-  * @param {number} height - The height to be set.
-  * @returns {void}
-  **/
-  SetHeight(this: Panel, height: number): void
   
   /**
   * 
@@ -30860,7 +30798,7 @@ declare interface Panel  {
   * @param {boolean} drawOnTop - Whether or not to draw the panel in front of all others.
   * @returns {void}
   **/
-  SetDrawOnTop(this: Panel, drawOnTop: boolean): void
+  SetDrawOnTop(this: Panel, drawOnTop?: boolean): void
   
   /**
   * 
@@ -30972,31 +30910,14 @@ declare interface Panel  {
   * @name Panel:SetConVar
   * @realm client
   * @wiki https://wiki.garrysmod.com/page/Panel/SetConVar
+  * @note Blocked convars will not work with this, see [Blocked ConCommands](https://wiki.garrysmod.com/page/Blocked%20ConCommands)
   * @warning This function does not exist on all panels
+  * @warning This function cannot interact with serverside convars unless you are host
   * @param {Panel} this - no description
   * @param {string} convar - The console variable to check.
   * @returns {void}
   **/
   SetConVar(this: Panel, convar: string): void
-  
-  /**
-  * 
-  * Sets the alignment of the contents.
-  * [Category:Label](https://wiki.garrysmod.com/page/Category:Label)
-  * [Category:DLabel](https://wiki.garrysmod.com/page/Category:DLabel)
-  * 
-  * @name Panel:SetContentAlignment
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/Panel/SetContentAlignment
-  * @param {Panel} this - no description
-  * @param {number} alignment - The direction of the content, based on the number pad.
-  * @7 key: **top-left**@8 key: **top-center**@9 key: **top-right**
-  * @4 key: **middle-left**@5 key: **center**@6 key: **middle-right**
-  * @1 key: **bottom-left**@2 key: **bottom-center**@3 key: **bottom-right**
-  * [File:DLabel_SetContentAlignment.gif](https://wiki.garrysmod.com/page/File:DLabel_SetContentAlignment.gif)
-  * @returns {void}
-  **/
-  SetContentAlignment(this: Panel, alignment: number): void
   
   /**
   * 
@@ -31025,6 +30946,25 @@ declare interface Panel  {
   * @returns {void}
   **/
   SetCaretPos(this: Panel, offset: number): void
+  
+  /**
+  * 
+  * Sets the alignment of the contents.
+  * [Category:Label](https://wiki.garrysmod.com/page/Category:Label)
+  * [Category:DLabel](https://wiki.garrysmod.com/page/Category:DLabel)
+  * 
+  * @name Panel:SetContentAlignment
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/Panel/SetContentAlignment
+  * @param {Panel} this - no description
+  * @param {number} alignment - The direction of the content, based on the number pad.
+  * @7 key: **top-left**@8 key: **top-center**@9 key: **top-right**
+  * @4 key: **middle-left**@5 key: **center**@6 key: **middle-right**
+  * @1 key: **bottom-left**@2 key: **bottom-center**@3 key: **bottom-right**
+  * [File:DLabel_SetContentAlignment.gif](https://wiki.garrysmod.com/page/File:DLabel_SetContentAlignment.gif)
+  * @returns {void}
+  **/
+  SetContentAlignment(this: Panel, alignment: number): void
   
   /**
   * 
@@ -31147,19 +31087,6 @@ declare interface Panel  {
   
   /**
   * 
-  * Deselects all items in a panel object. For text-based objects, this will deselect all text.
-  * [Category:TextEntry](https://wiki.garrysmod.com/page/Category:TextEntry)
-  * 
-  * @name Panel:SelectNone
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/Panel/SelectNone
-  * @param {Panel} this - no description
-  * @returns {void}
-  **/
-  SelectNone(this: Panel): void
-  
-  /**
-  * 
   * Selects all the text in a panel object. Will not select non-text items; for this, use @Panel:SelectAll.
   * [Category:TextEntry](https://wiki.garrysmod.com/page/Category:TextEntry)
   * 
@@ -31170,6 +31097,19 @@ declare interface Panel  {
   * @returns {void}
   **/
   SelectAllText(this: Panel): void
+  
+  /**
+  * 
+  * Deselects all items in a panel object. For text-based objects, this will deselect all text.
+  * [Category:TextEntry](https://wiki.garrysmod.com/page/Category:TextEntry)
+  * 
+  * @name Panel:SelectNone
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/Panel/SelectNone
+  * @param {Panel} this - no description
+  * @returns {void}
+  **/
+  SelectNone(this: Panel): void
   
   /**
   * 
@@ -31300,7 +31240,7 @@ declare interface Panel  {
   * @param {boolean} ignoreCache - If true, the refresh will ignore cached content similar to "ctrl+f5" in most browsers.
   * @returns {void}
   **/
-  Refresh(this: Panel, ignoreCache: boolean): void
+  Refresh(this: Panel, ignoreCache?: boolean): void
   
   /**
   * 
@@ -31558,7 +31498,7 @@ declare interface Panel  {
   * @param {function} callback - The function to be called when the animation ends. Arguments passed are:
   * @returns {AnimationData} - Partially filled @AnimationData structure with members:
   **/
-  NewAnimation(this: Panel, length: number, delay: number, ease: number, callback: PanelNewAnimationCallback): AnimationData
+  NewAnimation(this: Panel, length: number, delay?: number, ease?: number, callback?: PanelNewAnimationCallback): AnimationData
   
   /**
   * 
@@ -31626,7 +31566,7 @@ declare interface Panel  {
   * @param {function} callback - The function to be called once the animation finishes. Arguments are:
   * @returns {void}
   **/
-  MoveTo(this: Panel, posX: number, posY: number, time: number, delay: number, ease: number, callback: PanelMoveToCallback): void
+  MoveTo(this: Panel, posX: number, posY: number, time: number, delay?: number, ease?: number, callback: PanelMoveToCallback): void
   
   /**
   * 
@@ -31640,7 +31580,7 @@ declare interface Panel  {
   * @param {number} offset - The align offset.
   * @returns {void}
   **/
-  MoveRightOf(this: Panel, panel: Panel, offset: number): void
+  MoveRightOf(this: Panel, panel: Panel, offset?: number): void
   
   /**
   * 
@@ -31654,7 +31594,7 @@ declare interface Panel  {
   * @param {number} offset - The align offset.
   * @returns {void}
   **/
-  MoveLeftOf(this: Panel, panel: Panel, offset: number): void
+  MoveLeftOf(this: Panel, panel: Panel, offset?: number): void
   
   /**
   * 
@@ -31672,7 +31612,7 @@ declare interface Panel  {
   * @param {function} callback - The function to be called once the animation is complete. Arguments are:
   * @returns {void}
   **/
-  MoveBy(this: Panel, moveX: number, moveY: number, time: number, delay: number, ease: number, callback: PanelMoveByCallback): void
+  MoveBy(this: Panel, moveX: number, moveY: number, time: number, delay?: number, ease?: number, callback?: PanelMoveByCallback): void
   
   /**
   * 
@@ -31686,7 +31626,7 @@ declare interface Panel  {
   * @param {number} offset - The align offset.
   * @returns {void}
   **/
-  MoveBelow(this: Panel, panel: Panel, offset: number): void
+  MoveBelow(this: Panel, panel: Panel, offset?: number): void
   
   /**
   * 
@@ -31700,7 +31640,7 @@ declare interface Panel  {
   * @param {number} offset - The align offset.
   * @returns {void}
   **/
-  MoveAbove(this: Panel, panel: Panel, offset: number): void
+  MoveAbove(this: Panel, panel: Panel, offset?: number): void
   
   /**
   * 
@@ -31808,7 +31748,7 @@ declare interface Panel  {
   * * "MOD" Strictly the game folder (garrysmod/), ignores mounting.
   * @returns {void}
   **/
-  LoadGWENFile(this: Panel, filename: string, path: string): void
+  LoadGWENFile(this: Panel, filename: string, path?: string): void
   
   /**
   * 
@@ -31981,18 +31921,6 @@ declare interface Panel  {
   
   /**
   * 
-  * Determines whether or not a @HTML type or @DHTML type element is currently loading a page.
-  * 
-  * @name Panel:IsLoading
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/Panel/IsLoading
-  * @param {Panel} this - no description
-  * @returns {boolean} - Whether or not the (D)HTML object is loading.
-  **/
-  IsLoading(this: Panel): boolean
-  
-  /**
-  * 
   * Returns if the panel is going to be deleted in the next frame.
   * 
   * @name Panel:IsMarkedForDeletion
@@ -32002,6 +31930,18 @@ declare interface Panel  {
   * @returns {boolean} - markedForDeletion
   **/
   IsMarkedForDeletion(this: Panel): boolean
+  
+  /**
+  * 
+  * Determines whether or not a @HTML type or @DHTML type element is currently loading a page.
+  * 
+  * @name Panel:IsLoading
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/Panel/IsLoading
+  * @param {Panel} this - no description
+  * @returns {boolean} - Whether or not the (D)HTML object is loading.
+  **/
+  IsLoading(this: Panel): boolean
   
   /**
   * 
@@ -32077,7 +32017,7 @@ declare interface Panel  {
   * @param {boolean} immediate - Set to true to check only the immediate children of given panel ( first level )
   * @returns {boolean} - Whether or not one of this panel object's children is being hovered over.
   **/
-  IsChildHovered(this: Panel, immediate: boolean): boolean
+  IsChildHovered(this: Panel, immediate?: boolean): boolean
   
   /**
   * 
@@ -32090,7 +32030,7 @@ declare interface Panel  {
   * @param {boolean} layoutNow - If *true*, the re-layout will occur immediately, otherwise it will be performed in the next frame.
   * @returns {void}
   **/
-  InvalidateParent(this: Panel, layoutNow: boolean): void
+  InvalidateParent(this: Panel, layoutNow?: boolean): void
   
   /**
   * 
@@ -32105,7 +32045,7 @@ declare interface Panel  {
   * @param {boolean} layoutNow - If true the panel will re-layout instantly and not wait for the next frame.
   * @returns {void}
   **/
-  InvalidateLayout(this: Panel, layoutNow: boolean): void
+  InvalidateLayout(this: Panel, layoutNow?: boolean): void
   
   /**
   * 
@@ -32118,7 +32058,7 @@ declare interface Panel  {
   * @param {boolean} recursive - If *true*, the method will recursively invalidate the layout of all children. Otherwise, only immediate children are affected.
   * @returns {void}
   **/
-  InvalidateChildren(this: Panel, recursive: boolean): void
+  InvalidateChildren(this: Panel, recursive?: boolean): void
   
   /**
   * 
@@ -32224,18 +32164,6 @@ declare interface Panel  {
   
   /**
   * 
-  * Returns if the panel is focused.
-  * 
-  * @name Panel:HasFocus
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/Panel/HasFocus
-  * @param {Panel} this - no description
-  * @returns {boolean} - hasFocus
-  **/
-  HasFocus(this: Panel): boolean
-  
-  /**
-  * 
   * Returns whenever the panel has child panels.
   * 
   * @name Panel:HasChildren
@@ -32248,151 +32176,15 @@ declare interface Panel  {
   
   /**
   * 
-  * Used by @Panel:ApplyGWEN to apply the *Text* property to a panel.
+  * Returns if the panel is focused.
   * 
-  * @name Panel:GWEN_SetText
+  * @name Panel:HasFocus
   * @realm client
-  * @wiki https://wiki.garrysmod.com/page/Panel/GWEN SetText
-  * @internal
+  * @wiki https://wiki.garrysmod.com/page/Panel/HasFocus
   * @param {Panel} this - no description
-  * @param {string} txt - The text to be applied to the panel.
-  * @returns {void}
+  * @returns {boolean} - hasFocus
   **/
-  GWEN_SetText(this: Panel, txt: string): void
-  
-  /**
-  * 
-  * Used by @Panel:ApplyGWEN to apply the *Size* property to a  panel object. This calls @Panel:SetSize.
-  * 
-  * @name Panel:GWEN_SetSize
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/Panel/GWEN SetSize
-  * @internal
-  * @param {Panel} this - no description
-  * @param {IPanelGWEN_SetSizeSize} size - A two-membered table containing the width and heights as numbers:
-  * @returns {void}
-  **/
-  GWEN_SetSize(this: Panel, size: IPanelGWEN_SetSizeSize): void
-  
-  /**
-  * 
-  * Used by @Panel:ApplyGWEN to apply the *Position* property to a  panel object. This calls @Panel:SetPos.
-  * 
-  * @name Panel:GWEN_SetPosition
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/Panel/GWEN SetPosition
-  * @internal
-  * @param {Panel} this - no description
-  * @param {IPanelGWEN_SetPositionPos} pos - A two-membered table containing the x and y coordinates as numbers:
-  * @returns {void}
-  **/
-  GWEN_SetPosition(this: Panel, pos: IPanelGWEN_SetPositionPos): void
-  
-  /**
-  * 
-  * Used by @Panel:ApplyGWEN to apply the *Min* property to a  @DNumberWang type, @Slider type, @DNumSlider type or @DNumberScratch type. This calls *SetMin* on one of the previously listed methods.
-  * 
-  * @name Panel:GWEN_SetMin
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/Panel/GWEN SetMin
-  * @internal
-  * @param {Panel} this - no description
-  * @param {number} minValue - The minimum value the element is to permit.
-  * @returns {void}
-  **/
-  GWEN_SetMin(this: Panel, minValue: number): void
-  
-  /**
-  * 
-  * Used by @Panel:ApplyGWEN to apply the *Max* property to a  @DNumberWang type, @Slider type, @DNumSlider type or @DNumberScratch type. This calls *SetMax* on one of the previously listed methods.
-  * 
-  * @name Panel:GWEN_SetMax
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/Panel/GWEN SetMax
-  * @internal
-  * @param {Panel} this - no description
-  * @param {number} maxValue - The maximum value the element is to permit.
-  * @returns {void}
-  **/
-  GWEN_SetMax(this: Panel, maxValue: number): void
-  
-  /**
-  * 
-  * Used by @Panel:ApplyGWEN to apply the *Margin* property to a  panel object. This calls @Panel:DockMargin.
-  * 
-  * @name Panel:GWEN_SetMargin
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/Panel/GWEN SetMargin
-  * @internal
-  * @param {Panel} this - no description
-  * @param {IPanelGWEN_SetMarginMargins} margins - A four-membered table containing the margins as numbers:
-  * @returns {void}
-  **/
-  GWEN_SetMargin(this: Panel, margins: IPanelGWEN_SetMarginMargins): void
-  
-  /**
-  * 
-  * Used by @Panel:ApplyGWEN to apply the *HorizontalAlign* property to a  panel object. This calls @Panel:SetContentAlignment.
-  * 
-  * @name Panel:GWEN_SetHorizontalAlign
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/Panel/GWEN SetHorizontalAlign
-  * @internal
-  * @param {Panel} this - no description
-  * @param {string} hAlign - The alignment, as a string, to pass to @Panel:SetContentAlignment. Accepts:
-  * * *Right*: Align mid-right.
-  * * *Left*: Align mid-left.
-  * * *Center*: Align mid-center.
-  * @returns {void}
-  **/
-  GWEN_SetHorizontalAlign(this: Panel, hAlign: string): void
-  
-  /**
-  * 
-  * Used by @Panel:ApplyGWEN to apply the *Dock* property to a  panel object. This calls @Panel:Dock.
-  * 
-  * @name Panel:GWEN_SetDock
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/Panel/GWEN SetDock
-  * @internal
-  * @param {Panel} this - no description
-  * @param {string} dockState - The dock mode to pass to the panel's *Dock* method. This reads a string and applies the approriate @DOCK enum.
-  * * *Right*: Dock right.
-  * * *Left*: Dock left.
-  * * *Bottom*: Dock at the bottom.
-  * * *Top*: Dock at the top.
-  * * *Fill*: Fill the parent panel.
-  * @returns {void}
-  **/
-  GWEN_SetDock(this: Panel, dockState: string): void
-  
-  /**
-  * 
-  * Used by @Panel:ApplyGWEN to apply the *ControlName* property to a panel. This calls @Panel:SetName.
-  * 
-  * @name Panel:GWEN_SetControlName
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/Panel/GWEN SetControlName
-  * @internal
-  * @param {Panel} this - no description
-  * @param {string} name - The new name to apply to the panel.
-  * @returns {void}
-  **/
-  GWEN_SetControlName(this: Panel, name: string): void
-  
-  /**
-  * 
-  * Used by @Panel:ApplyGWEN to apply the *CheckboxText* property to a @DCheckBoxLabel type. This does exactly the same as @Panel:GWEN_SetText, but exists to cater for the seperate GWEN properties.
-  * 
-  * @name Panel:GWEN_SetCheckboxText
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/Panel/GWEN SetCheckboxText
-  * @internal
-  * @param {Panel} this - no description
-  * @param {string} txt - The text to be applied to the DCheckBoxLabel.
-  * @returns {void}
-  **/
-  GWEN_SetCheckboxText(this: Panel, txt: string): void
+  HasFocus(this: Panel): boolean
   
   /**
   * 
@@ -32491,7 +32283,8 @@ declare interface Panel  {
   /**
   * 
   * Returns the value the panel holds.
-  * In engine is only implemented for @CheckButton type, @Label type and @TextEntry type as a string and for those elements has a hard coded limit of 8092 characters.
+  * In engine is only implemented for @CheckButton type, @Label type (limited to 8192 characters) and @TextEntry type as a string.
+  * If using with @DTextEntry type, you should use @Panel:GetText instead.
   * 
   * @name Panel:GetValue
   * @realm client
@@ -32597,18 +32390,6 @@ declare interface Panel  {
   
   /**
   * 
-  * Returns the panel object (*self*) if it has been enabled as a selection canvas. This is achieved using @Panel:SetSelectionCanvas.
-  * 
-  * @name Panel:GetSelectionCanvas
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/Panel/GetSelectionCanvas
-  * @param {Panel} this - no description
-  * @returns {Panel} - The panel object this method was called on if enabled as a selection canvas, otherwise *nil*.
-  **/
-  GetSelectionCanvas(this: Panel): Panel
-  
-  /**
-  * 
   * Returns the size of the panel.
   * If you require both the panel's position and size, consider using @Panel:GetBounds instead.
   * 
@@ -32624,6 +32405,18 @@ declare interface Panel  {
   
   /**
   * 
+  * Returns the panel object (*self*) if it has been enabled as a selection canvas. This is achieved using @Panel:SetSelectionCanvas.
+  * 
+  * @name Panel:GetSelectionCanvas
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/Panel/GetSelectionCanvas
+  * @param {Panel} this - no description
+  * @returns {Panel} - The panel object this method was called on if enabled as a selection canvas, otherwise *nil*.
+  **/
+  GetSelectionCanvas(this: Panel): Panel
+  
+  /**
+  * 
   * Returns a table of all children of the panel object that are selected. This is recursive, and the returned table will include tables for any child objects that also have children. This means that not all first-level members in the returned table will be of type @Panel type.
   * 
   * @name Panel:GetSelectedChildren
@@ -32633,6 +32426,18 @@ declare interface Panel  {
   * @returns {table} - A table of any child objects that are selected, including tables for children of the child objects (These tables may also contain table members, as the method is recursive).
   **/
   GetSelectedChildren(this: Panel): table
+  
+  /**
+  * 
+  * Returns the parent of the panel, returns nil if there is no parent.
+  * 
+  * @name Panel:GetParent
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/Panel/GetParent
+  * @param {Panel} this - no description
+  * @returns {Panel} - The parent of given panel
+  **/
+  GetParent(this: Panel): Panel
   
   /**
   * 
@@ -32649,18 +32454,6 @@ declare interface Panel  {
   * @tupleReturn
   **/
   GetPos(this: Panel): [number, number]
-  
-  /**
-  * 
-  * Returns the parent of the panel, returns nil if there is no parent.
-  * 
-  * @name Panel:GetParent
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/Panel/GetParent
-  * @param {Panel} this - no description
-  * @returns {Panel} - The parent of given panel
-  **/
-  GetParent(this: Panel): Panel
   
   /**
   * 
@@ -32947,6 +32740,154 @@ declare interface Panel  {
   
   /**
   * 
+  * Used by @Panel:ApplyGWEN to apply the *Text* property to a panel.
+  * 
+  * @name Panel:GWEN_SetText
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/Panel/GWEN SetText
+  * @internal
+  * @param {Panel} this - no description
+  * @param {string} txt - The text to be applied to the panel.
+  * @returns {void}
+  **/
+  GWEN_SetText(this: Panel, txt: string): void
+  
+  /**
+  * 
+  * Used by @Panel:ApplyGWEN to apply the *Position* property to a  panel object. This calls @Panel:SetPos.
+  * 
+  * @name Panel:GWEN_SetPosition
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/Panel/GWEN SetPosition
+  * @internal
+  * @param {Panel} this - no description
+  * @param {IPanelGWEN_SetPositionPos} pos - A two-membered table containing the x and y coordinates as numbers:
+  * @returns {void}
+  **/
+  GWEN_SetPosition(this: Panel, pos: IPanelGWEN_SetPositionPos): void
+  
+  /**
+  * 
+  * Used by @Panel:ApplyGWEN to apply the *Min* property to a  @DNumberWang type, @Slider type, @DNumSlider type or @DNumberScratch type. This calls *SetMin* on one of the previously listed methods.
+  * 
+  * @name Panel:GWEN_SetMin
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/Panel/GWEN SetMin
+  * @internal
+  * @param {Panel} this - no description
+  * @param {number} minValue - The minimum value the element is to permit.
+  * @returns {void}
+  **/
+  GWEN_SetMin(this: Panel, minValue: number): void
+  
+  /**
+  * 
+  * Used by @Panel:ApplyGWEN to apply the *Size* property to a  panel object. This calls @Panel:SetSize.
+  * 
+  * @name Panel:GWEN_SetSize
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/Panel/GWEN SetSize
+  * @internal
+  * @param {Panel} this - no description
+  * @param {IPanelGWEN_SetSizeSize} size - A two-membered table containing the width and heights as numbers:
+  * @returns {void}
+  **/
+  GWEN_SetSize(this: Panel, size: IPanelGWEN_SetSizeSize): void
+  
+  /**
+  * 
+  * Used by @Panel:ApplyGWEN to apply the *Max* property to a  @DNumberWang type, @Slider type, @DNumSlider type or @DNumberScratch type. This calls *SetMax* on one of the previously listed methods.
+  * 
+  * @name Panel:GWEN_SetMax
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/Panel/GWEN SetMax
+  * @internal
+  * @param {Panel} this - no description
+  * @param {number} maxValue - The maximum value the element is to permit.
+  * @returns {void}
+  **/
+  GWEN_SetMax(this: Panel, maxValue: number): void
+  
+  /**
+  * 
+  * Used by @Panel:ApplyGWEN to apply the *Margin* property to a  panel object. This calls @Panel:DockMargin.
+  * 
+  * @name Panel:GWEN_SetMargin
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/Panel/GWEN SetMargin
+  * @internal
+  * @param {Panel} this - no description
+  * @param {IPanelGWEN_SetMarginMargins} margins - A four-membered table containing the margins as numbers:
+  * @returns {void}
+  **/
+  GWEN_SetMargin(this: Panel, margins: IPanelGWEN_SetMarginMargins): void
+  
+  /**
+  * 
+  * Used by @Panel:ApplyGWEN to apply the *HorizontalAlign* property to a  panel object. This calls @Panel:SetContentAlignment.
+  * 
+  * @name Panel:GWEN_SetHorizontalAlign
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/Panel/GWEN SetHorizontalAlign
+  * @internal
+  * @param {Panel} this - no description
+  * @param {string} hAlign - The alignment, as a string, to pass to @Panel:SetContentAlignment. Accepts:
+  * * *Right*: Align mid-right.
+  * * *Left*: Align mid-left.
+  * * *Center*: Align mid-center.
+  * @returns {void}
+  **/
+  GWEN_SetHorizontalAlign(this: Panel, hAlign: string): void
+  
+  /**
+  * 
+  * Used by @Panel:ApplyGWEN to apply the *Dock* property to a  panel object. This calls @Panel:Dock.
+  * 
+  * @name Panel:GWEN_SetDock
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/Panel/GWEN SetDock
+  * @internal
+  * @param {Panel} this - no description
+  * @param {string} dockState - The dock mode to pass to the panel's *Dock* method. This reads a string and applies the approriate @DOCK enum.
+  * * *Right*: Dock right.
+  * * *Left*: Dock left.
+  * * *Bottom*: Dock at the bottom.
+  * * *Top*: Dock at the top.
+  * * *Fill*: Fill the parent panel.
+  * @returns {void}
+  **/
+  GWEN_SetDock(this: Panel, dockState: string): void
+  
+  /**
+  * 
+  * Used by @Panel:ApplyGWEN to apply the *ControlName* property to a panel. This calls @Panel:SetName.
+  * 
+  * @name Panel:GWEN_SetControlName
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/Panel/GWEN SetControlName
+  * @internal
+  * @param {Panel} this - no description
+  * @param {string} name - The new name to apply to the panel.
+  * @returns {void}
+  **/
+  GWEN_SetControlName(this: Panel, name: string): void
+  
+  /**
+  * 
+  * Used by @Panel:ApplyGWEN to apply the *CheckboxText* property to a @DCheckBoxLabel type. This does exactly the same as @Panel:GWEN_SetText, but exists to cater for the seperate GWEN properties.
+  * 
+  * @name Panel:GWEN_SetCheckboxText
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/Panel/GWEN SetCheckboxText
+  * @internal
+  * @param {Panel} this - no description
+  * @param {string} txt - The text to be applied to the DCheckBoxLabel.
+  * @returns {void}
+  **/
+  GWEN_SetCheckboxText(this: Panel, txt: string): void
+  
+  /**
+  * 
   * Focuses the previous panel in the focus queue.
   * 
   * @name Panel:FocusPrevious
@@ -33171,19 +33112,6 @@ declare interface Panel  {
   
   /**
   * 
-  * Makes the panel "lock" the screen until it is removed. It will silently fail if used while cursor is not visible. Call @Panel:MakePopup before calling this function.
-  * 
-  * @name Panel:DoModal
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/Panel/DoModal
-  * @bug #3457 You can still click in the world even if locked.
-  * @param {Panel} this - no description
-  * @returns {void}
-  **/
-  DoModal(this: Panel): void
-  
-  /**
-  * 
   * Sets the dock padding of the panel.
   * The dock padding is the extra space that will be left around the edge when child elements are docked inside this element.
   * 
@@ -33229,6 +33157,19 @@ declare interface Panel  {
   * @returns {void}
   **/
   Dock(this: Panel, dockType: DOCK): void
+  
+  /**
+  * 
+  * Makes the panel "lock" the screen until it is removed. It will silently fail if used while cursor is not visible. Call @Panel:MakePopup before calling this function.
+  * 
+  * @name Panel:DoModal
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/Panel/DoModal
+  * @bug #3457 You can still click in the world even if locked.
+  * @param {Panel} this - no description
+  * @returns {void}
+  **/
+  DoModal(this: Panel): void
   
   /**
   * 
@@ -33503,19 +33444,6 @@ declare interface Panel  {
   
   /**
   * 
-  * Centers the panel horizontally with specified fraction.
-  * 
-  * @name Panel:CenterHorizontal
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/Panel/CenterHorizontal
-  * @param {Panel} this - no description
-  * @param {number} fraction - The center fraction.
-  * @returns {void}
-  **/
-  CenterHorizontal(this: Panel, fraction: number): void
-  
-  /**
-  * 
   * Centers the panel vertically with specified fraction.
   * 
   * @name Panel:CenterVertical
@@ -33525,7 +33453,20 @@ declare interface Panel  {
   * @param {number} fraction - The center fraction.
   * @returns {void}
   **/
-  CenterVertical(this: Panel, fraction: number): void
+  CenterVertical(this: Panel, fraction?: number): void
+  
+  /**
+  * 
+  * Centers the panel horizontally with specified fraction.
+  * 
+  * @name Panel:CenterHorizontal
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/Panel/CenterHorizontal
+  * @param {Panel} this - no description
+  * @param {number} fraction - The center fraction.
+  * @returns {void}
+  **/
+  CenterHorizontal(this: Panel, fraction?: number): void
   
   /**
   * 
@@ -33569,18 +33510,6 @@ declare interface Panel  {
   
   /**
   * 
-  * Returns the @SysTime function value when all animations for this panel object will end.
-  * 
-  * @name Panel:AnimTail
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/Panel/AnimTail
-  * @param {Panel} this - no description
-  * @returns {number} - The system time value when all animations will end for this panel.
-  **/
-  AnimTail(this: Panel): number
-  
-  /**
-  * 
   * Performs the per-frame operations required for panel animations.
   * This is called every frame by @PanelHooks:AnimationThink.
   * 
@@ -33592,6 +33521,18 @@ declare interface Panel  {
   * @returns {void}
   **/
   AnimationThinkInternal(this: Panel): void
+  
+  /**
+  * 
+  * Returns the @SysTime function value when all animations for this panel object will end.
+  * 
+  * @name Panel:AnimTail
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/Panel/AnimTail
+  * @param {Panel} this - no description
+  * @returns {number} - The system time value when all animations will end for this panel.
+  **/
+  AnimTail(this: Panel): number
   
   /**
   * 
@@ -33607,7 +33548,7 @@ declare interface Panel  {
   * @param {function} callback - The function to be called once the animation finishes. Arguments are:
   * @returns {void}
   **/
-  AlphaTo(this: Panel, alpha: number, duration: number, delay: number, callback: PanelAlphaToCallback): void
+  AlphaTo(this: Panel, alpha: number, duration: number, delay?: number, callback: PanelAlphaToCallback): void
   
   /**
   * 
@@ -33620,7 +33561,7 @@ declare interface Panel  {
   * @param {number} offset - The align offset.
   * @returns {void}
   **/
-  AlignTop(this: Panel, offset: number): void
+  AlignTop(this: Panel, offset?: number): void
   
   /**
   * 
@@ -33633,7 +33574,7 @@ declare interface Panel  {
   * @param {number} offset - The align offset.
   * @returns {void}
   **/
-  AlignRight(this: Panel, offset: number): void
+  AlignRight(this: Panel, offset?: number): void
   
   /**
   * 
@@ -33646,7 +33587,7 @@ declare interface Panel  {
   * @param {number} offset - The align offset.
   * @returns {void}
   **/
-  AlignLeft(this: Panel, offset: number): void
+  AlignLeft(this: Panel, offset?: number): void
   
   /**
   * 
@@ -33659,7 +33600,7 @@ declare interface Panel  {
   * @param {number} offset - The align offset.
   * @returns {void}
   **/
-  AlignBottom(this: Panel, offset: number): void
+  AlignBottom(this: Panel, offset?: number): void
   
   /**
   * 
@@ -33685,6 +33626,544 @@ declare interface Panel  {
   * @returns {Panel} - New panel
   **/
   Add(this: Panel, object: string | Panel): Panel
+  
+}
+
+declare interface PathFollower  {
+  /**
+  * 
+  * Move the bot along the path.
+  * 
+  * @name PathFollower:Update
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/PathFollower/Update
+  * @param {PathFollower} this - no description
+  * @param {NextBot} bot - The bot to update along the path
+  * @returns {void}
+  **/
+  Update(this: PathFollower, bot: NextBot): void
+  
+  /**
+  * 
+  * Sets minimum range movement goal must be along path
+  * 
+  * @name PathFollower:SetMinLookAheadDistance
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/PathFollower/SetMinLookAheadDistance
+  * @param {PathFollower} this - no description
+  * @param {number} mindist - The minimum look ahead distance
+  * @returns {void}
+  **/
+  SetMinLookAheadDistance(this: PathFollower, mindist: number): void
+  
+  /**
+  * 
+  * How close we can get to the goal to call it done
+  * 
+  * @name PathFollower:SetGoalTolerance
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/PathFollower/SetGoalTolerance
+  * @param {PathFollower} this - no description
+  * @param {number} distance - The distance we're setting it to
+  * @returns {void}
+  **/
+  SetGoalTolerance(this: PathFollower, distance: number): void
+  
+  /**
+  * 
+  * Resets the age which is retrieved by @PathFollower:GetAge to 0.
+  * 
+  * @name PathFollower:ResetAge
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/PathFollower/ResetAge
+  * @param {PathFollower} this - no description
+  * @returns {void}
+  **/
+  ResetAge(this: PathFollower): void
+  
+  /**
+  * 
+  * Moves the cursor to the end of the path
+  * 
+  * @name PathFollower:MoveCursorToStart
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/PathFollower/MoveCursorToStart
+  * @param {PathFollower} this - no description
+  * @returns {void}
+  **/
+  MoveCursorToStart(this: PathFollower): void
+  
+  /**
+  * 
+  * Moves the cursor to the end of the path
+  * 
+  * @name PathFollower:MoveCursorToEnd
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/PathFollower/MoveCursorToEnd
+  * @param {PathFollower} this - no description
+  * @returns {void}
+  **/
+  MoveCursorToEnd(this: PathFollower): void
+  
+  /**
+  * 
+  * Moves the cursor of the path to the closest position compared to given vector.
+  * 
+  * @name PathFollower:MoveCursorToClosestPosition
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/PathFollower/MoveCursorToClosestPosition
+  * @param {PathFollower} this - no description
+  * @param {Vector} pos - no description
+  * @param {number} type - Seek type
+  * 0 = SEEK_ENTIRE_PATH - Search the entire path length
+  * 1 = SEEK_AHEAD - Search from current cursor position forward toward end of path
+  * 2 = SEEK_BEHIND - Search from current cursor position backward toward path start
+  * @param {number} alongLimit - no description
+  * @returns {void}
+  **/
+  MoveCursorToClosestPosition(this: PathFollower, pos: Vector, type?: number, alongLimit?: number): void
+  
+  /**
+  * 
+  * Sets the cursor position to given distance.
+  * For relative distance, see @PathFollower:MoveCursor.
+  * 
+  * @name PathFollower:MoveCursorTo
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/PathFollower/MoveCursorTo
+  * @param {PathFollower} this - no description
+  * @param {number} distance - The distance to move the cursor (in world units)
+  * @returns {void}
+  **/
+  MoveCursorTo(this: PathFollower, distance: number): void
+  
+  /**
+  * 
+  * Moves the cursor by give distance.
+  * For a function that sets the distance, see @PathFollower:MoveCursorTo.
+  * 
+  * @name PathFollower:MoveCursor
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/PathFollower/MoveCursor
+  * @param {PathFollower} this - no description
+  * @param {number} distance - The distance to move the cursor (in relative world units)
+  * @returns {void}
+  **/
+  MoveCursor(this: PathFollower, distance: number): void
+  
+  /**
+  * 
+  * Returns the last segment of the path.
+  * 
+  * @name PathFollower:LastSegment
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/PathFollower/LastSegment
+  * @param {PathFollower} this - no description
+  * @returns {PathSegment} - A table with @PathSegment structure.
+  **/
+  LastSegment(this: PathFollower): PathSegment
+  
+  /**
+  * 
+  * Returns true if the path is valid
+  * 
+  * @name PathFollower:IsValid
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/PathFollower/IsValid
+  * @param {PathFollower} this - no description
+  * @returns {boolean} - Wether the path is valid or not.
+  **/
+  IsValid(this: PathFollower): boolean
+  
+  /**
+  * 
+  * Invalidates the current path
+  * 
+  * @name PathFollower:Invalidate
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/PathFollower/Invalidate
+  * @param {PathFollower} this - no description
+  * @returns {void}
+  **/
+  Invalidate(this: PathFollower): void
+  
+  /**
+  * 
+  * Returns the path start position
+  * 
+  * @name PathFollower:GetStart
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/PathFollower/GetStart
+  * @param {PathFollower} this - no description
+  * @returns {Vector} - The start position
+  **/
+  GetStart(this: PathFollower): Vector
+  
+  /**
+  * 
+  * Returns the vector position of distance along path
+  * 
+  * @name PathFollower:GetPositionOnPath
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/PathFollower/GetPositionOnPath
+  * @param {PathFollower} this - no description
+  * @param {number} distance - The distance along the path to query
+  * @returns {Vector} - The position
+  **/
+  GetPositionOnPath(this: PathFollower, distance: number): Vector
+  
+  /**
+  * 
+  * Returns the minimum range movement goal must be along path.
+  * 
+  * @name PathFollower:GetMinLookAheadDistance
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/PathFollower/GetMinLookAheadDistance
+  * @param {PathFollower} this - no description
+  * @returns {number} - The minimum look ahead distance
+  **/
+  GetMinLookAheadDistance(this: PathFollower): number
+  
+  /**
+  * 
+  * Returns the total length of the path
+  * 
+  * @name PathFollower:GetLength
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/PathFollower/GetLength
+  * @param {PathFollower} this - no description
+  * @returns {number} - The length of the path
+  **/
+  GetLength(this: PathFollower): number
+  
+  /**
+  * @name PathFollower:GetHindrance
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/PathFollower/GetHindrance
+  * @param {PathFollower} this - no description
+  * @returns {Entity} - no description
+  **/
+  GetHindrance(this: PathFollower): Entity
+  
+  /**
+  * 
+  * Returns how close we can get to the goal to call it done.
+  * 
+  * @name PathFollower:GetGoalTolerance
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/PathFollower/GetGoalTolerance
+  * @param {PathFollower} this - no description
+  * @returns {number} - The distance we're setting it to
+  **/
+  GetGoalTolerance(this: PathFollower): number
+  
+  /**
+  * 
+  * Returns the path end position
+  * 
+  * @name PathFollower:GetEnd
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/PathFollower/GetEnd
+  * @param {PathFollower} this - no description
+  * @returns {Vector} - The end position
+  **/
+  GetEnd(this: PathFollower): Vector
+  
+  /**
+  * 
+  * Returns the current progress along the path
+  * 
+  * @name PathFollower:GetCursorPosition
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/PathFollower/GetCursorPosition
+  * @param {PathFollower} this - no description
+  * @returns {number} - The current progress
+  **/
+  GetCursorPosition(this: PathFollower): number
+  
+  /**
+  * 
+  * Returns the cursor data
+  * 
+  * @name PathFollower:GetCursorData
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/PathFollower/GetCursorData
+  * @param {PathFollower} this - no description
+  * @returns {IPathFollowerGetCursorDataReturn} - A table with 3 keys:
+  **/
+  GetCursorData(this: PathFollower): IPathFollowerGetCursorDataReturn
+  
+  /**
+  * 
+  * Returns the current goal data. Can return nil if the current goal is invalid, for example immediately after @PathFollower:Update.
+  * 
+  * @name PathFollower:GetCurrentGoal
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/PathFollower/GetCurrentGoal
+  * @param {PathFollower} this - no description
+  * @returns {PathSegment} - A table with @PathSegment structure.
+  **/
+  GetCurrentGoal(this: PathFollower): PathSegment
+  
+  /**
+  * 
+  * The closest position along the path to a position
+  * 
+  * @name PathFollower:GetClosestPosition
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/PathFollower/GetClosestPosition
+  * @param {PathFollower} this - no description
+  * @param {Vector} position - The point we're querying for
+  * @returns {Vector} - The closest position on the path
+  **/
+  GetClosestPosition(this: PathFollower, position: Vector): Vector
+  
+  /**
+  * 
+  * Returns all of the segments of the given path.
+  * 
+  * @name PathFollower:GetAllSegments
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/PathFollower/GetAllSegments
+  * @param {PathFollower} this - no description
+  * @returns {table[]} - A table of tables with @PathSegment structure.
+  **/
+  GetAllSegments(this: PathFollower): table[]
+  
+  /**
+  * 
+  * Returns the age since the path was built
+  * 
+  * @name PathFollower:GetAge
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/PathFollower/GetAge
+  * @param {PathFollower} this - no description
+  * @returns {number} - Path age
+  **/
+  GetAge(this: PathFollower): number
+  
+  /**
+  * 
+  * Returns the first segment of the path.
+  * 
+  * @name PathFollower:FirstSegment
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/PathFollower/FirstSegment
+  * @param {PathFollower} this - no description
+  * @returns {PathSegment} - A table with @PathSegment structure.
+  **/
+  FirstSegment(this: PathFollower): PathSegment
+  
+  /**
+  * 
+  * Draws the path. This is meant for debugging - and uses debug overlay.
+  * 
+  * @name PathFollower:Draw
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/PathFollower/Draw
+  * @param {PathFollower} this - no description
+  * @returns {void}
+  **/
+  Draw(this: PathFollower): void
+  
+  /**
+  * 
+  * Compute shortest path from bot to 'goal' via A* algorithm.
+  * 
+  * @name PathFollower:Compute
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/PathFollower/Compute
+  * @param {PathFollower} this - no description
+  * @param {NextBot} from - The nextbot we're generating for
+  * @param {Vector} to - To point
+  * @param {function} generator - A funtion that allows you to alter the path generation. See example below for the default function.
+  * @returns {boolean} - * If returns true, path was found to the goal position.
+  * * If returns false, path may either be invalid (use IsValid() to check), or valid but doesn't reach all the way to the goal.
+  **/
+  Compute(this: PathFollower, from: NextBot, to: Vector, generator?: UnknownFunc): boolean
+  
+  /**
+  * 
+  * If you created your path with type "Chase" this functions should be used in place of @PathFollower:Update to cause the bot to chase the specified entity.
+  * 
+  * @name PathFollower:Chase
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/PathFollower/Chase
+  * @param {PathFollower} this - no description
+  * @param {NextBot} bot - The bot to update along the path
+  * @param {Entity} ent - The entity we want to chase
+  * @returns {void}
+  **/
+  Chase(this: PathFollower, bot: NextBot, ent: Entity): void
+  
+}
+
+declare interface PlayerHooks extends Player {
+  /**
+  * 
+  * Called when the player changes their weapon to another one causing their viewmodel model to change
+  * 
+  * @name PlayerHooks:ViewModelChanged
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/PLAYER/ViewModelChanged
+  * @param {Player} this - no description
+  * @param {Entity} viewmodel - The viewmodel that is changing
+  * @param {string} prev - The old model
+  * @param {string} next - The new model
+  * @returns {void}
+  **/
+  ViewModelChanged(this: Player, viewmodel: Entity, prev: string, next: string): void
+  
+  /**
+  * 
+  * Called from @GamemodeHooks:CreateMove.
+  * 
+  * @name PlayerHooks:StartMove
+  * @predicted false
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/PLAYER/StartMove
+  * @note This hook is run after the @drive.StartMove has been called.
+  * @warning This hook will not work if the current gamemode overrides @GamemodeHooks:SetupMove and does not call this hook.
+  * @param {Player} this - no description
+  * @param {CMoveData} mv - no description
+  * @param {CUserCmd} cmd - no description
+  * @returns {boolean} - Return true to prevent default action
+  **/
+  StartMove(this: Player, mv: CMoveData, cmd: CUserCmd): boolean
+  
+  /**
+  * 
+  * Called when the player spawns
+  * 
+  * @name PlayerHooks:Spawn
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/PLAYER/Spawn
+  * @param {Player} this - no description
+  * @returns {void}
+  **/
+  Spawn(this: Player): void
+  
+  /**
+  * 
+  * Setup the network table accessors.
+  * 
+  * @name PlayerHooks:SetupDataTables
+  * @predicted false
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/PLAYER/SetupDataTables
+  * @param {Player} this - no description
+  * @returns {void}
+  **/
+  SetupDataTables(this: Player): void
+  
+  /**
+  * 
+  * Called when we need to set player model from the class.
+  * 
+  * @name PlayerHooks:SetModel
+  * @predicted false
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/PLAYER/SetModel
+  * @note This will only be called if you have not overridden @GamemodeHooks:PlayerSetModel or call this function from it or anywhere else using @player_manager.RunClass
+  * @param {Player} this - no description
+  * @returns {void}
+  **/
+  SetModel(this: Player): void
+  
+  /**
+  * 
+  * Called before the viewmodel is drawn
+  * 
+  * @name PlayerHooks:PreDrawViewModel
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/PLAYER/PreDrawViewModel
+  * @param {Player} this - no description
+  * @param {Entity} viewmodel - The viewmodel
+  * @param {Entity} weapon - The weapon
+  * @returns {void}
+  **/
+  PreDrawViewModel(this: Player, viewmodel: Entity, weapon: Entity): void
+  
+  /**
+  * 
+  * Called after the viewmodel has been drawn
+  * 
+  * @name PlayerHooks:PostDrawViewModel
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/PLAYER/PostDrawViewModel
+  * @param {Player} this - no description
+  * @param {Entity} viewmodel - The viewmodel
+  * @param {Entity} weapon - The weapon
+  * @returns {void}
+  **/
+  PostDrawViewModel(this: Player, viewmodel: Entity, weapon: Entity): void
+  
+  /**
+  * 
+  * Called from @GamemodeHooks:Move.
+  * 
+  * @name PlayerHooks:Move
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/PLAYER/Move
+  * @note This hook is run after the @drive.Move has been called.
+  * @warning This hook will not work if the current gamemode overrides @GamemodeHooks:Move and does not call this hook.
+  * @param {Player} this - no description
+  * @param {CMoveData} mv - Movement information
+  * @returns {boolean} - Return true to prevent default action
+  **/
+  Move(this: Player, mv: CMoveData): boolean
+  
+  /**
+  * 
+  * Called on spawn to give the player their default loadout
+  * 
+  * @name PlayerHooks:Loadout
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/PLAYER/Loadout
+  * @param {Player} this - no description
+  * @returns {void}
+  **/
+  Loadout(this: Player): void
+  
+  /**
+  * 
+  * Called when the class object is created
+  * 
+  * @name PlayerHooks:Init
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/PLAYER/Init
+  * @param {Player} this - no description
+  * @returns {void}
+  **/
+  Init(this: Player): void
+  
+  /**
+  * 
+  * Called on player spawn to determine which hand model to use
+  * 
+  * @name PlayerHooks:GetHandsModel
+  * @predicted false
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/PLAYER/GetHandsModel
+  * @param {Player} this - no description
+  * @returns {table} - A table containing info about view model hands model to be set. See examples.
+  **/
+  GetHandsModel(this: Player): table
+  
+  /**
+  * 
+  * Called from @GamemodeHooks:FinishMove.
+  * 
+  * @name PlayerHooks:FinishMove
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/PLAYER/FinishMove
+  * @note This hook is run after the @drive.FinishMove has been called.
+  * @warning This hook will not work if the current gamemode overrides @GamemodeHooks:FinishMove and does not call this hook.
+  * @param {Player} this - no description
+  * @param {CMoveData} mv - no description
+  * @returns {boolean} - Return true to prevent default action
+  **/
+  FinishMove(this: Player, mv: CMoveData): boolean
   
 }
 
@@ -33895,6 +34374,21 @@ declare interface PanelHooks  {
   
   /**
   * 
+  * Called whenever a keyboard key was released while the panel is focused.
+  * 
+  * @name PanelHooks:OnKeyCodeReleased
+  * @predicted false
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/PANEL/OnKeyCodeReleased
+  * @bug #2886 This is not run for TILDE/"toggleconsole" binding.
+  * @param {Panel} this - no description
+  * @param {KEY} keyCode - The key code of the released key, see @KEY enum.
+  * @returns {boolean} - Return true to suppress default action.
+  **/
+  OnKeyCodeReleased(this: Panel, keyCode: KEY): boolean
+  
+  /**
+  * 
   * Called whenever a keyboard key was pressed while the panel is focused.
   * 
   * @name PanelHooks:OnKeyCodePressed
@@ -33922,21 +34416,6 @@ declare interface PanelHooks  {
   * @returns {void}
   **/
   OnFocusChanged(this: Panel, gained: boolean): void
-  
-  /**
-  * 
-  * Called whenever a keyboard key was released while the panel is focused.
-  * 
-  * @name PanelHooks:OnKeyCodeReleased
-  * @predicted false
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/PANEL/OnKeyCodeReleased
-  * @bug #2886 This is not run for TILDE/"toggleconsole" binding.
-  * @param {Panel} this - no description
-  * @param {KEY} keyCode - The key code of the released key, see @KEY enum.
-  * @returns {boolean} - Return true to suppress default action.
-  **/
-  OnKeyCodeReleased(this: Panel, keyCode: KEY): boolean
   
   /**
   * 
@@ -34021,19 +34500,6 @@ declare interface PanelHooks  {
   
   /**
   * 
-  * Called whenever a child of the panel is about to removed.
-  * 
-  * @name PanelHooks:OnChildRemoved
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/PANEL/OnChildRemoved
-  * @param {Panel} this - no description
-  * @param {Panel} child - The child which is about to be removed.
-  * @returns {void}
-  **/
-  OnChildRemoved(this: Panel, child: Panel): void
-  
-  /**
-  * 
   * Called by HTML panels when the page attempts to open a new child view (such as a popup or new tab).
   * 
   * @name PanelHooks:OnChildViewCreated
@@ -34046,6 +34512,19 @@ declare interface PanelHooks  {
   * @returns {void}
   **/
   OnChildViewCreated(this: Panel, sourceURL: string, targetURL: string, isPopup: boolean): void
+  
+  /**
+  * 
+  * Called whenever a child of the panel is about to removed.
+  * 
+  * @name PanelHooks:OnChildRemoved
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/PANEL/OnChildRemoved
+  * @param {Panel} this - no description
+  * @param {Panel} child - The child which is about to be removed.
+  * @returns {void}
+  **/
+  OnChildRemoved(this: Panel, child: Panel): void
   
   /**
   * 
@@ -34217,6 +34696,182 @@ declare interface PanelHooks  {
   * @returns {void}
   **/
   ActionSignal(this: Panel, signalName: string, signalValue: string): void
+  
+}
+
+declare interface NextBot  {
+  /**
+  * 
+  * Start doing an activity (animation)
+  * 
+  * @name NextBot:StartActivity
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/NextBot/StartActivity
+  * @param {NextBot} this - no description
+  * @param {ACT} activity - One of the @ACT enum
+  * @returns {void}
+  **/
+  StartActivity(this: NextBot, activity: ACT): void
+  
+  /**
+  * 
+  * Sets the solid mask for given NextBot.
+  * The default solid mask of a NextBot is [MASK_NPCSOLID](https://wiki.garrysmod.com/page/Enums/MASK).
+  * 
+  * @name NextBot:SetSolidMask
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/NextBot/SetSolidMask
+  * @param {NextBot} this - no description
+  * @param {CONTENTS | MASK} mask - The new mask, see @CONTENTS enum and @MASK enum
+  * @returns {void}
+  **/
+  SetSolidMask(this: NextBot, mask: CONTENTS | MASK): void
+  
+  /**
+  * 
+  * To be called in the behaviour coroutine only! Plays an animation sequence and waits for it to end before returning.
+  * 
+  * @name NextBot:PlaySequenceAndWait
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/NextBot/PlaySequenceAndWait
+  * @param {NextBot} this - no description
+  * @param {string} name - The sequence name
+  * @param {number} speed - Playback Rate of that sequence
+  * @returns {void}
+  **/
+  PlaySequenceAndWait(this: NextBot, name: string, speed?: number): void
+  
+  /**
+  * 
+  * To be called in the behaviour coroutine only! Will yield until the bot has reached the goal or is stuck
+  * 
+  * @name NextBot:MoveToPos
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/NextBot/MoveToPos
+  * @param {NextBot} this - no description
+  * @param {Vector} pos - The position we want to get to
+  * @param {INextBotMoveToPosOptions} options - A table containing a bunch of tweakable options.
+  * @returns {string} - Either "failed", "stuck", "timeout" or "ok" - depending on how the NPC got on
+  **/
+  MoveToPos(this: NextBot, pos: Vector, options: INextBotMoveToPosOptions): string
+  
+  /**
+  * 
+  * Returns the solid mask for given NextBot.
+  * 
+  * @name NextBot:GetSolidMask
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/NextBot/GetSolidMask
+  * @param {NextBot} this - no description
+  * @returns {CONTENTS | MASK} - The solid mask, see @CONTENTS enum and @MASK enum
+  **/
+  GetSolidMask(this: NextBot): CONTENTS | MASK
+  
+  /**
+  * 
+  * Returns the distance to an entity or position.
+  * See also @NextBot:GetRangeSquaredTo.
+  * 
+  * @name NextBot:GetRangeTo
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/NextBot/GetRangeTo
+  * @param {NextBot} this - no description
+  * @param {Vector} to - The position to measure distance to. Can be an entity.
+  * @returns {number} - The distance
+  **/
+  GetRangeTo(this: NextBot, to: Vector): number
+  
+  /**
+  * 
+  * Called from Lua when the NPC is stuck. This should only be called from the behaviour coroutine - so if you want to override this function and do something special that yields - then go for it.
+  * You should always call self.loco:ClearStuck() in this function to reset the stuck status - so it knows it's unstuck. See @CLuaLocomotion:ClearStuck.
+  * 
+  * @name NextBot:HandleStuck
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/NextBot/HandleStuck
+  * @param {NextBot} this - no description
+  * @returns {void}
+  **/
+  HandleStuck(this: NextBot): void
+  
+  /**
+  * 
+  * Returns squared distance to an entity or a position.
+  * See also @NextBot:GetRangeTo.
+  * 
+  * @name NextBot:GetRangeSquaredTo
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/NextBot/GetRangeSquaredTo
+  * @param {NextBot} this - no description
+  * @param {Vector} to - The position to measure distance to. Can be an entity.
+  * @returns {number} - The squared distance
+  **/
+  GetRangeSquaredTo(this: NextBot, to: Vector): number
+  
+  /**
+  * 
+  * Returns the currently running activity
+  * 
+  * @name NextBot:GetActivity
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/NextBot/GetActivity
+  * @param {NextBot} this - no description
+  * @returns {number} - The current activity
+  **/
+  GetActivity(this: NextBot): number
+  
+  /**
+  * 
+  * Returns a table of hiding spots.
+  * 
+  * @name NextBot:FindSpots
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/NextBot/FindSpots
+  * @param {NextBot} this - no description
+  * @param {INextBotFindSpotsSpecs} specs - This table should contain the search info.
+  * @returns {table[]} - An unsorted table of tables containing:
+  **/
+  FindSpots(this: NextBot, specs: INextBotFindSpotsSpecs): table[]
+  
+  /**
+  * 
+  * Like @NextBot:FindSpots but only returns a vector.
+  * 
+  * @name NextBot:FindSpot
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/NextBot/FindSpot
+  * @param {NextBot} this - no description
+  * @param {string} type - Either "random", "near", "far"
+  * @param {INextBotFindSpotOptions} options - This table should contain the search info.
+  * @returns {Vector} - If it finds a spot it will return a vector. If not it will return nil.
+  **/
+  FindSpot(this: NextBot, type: string, options: INextBotFindSpotOptions): Vector
+  
+  /**
+  * 
+  * Should only be called in BodyUpdate. This sets the move_x and move_y pose parameters of the bot to fit how they're currently moving, sets the animation speed to suit the ground speed, and calls FrameAdvance.
+  * 
+  * @name NextBot:BodyMoveXY
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/NextBot/BodyMoveXY
+  * @bug #3420 This function might cause crashes with some activities.
+  * @param {NextBot} this - no description
+  * @returns {void}
+  **/
+  BodyMoveXY(this: NextBot): void
+  
+  /**
+  * 
+  * Become a ragdoll and remove the entity.
+  * 
+  * @name NextBot:BecomeRagdoll
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/NextBot/BecomeRagdoll
+  * @param {NextBot} this - no description
+  * @param {CTakeDamageInfo} info - Damage info passed from an onkilled event
+  * @returns {Entity} - The created ragdoll, if any.
+  **/
+  BecomeRagdoll(this: NextBot, info: CTakeDamageInfo): Entity
   
 }
 
@@ -34506,10 +35161,10 @@ declare interface NPC extends Entity {
   * @wiki https://wiki.garrysmod.com/page/NPC/SetEnemy
   * @param {NPC} this - no description
   * @param {Entity} enemy - The enemy that the NPC should target
-  * @param {boolean} newenemy - Calls NPC:SetCondition(COND_NEW_ENEMY) if the new enemy is valid and not equal to the last enemy.
+  * @param {boolean} newenemy - Calls @NPC:SetCondition(COND_NEW_ENEMY) if the new enemy is valid and not equal to the last enemy.
   * @returns {void}
   **/
-  SetEnemy(this: NPC, enemy: Entity, newenemy: boolean): void
+  SetEnemy(this: NPC, enemy: Entity, newenemy?: boolean): void
   
   /**
   * 
@@ -34630,20 +35285,6 @@ declare interface NPC extends Entity {
   
   /**
   * 
-  * Sets a goal in x, y offsets for the npc to wander to
-  * 
-  * @name NPC:NavSetWanderGoal
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/NPC/NavSetWanderGoal
-  * @param {NPC} this - no description
-  * @param {number} xoffset - X offset
-  * @param {number} yoffset - Y offset
-  * @returns {void}
-  **/
-  NavSetWanderGoal(this: NPC, xoffset: number, yoffset: number): void
-  
-  /**
-  * 
   * Forces the NPC to play a sentence from scripts/sentences.txt
   * 
   * @name NPC:PlaySentence
@@ -34656,6 +35297,20 @@ declare interface NPC extends Entity {
   * @returns {number} - Returns the sentence index, -1 if the sentence couldn't be played.
   **/
   PlaySentence(this: NPC, sentence: string, delay: number, volume: number): number
+  
+  /**
+  * 
+  * Sets a goal in x, y offsets for the npc to wander to
+  * 
+  * @name NPC:NavSetWanderGoal
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/NPC/NavSetWanderGoal
+  * @param {NPC} this - no description
+  * @param {number} xoffset - X offset
+  * @param {number} yoffset - Y offset
+  * @returns {void}
+  **/
+  NavSetWanderGoal(this: NPC, xoffset: number, yoffset: number): void
   
   /**
   * 
@@ -34974,6 +35629,18 @@ declare interface NPC extends Entity {
   
   /**
   * 
+  * Returns the NPC's current schedule.
+  * 
+  * @name NPC:GetCurrentSchedule
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/NPC/GetCurrentSchedule
+  * @param {NPC} this - no description
+  * @returns {SCHED} - The NPCs schedule, see @SCHED enum or -1 if we failed for some reason
+  **/
+  GetCurrentSchedule(this: NPC): SCHED
+  
+  /**
+  * 
   * Returns the entity blocking the NPC along its path.
   * 
   * @name NPC:GetBlockingEntity
@@ -34986,22 +35653,13 @@ declare interface NPC extends Entity {
   
   /**
   * 
-  * Returns the NPC's current schedule.
+  * Returns the sequence to be played when the NPC arrives at its goal.
   * 
-  * @name NPC:GetCurrentSchedule
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/NPC/GetCurrentSchedule
-  * @param {NPC} this - no description
-  * @returns {SCHED} - The NPCs schedule, see @SCHED enum or -1 if we failed for some reason
-  **/
-  GetCurrentSchedule(this: NPC): SCHED
-  
-  /**
   * @name NPC:GetArrivalSequence
   * @realm server
   * @wiki https://wiki.garrysmod.com/page/NPC/GetArrivalSequence
   * @param {NPC} this - no description
-  * @returns {number} - no description
+  * @returns {number} - Sequence ID to be played, or -1 if there's no sequence.
   **/
   GetArrivalSequence(this: NPC): number
   
@@ -35102,7 +35760,7 @@ declare interface NPC extends Entity {
   * @param {Vector} velocity - If set and previous argument is unset, launches the weapon with given velocity. If the velocity is higher than 400, it will be clamped to 400.
   * @returns {void}
   **/
-  DropWeapon(this: NPC, weapon: Weapon, target: Vector, velocity: Vector): void
+  DropWeapon(this: NPC, weapon?: Weapon, target?: Vector, velocity?: Vector): void
   
   /**
   * 
@@ -35287,6 +35945,7 @@ declare interface NPC extends Entity {
   * @name NPC:AddEntityRelationship
   * @realm server
   * @wiki https://wiki.garrysmod.com/page/NPC/AddEntityRelationship
+  * @note NPCs do not see @NextBot types by default. This can be fixed by adding the [FL_OBJECT](https://wiki.garrysmod.com/page/Enums/FL) flag to the NextBot.
   * @param {NPC} this - no description
   * @param {Entity} target - The entity for the relationship to be applied to.
   * @param {D} disposition - A @D enum representing the relationship type.
@@ -35294,182 +35953,6 @@ declare interface NPC extends Entity {
   * @returns {void}
   **/
   AddEntityRelationship(this: NPC, target: Entity, disposition: D, priority: number): void
-  
-}
-
-declare interface NextBot  {
-  /**
-  * 
-  * Start doing an activity (animation)
-  * 
-  * @name NextBot:StartActivity
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/NextBot/StartActivity
-  * @param {NextBot} this - no description
-  * @param {ACT} activity - One of the @ACT enum
-  * @returns {void}
-  **/
-  StartActivity(this: NextBot, activity: ACT): void
-  
-  /**
-  * 
-  * Sets the solid mask for given NextBot.
-  * The default solid mask of a NextBot is [MASK_NPCSOLID](https://wiki.garrysmod.com/page/Enums/MASK).
-  * 
-  * @name NextBot:SetSolidMask
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/NextBot/SetSolidMask
-  * @param {NextBot} this - no description
-  * @param {CONTENTS | MASK} mask - The new mask, see @CONTENTS enum and @MASK enum
-  * @returns {void}
-  **/
-  SetSolidMask(this: NextBot, mask: CONTENTS | MASK): void
-  
-  /**
-  * 
-  * To be called in the behaviour coroutine only! Plays an animation sequence and waits for it to end before returning.
-  * 
-  * @name NextBot:PlaySequenceAndWait
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/NextBot/PlaySequenceAndWait
-  * @param {NextBot} this - no description
-  * @param {string} name - The sequence name
-  * @param {number} speed - Playback Rate of that sequence
-  * @returns {void}
-  **/
-  PlaySequenceAndWait(this: NextBot, name: string, speed: number): void
-  
-  /**
-  * 
-  * To be called in the behaviour coroutine only! Will yield until the bot has reached the goal or is stuck
-  * 
-  * @name NextBot:MoveToPos
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/NextBot/MoveToPos
-  * @param {NextBot} this - no description
-  * @param {Vector} pos - The position we want to get to
-  * @param {INextBotMoveToPosOptions} options - A table containing a bunch of tweakable options.
-  * @returns {string} - Either "failed", "stuck", "timeout" or "ok" - depending on how the NPC got on
-  **/
-  MoveToPos(this: NextBot, pos: Vector, options: INextBotMoveToPosOptions): string
-  
-  /**
-  * 
-  * Called from Lua when the NPC is stuck. This should only be called from the behaviour coroutine - so if you want to override this function and do something special that yields - then go for it.
-  * You should always call self.loco:ClearStuck() in this function to reset the stuck status - so it knows it's unstuck. See @CLuaLocomotion:ClearStuck.
-  * 
-  * @name NextBot:HandleStuck
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/NextBot/HandleStuck
-  * @param {NextBot} this - no description
-  * @returns {void}
-  **/
-  HandleStuck(this: NextBot): void
-  
-  /**
-  * 
-  * Returns the solid mask for given NextBot.
-  * 
-  * @name NextBot:GetSolidMask
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/NextBot/GetSolidMask
-  * @param {NextBot} this - no description
-  * @returns {CONTENTS | MASK} - The solid mask, see @CONTENTS enum and @MASK enum
-  **/
-  GetSolidMask(this: NextBot): CONTENTS | MASK
-  
-  /**
-  * 
-  * Returns the distance to an entity or position.
-  * See also @NextBot:GetRangeSquaredTo.
-  * 
-  * @name NextBot:GetRangeTo
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/NextBot/GetRangeTo
-  * @param {NextBot} this - no description
-  * @param {Vector} to - The position to measure distance to. Can be an entity.
-  * @returns {number} - The distance
-  **/
-  GetRangeTo(this: NextBot, to: Vector): number
-  
-  /**
-  * 
-  * Returns squared distance to an entity or a position.
-  * See also @NextBot:GetRangeTo.
-  * 
-  * @name NextBot:GetRangeSquaredTo
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/NextBot/GetRangeSquaredTo
-  * @param {NextBot} this - no description
-  * @param {Vector} to - The position to measure distance to. Can be an entity.
-  * @returns {number} - The squared distance
-  **/
-  GetRangeSquaredTo(this: NextBot, to: Vector): number
-  
-  /**
-  * 
-  * Returns the currently running activity
-  * 
-  * @name NextBot:GetActivity
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/NextBot/GetActivity
-  * @param {NextBot} this - no description
-  * @returns {number} - The current activity
-  **/
-  GetActivity(this: NextBot): number
-  
-  /**
-  * 
-  * Returns a table of hiding spots.
-  * 
-  * @name NextBot:FindSpots
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/NextBot/FindSpots
-  * @param {NextBot} this - no description
-  * @param {INextBotFindSpotsSpecs} specs - This table should contain the search info.
-  * @returns {table[]} - An unsorted table of tables containing:
-  **/
-  FindSpots(this: NextBot, specs: INextBotFindSpotsSpecs): table[]
-  
-  /**
-  * 
-  * Like @NextBot:FindSpots but only returns a vector.
-  * 
-  * @name NextBot:FindSpot
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/NextBot/FindSpot
-  * @param {NextBot} this - no description
-  * @param {string} type - Either "random", "near", "far"
-  * @param {INextBotFindSpotOptions} options - This table should contain the search info.
-  * @returns {Vector} - If it finds a spot it will return a vector. If not it will return nil.
-  **/
-  FindSpot(this: NextBot, type: string, options: INextBotFindSpotOptions): Vector
-  
-  /**
-  * 
-  * Should only be called in BodyUpdate. This sets the move_x and move_y pose parameters of the bot to fit how they're currently moving, sets the animation speed to suit the ground speed, and calls FrameAdvance.
-  * 
-  * @name NextBot:BodyMoveXY
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/NextBot/BodyMoveXY
-  * @bug #3420 This function might cause crashes with some activities.
-  * @param {NextBot} this - no description
-  * @returns {void}
-  **/
-  BodyMoveXY(this: NextBot): void
-  
-  /**
-  * 
-  * Become a ragdoll and remove the entity.
-  * 
-  * @name NextBot:BecomeRagdoll
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/NextBot/BecomeRagdoll
-  * @param {NextBot} this - no description
-  * @param {CTakeDamageInfo} info - Damage info passed from an onkilled event
-  * @returns {Entity} - The created ragdoll, if any.
-  **/
-  BecomeRagdoll(this: NextBot, info: CTakeDamageInfo): Entity
   
 }
 
@@ -35562,20 +36045,6 @@ declare interface NEXTBOT  {
   
   /**
   * 
-  * Called when the bot's feet return to the ground.
-  * 
-  * @name NEXTBOT:OnLandOnGround
-  * @predicted false
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/NEXTBOT/OnLandOnGround
-  * @param {NEXTBOT} this - no description
-  * @param {Entity} ent - The entity the nextbot has landed on.
-  * @returns {void}
-  **/
-  OnLandOnGround(this: NEXTBOT, ent: Entity): void
-  
-  /**
-  * 
   * Called when the bot's feet leave the ground - for whatever reason.
   * 
   * @name NEXTBOT:OnLeaveGround
@@ -35587,6 +36056,20 @@ declare interface NEXTBOT  {
   * @returns {void}
   **/
   OnLeaveGround(this: NEXTBOT, ent: Entity): void
+  
+  /**
+  * 
+  * Called when the bot's feet return to the ground.
+  * 
+  * @name NEXTBOT:OnLandOnGround
+  * @predicted false
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/NEXTBOT/OnLandOnGround
+  * @param {NEXTBOT} this - no description
+  * @param {Entity} ent - The entity the nextbot has landed on.
+  * @returns {void}
+  **/
+  OnLandOnGround(this: NEXTBOT, ent: Entity): void
   
   /**
   * 
@@ -35768,7 +36251,211 @@ declare interface MarkupObject  {
   * @param {number} alphaoverride - Sets the alpha of all drawn objects to this.
   * @returns {void}
   **/
-  Draw(this: MarkupObject, xOffset: number, yOffset: number, xAlign: TEXT_ALIGN, yAlign: TEXT_ALIGN, alphaoverride: number): void
+  Draw(this: MarkupObject, xOffset: number, yOffset: number, xAlign: TEXT_ALIGN, yAlign: TEXT_ALIGN, alphaoverride?: number): void
+  
+}
+
+declare interface ImageCheckBox extends Button {
+  /**
+  * 
+  * Sets the material that will be visible when the @ImageCheckBox type is checked.
+  * Internally calls @Material:SetMaterial.
+  * 
+  * @name ImageCheckBox:SetMaterial
+  * @wiki https://wiki.garrysmod.com/page/ImageCheckBox/SetMaterial
+  * @note Will error if no material was set.
+  * @param {ImageCheckBox} this - no description
+  * @param {string} mat - The file path of the material to set (relative to "garrysmod/materials/").
+  * @returns {void}
+  **/
+  SetMaterial(this: ImageCheckBox, mat: string): void
+  
+  /**
+  * 
+  * Sets the checked state of the checkbox.
+  * Checked state can be obtained via @ImageCheckBox:GetChecked
+  * 
+  * @name ImageCheckBox:SetChecked
+  * @wiki https://wiki.garrysmod.com/page/ImageCheckBox/SetChecked
+  * @param {ImageCheckBox} this - no description
+  * @param {boolean} bOn - true for checked, false otherwise
+  * @returns {void}
+  **/
+  SetChecked(this: ImageCheckBox, bOn: boolean): void
+  
+  /**
+  * 
+  * Sets the checked state of the checkbox.
+  * Checked state can be obtained by @ImageCheckBox type.State.
+  * 
+  * @name ImageCheckBox:Set
+  * @wiki https://wiki.garrysmod.com/page/ImageCheckBox/Set
+  * @param {ImageCheckBox} this - no description
+  * @param {boolean} OnOff - true for checked, false otherwise
+  * @returns {void}
+  **/
+  Set(this: ImageCheckBox, OnOff: boolean): void
+  
+  /**
+  * 
+  * Returns the checked state of the @ImageCheckBox type
+  * 
+  * @name ImageCheckBox:GetChecked
+  * @wiki https://wiki.garrysmod.com/page/ImageCheckBox/GetChecked
+  * @param {ImageCheckBox} this - no description
+  * @returns {boolean} - true for checked, false otherwise
+  **/
+  GetChecked(this: ImageCheckBox): boolean
+  
+}
+
+declare interface IconEditor extends DFrame {
+  /**
+  * 
+  * Updates the entity being rendered in the internal @DAdjustableModelPanel type. Called by the model panel's @DModelPanel:LayoutEntity method.
+  * 
+  * @name IconEditor:UpdateEntity
+  * @wiki https://wiki.garrysmod.com/page/IconEditor/UpdateEntity
+  * @internal
+  * @param {IconEditor} this - no description
+  * @param {Entity} ent - The entity being rendered within the model panel.
+  * @returns {void}
+  **/
+  UpdateEntity(this: IconEditor, ent: Entity): void
+  
+  /**
+  * 
+  * Sets the @SpawnIcon type to modify. You should call @Panel:Refresh immediately after this, as the user will not be able to make changes to the icon beforehand.
+  * 
+  * @name IconEditor:SetIcon
+  * @wiki https://wiki.garrysmod.com/page/IconEditor/SetIcon
+  * @param {IconEditor} this - no description
+  * @param {SpawnIcon} icon - The @SpawnIcon type object to be modified.
+  * @returns {void}
+  **/
+  SetIcon(this: IconEditor, icon: SpawnIcon): void
+  
+  /**
+  * 
+  * Sets the editor's model and icon from an entity. Alternative to @IconEditor:SetIcon, with uses a @SpawnIcon type.
+  * You do not need to call @IconEditor:Refresh after this.
+  * 
+  * @name IconEditor:SetFromEntity
+  * @wiki https://wiki.garrysmod.com/page/IconEditor/SetFromEntity
+  * @param {IconEditor} this - no description
+  * @param {Entity} ent - The entity to retrieve the model and skin from.
+  * @returns {void}
+  **/
+  SetFromEntity(this: IconEditor, ent: Entity): void
+  
+  /**
+  * 
+  * Sets up the default ambient and directional lighting for the @DAdjustableModelPanel type. Called by @IconEditor:Refresh.
+  * 
+  * @name IconEditor:SetDefaultLighting
+  * @wiki https://wiki.garrysmod.com/page/IconEditor/SetDefaultLighting
+  * @internal
+  * @param {IconEditor} this - no description
+  * @returns {void}
+  **/
+  SetDefaultLighting(this: IconEditor): void
+  
+  /**
+  * 
+  * Applies the right side view camera settings for the model in the @DAdjustableModelPanel type.
+  * Called when a user clicks the *Right* (fourth) button (See the [example](https://wiki.garrysmod.com/page/Category:IconEditor)). (Note: The icon for this points left.)
+  * 
+  * @name IconEditor:RightLayout
+  * @wiki https://wiki.garrysmod.com/page/IconEditor/RightLayout
+  * @param {IconEditor} this - no description
+  * @returns {void}
+  **/
+  RightLayout(this: IconEditor): void
+  
+  /**
+  * 
+  * Re-renders the @SpawnIcon type.
+  * Called when a user clicks the *RENDER* button, this retrieves the render data from the internal @DAdjustableModelPanel type and passes it as a table to @Panel:RebuildSpawnIconEx.
+  * 
+  * @name IconEditor:RenderIcon
+  * @wiki https://wiki.garrysmod.com/page/IconEditor/RenderIcon
+  * @param {IconEditor} this - no description
+  * @returns {void}
+  **/
+  RenderIcon(this: IconEditor): void
+  
+  /**
+  * 
+  * Updates the internal @DAdjustableModelPanel type and @SpawnIcon type.
+  * This should be called immediately after setting the SpawnIcon with @IconEditor:SetIcon.
+  * 
+  * @name IconEditor:Refresh
+  * @wiki https://wiki.garrysmod.com/page/IconEditor/Refresh
+  * @param {IconEditor} this - no description
+  * @returns {void}
+  **/
+  Refresh(this: IconEditor): void
+  
+  /**
+  * 
+  * Places the camera at the origin (0,0,0), relative to the entity, in the @DAdjustableModelPanel type.
+  * Called when a user clicks the *Center* (fifth) button (See the [example](https://wiki.garrysmod.com/page/Category:IconEditor)).
+  * 
+  * @name IconEditor:OriginLayout
+  * @wiki https://wiki.garrysmod.com/page/IconEditor/OriginLayout
+  * @param {IconEditor} this - no description
+  * @returns {void}
+  **/
+  OriginLayout(this: IconEditor): void
+  
+  /**
+  * 
+  * Applies the front view camera settings for the model in the @DAdjustableModelPanel type.
+  * Called when a user clicks the *Front* (second) button (See the [example](https://wiki.garrysmod.com/page/Category:IconEditor)).
+  * 
+  * @name IconEditor:FullFrontalLayout
+  * @wiki https://wiki.garrysmod.com/page/IconEditor/FullFrontalLayout
+  * @param {IconEditor} this - no description
+  * @returns {void}
+  **/
+  FullFrontalLayout(this: IconEditor): void
+  
+  /**
+  * 
+  * Fills the @DListView type on the left of the editor with the model entity's animation list. Called by @IconEditor:Refresh.
+  * 
+  * @name IconEditor:FillAnimations
+  * @wiki https://wiki.garrysmod.com/page/IconEditor/FillAnimations
+  * @internal
+  * @param {IconEditor} this - no description
+  * @param {Entity} ent - The entity being rendered within the model panel.
+  * @returns {void}
+  **/
+  FillAnimations(this: IconEditor, ent: Entity): void
+  
+  /**
+  * 
+  * Applies the best camera settings for the model in the @DAdjustableModelPanel type, using the values returned by @PositionSpawnIcon function.
+  * Called when a user clicks the *wand* button (See the [example](https://wiki.garrysmod.com/page/Category:IconEditor)) and when @IconEditor:Refresh is called.
+  * 
+  * @name IconEditor:BestGuessLayout
+  * @wiki https://wiki.garrysmod.com/page/IconEditor/BestGuessLayout
+  * @param {IconEditor} this - no description
+  * @returns {void}
+  **/
+  BestGuessLayout(this: IconEditor): void
+  
+  /**
+  * 
+  * Applies the top-down view camera settings for the model in the @DAdjustableModelPanel type.
+  * Called when a user clicks the *Above* (third) button (See the [example](https://wiki.garrysmod.com/page/Category:IconEditor)).
+  * 
+  * @name IconEditor:AboveLayout
+  * @wiki https://wiki.garrysmod.com/page/IconEditor/AboveLayout
+  * @param {IconEditor} this - no description
+  * @returns {void}
+  **/
+  AboveLayout(this: IconEditor): void
   
 }
 
@@ -35800,18 +36487,6 @@ declare interface IVideoWriter  {
   
   /**
   * 
-  * Ends the video recording and dumps it to disk.
-  * 
-  * @name IVideoWriter:Finish
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/IVideoWriter/Finish
-  * @param {IVideoWriter} this - no description
-  * @returns {void}
-  **/
-  Finish(this: IVideoWriter): void
-  
-  /**
-  * 
   * Returns the height of the video stream.
   * 
   * @name IVideoWriter:Height
@@ -35821,6 +36496,18 @@ declare interface IVideoWriter  {
   * @returns {number} - height
   **/
   Height(this: IVideoWriter): number
+  
+  /**
+  * 
+  * Ends the video recording and dumps it to disk.
+  * 
+  * @name IVideoWriter:Finish
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/IVideoWriter/Finish
+  * @param {IVideoWriter} this - no description
+  * @returns {void}
+  **/
+  Finish(this: IVideoWriter): void
   
   /**
   * 
@@ -35853,13 +36540,26 @@ declare interface ITexture  {
   
   /**
   * 
-  * Returns whenever the texture is invalid or not.
+  * Returns whenever the texture is the error texture (pink and black checkerboard pattern).
+  * 
+  * @name ITexture:IsErrorTexture
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/ITexture/IsErrorTexture
+  * @param {ITexture} this - no description
+  * @returns {boolean} - Whether the texture is the error texture or not.
+  **/
+  IsErrorTexture(this: ITexture): boolean
+  
+  /**
+  * 
+  * Returns whenever the texture is valid. (i.e. was loaded successfully or not)
   * 
   * @name ITexture:IsError
   * @realm client, server
   * @wiki https://wiki.garrysmod.com/page/ITexture/IsError
+  * @note The "error" texture is a valid texture, and therefore this function will return false when used on it. Use @ITexture:IsErrorTexture, instead.
   * @param {ITexture} this - no description
-  * @returns {boolean} - isError
+  * @returns {boolean} - Whether the texture was loaded successfully or not.
   **/
   IsError(this: ITexture): boolean
   
@@ -36351,13 +37051,13 @@ declare interface IMaterial  {
   
   /**
   * 
-  * Returns whenever the material was not loaded successfully.
+  * Returns whenever the material is valid, i.e. whether it was not loaded successfully from disk or not.
   * 
   * @name IMaterial:IsError
   * @realm client, server
   * @wiki https://wiki.garrysmod.com/page/IMaterial/IsError
   * @param {IMaterial} this - no description
-  * @returns {boolean} - isError
+  * @returns {boolean} - Is this material the error material? (___error)
   **/
   IsError(this: IMaterial): boolean
   
@@ -36522,60 +37222,6 @@ declare interface IMaterial  {
   
 }
 
-declare interface ImageCheckBox extends Button {
-  /**
-  * 
-  * Sets the material that will be visible when the @ImageCheckBox type is checked.
-  * Internally calls @Material:SetMaterial.
-  * 
-  * @name ImageCheckBox:SetMaterial
-  * @wiki https://wiki.garrysmod.com/page/ImageCheckBox/SetMaterial
-  * @note Will error if no material was set.
-  * @param {ImageCheckBox} this - no description
-  * @param {string} mat - The file path of the material to set (relative to "garrysmod/materials/").
-  * @returns {void}
-  **/
-  SetMaterial(this: ImageCheckBox, mat: string): void
-  
-  /**
-  * 
-  * Sets the checked state of the checkbox.
-  * Checked state can be obtained via @ImageCheckBox:GetChecked
-  * 
-  * @name ImageCheckBox:SetChecked
-  * @wiki https://wiki.garrysmod.com/page/ImageCheckBox/SetChecked
-  * @param {ImageCheckBox} this - no description
-  * @param {boolean} bOn - true for checked, false otherwise
-  * @returns {void}
-  **/
-  SetChecked(this: ImageCheckBox, bOn: boolean): void
-  
-  /**
-  * 
-  * Sets the checked state of the checkbox.
-  * Checked state can be obtained by @ImageCheckBox type.State.
-  * 
-  * @name ImageCheckBox:Set
-  * @wiki https://wiki.garrysmod.com/page/ImageCheckBox/Set
-  * @param {ImageCheckBox} this - no description
-  * @param {boolean} OnOff - true for checked, false otherwise
-  * @returns {void}
-  **/
-  Set(this: ImageCheckBox, OnOff: boolean): void
-  
-  /**
-  * 
-  * Returns the checked state of the @ImageCheckBox type
-  * 
-  * @name ImageCheckBox:GetChecked
-  * @wiki https://wiki.garrysmod.com/page/ImageCheckBox/GetChecked
-  * @param {ImageCheckBox} this - no description
-  * @returns {boolean} - true for checked, false otherwise
-  **/
-  GetChecked(this: ImageCheckBox): boolean
-  
-}
-
 declare interface IGModAudioChannel  {
   /**
   * 
@@ -36629,7 +37275,7 @@ declare interface IGModAudioChannel  {
   * @param {Vector} dir - The direction of the sound
   * @returns {void}
   **/
-  SetPos(this: IGModAudioChannel, pos: Vector, dir: Vector): void
+  SetPos(this: IGModAudioChannel, pos: Vector, dir?: Vector): void
   
   /**
   * 
@@ -36692,18 +37338,6 @@ declare interface IGModAudioChannel  {
   
   /**
   * 
-  * Pauses the stream. It can be started again using @IGModAudioChannel:Play
-  * 
-  * @name IGModAudioChannel:Pause
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/IGModAudioChannel/Pause
-  * @param {IGModAudioChannel} this - no description
-  * @returns {void}
-  **/
-  Pause(this: IGModAudioChannel): void
-  
-  /**
-  * 
   * Returns if the sound channel is valid or not.
   * 
   * @name IGModAudioChannel:IsValid
@@ -36713,6 +37347,18 @@ declare interface IGModAudioChannel  {
   * @returns {boolean} - Is the sound channel valid or not
   **/
   IsValid(this: IGModAudioChannel): boolean
+  
+  /**
+  * 
+  * Pauses the stream. It can be started again using @IGModAudioChannel:Play
+  * 
+  * @name IGModAudioChannel:Pause
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/IGModAudioChannel/Pause
+  * @param {IGModAudioChannel} this - no description
+  * @returns {void}
+  **/
+  Pause(this: IGModAudioChannel): void
   
   /**
   * 
@@ -36960,156 +37606,6 @@ declare interface IGModAudioChannel  {
   
 }
 
-declare interface IconEditor extends DFrame {
-  /**
-  * 
-  * Updates the entity being rendered in the internal @DAdjustableModelPanel type. Called by the model panel's @DModelPanel:LayoutEntity method.
-  * 
-  * @name IconEditor:UpdateEntity
-  * @wiki https://wiki.garrysmod.com/page/IconEditor/UpdateEntity
-  * @internal
-  * @param {IconEditor} this - no description
-  * @param {Entity} ent - The entity being rendered within the model panel.
-  * @returns {void}
-  **/
-  UpdateEntity(this: IconEditor, ent: Entity): void
-  
-  /**
-  * 
-  * Sets the @SpawnIcon type to modify. You should call @Panel:Refresh immediately after this, as the user will not be able to make changes to the icon beforehand.
-  * 
-  * @name IconEditor:SetIcon
-  * @wiki https://wiki.garrysmod.com/page/IconEditor/SetIcon
-  * @param {IconEditor} this - no description
-  * @param {SpawnIcon} icon - The @SpawnIcon type object to be modified.
-  * @returns {void}
-  **/
-  SetIcon(this: IconEditor, icon: SpawnIcon): void
-  
-  /**
-  * 
-  * Sets the editor's model and icon from an entity. Alternative to @IconEditor:SetIcon, with uses a @SpawnIcon type.
-  * You do not need to call @IconEditor:Refresh after this.
-  * 
-  * @name IconEditor:SetFromEntity
-  * @wiki https://wiki.garrysmod.com/page/IconEditor/SetFromEntity
-  * @param {IconEditor} this - no description
-  * @param {Entity} ent - The entity to retrieve the model and skin from.
-  * @returns {void}
-  **/
-  SetFromEntity(this: IconEditor, ent: Entity): void
-  
-  /**
-  * 
-  * Sets up the default ambient and directional lighting for the @DAdjustableModelPanel type. Called by @IconEditor:Refresh.
-  * 
-  * @name IconEditor:SetDefaultLighting
-  * @wiki https://wiki.garrysmod.com/page/IconEditor/SetDefaultLighting
-  * @internal
-  * @param {IconEditor} this - no description
-  * @returns {void}
-  **/
-  SetDefaultLighting(this: IconEditor): void
-  
-  /**
-  * 
-  * Applies the right side view camera settings for the model in the @DAdjustableModelPanel type.
-  * Called when a user clicks the *Right* (fourth) button (See the [example](https://wiki.garrysmod.com/page/Category:IconEditor)). (Note: The icon for this points left.)
-  * 
-  * @name IconEditor:RightLayout
-  * @wiki https://wiki.garrysmod.com/page/IconEditor/RightLayout
-  * @param {IconEditor} this - no description
-  * @returns {void}
-  **/
-  RightLayout(this: IconEditor): void
-  
-  /**
-  * 
-  * Re-renders the @SpawnIcon type.
-  * Called when a user clicks the *RENDER* button, this retrieves the render data from the internal @DAdjustableModelPanel type and passes it as a table to @Panel:RebuildSpawnIconEx.
-  * 
-  * @name IconEditor:RenderIcon
-  * @wiki https://wiki.garrysmod.com/page/IconEditor/RenderIcon
-  * @param {IconEditor} this - no description
-  * @returns {void}
-  **/
-  RenderIcon(this: IconEditor): void
-  
-  /**
-  * 
-  * Updates the internal @DAdjustableModelPanel type and @SpawnIcon type.
-  * This should be called immediately after setting the SpawnIcon with @IconEditor:SetIcon.
-  * 
-  * @name IconEditor:Refresh
-  * @wiki https://wiki.garrysmod.com/page/IconEditor/Refresh
-  * @param {IconEditor} this - no description
-  * @returns {void}
-  **/
-  Refresh(this: IconEditor): void
-  
-  /**
-  * 
-  * Places the camera at the origin (0,0,0), relative to the entity, in the @DAdjustableModelPanel type.
-  * Called when a user clicks the *Center* (fifth) button (See the [example](https://wiki.garrysmod.com/page/Category:IconEditor)).
-  * 
-  * @name IconEditor:OriginLayout
-  * @wiki https://wiki.garrysmod.com/page/IconEditor/OriginLayout
-  * @param {IconEditor} this - no description
-  * @returns {void}
-  **/
-  OriginLayout(this: IconEditor): void
-  
-  /**
-  * 
-  * Applies the front view camera settings for the model in the @DAdjustableModelPanel type.
-  * Called when a user clicks the *Front* (second) button (See the [example](https://wiki.garrysmod.com/page/Category:IconEditor)).
-  * 
-  * @name IconEditor:FullFrontalLayout
-  * @wiki https://wiki.garrysmod.com/page/IconEditor/FullFrontalLayout
-  * @param {IconEditor} this - no description
-  * @returns {void}
-  **/
-  FullFrontalLayout(this: IconEditor): void
-  
-  /**
-  * 
-  * Fills the @DListView type on the left of the editor with the model entity's animation list. Called by @IconEditor:Refresh.
-  * 
-  * @name IconEditor:FillAnimations
-  * @wiki https://wiki.garrysmod.com/page/IconEditor/FillAnimations
-  * @internal
-  * @param {IconEditor} this - no description
-  * @param {Entity} ent - The entity being rendered within the model panel.
-  * @returns {void}
-  **/
-  FillAnimations(this: IconEditor, ent: Entity): void
-  
-  /**
-  * 
-  * Applies the best camera settings for the model in the @DAdjustableModelPanel type, using the values returned by @PositionSpawnIcon function.
-  * Called when a user clicks the *wand* button (See the [example](https://wiki.garrysmod.com/page/Category:IconEditor)) and when @IconEditor:Refresh is called.
-  * 
-  * @name IconEditor:BestGuessLayout
-  * @wiki https://wiki.garrysmod.com/page/IconEditor/BestGuessLayout
-  * @param {IconEditor} this - no description
-  * @returns {void}
-  **/
-  BestGuessLayout(this: IconEditor): void
-  
-  /**
-  * 
-  * Applies the top-down view camera settings for the model in the @DAdjustableModelPanel type.
-  * Called when a user clicks the *Above* (third) button (See the [example](https://wiki.garrysmod.com/page/Category:IconEditor)).
-  * 
-  * @name IconEditor:AboveLayout
-  * @wiki https://wiki.garrysmod.com/page/IconEditor/AboveLayout
-  * @param {IconEditor} this - no description
-  * @returns {void}
-  **/
-  AboveLayout(this: IconEditor): void
-  
-}
-
 declare interface GamemodeHooks  {
   /**
   * 
@@ -37160,6 +37656,21 @@ declare interface GamemodeHooks  {
   * @returns {void}
   **/
   WorkshopEnd(this: Gamemode): void
+  
+  /**
+  * 
+  * Called when an addon from the Steam workshop finishes downloading. Used by default to update details on the workshop downloading panel.
+  * 
+  * @name GamemodeHooks:WorkshopDownloadedFile
+  * @predicted false
+  * @realm menu
+  * @wiki https://wiki.garrysmod.com/page/GM/WorkshopDownloadedFile
+  * @param {Gamemode} this - no description
+  * @param {number} id - Workshop ID of addon.
+  * @param {string} title - Name of addon.
+  * @returns {void}
+  **/
+  WorkshopDownloadedFile(this: Gamemode, id: number, title: string): void
   
   /**
   * 
@@ -37219,21 +37730,6 @@ declare interface GamemodeHooks  {
   
   /**
   * 
-  * Called when an addon from the Steam workshop finishes downloading. Used by default to update details on the workshop downloading panel.
-  * 
-  * @name GamemodeHooks:WorkshopDownloadedFile
-  * @predicted false
-  * @realm menu
-  * @wiki https://wiki.garrysmod.com/page/GM/WorkshopDownloadedFile
-  * @param {Gamemode} this - no description
-  * @param {number} id - Workshop ID of addon.
-  * @param {string} title - Name of addon.
-  * @returns {void}
-  **/
-  WorkshopDownloadedFile(this: Gamemode, id: number, title: string): void
-  
-  /**
-  * 
   * Called as a weapon entity is picked up by a player.
   * See also @GamemodeHooks:PlayerDroppedWeapon.
   * 
@@ -37249,6 +37745,41 @@ declare interface GamemodeHooks  {
   * @returns {void}
   **/
   WeaponEquip(this: Gamemode, weapon: Weapon, owner: Player): void
+  
+  /**
+  * 
+  * Called when a variable is edited on an Entity (called by Edit Properties... menu)
+  * 
+  * @name GamemodeHooks:VariableEdited
+  * @predicted false
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/GM/VariableEdited
+  * @param {Gamemode} this - no description
+  * @param {Entity} ent - The entity being edited
+  * @param {Player} ply - The player doing the editing
+  * @param {string} key - The name of the variable
+  * @param {string} val - The new value, as a string which will later be converted to its appropriate type
+  * @param {table} editor - The edit table defined in @EntityFuncs:NetworkVar
+  * @returns {void}
+  **/
+  VariableEdited(this: Gamemode, ent: Entity, ply: Player, key: string, val: string, editor: table): void
+  
+  /**
+  * 
+  * Called when you are driving a vehicle. This hook works just like @GamemodeHooks:Move.
+  * This hook is called before @GamemodeHooks:Move and will be called when @GamemodeHooks:PlayerTick is not.
+  * 
+  * @name GamemodeHooks:VehicleMove
+  * @predicted true
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/GM/VehicleMove
+  * @param {Gamemode} this - no description
+  * @param {Player} ply - Player who is driving the vehicle
+  * @param {Vehicle} veh - The vehicle being driven
+  * @param {CMoveData} mv - Move data
+  * @returns {void}
+  **/
+  VehicleMove(this: Gamemode, ply: Player, veh: Vehicle, mv: CMoveData): void
   
   /**
   * 
@@ -37278,41 +37809,6 @@ declare interface GamemodeHooks  {
   * @returns {boolean} - Return true if the mouse click should be ignored or not.
   **/
   VGUIMousePressAllowed(this: Gamemode, button: MOUSE): boolean
-  
-  /**
-  * 
-  * Called when you are driving a vehicle. This hook works just like @GamemodeHooks:Move.
-  * This hook is called before @GamemodeHooks:Move and will be called when @GamemodeHooks:PlayerTick is not.
-  * 
-  * @name GamemodeHooks:VehicleMove
-  * @predicted true
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/GM/VehicleMove
-  * @param {Gamemode} this - no description
-  * @param {Player} ply - Player who is driving the vehicle
-  * @param {Vehicle} veh - The vehicle being driven
-  * @param {CMoveData} mv - Move data
-  * @returns {void}
-  **/
-  VehicleMove(this: Gamemode, ply: Player, veh: Vehicle, mv: CMoveData): void
-  
-  /**
-  * 
-  * Called when a variable is edited on an Entity (called by Edit Properties... menu)
-  * 
-  * @name GamemodeHooks:VariableEdited
-  * @predicted false
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/GM/VariableEdited
-  * @param {Gamemode} this - no description
-  * @param {Entity} ent - The entity being edited
-  * @param {Player} ply - The player doing the editing
-  * @param {string} key - The name of the variable
-  * @param {string} val - The new value, as a string which will later be converted to its appropriate type
-  * @param {table} editor - The edit table defined in @EntityFuncs:NetworkVar
-  * @returns {void}
-  **/
-  VariableEdited(this: Gamemode, ent: Entity, ply: Player, key: string, val: string, editor: table): void
   
   /**
   * 
@@ -37374,19 +37870,6 @@ declare interface GamemodeHooks  {
   
   /**
   * 
-  * Called when you start a new game via the menu.
-  * 
-  * @name GamemodeHooks:StartGame
-  * @predicted false
-  * @realm menu
-  * @wiki https://wiki.garrysmod.com/page/GM/StartGame
-  * @param {Gamemode} this - no description
-  * @returns {void}
-  **/
-  StartGame(this: Gamemode): void
-  
-  /**
-  * 
   * Called right before an entity starts driving. Overriding this hook will cause it to not call @drive.Start and the player will not begin driving the entity.
   * 
   * @name GamemodeHooks:StartEntityDriving
@@ -37402,18 +37885,16 @@ declare interface GamemodeHooks  {
   
   /**
   * 
-  * Runs when the user tries to open the chat box.
+  * Called when you start a new game via the menu.
   * 
-  * @name GamemodeHooks:StartChat
+  * @name GamemodeHooks:StartGame
   * @predicted false
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/GM/StartChat
-  * @bug #855 Returning true won't stop the chatbox from taking VGUI focus.
+  * @realm menu
+  * @wiki https://wiki.garrysmod.com/page/GM/StartGame
   * @param {Gamemode} this - no description
-  * @param {boolean} isTeamChat - Whether the message was sent through team chat.
-  * @returns {boolean} - Return true to hide the default chat box.
+  * @returns {void}
   **/
-  StartChat(this: Gamemode, isTeamChat: boolean): boolean
+  StartGame(this: Gamemode): void
   
   /**
   * 
@@ -37432,6 +37913,21 @@ declare interface GamemodeHooks  {
   * @returns {void}
   **/
   StartCommand(this: Gamemode, ply: Player, ucmd: CUserCmd): void
+  
+  /**
+  * 
+  * Runs when the user tries to open the chat box.
+  * 
+  * @name GamemodeHooks:StartChat
+  * @predicted false
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/GM/StartChat
+  * @bug #855 Returning true won't stop the chatbox from taking VGUI focus.
+  * @param {Gamemode} this - no description
+  * @param {boolean} isTeamChat - Whether the message was sent through team chat.
+  * @returns {boolean} - Return true to hide the default chat box.
+  **/
+  StartChat(this: Gamemode, isTeamChat: boolean): boolean
   
   /**
   * 
@@ -37477,19 +37973,6 @@ declare interface GamemodeHooks  {
   
   /**
   * 
-  * Called when a player executes gm_showspare2 console command. ( Default bind is F4 )
-  * 
-  * @name GamemodeHooks:ShowSpare2
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/GM/ShowSpare2
-  * @param {Gamemode} this - no description
-  * @param {Player} ply - Player who executed the command
-  * @returns {void}
-  **/
-  ShowSpare2(this: Gamemode, ply: Player): void
-  
-  /**
-  * 
   * Called when a player executes gm_showspare1 console command. ( Default bind is F3 )
   * 
   * @name GamemodeHooks:ShowSpare1
@@ -37500,6 +37983,19 @@ declare interface GamemodeHooks  {
   * @returns {void}
   **/
   ShowSpare1(this: Gamemode, ply: Player): void
+  
+  /**
+  * 
+  * Called when a player executes gm_showspare2 console command. ( Default bind is F4 )
+  * 
+  * @name GamemodeHooks:ShowSpare2
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/GM/ShowSpare2
+  * @param {Gamemode} this - no description
+  * @param {Player} ply - Player who executed the command
+  * @returns {void}
+  **/
+  ShowSpare2(this: Gamemode, ply: Player): void
   
   /**
   * 
@@ -37735,6 +38231,7 @@ declare interface GamemodeHooks  {
   * @predicted false
   * @realm client
   * @wiki https://wiki.garrysmod.com/page/GM/RenderScene
+  * @note Materials rendered in this hook require $ignorez parameter to draw properly.
   * @param {Gamemode} this - no description
   * @param {Vector} origin - View origin
   * @param {Angle} angles - View angles
@@ -37799,6 +38296,18 @@ declare interface GamemodeHooks  {
   
   /**
   * 
+  * Called before the gamemode is loaded.
+  * 
+  * @name GamemodeHooks:PreGamemodeLoaded
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/GM/PreGamemodeLoaded
+  * @param {Gamemode} this - no description
+  * @returns {void}
+  **/
+  PreGamemodeLoaded(this: Gamemode): void
+  
+  /**
+  * 
   * Called before the view model has been drawn. This hook by default also calls this on weapons, so you can use @WeaponHooks:PreDrawViewModel.
   * 
   * @name GamemodeHooks:PreDrawViewModel
@@ -37814,18 +38323,6 @@ declare interface GamemodeHooks  {
   * @returns {boolean} - Return true to prevent the default view model rendering. This also affects @GamemodeHooks:PostDrawViewModel.
   **/
   PreDrawViewModel(this: Gamemode, vm: Entity, ply: Player, weapon: Weapon): boolean
-  
-  /**
-  * 
-  * Called before the gamemode is loaded.
-  * 
-  * @name GamemodeHooks:PreGamemodeLoaded
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/GM/PreGamemodeLoaded
-  * @param {Gamemode} this - no description
-  * @returns {void}
-  **/
-  PreGamemodeLoaded(this: Gamemode): void
   
   /**
   * 
@@ -37896,19 +38393,6 @@ declare interface GamemodeHooks  {
   
   /**
   * 
-  * Called before any of 2D drawing functions. Drawing anything in it seems to work incorrectly.
-  * 
-  * @name GamemodeHooks:PreDrawHUD
-  * @predicted false
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/GM/PreDrawHUD
-  * @param {Gamemode} this - no description
-  * @returns {void}
-  **/
-  PreDrawHUD(this: Gamemode): void
-  
-  /**
-  * 
   * Called before rendering the halos. This is the place to call @halo.Add. This hook is actually running inside of @GamemodeHooks:PostDrawEffects.
   * 
   * @name GamemodeHooks:PreDrawHalos
@@ -37920,6 +38404,19 @@ declare interface GamemodeHooks  {
   * @returns {void}
   **/
   PreDrawHalos(this: Gamemode): void
+  
+  /**
+  * 
+  * Called before any of 2D drawing functions. Drawing anything in it seems to work incorrectly.
+  * 
+  * @name GamemodeHooks:PreDrawHUD
+  * @predicted false
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/GM/PreDrawHUD
+  * @param {Gamemode} this - no description
+  * @returns {void}
+  **/
+  PreDrawHUD(this: Gamemode): void
   
   /**
   * 
@@ -37979,20 +38476,6 @@ declare interface GamemodeHooks  {
   
   /**
   * 
-  * Allows you to suppress post processing effect drawing.
-  * 
-  * @name GamemodeHooks:PostProcessPermitted
-  * @predicted false
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/GM/PostProcessPermitted
-  * @param {Gamemode} this - no description
-  * @param {string} ppeffect - The classname of Post Processing effect
-  * @returns {boolean} - Return true/false depending on whether this post process should be allowed
-  **/
-  PostProcessPermitted(this: Gamemode, ppeffect: string): boolean
-  
-  /**
-  * 
   * Called after the player was drawn.
   * 
   * @name GamemodeHooks:PostPlayerDraw
@@ -38005,6 +38488,20 @@ declare interface GamemodeHooks  {
   * @returns {void}
   **/
   PostPlayerDraw(this: Gamemode, ply: Player): void
+  
+  /**
+  * 
+  * Allows you to suppress post processing effect drawing.
+  * 
+  * @name GamemodeHooks:PostProcessPermitted
+  * @predicted false
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/GM/PostProcessPermitted
+  * @param {Gamemode} this - no description
+  * @param {string} ppeffect - The classname of Post Processing effect
+  * @returns {boolean} - Return true/false depending on whether this post process should be allowed
+  **/
+  PostProcessPermitted(this: Gamemode, ppeffect: string): boolean
   
   /**
   * 
@@ -38021,24 +38518,6 @@ declare interface GamemodeHooks  {
   * @returns {void}
   **/
   PostPlayerDeath(this: Gamemode, ply: Player): void
-  
-  /**
-  * 
-  * Called after view model is drawn.
-  * 
-  * @name GamemodeHooks:PostDrawViewModel
-  * @predicted false
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/GM/PostDrawViewModel
-  * @rendering hook:3d
-  * @note The 3D rendering context in this event is different from the main view. Every render operation will only be accurate with the view model entity.
-  * @param {Gamemode} this - no description
-  * @param {Entity} viewmodel - Players view model
-  * @param {Player} player - The owner of the weapon/view model
-  * @param {Weapon} weapon - The weapon the player is currently holding
-  * @returns {void}
-  **/
-  PostDrawViewModel(this: Gamemode, viewmodel: Entity, player: Player, weapon: Weapon): void
   
   /**
   * 
@@ -38073,17 +38552,21 @@ declare interface GamemodeHooks  {
   
   /**
   * 
-  * Called after drawing the skybox.
+  * Called after view model is drawn.
   * 
-  * @name GamemodeHooks:PostDrawSkyBox
+  * @name GamemodeHooks:PostDrawViewModel
   * @predicted false
   * @realm client
-  * @wiki https://wiki.garrysmod.com/page/GM/PostDrawSkyBox
+  * @wiki https://wiki.garrysmod.com/page/GM/PostDrawViewModel
   * @rendering hook:3d
+  * @note The 3D rendering context in this event is different from the main view. Every render operation will only be accurate with the view model entity.
   * @param {Gamemode} this - no description
+  * @param {Entity} viewmodel - Players view model
+  * @param {Player} player - The owner of the weapon/view model
+  * @param {Weapon} weapon - The weapon the player is currently holding
   * @returns {void}
   **/
-  PostDrawSkyBox(this: Gamemode): void
+  PostDrawViewModel(this: Gamemode, viewmodel: Entity, player: Player, weapon: Weapon): void
   
   /**
   * 
@@ -38104,20 +38587,31 @@ declare interface GamemodeHooks  {
   
   /**
   * 
-  * Called after drawing opaque entities.
-  * See also @GamemodeHooks:PostDrawTranslucentRenderables and  @GamemodeHooks:PreDrawOpaqueRenderables.
+  * Called after drawing the skybox.
   * 
-  * @name GamemodeHooks:PostDrawOpaqueRenderables
+  * @name GamemodeHooks:PostDrawSkyBox
   * @predicted false
   * @realm client
-  * @wiki https://wiki.garrysmod.com/page/GM/PostDrawOpaqueRenderables
+  * @wiki https://wiki.garrysmod.com/page/GM/PostDrawSkyBox
   * @rendering hook:3d
   * @param {Gamemode} this - no description
-  * @param {boolean} bDrawingDepth - Whether the current draw is writing depth.
-  * @param {boolean} bDrawingSkybox - Whether the current draw is drawing the skybox.
   * @returns {void}
   **/
-  PostDrawOpaqueRenderables(this: Gamemode, bDrawingDepth: boolean, bDrawingSkybox: boolean): void
+  PostDrawSkyBox(this: Gamemode): void
+  
+  /**
+  * 
+  * Called after rendering effects. This is where halos are drawn. Called just before @GamemodeHooks:PreDrawHUD.
+  * 
+  * @name GamemodeHooks:PostDrawEffects
+  * @predicted false
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/GM/PostDrawEffects
+  * @rendering hook:2d
+  * @param {Gamemode} this - no description
+  * @returns {void}
+  **/
+  PostDrawEffects(this: Gamemode): void
   
   /**
   * 
@@ -38135,17 +38629,20 @@ declare interface GamemodeHooks  {
   
   /**
   * 
-  * Called after rendering effects. This is where halos are drawn. Called just before @GamemodeHooks:PreDrawHUD.
+  * Called after drawing opaque entities.
+  * See also @GamemodeHooks:PostDrawTranslucentRenderables and  @GamemodeHooks:PreDrawOpaqueRenderables.
   * 
-  * @name GamemodeHooks:PostDrawEffects
+  * @name GamemodeHooks:PostDrawOpaqueRenderables
   * @predicted false
   * @realm client
-  * @wiki https://wiki.garrysmod.com/page/GM/PostDrawEffects
-  * @rendering hook:2d
+  * @wiki https://wiki.garrysmod.com/page/GM/PostDrawOpaqueRenderables
+  * @rendering hook:3d
   * @param {Gamemode} this - no description
+  * @param {boolean} bDrawingDepth - Whether the current draw is writing depth.
+  * @param {boolean} bDrawingSkybox - Whether the current draw is drawing the skybox.
   * @returns {void}
   **/
-  PostDrawEffects(this: Gamemode): void
+  PostDrawOpaqueRenderables(this: Gamemode, bDrawingDepth: boolean, bDrawingSkybox: boolean): void
   
   /**
   * 
@@ -38599,6 +39096,7 @@ declare interface GamemodeHooks  {
   * @realm server
   * @wiki https://wiki.garrysmod.com/page/GM/PlayerInitialSpawn
   * @note This hook is called before the player has fully loaded, when the player is still in seeing the "Starting Lua" screen. For example, trying to use the @EntityFuncs:GetModel function will return the default model ("player/default.mdl")
+  * @warning Due to the above note, sending @net library messages to the spawned player in this hook is highly unreliable, and they most likely won't be received. See https://github.com/Facepunch/garrysmod-requests/issues/718. A quick and dirty work-around is to delay any sending using @timer.Simple with at least 5 seconds delay.
   * @param {Gamemode} this - no description
   * @param {Player} player - The player who spawned.
   * @param {boolean} transition - If true, the player just spawned from a map transition.
@@ -38690,6 +39188,20 @@ declare interface GamemodeHooks  {
   
   /**
   * 
+  * Called to update the player's animation during a drive.
+  * 
+  * @name GamemodeHooks:PlayerDriveAnimate
+  * @predicted false
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/GM/PlayerDriveAnimate
+  * @param {Gamemode} this - no description
+  * @param {Player} ply - The driving player
+  * @returns {void}
+  **/
+  PlayerDriveAnimate(this: Gamemode, ply: Player): void
+  
+  /**
+  * 
   * Called when a weapon is dropped by a player via @Player:DropWeapon.
   * See also @GamemodeHooks:WeaponEquip for a hook when a player picks up a weapon.
   * The weapon's @EntityFuncs:GetOwner will be NULL at the time this hook is called.
@@ -38708,20 +39220,6 @@ declare interface GamemodeHooks  {
   
   /**
   * 
-  * Called to update the player's animation during a drive.
-  * 
-  * @name GamemodeHooks:PlayerDriveAnimate
-  * @predicted false
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/GM/PlayerDriveAnimate
-  * @param {Gamemode} this - no description
-  * @param {Player} ply - The driving player
-  * @returns {void}
-  **/
-  PlayerDriveAnimate(this: Gamemode, ply: Player): void
-  
-  /**
-  * 
   * Called when a player leaves the server. See the [player_disconnect gameevent](https://wiki.garrysmod.com/page/Game_Events) for a shared version of this hook.
   * 
   * @name GamemodeHooks:PlayerDisconnected
@@ -38734,22 +39232,6 @@ declare interface GamemodeHooks  {
   * @returns {void}
   **/
   PlayerDisconnected(this: Gamemode, ply: Player): void
-  
-  /**
-  * 
-  * Called every think while the player is dead. The return value will determine if the player respawns.
-  * Overwriting this function will prevent players from respawning by pressing space or clicking.
-  * 
-  * @name GamemodeHooks:PlayerDeathThink
-  * @predicted false
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/GM/PlayerDeathThink
-  * @bug #1577 This hook is not called for players with the [FL_FROZEN](https://wiki.garrysmod.com/page/Enums/FL) flag applied.
-  * @param {Gamemode} this - no description
-  * @param {Player} ply - The player affected in the hook.
-  * @returns {boolean} - Allow spawn
-  **/
-  PlayerDeathThink(this: Gamemode, ply: Player): boolean
   
   /**
   * 
@@ -38784,6 +39266,22 @@ declare interface GamemodeHooks  {
   * @returns {void}
   **/
   PlayerDeath(this: Gamemode, victim: Player, inflictor: Entity, attacker: Entity): void
+  
+  /**
+  * 
+  * Called every think while the player is dead. The return value will determine if the player respawns.
+  * Overwriting this function will prevent players from respawning by pressing space or clicking.
+  * 
+  * @name GamemodeHooks:PlayerDeathThink
+  * @predicted false
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/GM/PlayerDeathThink
+  * @bug #1577 This hook is not called for players with the [FL_FROZEN](https://wiki.garrysmod.com/page/Enums/FL) flag applied.
+  * @param {Gamemode} this - no description
+  * @param {Player} ply - The player affected in the hook.
+  * @returns {boolean} - Allow spawn
+  **/
+  PlayerDeathThink(this: Gamemode, ply: Player): boolean
   
   /**
   * 
@@ -39149,21 +39647,6 @@ declare interface GamemodeHooks  {
   
   /**
   * 
-  * Called when a player reloads with the physgun. Override this to disable default unfreezing behavior.
-  * 
-  * @name GamemodeHooks:OnPhysgunReload
-  * @predicted false
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/GM/OnPhysgunReload
-  * @param {Gamemode} this - no description
-  * @param {Weapon} physgun - The physgun in question
-  * @param {Player} ply - The player wielding the physgun
-  * @returns {boolean} - Whether the player can reload with the physgun or not
-  **/
-  OnPhysgunReload(this: Gamemode, physgun: Weapon, ply: Player): boolean
-  
-  /**
-  * 
   * Called to when a player has successfully picked up an entity with their Physics Gun.
   * Not to be confused with @GamemodeHooks:PhysgunPickup which is called multiple times to ask if the player should be able to pick up an entity.
   * 
@@ -39195,6 +39678,21 @@ declare interface GamemodeHooks  {
   * @returns {boolean} - Allows you to override whether the player can freeze the entity
   **/
   OnPhysgunFreeze(this: Gamemode, weapon: Entity, physobj: PhysObj, ent: Entity, ply: Player): boolean
+  
+  /**
+  * 
+  * Called when a player reloads with the physgun. Override this to disable default unfreezing behavior.
+  * 
+  * @name GamemodeHooks:OnPhysgunReload
+  * @predicted false
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/GM/OnPhysgunReload
+  * @param {Gamemode} this - no description
+  * @param {Weapon} physgun - The physgun in question
+  * @param {Player} ply - The player wielding the physgun
+  * @returns {boolean} - Whether the player can reload with the physgun or not
+  **/
+  OnPhysgunReload(this: Gamemode, physgun: Weapon, ply: Player): boolean
   
   /**
   * 
@@ -39438,21 +39936,6 @@ declare interface GamemodeHooks  {
   
   /**
   * 
-  * Called from gm_load when the game should load a map.
-  * 
-  * @name GamemodeHooks:LoadGModSave
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/GM/LoadGModSave
-  * @param {Gamemode} this - no description
-  * @param {string} data - no description
-  * @param {string} map - no description
-  * @param {number} timestamp - no description
-  * @returns {void}
-  **/
-  LoadGModSave(this: Gamemode, data: string, map: string, timestamp: number): void
-  
-  /**
-  * 
   * Runs when a IN key was released by a player.
   * For a more general purpose function that handles all kinds of input, see @GamemodeHooks:PlayerButtonUp
   * 
@@ -39483,6 +39966,21 @@ declare interface GamemodeHooks  {
   * @returns {void}
   **/
   KeyPress(this: Gamemode, ply: Player, key: IN): void
+  
+  /**
+  * 
+  * Called from gm_load when the game should load a map.
+  * 
+  * @name GamemodeHooks:LoadGModSave
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/GM/LoadGModSave
+  * @param {Gamemode} this - no description
+  * @param {string} data - no description
+  * @param {string} map - no description
+  * @param {number} timestamp - no description
+  * @returns {void}
+  **/
+  LoadGModSave(this: Gamemode, data: string, map: string, timestamp: number): void
   
   /**
   * 
@@ -39519,6 +40017,18 @@ declare interface GamemodeHooks  {
   
   /**
   * 
+  * Called after the gamemode loads and starts.
+  * 
+  * @name GamemodeHooks:Initialize
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/GM/Initialize
+  * @param {Gamemode} this - no description
+  * @returns {void}
+  **/
+  Initialize(this: Gamemode): void
+  
+  /**
+  * 
   * Called after all the entities are initialized.
   * 
   * @name GamemodeHooks:InitPostEntity
@@ -39533,15 +40043,114 @@ declare interface GamemodeHooks  {
   
   /**
   * 
-  * Called after the gamemode loads and starts.
+  * Hides the team selection panel.
   * 
-  * @name GamemodeHooks:Initialize
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/GM/Initialize
+  * @name GamemodeHooks:HideTeam
+  * @predicted false
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/GM/HideTeam
   * @param {Gamemode} this - no description
   * @returns {void}
   **/
-  Initialize(this: Gamemode): void
+  HideTeam(this: Gamemode): void
+  
+  /**
+  * 
+  * Allows to override player flying ( in mid-air, not noclipping ) animations.
+  * 
+  * @name GamemodeHooks:HandlePlayerVaulting
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/GM/HandlePlayerVaulting
+  * @param {Gamemode} this - no description
+  * @param {Player} ply - The player
+  * @param {number} velocity - Players velocity
+  * @returns {boolean} - Return true if we've changed/set the animation, false otherwise
+  **/
+  HandlePlayerVaulting(this: Gamemode, ply: Player, velocity: number): boolean
+  
+  /**
+  * 
+  * Allows to override player swimming animations.
+  * 
+  * @name GamemodeHooks:HandlePlayerSwimming
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/GM/HandlePlayerSwimming
+  * @param {Gamemode} this - no description
+  * @param {Player} ply - The player
+  * @param {number} velocity - Players velocity
+  * @returns {boolean} - Return true if we've changed/set the animation, false otherwise
+  **/
+  HandlePlayerSwimming(this: Gamemode, ply: Player, velocity: number): boolean
+  
+  /**
+  * 
+  * Allows to override player noclip animations.
+  * 
+  * @name GamemodeHooks:HandlePlayerNoClipping
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/GM/HandlePlayerNoClipping
+  * @param {Gamemode} this - no description
+  * @param {Player} ply - The player
+  * @param {number} velocity - Players velocity
+  * @returns {boolean} - Return true if we've changed/set the animation, false otherwise
+  **/
+  HandlePlayerNoClipping(this: Gamemode, ply: Player, velocity: number): boolean
+  
+  /**
+  * 
+  * Allows to override player landing animations.
+  * 
+  * @name GamemodeHooks:HandlePlayerLanding
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/GM/HandlePlayerLanding
+  * @param {Gamemode} this - no description
+  * @param {Player} ply - The player
+  * @param {number} velocity - Players velocity
+  * @param {boolean} onGround - Was the player on ground?
+  * @returns {boolean} - Return true if we've changed/set the animation, false otherwise
+  **/
+  HandlePlayerLanding(this: Gamemode, ply: Player, velocity: number, onGround: boolean): boolean
+  
+  /**
+  * 
+  * Allows to override player jumping animations.
+  * 
+  * @name GamemodeHooks:HandlePlayerJumping
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/GM/HandlePlayerJumping
+  * @param {Gamemode} this - no description
+  * @param {Player} ply - The player
+  * @param {number} velocity - Players velocity
+  * @returns {boolean} - Return true if we've changed/set the animation, false otherwise
+  **/
+  HandlePlayerJumping(this: Gamemode, ply: Player, velocity: number): boolean
+  
+  /**
+  * 
+  * Allows to override player crouch animations.
+  * 
+  * @name GamemodeHooks:HandlePlayerDucking
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/GM/HandlePlayerDucking
+  * @param {Gamemode} this - no description
+  * @param {Player} ply - The player
+  * @param {number} velocity - Players velocity
+  * @returns {boolean} - Return true if we've changed/set the animation, false otherwise
+  **/
+  HandlePlayerDucking(this: Gamemode, ply: Player, velocity: number): boolean
+  
+  /**
+  * 
+  * Allows to override player driving animations.
+  * 
+  * @name GamemodeHooks:HandlePlayerDriving
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/GM/HandlePlayerDriving
+  * @param {Gamemode} this - no description
+  * @param {Player} ply - Player to process
+  * @returns {boolean} - Return true if we've changed/set the animation, false otherwise
+  **/
+  HandlePlayerDriving(this: Gamemode, ply: Player): boolean
   
   /**
   * 
@@ -39671,163 +40280,6 @@ declare interface GamemodeHooks  {
   * @returns {void}
   **/
   HUDAmmoPickedUp(this: Gamemode, itemName: string, amount: number): void
-  
-  /**
-  * 
-  * Hides the team selection panel.
-  * 
-  * @name GamemodeHooks:HideTeam
-  * @predicted false
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/GM/HideTeam
-  * @param {Gamemode} this - no description
-  * @returns {void}
-  **/
-  HideTeam(this: Gamemode): void
-  
-  /**
-  * 
-  * Allows to override player flying ( in mid-air, not noclipping ) animations.
-  * 
-  * @name GamemodeHooks:HandlePlayerVaulting
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/GM/HandlePlayerVaulting
-  * @param {Gamemode} this - no description
-  * @param {Player} ply - The player
-  * @param {number} velocity - Players velocity
-  * @returns {boolean} - Return true if we've changed/set the animation, false otherwise
-  **/
-  HandlePlayerVaulting(this: Gamemode, ply: Player, velocity: number): boolean
-  
-  /**
-  * 
-  * Allows to override player swimming animations.
-  * 
-  * @name GamemodeHooks:HandlePlayerSwimming
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/GM/HandlePlayerSwimming
-  * @param {Gamemode} this - no description
-  * @param {Player} ply - The player
-  * @param {number} velocity - Players velocity
-  * @returns {boolean} - Return true if we've changed/set the animation, false otherwise
-  **/
-  HandlePlayerSwimming(this: Gamemode, ply: Player, velocity: number): boolean
-  
-  /**
-  * 
-  * Allows to override player noclip animations.
-  * 
-  * @name GamemodeHooks:HandlePlayerNoClipping
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/GM/HandlePlayerNoClipping
-  * @param {Gamemode} this - no description
-  * @param {Player} ply - The player
-  * @param {number} velocity - Players velocity
-  * @returns {boolean} - Return true if we've changed/set the animation, false otherwise
-  **/
-  HandlePlayerNoClipping(this: Gamemode, ply: Player, velocity: number): boolean
-  
-  /**
-  * 
-  * Allows to override player landing animations.
-  * 
-  * @name GamemodeHooks:HandlePlayerLanding
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/GM/HandlePlayerLanding
-  * @param {Gamemode} this - no description
-  * @param {Player} ply - The player
-  * @param {number} velocity - Players velocity
-  * @param {boolean} onGround - Was the player on ground?
-  * @returns {boolean} - Return true if we've changed/set the animation, false otherwise
-  **/
-  HandlePlayerLanding(this: Gamemode, ply: Player, velocity: number, onGround: boolean): boolean
-  
-  /**
-  * 
-  * Allows to override player jumping animations.
-  * 
-  * @name GamemodeHooks:HandlePlayerJumping
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/GM/HandlePlayerJumping
-  * @param {Gamemode} this - no description
-  * @param {Player} ply - The player
-  * @param {number} velocity - Players velocity
-  * @returns {boolean} - Return true if we've changed/set the animation, false otherwise
-  **/
-  HandlePlayerJumping(this: Gamemode, ply: Player, velocity: number): boolean
-  
-  /**
-  * 
-  * Allows to override player crouch animations.
-  * 
-  * @name GamemodeHooks:HandlePlayerDucking
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/GM/HandlePlayerDucking
-  * @param {Gamemode} this - no description
-  * @param {Player} ply - The player
-  * @param {number} velocity - Players velocity
-  * @returns {boolean} - Return true if we've changed/set the animation, false otherwise
-  **/
-  HandlePlayerDucking(this: Gamemode, ply: Player, velocity: number): boolean
-  
-  /**
-  * 
-  * Allows to override player driving animations.
-  * 
-  * @name GamemodeHooks:HandlePlayerDriving
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/GM/HandlePlayerDriving
-  * @param {Gamemode} this - no description
-  * @param {Player} ply - Player to process
-  * @returns {boolean} - Return true if we've changed/set the animation, false otherwise
-  **/
-  HandlePlayerDriving(this: Gamemode, ply: Player): boolean
-  
-  /**
-  * 
-  * Called whenever a players releases a mouse key on the context menu in Sandbox or on any panel derived from CGModBase, such as the panel used by @gui.EnableScreenClicker and the panel used by @Panel:ParentToHUD.
-  * 
-  * @name GamemodeHooks:GUIMouseReleased
-  * @predicted false
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/GM/GUIMouseReleased
-  * @param {Gamemode} this - no description
-  * @param {MOUSE} mouseCode - The key the player released, see @MOUSE enum
-  * @param {Vector} aimVector - A normalized direction vector local to the camera. Internally this is  @gui.ScreenToVector( @gui.MousePos() ).
-  * @returns {void}
-  **/
-  GUIMouseReleased(this: Gamemode, mouseCode: MOUSE, aimVector: Vector): void
-  
-  /**
-  * 
-  * Called whenever a players presses a mouse key on the context menu in Sandbox or on any panel derived from CGModBase, such as the panel used by @gui.EnableScreenClicker and the panel used by @Panel:ParentToHUD.
-  * See @GamemodeHooks:VGUIMousePressed for a hook that is called on all VGUI elements.
-  * 
-  * @name GamemodeHooks:GUIMousePressed
-  * @predicted false
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/GM/GUIMousePressed
-  * @param {Gamemode} this - no description
-  * @param {MOUSE} mouseCode - The key that the player pressed using @MOUSE enum.
-  * @param {Vector} aimVector - A normalized direction vector local to the camera. Internally, this is  @gui.ScreenToVector( @gui.MousePos() ).
-  * @returns {void}
-  **/
-  GUIMousePressed(this: Gamemode, mouseCode: MOUSE, aimVector: Vector): void
-  
-  /**
-  * 
-  * Called when the mouse has been double clicked on any panel derived from CGModBase, such as the panel used by @gui.EnableScreenClicker and the panel used by @Panel:ParentToHUD.
-  * By default this hook calls @GamemodeHooks:GUIMousePressed.
-  * 
-  * @name GamemodeHooks:GUIMouseDoublePressed
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/GM/GUIMouseDoublePressed
-  * @param {Gamemode} this - no description
-  * @param {MOUSE} mouseCode - The code of the mouse button pressed, see @MOUSE enum
-  * @param {Vector} aimVector - A normalized vector pointing in the direction the client has clicked
-  * @returns {void}
-  **/
-  GUIMouseDoublePressed(this: Gamemode, mouseCode: MOUSE, aimVector: Vector): void
   
   /**
   * 
@@ -40012,6 +40464,52 @@ declare interface GamemodeHooks  {
   
   /**
   * 
+  * Called whenever a players releases a mouse key on the context menu in Sandbox or on any panel derived from CGModBase, such as the panel used by @gui.EnableScreenClicker and the panel used by @Panel:ParentToHUD.
+  * 
+  * @name GamemodeHooks:GUIMouseReleased
+  * @predicted false
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/GM/GUIMouseReleased
+  * @param {Gamemode} this - no description
+  * @param {MOUSE} mouseCode - The key the player released, see @MOUSE enum
+  * @param {Vector} aimVector - A normalized direction vector local to the camera. Internally this is  @gui.ScreenToVector( @gui.MousePos() ).
+  * @returns {void}
+  **/
+  GUIMouseReleased(this: Gamemode, mouseCode: MOUSE, aimVector: Vector): void
+  
+  /**
+  * 
+  * Called whenever a players presses a mouse key on the context menu in Sandbox or on any panel derived from CGModBase, such as the panel used by @gui.EnableScreenClicker and the panel used by @Panel:ParentToHUD.
+  * See @GamemodeHooks:VGUIMousePressed for a hook that is called on all VGUI elements.
+  * 
+  * @name GamemodeHooks:GUIMousePressed
+  * @predicted false
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/GM/GUIMousePressed
+  * @param {Gamemode} this - no description
+  * @param {MOUSE} mouseCode - The key that the player pressed using @MOUSE enum.
+  * @param {Vector} aimVector - A normalized direction vector local to the camera. Internally, this is  @gui.ScreenToVector( @gui.MousePos() ).
+  * @returns {void}
+  **/
+  GUIMousePressed(this: Gamemode, mouseCode: MOUSE, aimVector: Vector): void
+  
+  /**
+  * 
+  * Called when the mouse has been double clicked on any panel derived from CGModBase, such as the panel used by @gui.EnableScreenClicker and the panel used by @Panel:ParentToHUD.
+  * By default this hook calls @GamemodeHooks:GUIMousePressed.
+  * 
+  * @name GamemodeHooks:GUIMouseDoublePressed
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/GM/GUIMouseDoublePressed
+  * @param {Gamemode} this - no description
+  * @param {MOUSE} mouseCode - The code of the mouse button pressed, see @MOUSE enum
+  * @param {Vector} aimVector - A normalized vector pointing in the direction the client has clicked
+  * @returns {void}
+  **/
+  GUIMouseDoublePressed(this: Gamemode, mouseCode: MOUSE, aimVector: Vector): void
+  
+  /**
+  * 
   * Called to allow override of the default Derma skin for all panels.
   * 
   * @name GamemodeHooks:ForceDermaSkin
@@ -40056,12 +40554,13 @@ declare interface GamemodeHooks  {
   
   /**
   * 
-  * This hook polls the entity the player use action should be applied to. The default behavior of this hook is on [CBasePlayer::FindUseEntity()](https://github.com/ValveSoftware/source-sdk-2013/blob/0d8dceea4310fde5706b3ce1c70609d72a38efdf/mp/src/game/shared/baseplayer_shared.cpp#L1068-L1270).
+  * This hook polls the entity the player use action should be applied to.
   * 
   * @name GamemodeHooks:FindUseEntity
   * @predicted false
   * @realm client, server
   * @wiki https://wiki.garrysmod.com/page/GM/FindUseEntity
+  * @note The default behavior of this hook is in [CBasePlayer::FindUseEntity](https://github.com/ValveSoftware/source-sdk-2013/blob/0d8dceea4310fde5706b3ce1c70609d72a38efdf/mp/src/game/shared/baseplayer_shared.cpp#L1068-L1270). Despite CBasePlayer::FindUseEntity being defined shared, it is only called serverside in practice, so this hook will be only called serverside, as well. It is possible for modules to call it clientside, so the Lua code should still be treated as shared.
   * @param {Gamemode} this - no description
   * @param {Player} ply - The player who initiated the use action.
   * @param {Entity} defaultEnt - The entity that was chosen by the engine.
@@ -40278,7 +40777,7 @@ declare interface GamemodeHooks  {
   * @param {ACT} data - The data for the event. This is interpreted as an @ACT enum by PLAYERANIMEVENT_CUSTOM and PLAYERANIMEVENT_CUSTOM_GESTURE, or a sequence by PLAYERANIMEVENT_CUSTOM_SEQUENCE.
   * @returns {ACT} - The translated activity to send to the weapon. See @ACT enum. Return ACT_INVALID if you don't want to send an activity.
   **/
-  DoAnimationEvent(this: Gamemode, ply: Player, event: PLAYERANIMEVENT, data: ACT): ACT
+  DoAnimationEvent(this: Gamemode, ply: Player, event: PLAYERANIMEVENT, data?: ACT): ACT
   
   /**
   * 
@@ -40462,6 +40961,21 @@ declare interface GamemodeHooks  {
   
   /**
   * 
+  * Determines if the player can exit the vehicle.
+  * 
+  * @name GamemodeHooks:CanExitVehicle
+  * @predicted false
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/GM/CanExitVehicle
+  * @param {Gamemode} this - no description
+  * @param {Vehicle} veh - The vehicle entity
+  * @param {Player} ply - The player
+  * @returns {boolean} - True if the player can exit the vehicle.
+  **/
+  CanExitVehicle(this: Gamemode, veh: Vehicle, ply: Player): boolean
+  
+  /**
+  * 
   * Determines whether or not the player can enter the vehicle.
   * Called just before @GamemodeHooks:PlayerEnteredVehicle.
   * 
@@ -40476,21 +40990,6 @@ declare interface GamemodeHooks  {
   * @returns {boolean} - False if the player is not allowed to enter the vehicle.
   **/
   CanPlayerEnterVehicle(this: Gamemode, player: Player, vehicle: Vehicle, role: number): boolean
-  
-  /**
-  * 
-  * Determines if the player can exit the vehicle.
-  * 
-  * @name GamemodeHooks:CanExitVehicle
-  * @predicted false
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/GM/CanExitVehicle
-  * @param {Gamemode} this - no description
-  * @param {Vehicle} veh - The vehicle entity
-  * @param {Player} ply - The player
-  * @returns {boolean} - True if the player can exit the vehicle.
-  **/
-  CanExitVehicle(this: Gamemode, veh: Vehicle, ply: Player): boolean
   
   /**
   * 
@@ -40533,25 +41032,6 @@ declare interface GamemodeHooks  {
   
   /**
   * 
-  * Allows override of the default view.
-  * 
-  * @name GamemodeHooks:CalcView
-  * @predicted false
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/GM/CalcView
-  * @param {Gamemode} this - no description
-  * @param {Player} ply - The local player.
-  * @param {Vector} origin - The player's view position.
-  * @param {Angle} angles - The player's view angles.
-  * @param {number} fov - Field of view.
-  * @param {number} znear - Distance to near clipping plane.
-  * @param {number} zfar - Distance to far clipping plane.
-  * @returns {CamData} - View data table. See @CamData structure
-  **/
-  CalcView(this: Gamemode, ply: Player, origin: Vector, angles: Angle, fov: number, znear: number, zfar: number): CamData
-  
-  /**
-  * 
   * Called from @GamemodeHooks:CalcView when player is in driving a vehicle.
   * This hook may not be called in gamemodes that override @GamemodeHooks:CalcView.
   * 
@@ -40588,6 +41068,25 @@ declare interface GamemodeHooks  {
   
   /**
   * 
+  * Allows override of the default view.
+  * 
+  * @name GamemodeHooks:CalcView
+  * @predicted false
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/GM/CalcView
+  * @param {Gamemode} this - no description
+  * @param {Player} ply - The local player.
+  * @param {Vector} origin - The player's view position.
+  * @param {Angle} angles - The player's view angles.
+  * @param {number} fov - Field of view.
+  * @param {number} znear - Distance to near clipping plane.
+  * @param {number} zfar - Distance to far clipping plane.
+  * @returns {CamData} - View data table. See @CamData structure
+  **/
+  CalcView(this: Gamemode, ply: Player, origin: Vector, angles: Angle, fov: number, znear: number, zfar: number): CamData
+  
+  /**
+  * 
   * Called when a player tries to pick up something using the "use" key, return to override.
   * See @GamemodeHooks:GravGunPickupAllowed for the Gravity Gun pickup variant.
   * 
@@ -40619,25 +41118,6 @@ declare interface GamemodeHooks  {
   
   /**
   * 
-  * Adds a death notice entry.
-  * 
-  * @name GamemodeHooks:AddDeathNotice
-  * @predicted false
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/GM/AddDeathNotice
-  * @bug #2611 You cannot use @hook.Add on this hook yet.
-  * @param {Gamemode} this - no description
-  * @param {string} attacker - The name of the attacker
-  * @param {number} attackerTeam - The team of the attacker
-  * @param {string} inflictor - Class name of the entity inflicting the damage
-  * @param {string} victim - Name of the victim
-  * @param {number} victimTeam - Team of the victim
-  * @returns {void}
-  **/
-  AddDeathNotice(this: Gamemode, attacker: string, attackerTeam: number, inflictor: string, victim: string, victimTeam: number): void
-  
-  /**
-  * 
   * Called when a map I/O event occurs.
   * See also @EntityFuncs:Fire and @EntityFuncs:Input for functions to fire Inputs on entities.
   * 
@@ -40654,6 +41134,25 @@ declare interface GamemodeHooks  {
   * @returns {boolean} - Return true to prevent this input from being processed.
   **/
   AcceptInput(this: Gamemode, ent: Entity, input: string, activator: Entity, caller: Entity, value?: string | number | boolean): boolean
+  
+  /**
+  * 
+  * Adds a death notice entry.
+  * 
+  * @name GamemodeHooks:AddDeathNotice
+  * @predicted false
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/GM/AddDeathNotice
+  * @bug #2611 You cannot use @hook.Add on this hook yet.
+  * @param {Gamemode} this - no description
+  * @param {string} attacker - The name of the attacker
+  * @param {number} attackerTeam - The team of the attacker
+  * @param {string} inflictor - Class name of the entity inflicting the damage
+  * @param {string} victim - Name of the victim
+  * @param {number} victimTeam - Team of the victim
+  * @returns {void}
+  **/
+  AddDeathNotice(this: Gamemode, attacker: string, attackerTeam: number, inflictor: string, victim: string, victimTeam: number): void
   
 }
 
@@ -40777,6 +41276,18 @@ declare interface File  {
   
   /**
   * 
+  * Returns the current position of the file pointer.
+  * 
+  * @name File:Tell
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/File/Tell
+  * @param {File} this - no description
+  * @returns {number} - pos
+  **/
+  Tell(this: File): number
+  
+  /**
+  * 
   * Moves the file pointer by the specified amount of chars.
   * 
   * @name File:Skip
@@ -40787,18 +41298,6 @@ declare interface File  {
   * @returns {number} - amount
   **/
   Skip(this: File, amount: number): number
-  
-  /**
-  * 
-  * Returns the current position of the file pointer.
-  * 
-  * @name File:Tell
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/File/Tell
-  * @param {File} this - no description
-  * @returns {number} - pos
-  **/
-  Tell(this: File): number
   
   /**
   * 
@@ -41137,7 +41636,7 @@ declare interface EntityFuncs  {
   * @param {number} boundSize - The distance/size of the trigger bounds.
   * @returns {void}
   **/
-  UseTriggerBounds(this: Entity, enable: boolean, boundSize: number): void
+  UseTriggerBounds(this: Entity, enable: boolean, boundSize?: number): void
   
   /**
   * 
@@ -41192,7 +41691,6 @@ declare interface EntityFuncs  {
   * @name EntityFuncs:TranslateBoneToPhysBone
   * @realm client, server
   * @wiki https://wiki.garrysmod.com/page/Entity/TranslateBoneToPhysBone
-  * @bug #3714 This does not work on clientside-only entities.
   * @param {Entity} this - no description
   * @param {number} boneID - The ID of a bone to look up the "physics root" bone of.
   * @returns {number} - The @PhysObj type ID of the given bone.
@@ -41264,7 +41762,7 @@ declare interface EntityFuncs  {
   * @name EntityFuncs:StopSound
   * @realm client, server
   * @wiki https://wiki.garrysmod.com/page/Entity/StopSound
-  * @note This only works with sound scripts (@sound.Add), using a file path will not work!
+  * @warning This only works when the sound you're trying to stop is a sound script (see @sound.Add), using a file path will not work!
   * @param {Entity} this - no description
   * @param {string} soundscript - The name of the sound script to stop playback of.
   * @returns {void}
@@ -41435,6 +41933,33 @@ declare interface EntityFuncs  {
   
   /**
   * 
+  * Initializes the class names of an entity's phoneme mappings (mouth movement data). This is called by default with argument "phonemes" when a flex-based entity (such as an @NPC type) is created.
+  * 
+  * @name EntityFuncs:SetupPhonemeMappings
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/Entity/SetupPhonemeMappings
+  * @note TF2 phonemes can be accessed by using a path such as "player/scout/phonemes/phonemes" , check TF2's "tf2_misc_dir.vpk" with GCFScape for other paths, however it seems that TF2 sounds don't contain phoneme definitions anymore after being converted to mp3 and only rely on VCD animations, this needs to be further investigated
+  * @param {Entity} this - no description
+  * @param {string} fileRoot - The file prefix of the phoneme mappings (relative to "garrysmod/expressions/").
+  * @returns {void}
+  **/
+  SetupPhonemeMappings(this: Entity, fileRoot: string): void
+  
+  /**
+  * 
+  * Forces the entity to reconfigure its bones. You might need to call this after changing your model's scales or when manually drawing the entity multiple times at different positions.
+  * 
+  * @name EntityFuncs:SetupBones
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/Entity/SetupBones
+  * @note This calls the BuildBonePositions callback added via @EntityFuncs:AddCallback, so avoid calling this function inside it to prevent an infinite loop.
+  * @param {Entity} this - no description
+  * @returns {void}
+  **/
+  SetupBones(this: Entity): void
+  
+  /**
+  * 
   * Sets the model and associated weapon to this viewmodel entity.
   * This is used internally when the player switches weapon.
   * 
@@ -41449,22 +41974,7 @@ declare interface EntityFuncs  {
   * @param {Weapon} weapon - The weapon entity to associate this viewmodel to.
   * @returns {void}
   **/
-  SetWeaponModel(this: Entity, viewModel: string, weapon: Weapon): void
-  
-  /**
-  * 
-  * Sets the entity's velocity. For entities with physics, consider using @PhysObj:SetVelocity on the @PhysObj type of the entity.
-  * 
-  * @name EntityFuncs:SetVelocity
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Entity/SetVelocity
-  * @note Actually binds to CBaseEntity::SetBaseVelocity() which sets the entity's velocity due to forces applied by other entities.
-  * @warning If applied to a player, this will actually **ADD** velocity, not set it.
-  * @param {Entity} this - no description
-  * @param {Vector} velocity - The new velocity to set.
-  * @returns {void}
-  **/
-  SetVelocity(this: Entity, velocity: Vector): void
+  SetWeaponModel(this: Entity, viewModel: string, weapon?: Weapon): void
   
   /**
   * 
@@ -41496,30 +42006,18 @@ declare interface EntityFuncs  {
   
   /**
   * 
-  * Initializes the class names of an entity's phoneme mappings (mouth movement data). This is called by default with argument "phonemes" when a flex-based entity (such as an @NPC type) is created.
+  * Sets the entity's velocity. For entities with physics, consider using @PhysObj:SetVelocity on the @PhysObj type of the entity.
   * 
-  * @name EntityFuncs:SetupPhonemeMappings
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/Entity/SetupPhonemeMappings
-  * @note TF2 phonemes can be accessed by using a path such as "player/scout/phonemes/phonemes" , check TF2's "tf2_misc_dir.vpk" with GCFScape for other paths, however it seems that TF2 sounds don't contain phoneme definitions anymore after being converted to mp3 and only rely on VCD animations, this needs to be further investigated
+  * @name EntityFuncs:SetVelocity
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Entity/SetVelocity
+  * @note Actually binds to CBaseEntity::SetBaseVelocity() which sets the entity's velocity due to forces applied by other entities.
+  * @warning If applied to a player, this will actually **ADD** velocity, not set it.
   * @param {Entity} this - no description
-  * @param {string} fileRoot - The file prefix of the phoneme mappings (relative to "garrysmod/expressions/").
+  * @param {Vector} velocity - The new velocity to set.
   * @returns {void}
   **/
-  SetupPhonemeMappings(this: Entity, fileRoot: string): void
-  
-  /**
-  * 
-  * Forces the entity to reconfigure its bones. You might need to call this after changing your model's scales or when manually drawing the entity multiple times at different positions.
-  * 
-  * @name EntityFuncs:SetupBones
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/Entity/SetupBones
-  * @note This calls the BuildBonePositions callback added via @EntityFuncs:AddCallback, so avoid calling this function inside it to prevent an infinite loop.
-  * @param {Entity} this - no description
-  * @returns {void}
-  **/
-  SetupBones(this: Entity): void
+  SetVelocity(this: Entity, velocity: Vector): void
   
   /**
   * 
@@ -41532,7 +42030,7 @@ declare interface EntityFuncs  {
   * @param {boolean} freezable - True to make the entity unfreezable, false otherwise.
   * @returns {void}
   **/
-  SetUnFreezable(this: Entity, freezable: boolean): void
+  SetUnFreezable(this: Entity, freezable?: boolean): void
   
   /**
   * 
@@ -41591,7 +42089,7 @@ declare interface EntityFuncs  {
   * @param {string} material - The material to override the default one with. Set to nil to revert to default material.
   * @returns {void}
   **/
-  SetSubMaterial(this: Entity, index: number, material: string): void
+  SetSubMaterial(this: Entity, index?: number, material?: string): void
   
   /**
   * 
@@ -41655,6 +42153,8 @@ declare interface EntityFuncs  {
   * @name EntityFuncs:SetShouldServerRagdoll
   * @realm client, server
   * @wiki https://wiki.garrysmod.com/page/Entity/SetShouldServerRagdoll
+  * @note Player ragdolls created with this enabled will have an owner set, see @EntityFuncs:SetOwner for more information on what effects this has.
+  * @note This is reset for players when they respawn. (@EntityFuncs:Spawn)
   * @param {Entity} this - no description
   * @param {boolean} serverragdoll - Set true if ragdoll should be created on server, false if on client
   * @returns {void}
@@ -41672,7 +42172,7 @@ declare interface EntityFuncs  {
   * @param {boolean} playsound - True to play the pickup sound, false otherwise.
   * @returns {void}
   **/
-  SetShouldPlayPickupSound(this: Entity, playsound: boolean): void
+  SetShouldPlayPickupSound(this: Entity, playsound?: boolean): void
   
   /**
   * 
@@ -41699,6 +42199,7 @@ declare interface EntityFuncs  {
   * @name EntityFuncs:SetSaveValue
   * @realm client, server
   * @wiki https://wiki.garrysmod.com/page/Entity/SetSaveValue
+  * @bug #4065 This does not type-check entity keys. Setting an entity key to a non-entity value will treat it as NULL.
   * @param {Entity} this - no description
   * @param {string} name - Name of the save value to set
   * @param {any} value - Value to set
@@ -41747,6 +42248,19 @@ declare interface EntityFuncs  {
   
   /**
   * 
+  * Enables the use of clipping planes to "cut" objects.
+  * 
+  * @name EntityFuncs:SetRenderClipPlaneEnabled
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/Entity/SetRenderClipPlaneEnabled
+  * @param {Entity} this - no description
+  * @param {boolean} enabled - Enable or disable clipping planes
+  * @returns {void}
+  **/
+  SetRenderClipPlaneEnabled(this: Entity, enabled: boolean): void
+  
+  /**
+  * 
   * Used to specify a plane, past which an object will be visually clipped.
   * 
   * @name EntityFuncs:SetRenderClipPlane
@@ -41761,19 +42275,6 @@ declare interface EntityFuncs  {
   
   /**
   * 
-  * Enables the use of clipping planes to "cut" objects.
-  * 
-  * @name EntityFuncs:SetRenderClipPlaneEnabled
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/Entity/SetRenderClipPlaneEnabled
-  * @param {Entity} this - no description
-  * @param {boolean} enabled - Enable or disable clipping planes
-  * @returns {void}
-  **/
-  SetRenderClipPlaneEnabled(this: Entity, enabled: boolean): void
-  
-  /**
-  * 
   * Sets the render bounds for the entity in world space coordinates. For relative coordinates see @EntityFuncs:SetRenderBounds.
   * 
   * @name EntityFuncs:SetRenderBoundsWS
@@ -41785,7 +42286,7 @@ declare interface EntityFuncs  {
   * @param {Vector} add - If defined, adds this vector to maxs and subtracts this vector from mins.
   * @returns {void}
   **/
-  SetRenderBoundsWS(this: Entity, mins: Vector, maxs: Vector, add: Vector): void
+  SetRenderBoundsWS(this: Entity, mins: Vector, maxs: Vector, add?: Vector): void
   
   /**
   * 
@@ -41800,7 +42301,7 @@ declare interface EntityFuncs  {
   * @param {Vector} add - If defined, adds this vector to maxs and subtracts this vector from mins.
   * @returns {void}
   **/
-  SetRenderBounds(this: Entity, mins: Vector, maxs: Vector, add: Vector): void
+  SetRenderBounds(this: Entity, mins: Vector, maxs: Vector, add?: Vector): void
   
   /**
   * 
@@ -41951,7 +42452,7 @@ declare interface EntityFuncs  {
   * @param {number} timeLimit - Time in seconds until the entity forgets its physics attacker and prevents it from getting the kill credit.
   * @returns {void}
   **/
-  SetPhysicsAttacker(this: Entity, ent: Player, timeLimit: number): void
+  SetPhysicsAttacker(this: Entity, ent: Player, timeLimit?: number): void
   
   /**
   * 
@@ -41976,7 +42477,6 @@ declare interface EntityFuncs  {
   * @name EntityFuncs:SetPersistent
   * @realm client, server
   * @wiki https://wiki.garrysmod.com/page/Entity/SetPersistent
-  * @validate
   * @note Persistence can only be enabled with the sbox_persist convar, which works as an identifier for the current set of persistent entities. An empty identifier (which is the default value) disables this feature.
   * @param {Entity} this - no description
   * @param {boolean} persist - Whether or not the entity should be persistent.
@@ -42013,7 +42513,7 @@ declare interface EntityFuncs  {
   * @param {number} attachmentId - The attachment id to use when parenting, defaults to -1 or whatever the parent had set previously.
   * @returns {void}
   **/
-  SetParent(this: Entity, parent: Entity, attachmentId: number): void
+  SetParent(this: Entity, parent?: Entity, attachmentId?: number): void
   
   /**
   * 
@@ -42022,12 +42522,233 @@ declare interface EntityFuncs  {
   * @name EntityFuncs:SetOwner
   * @realm client, server
   * @wiki https://wiki.garrysmod.com/page/Entity/SetOwner
-  * @note This function is generally used to disable physics interactions on projectiles being fired by their owner, but can also be used for normal ownership in case physics interactions are not involved at all. The Gravity gun will be able to pick up the entity even if the owner can't collide with it
+  * @note This function is generally used to disable physics interactions on projectiles being fired by their owner, but can also be used for normal ownership in case physics interactions are not involved at all. The Gravity gun will be able to pick up the entity even if the owner can't collide with it, the Physics gun however will not.
   * @param {Entity} this - no description
   * @param {Entity} owner - The entity to be set as owner.
   * @returns {void}
   **/
-  SetOwner(this: Entity, owner: Entity): void
+  SetOwner(this: Entity, owner?: Entity): void
+  
+  /**
+  * 
+  * Sets whether the entity is solid or not.
+  * 
+  * @name EntityFuncs:SetNotSolid
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Entity/SetNotSolid
+  * @param {Entity} this - no description
+  * @param {boolean} IsNotSolid - True will make the entity not solid, false will make it solid.
+  * @returns {void}
+  **/
+  SetNotSolid(this: Entity, IsNotSolid: boolean): void
+  
+  /**
+  * 
+  * Sets if the entity's model should render at all.
+  * If set on the server, this entity will no longer network to clients, and for all intents and purposes cease to exist clientside.
+  * 
+  * @name EntityFuncs:SetNoDraw
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Entity/SetNoDraw
+  * @param {Entity} this - no description
+  * @param {boolean} shouldNotDraw - true disables drawing
+  * @returns {void}
+  **/
+  SetNoDraw(this: Entity, shouldNotDraw: boolean): void
+  
+  /**
+  * 
+  * Sets the next time the clientside @EntityHooks:Think is called.
+  * 
+  * @name EntityFuncs:SetNextClientThink
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/Entity/SetNextClientThink
+  * @param {Entity} this - no description
+  * @param {number} nextthink - The next time, relative to @CurTime function, to execute the @EntityHooks:Think clientside.
+  * @returns {void}
+  **/
+  SetNextClientThink(this: Entity, nextthink: number): void
+  
+  /**
+  * 
+  * Sets a networked vector value at specified index on the entity.
+  * The value then can be accessed with @EntityFuncs:GetNetworkedVector both from client and server.
+  * 
+  * @name EntityFuncs:SetNetworkedVector
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Entity/SetNetworkedVector
+  * @note Running this function clientside will only set it clientside for the client it is called on.
+  * @param {Entity} this - no description
+  * @param {string} key - The key to associate the value with
+  * @param {Vector} value - The value to set
+  * @returns {void}
+  **/
+  SetNetworkedVector(this: Entity, key: string, value?: Vector): void
+  
+  /**
+  * 
+  * Sets callback function to be called when given NWVar changes.
+  * 
+  * @name EntityFuncs:SetNetworkedVarProxy
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Entity/SetNetworkedVarProxy
+  * @note Currently this function only works for the NW2Var system (accessed by adding a 2 in between Networked and Var for most NetworkedVar functions), which will replace the original one at some point in the future
+  * @param {Entity} this - no description
+  * @param {string} name - The name of the NWVar to add callback for.
+  * @param {function} callback - The function to be called when the NWVar changes.
+  * @returns {void}
+  **/
+  SetNetworkedVarProxy(this: Entity, name: string, callback: UnknownFunc): void
+  
+  /**
+  * 
+  * Sets a networked string value at specified index on the entity.
+  * The value then can be accessed with @EntityFuncs:GetNetworkedString both from client and server.
+  * 
+  * @name EntityFuncs:SetNetworkedString
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Entity/SetNetworkedString
+  * @note Running this function clientside will only set it clientside for the client it is called on.
+  * @param {Entity} this - no description
+  * @param {string} key - The key to associate the value with
+  * @param {string} value - The value to set
+  * @returns {void}
+  **/
+  SetNetworkedString(this: Entity, key: string, value?: string): void
+  
+  /**
+  * 
+  * Sets a networked number at the specified index on the entity.
+  * 
+  * @name EntityFuncs:SetNetworkedNumber
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Entity/SetNetworkedNumber
+  * @param {Entity} this - no description
+  * @param {any} index - The index that the value is stored in.
+  * @param {number} num - The value to network.
+  * @returns {void}
+  **/
+  SetNetworkedNumber(this: Entity, index: any, num: number): void
+  
+  /**
+  * 
+  * Sets a networked integer value at specified index on the entity.
+  * The value then can be accessed with @EntityFuncs:GetNetworkedInt both from client and server.
+  * 
+  * @name EntityFuncs:SetNetworkedInt
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Entity/SetNetworkedInt
+  * @note Running this function clientside will only set it clientside for the client it is called on.
+  * @param {Entity} this - no description
+  * @param {string} key - The key to associate the value with
+  * @param {number} value - The value to set
+  * @returns {void}
+  **/
+  SetNetworkedInt(this: Entity, key: string, value?: number): void
+  
+  /**
+  * 
+  * Sets a networked float value at specified index on the entity.
+  * The value then can be accessed with @EntityFuncs:GetNetworkedFloat both from client and server.
+  * Seems to be the same as @EntityFuncs:GetNetworkedInt.
+  * 
+  * @name EntityFuncs:SetNetworkedFloat
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Entity/SetNetworkedFloat
+  * @note Running this function clientside will only set it clientside for the client it is called on.
+  * @param {Entity} this - no description
+  * @param {string} key - The key to associate the value with
+  * @param {number} value - The value to set
+  * @returns {void}
+  **/
+  SetNetworkedFloat(this: Entity, key: string, value?: number): void
+  
+  /**
+  * 
+  * Sets a networked entity value at specified index on the entity.
+  * The value then can be accessed with @EntityFuncs:GetNetworkedEntity both from client and server.
+  * 
+  * @name EntityFuncs:SetNetworkedEntity
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Entity/SetNetworkedEntity
+  * @note Running this function clientside will only set it clientside for the client it is called on.
+  * @param {Entity} this - no description
+  * @param {string} key - The key to associate the value with
+  * @param {Entity} value - The value to set
+  * @returns {void}
+  **/
+  SetNetworkedEntity(this: Entity, key: string, value?: Entity): void
+  
+  /**
+  * 
+  * Sets a networked boolean value at specified index on the entity.
+  * The value then can be accessed with @EntityFuncs:GetNetworkedBool both from client and server.
+  * 
+  * @name EntityFuncs:SetNetworkedBool
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Entity/SetNetworkedBool
+  * @note Running this function clientside will only set it clientside for the client it is called on.
+  * @param {Entity} this - no description
+  * @param {string} key - The key to associate the value with
+  * @param {boolean} value - The value to set
+  * @returns {void}
+  **/
+  SetNetworkedBool(this: Entity, key: string, value?: boolean): void
+  
+  /**
+  * 
+  * Sets a networked angle value at specified index on the entity.
+  * The value then can be accessed with @EntityFuncs:GetNetworkedAngle both from client and server.
+  * 
+  * @name EntityFuncs:SetNetworkedAngle
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Entity/SetNetworkedAngle
+  * @note Running this function clientside will only set it clientside for the client it is called on.
+  * @param {Entity} this - no description
+  * @param {string} key - The key to associate the value with
+  * @param {Angle} value - The value to set
+  * @returns {void}
+  **/
+  SetNetworkedAngle(this: Entity, key: string, value?: Angle): void
+  
+  /**
+  * 
+  * Virtually changes entity position for clients. Does the same thing as @EntityFuncs:SetPos when used serverside.
+  * 
+  * @name EntityFuncs:SetNetworkOrigin
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Entity/SetNetworkOrigin
+  * @param {Entity} this - no description
+  * @param {Vector} origin - The position to make clients think this entity is at.
+  * @returns {void}
+  **/
+  SetNetworkOrigin(this: Entity, origin: Vector): void
+  
+  /**
+  * 
+  * Alters the entity's perceived serverside angle on the client.
+  * 
+  * @name EntityFuncs:SetNetworkAngles
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/Entity/SetNetworkAngles
+  * @param {Entity} this - no description
+  * @param {Angle} angle - Networked angle.
+  * @returns {void}
+  **/
+  SetNetworkAngles(this: Entity, angle: Angle): void
+  
+  /**
+  * 
+  * Sets the mapping name of the entity.
+  * 
+  * @name EntityFuncs:SetName
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/Entity/SetName
+  * @param {Entity} this - no description
+  * @param {string} mappingName - The name to set for the entity.
+  * @returns {void}
+  **/
+  SetName(this: Entity, mappingName: string): void
   
   /**
   * 
@@ -42160,227 +42881,6 @@ declare interface EntityFuncs  {
   
   /**
   * 
-  * Sets whether the entity is solid or not.
-  * 
-  * @name EntityFuncs:SetNotSolid
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Entity/SetNotSolid
-  * @param {Entity} this - no description
-  * @param {boolean} IsNotSolid - True will make the entity not solid, false will make it solid.
-  * @returns {void}
-  **/
-  SetNotSolid(this: Entity, IsNotSolid: boolean): void
-  
-  /**
-  * 
-  * Sets if the entity's model should render at all.
-  * If set on the server, this entity will no longer network to clients, and for all intents and purposes cease to exist clientside.
-  * 
-  * @name EntityFuncs:SetNoDraw
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Entity/SetNoDraw
-  * @param {Entity} this - no description
-  * @param {boolean} shouldNotDraw - true disables drawing
-  * @returns {void}
-  **/
-  SetNoDraw(this: Entity, shouldNotDraw: boolean): void
-  
-  /**
-  * 
-  * Sets the next time the clientside @EntityHooks:Think is called.
-  * 
-  * @name EntityFuncs:SetNextClientThink
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/Entity/SetNextClientThink
-  * @param {Entity} this - no description
-  * @param {number} nextthink - The next time, relative to @CurTime function, to execute the @EntityHooks:Think clientside.
-  * @returns {void}
-  **/
-  SetNextClientThink(this: Entity, nextthink: number): void
-  
-  /**
-  * 
-  * Virtually changes entity position for clients. Does the same thing as @EntityFuncs:SetPos when used serverside.
-  * 
-  * @name EntityFuncs:SetNetworkOrigin
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Entity/SetNetworkOrigin
-  * @param {Entity} this - no description
-  * @param {Vector} origin - The position to make clients think this entity is at.
-  * @returns {void}
-  **/
-  SetNetworkOrigin(this: Entity, origin: Vector): void
-  
-  /**
-  * 
-  * Sets a networked vector value at specified index on the entity.
-  * The value then can be accessed with @EntityFuncs:GetNetworkedVector both from client and server.
-  * 
-  * @name EntityFuncs:SetNetworkedVector
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Entity/SetNetworkedVector
-  * @note Running this function clientside will only set it clientside for the client it is called on.
-  * @param {Entity} this - no description
-  * @param {string} key - The key to associate the value with
-  * @param {Vector} value - The value to set
-  * @returns {void}
-  **/
-  SetNetworkedVector(this: Entity, key: string, value: Vector): void
-  
-  /**
-  * 
-  * Sets callback function to be called when given NWVar changes.
-  * 
-  * @name EntityFuncs:SetNetworkedVarProxy
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Entity/SetNetworkedVarProxy
-  * @note Currently this function only works for the NW2Var system (accessed by adding a 2 in between Networked and Var for most NetworkedVar functions), which will replace the original one at some point in the future
-  * @param {Entity} this - no description
-  * @param {string} name - The name of the NWVar to add callback for.
-  * @param {function} callback - The function to be called when the NWVar changes.
-  * @returns {void}
-  **/
-  SetNetworkedVarProxy(this: Entity, name: string, callback: UnknownFunc): void
-  
-  /**
-  * 
-  * Sets a networked string value at specified index on the entity.
-  * The value then can be accessed with @EntityFuncs:GetNetworkedString both from client and server.
-  * 
-  * @name EntityFuncs:SetNetworkedString
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Entity/SetNetworkedString
-  * @note Running this function clientside will only set it clientside for the client it is called on.
-  * @param {Entity} this - no description
-  * @param {string} key - The key to associate the value with
-  * @param {string} value - The value to set
-  * @returns {void}
-  **/
-  SetNetworkedString(this: Entity, key: string, value: string): void
-  
-  /**
-  * 
-  * Sets a networked number at the specified index on the entity.
-  * 
-  * @name EntityFuncs:SetNetworkedNumber
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Entity/SetNetworkedNumber
-  * @param {Entity} this - no description
-  * @param {any} index - The index that the value is stored in.
-  * @param {number} num - The value to network.
-  * @returns {void}
-  **/
-  SetNetworkedNumber(this: Entity, index: any, num: number): void
-  
-  /**
-  * 
-  * Sets a networked integer value at specified index on the entity.
-  * The value then can be accessed with @EntityFuncs:GetNetworkedInt both from client and server.
-  * 
-  * @name EntityFuncs:SetNetworkedInt
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Entity/SetNetworkedInt
-  * @note Running this function clientside will only set it clientside for the client it is called on.
-  * @param {Entity} this - no description
-  * @param {string} key - The key to associate the value with
-  * @param {number} value - The value to set
-  * @returns {void}
-  **/
-  SetNetworkedInt(this: Entity, key: string, value: number): void
-  
-  /**
-  * 
-  * Sets a networked float value at specified index on the entity.
-  * The value then can be accessed with @EntityFuncs:GetNetworkedFloat both from client and server.
-  * Seems to be the same as @EntityFuncs:GetNetworkedInt.
-  * 
-  * @name EntityFuncs:SetNetworkedFloat
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Entity/SetNetworkedFloat
-  * @note Running this function clientside will only set it clientside for the client it is called on.
-  * @param {Entity} this - no description
-  * @param {string} key - The key to associate the value with
-  * @param {number} value - The value to set
-  * @returns {void}
-  **/
-  SetNetworkedFloat(this: Entity, key: string, value: number): void
-  
-  /**
-  * 
-  * Sets a networked entity value at specified index on the entity.
-  * The value then can be accessed with @EntityFuncs:GetNetworkedEntity both from client and server.
-  * 
-  * @name EntityFuncs:SetNetworkedEntity
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Entity/SetNetworkedEntity
-  * @note Running this function clientside will only set it clientside for the client it is called on.
-  * @param {Entity} this - no description
-  * @param {string} key - The key to associate the value with
-  * @param {Entity} value - The value to set
-  * @returns {void}
-  **/
-  SetNetworkedEntity(this: Entity, key: string, value: Entity): void
-  
-  /**
-  * 
-  * Sets a networked boolean value at specified index on the entity.
-  * The value then can be accessed with @EntityFuncs:GetNetworkedBool both from client and server.
-  * 
-  * @name EntityFuncs:SetNetworkedBool
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Entity/SetNetworkedBool
-  * @note Running this function clientside will only set it clientside for the client it is called on.
-  * @param {Entity} this - no description
-  * @param {string} key - The key to associate the value with
-  * @param {boolean} value - The value to set
-  * @returns {void}
-  **/
-  SetNetworkedBool(this: Entity, key: string, value: boolean): void
-  
-  /**
-  * 
-  * Alters the entity's perceived serverside angle on the client.
-  * 
-  * @name EntityFuncs:SetNetworkAngles
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/Entity/SetNetworkAngles
-  * @param {Entity} this - no description
-  * @param {Angle} angle - Networked angle.
-  * @returns {void}
-  **/
-  SetNetworkAngles(this: Entity, angle: Angle): void
-  
-  /**
-  * 
-  * Sets a networked angle value at specified index on the entity.
-  * The value then can be accessed with @EntityFuncs:GetNetworkedAngle both from client and server.
-  * 
-  * @name EntityFuncs:SetNetworkedAngle
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Entity/SetNetworkedAngle
-  * @note Running this function clientside will only set it clientside for the client it is called on.
-  * @param {Entity} this - no description
-  * @param {string} key - The key to associate the value with
-  * @param {Angle} value - The value to set
-  * @returns {void}
-  **/
-  SetNetworkedAngle(this: Entity, key: string, value: Angle): void
-  
-  /**
-  * 
-  * Sets the mapping name of the entity.
-  * 
-  * @name EntityFuncs:SetName
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/Entity/SetName
-  * @param {Entity} this - no description
-  * @param {string} mappingName - The name to set for the entity.
-  * @returns {void}
-  **/
-  SetName(this: Entity, mappingName: string): void
-  
-  /**
-  * 
   * Sets the entity's move type. This should be called before initializing the physics object on the entity, unless it will override SetMoveType such as @EntityFuncs:PhysicsInitBox.
   * Despite existing on client, it doesn't actually do anything on client.
   * 
@@ -42438,7 +42938,7 @@ declare interface EntityFuncs  {
   * @param {number} deltaTime - Transition time of the scale change, set to 0 to modify the scale right away.
   * @returns {void}
   **/
-  SetModelScale(this: Entity, scale: number, deltaTime: number): void
+  SetModelScale(this: Entity, scale: number, deltaTime?: number): void
   
   /**
   * 
@@ -42456,6 +42956,7 @@ declare interface EntityFuncs  {
   /**
   * 
   * Sets the model of the entity.
+  * This does not update the physics of the entity - see @EntityFuncs:PhysicsInit.
   * 
   * @name EntityFuncs:SetModel
   * @realm client, server
@@ -42496,22 +42997,7 @@ declare interface EntityFuncs  {
   * @param {boolean} forceMaterial - Use it if you wish to apply material other than VertexLitGeneric (such as tools/toolswhite).
   * @returns {void}
   **/
-  SetMaterial(this: Entity, materialName: string, forceMaterial: boolean): void
-  
-  /**
-  * 
-  * Sets the Level Of Detail model to use with this entity. This may not work for all models if the model doesn't include any LOD sub models.
-  * This function works exactly like the clientside r_lod convar and takes priority over it.
-  * 
-  * @name EntityFuncs:SetLOD
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/Entity/SetLOD
-  * @param {Entity} this - no description
-  * @param {number} lod - The Level Of Detail model ID to use. -1 leaves the engine to automatically set the Level of Detail.
-  * The Level Of Detail may range from 0 to 8, with 0 being the highest quality and 8 the lowest.
-  * @returns {void}
-  **/
-  SetLOD(this: Entity, lod: number): void
+  SetMaterial(this: Entity, materialName: string, forceMaterial?: boolean): void
   
   /**
   * 
@@ -42565,6 +43051,19 @@ declare interface EntityFuncs  {
   * @returns {void}
   **/
   SetLocalAngles(this: Entity, ang: Angle): void
+  
+  /**
+  * 
+  * Sets the entity to be used as the light origin position for this entity.
+  * 
+  * @name EntityFuncs:SetLightingOriginEntity
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/Entity/SetLightingOriginEntity
+  * @param {Entity} this - no description
+  * @param {Entity} lightOrigin - The lighting entity.
+  * @returns {void}
+  **/
+  SetLightingOriginEntity(this: Entity, lightOrigin: Entity): void
   
   /**
   * 
@@ -42713,6 +43212,21 @@ declare interface EntityFuncs  {
   
   /**
   * 
+  * Sets the Level Of Detail model to use with this entity. This may not work for all models if the model doesn't include any LOD sub models.
+  * This function works exactly like the clientside r_lod convar and takes priority over it.
+  * 
+  * @name EntityFuncs:SetLOD
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/Entity/SetLOD
+  * @param {Entity} this - no description
+  * @param {number} lod - The Level Of Detail model ID to use. -1 leaves the engine to automatically set the Level of Detail.
+  * The Level Of Detail may range from 0 to 8, with 0 being the highest quality and 8 the lowest.
+  * @returns {void}
+  **/
+  SetLOD(this: Entity, lod?: number): void
+  
+  /**
+  * 
   * Sets Hammer key values on an entity.
   * You can look up which entities have what key values on the [Valve Developer Community](https://developer.valvesoftware.com/wiki/) on entity pages.
   * A  list of basic entities can be found [here](https://developer.valvesoftware.com/wiki/List_of_entities).
@@ -42739,7 +43253,7 @@ declare interface EntityFuncs  {
   * @param {boolean} useIK - The state of the IK.
   * @returns {void}
   **/
-  SetIK(this: Entity, useIK: boolean): void
+  SetIK(this: Entity, useIK?: boolean): void
   
   /**
   * 
@@ -43044,7 +43558,7 @@ declare interface EntityFuncs  {
   * @param {Color} color - The color to set. Uses the @IColor structure.
   * @returns {void}
   **/
-  SetColor(this: Entity, color: Color): void
+  SetColor(this: Entity, color?: Color): void
   
   /**
   * 
@@ -43139,19 +43653,6 @@ declare interface EntityFuncs  {
   
   /**
   * 
-  * Sets the bodygroups from a string. A convenience function for @EntityFuncs:SetBodygroup.
-  * 
-  * @name EntityFuncs:SetBodyGroups
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Entity/SetBodyGroups
-  * @param {Entity} this - no description
-  * @param {string} bodygroups - Body groups to set. Each single-digit number in the string represents a separate bodygroup. **This make it impossible to set any bodygroup to a value higher than 9!** For that you need to use @EntityFuncs:SetBodygroup.
-  * @returns {void}
-  **/
-  SetBodyGroups(this: Entity, bodygroups: string): void
-  
-  /**
-  * 
   * Sets an entities' bodygroup.
   * 
   * @name EntityFuncs:SetBodygroup
@@ -43163,6 +43664,19 @@ declare interface EntityFuncs  {
   * @returns {void}
   **/
   SetBodygroup(this: Entity, bodygroup: number, value: number): void
+  
+  /**
+  * 
+  * Sets the bodygroups from a string. A convenience function for @EntityFuncs:SetBodygroup.
+  * 
+  * @name EntityFuncs:SetBodyGroups
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Entity/SetBodyGroups
+  * @param {Entity} this - no description
+  * @param {string} bodygroups - Body groups to set. Each single-digit number in the string represents a separate bodygroup. **This make it impossible to set any bodygroup to a value higher than 9!** For that you need to use @EntityFuncs:SetBodygroup.
+  * @returns {void}
+  **/
+  SetBodyGroups(this: Entity, bodygroups: string): void
   
   /**
   * 
@@ -43195,19 +43709,6 @@ declare interface EntityFuncs  {
   
   /**
   * 
-  * Sets the time (relative to @CurTime function) of the current animation frame, which is used to determine @EntityFuncs:GetCycle.
-  * 
-  * @name EntityFuncs:SetAnimTime
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/Entity/SetAnimTime
-  * @param {Entity} this - no description
-  * @param {number} time - The current animation time.
-  * @returns {void}
-  **/
-  SetAnimTime(this: Entity, time: number): void
-  
-  /**
-  * 
   * Sets a player's third-person animation. Mainly used by @Weapon types to start the player's weapon attack and reload animations.
   * 
   * @name EntityFuncs:SetAnimation
@@ -43218,6 +43719,19 @@ declare interface EntityFuncs  {
   * @returns {void}
   **/
   SetAnimation(this: Entity, playerAnim: PLAYER_ANIM): void
+  
+  /**
+  * 
+  * Sets the time (relative to @CurTime function) of the current animation frame, which is used to determine @EntityFuncs:GetCycle.
+  * 
+  * @name EntityFuncs:SetAnimTime
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/Entity/SetAnimTime
+  * @param {Entity} this - no description
+  * @param {number} time - The current animation time.
+  * @returns {void}
+  **/
+  SetAnimTime(this: Entity, time: number): void
   
   /**
   * 
@@ -43259,7 +43773,7 @@ declare interface EntityFuncs  {
   * @param {number} seqid - A sequence ID to return the length specific sequence of instead of the entity's main/currently playing sequence.
   * @returns {number} - The length of the sequence
   **/
-  SequenceDuration(this: Entity, seqid: number): number
+  SequenceDuration(this: Entity, seqid?: number): number
   
   /**
   * 
@@ -43321,7 +43835,7 @@ declare interface EntityFuncs  {
   * @param {boolean} autokill - no description
   * @returns {void}
   **/
-  RestartGesture(this: Entity, activity: ACT, addIfMissing: boolean, autokill: boolean): void
+  RestartGesture(this: Entity, activity: ACT, addIfMissing?: boolean, autokill?: boolean): void
   
   /**
   * 
@@ -43424,19 +43938,6 @@ declare interface EntityFuncs  {
   
   /**
   * 
-  * Removes specified engine flag
-  * 
-  * @name EntityFuncs:RemoveEFlags
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Entity/RemoveEFlags
-  * @param {Entity} this - no description
-  * @param {EFL} flag - The flag to remove, see @EFL enum
-  * @returns {void}
-  **/
-  RemoveEFlags(this: Entity, flag: EFL): void
-  
-  /**
-  * 
   * Removes an engine effect applied to an entity.
   * 
   * @name EntityFuncs:RemoveEffects
@@ -43450,16 +43951,16 @@ declare interface EntityFuncs  {
   
   /**
   * 
-  * Removes a function previously added via @EntityFuncs:CallOnRemove.
+  * Removes specified engine flag
   * 
-  * @name EntityFuncs:RemoveCallOnRemove
+  * @name EntityFuncs:RemoveEFlags
   * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Entity/RemoveCallOnRemove
+  * @wiki https://wiki.garrysmod.com/page/Entity/RemoveEFlags
   * @param {Entity} this - no description
-  * @param {string} identifier - Identifier of the function within CallOnRemove
+  * @param {EFL} flag - The flag to remove, see @EFL enum
   * @returns {void}
   **/
-  RemoveCallOnRemove(this: Entity, identifier: string): void
+  RemoveEFlags(this: Entity, flag: EFL): void
   
   /**
   * 
@@ -43474,6 +43975,19 @@ declare interface EntityFuncs  {
   * @returns {void}
   **/
   RemoveCallback(this: Entity, hook: string, callbackid: number): void
+  
+  /**
+  * 
+  * Removes a function previously added via @EntityFuncs:CallOnRemove.
+  * 
+  * @name EntityFuncs:RemoveCallOnRemove
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Entity/RemoveCallOnRemove
+  * @param {Entity} this - no description
+  * @param {string} identifier - Identifier of the function within CallOnRemove
+  * @returns {void}
+  **/
+  RemoveCallOnRemove(this: Entity, identifier: string): void
   
   /**
   * 
@@ -43587,19 +44101,7 @@ declare interface EntityFuncs  {
   * @param {number} delay - Delay in seconds until the scene starts playing.
   * @returns {void}
   **/
-  PlayScene(this: Entity, scene: string, delay: number): void
-  
-  /**
-  * 
-  * Wakes up the entity's physics object
-  * 
-  * @name EntityFuncs:PhysWake
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Entity/PhysWake
-  * @param {Entity} this - no description
-  * @returns {void}
-  **/
-  PhysWake(this: Entity): void
+  PlayScene(this: Entity, scene: string, delay?: number): void
   
   /**
   * 
@@ -43648,7 +44150,7 @@ declare interface EntityFuncs  {
   * @param {boolean} allowPhysicsRotation - Whether to allow the physics shadow to rotate under stress.
   * @returns {boolean} - Return true on success, nil otherwise.
   **/
-  PhysicsInitShadow(this: Entity, allowPhysicsMovement: boolean, allowPhysicsRotation: boolean): boolean
+  PhysicsInitShadow(this: Entity, allowPhysicsMovement?: boolean, allowPhysicsRotation?: boolean): boolean
   
   /**
   * 
@@ -43750,10 +44252,23 @@ declare interface EntityFuncs  {
   * @name EntityFuncs:PhysicsDestroy
   * @realm client, server
   * @wiki https://wiki.garrysmod.com/page/Entity/PhysicsDestroy
+  * @note Cannot be used on a ragdoll or the world entity.
   * @param {Entity} this - no description
   * @returns {void}
   **/
   PhysicsDestroy(this: Entity): void
+  
+  /**
+  * 
+  * Wakes up the entity's physics object
+  * 
+  * @name EntityFuncs:PhysWake
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Entity/PhysWake
+  * @param {Entity} this - no description
+  * @returns {void}
+  **/
+  PhysWake(this: Entity): void
   
   /**
   * 
@@ -43875,7 +44390,7 @@ declare interface EntityFuncs  {
   * @wiki https://wiki.garrysmod.com/page/Entity/NetworkVarNotify
   * @note The callback is executed *before* the value is changed, and is called even if the new and old values are the same.
   * @note This function does not exist on entities in which @EntityFuncs:InstallDataTable has not been called. By default, this means this function only exists on SENTs (both serverside and clientside) and on players with a [Player Class](https://wiki.garrysmod.com/page/Player%20Classes) (serverside and clientside @LocalPlayer function only!). It is therefore safest to only use this in @EntityHooks:SetupDataTables.
-  * @warning A clientside NetworkVarNotify will not be called when the network var is  changed serverside! This makes the function less useful. This is a bug. [](https://github.com/Facepunch/garrysmod-requests/issues/324)
+  * @bug  The callback will not be called clientside if the var is changed right after entity spawn.
   * @param {Entity} this - no description
   * @param {string} name - Name of variable to track changes of
   * @param {function} callback - The function to call when the variable changes. It is passed 4 arugments:
@@ -43890,6 +44405,7 @@ declare interface EntityFuncs  {
   * @name EntityFuncs:NetworkVar
   * @realm client, server
   * @wiki https://wiki.garrysmod.com/page/Entity/NetworkVar
+  * @warning Make sure to not call the SetDT* and your custom set methods on the client realm unless you know exactly what you are doing.
   * @param {Entity} this - no description
   * @param {string} type - Supported choices:
   * * "String"
@@ -43900,7 +44416,7 @@ declare interface EntityFuncs  {
   * * "Angle"
   * * "Entity"
   * @param {number} slot - Each network var has to have a unique slot. The slot is per type - so you can have an int in slot 0, a bool in slot 0 and a float in slot 0 etc. but you can't have two ints in slot 0 instead you would do a int in slot 0 and another int in slot 1.
-  * The max slots right now are 32 - so you should pick a number between 0 and 31. An exception to this is strings which has a max slots of 4.
+  * The max slots right now are 64 - so you should pick a number between 0 and 63. An exception to this is strings which has a max slots of 4.
   * @param {string} name - The name will affect how you access it. If you call it "Foo" you would add two new functions on your entity - SetFoo and GetFoo. So be careful that what you call it won't collide with any existing functions (don't call it "Pos" for example).
   * @param {table} extended - A table of extended information.
   * **KeyName**
@@ -43909,7 +44425,7 @@ declare interface EntityFuncs  {
   * The edit key lets you mark this variable as editable. See [Editable Entities](https://wiki.garrysmod.com/page/Editable%20Entities) for more information.
   * @returns {void}
   **/
-  NetworkVar(this: Entity, type: string, slot: number, name: string, extended: table): void
+  NetworkVar(this: Entity, type: string, slot: number, name: string, extended?: table): void
   
   /**
   * 
@@ -44217,18 +44733,6 @@ declare interface EntityFuncs  {
   
   /**
   * 
-  * Checks if the entity is a ragdoll.
-  * 
-  * @name EntityFuncs:IsRagdoll
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Entity/IsRagdoll
-  * @param {Entity} this - no description
-  * @returns {boolean} - Is ragdoll or not
-  **/
-  IsRagdoll(this: Entity): boolean
-  
-  /**
-  * 
   * Checks if the entity is a SENT or a built-in entity.
   * 
   * @name EntityFuncs:IsScripted
@@ -44238,6 +44742,18 @@ declare interface EntityFuncs  {
   * @returns {boolean} - Returns true if entity is scripted ( SENT ), false if not ( A built-in engine entity )
   **/
   IsScripted(this: Entity): boolean
+  
+  /**
+  * 
+  * Checks if the entity is a ragdoll.
+  * 
+  * @name EntityFuncs:IsRagdoll
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Entity/IsRagdoll
+  * @param {Entity} this - no description
+  * @returns {boolean} - Is ragdoll or not
+  **/
+  IsRagdoll(this: Entity): boolean
   
   /**
   * 
@@ -44382,6 +44898,19 @@ declare interface EntityFuncs  {
   
   /**
   * 
+  * Returns whether an entity has engine effect applied or not.
+  * 
+  * @name EntityFuncs:IsEffectActive
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Entity/IsEffectActive
+  * @param {Entity} this - no description
+  * @param {EF} effect - The effect to check for, see @EF enum.
+  * @returns {boolean} - Whether the entity has the engine effect applied or not.
+  **/
+  IsEffectActive(this: Entity, effect: EF): boolean
+  
+  /**
+  * 
   * Checks if given flag is set or not.
   * 
   * @name EntityFuncs:IsEFlagSet
@@ -44392,19 +44921,6 @@ declare interface EntityFuncs  {
   * @returns {boolean} - Is set or not
   **/
   IsEFlagSet(this: Entity, flag: EFL): boolean
-  
-  /**
-  * 
-  * Returns whether an entity has engine effect applied or not.
-  * 
-  * @name EntityFuncs:IsEffectActive
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Entity/IsEffectActive
-  * @param {Entity} this - no description
-  * @param {EF} effect - The effect to check for, see @EF enum.
-  * @returns {boolean} - whether an entity has the engine effect applied or not.
-  **/
-  IsEffectActive(this: Entity, effect: EF): boolean
   
   /**
   * 
@@ -44484,7 +45000,7 @@ declare interface EntityFuncs  {
   * @param {string | number | boolean} param - The value to give to the input. Can be either a @string type, a @number type or a @boolean type.
   * @returns {void}
   **/
-  Input(this: Entity, input: string, activator: Entity, caller: Entity, param: string | number | boolean): void
+  Input(this: Entity, input: string, activator: Entity, caller: Entity, param?: string | number | boolean): void
   
   /**
   * 
@@ -44504,6 +45020,7 @@ declare interface EntityFuncs  {
   /**
   * 
   * Sets the entity on fire.
+  * See also @EntityFuncs:Extinguish.
   * 
   * @name EntityFuncs:Ignite
   * @realm server
@@ -44513,7 +45030,7 @@ declare interface EntityFuncs  {
   * @param {number} radius - The radius of the ignition, will ignite everything around the entity that is in this radius.
   * @returns {void}
   **/
-  Ignite(this: Entity, length: number, radius: number): void
+  Ignite(this: Entity, length: number, radius?: number): void
   
   /**
   * 
@@ -44615,7 +45132,7 @@ declare interface EntityFuncs  {
   * @param {table} clr - If set, this will be color of the broken gibs instead of the entity's color.
   * @returns {void}
   **/
-  GibBreakClient(this: Entity, force: Vector, clr: table): void
+  GibBreakClient(this: Entity, force: Vector, clr?: table): void
   
   /**
   * 
@@ -44671,7 +45188,7 @@ declare interface EntityFuncs  {
   * @param {any} def - A default value to fallback to if we couldn't retrieve the value from entity
   * @returns {any} - Retrieved value
   **/
-  GetVar(this: Entity, key: any, def: any): any
+  GetVar(this: Entity, key: any, def?: any): any
   
   /**
   * 
@@ -44712,6 +45229,19 @@ declare interface EntityFuncs  {
   
   /**
   * 
+  * Returns the last trace used in the collision callbacks such as @EntityHooks:StartTouch, @EntityHooks:Touch and @EntityHooks:EndTouch.
+  * 
+  * @name EntityFuncs:GetTouchTrace
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Entity/GetTouchTrace
+  * @note This returns the last collision trace used, regardless of the entity that caused it. As such, it's only reliable when used in the hooks mentioned above
+  * @param {Entity} this - no description
+  * @returns {TraceResult} - The @TraceResult structure
+  **/
+  GetTouchTrace(this: Entity): TraceResult
+  
+  /**
+  * 
   * Returns the table that contains all values saved within the entity.
   * 
   * @name EntityFuncs:GetTable
@@ -44733,19 +45263,6 @@ declare interface EntityFuncs  {
   * @returns {table} - The list of models included into the entity's model in the .qc file.
   **/
   GetSubModels(this: Entity): table
-  
-  /**
-  * 
-  * Returns the last trace used in the collision callbacks such as @EntityHooks:StartTouch, @EntityHooks:Touch and @EntityHooks:EndTouch.
-  * 
-  * @name EntityFuncs:GetTouchTrace
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Entity/GetTouchTrace
-  * @note This returns the last collision trace used, regardless of the entity that caused it. As such, it's only reliable when used in the hooks mentioned above
-  * @param {Entity} this - no description
-  * @returns {TraceResult} - The @TraceResult structure
-  **/
-  GetTouchTrace(this: Entity): TraceResult
   
   /**
   * 
@@ -44824,6 +45341,18 @@ declare interface EntityFuncs  {
   
   /**
   * 
+  * Returns if entity should create a server ragdoll on death or a client one.
+  * 
+  * @name EntityFuncs:GetShouldServerRagdoll
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Entity/GetShouldServerRagdoll
+  * @param {Entity} this - no description
+  * @returns {boolean} - Returns true if ragdoll will be created on server, false if on client
+  **/
+  GetShouldServerRagdoll(this: Entity): boolean
+  
+  /**
+  * 
   * Checks if the entity plays a sound when picked up by a player.
   * 
   * @name EntityFuncs:GetShouldPlayPickupSound
@@ -44834,18 +45363,6 @@ declare interface EntityFuncs  {
   * @returns {boolean} - True if it plays the pickup sound, false otherwise.
   **/
   GetShouldPlayPickupSound(this: Entity): boolean
-  
-  /**
-  * 
-  * Returns if entity should create a server ragdoll on death or a client one.
-  * 
-  * @name EntityFuncs:GetShouldServerRagdoll
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Entity/GetShouldServerRagdoll
-  * @param {Entity} this - no description
-  * @returns {boolean} - Returns true if ragdoll will be created on server, false if on client
-  **/
-  GetShouldServerRagdoll(this: Entity): boolean
   
   /**
   * 
@@ -44860,19 +45377,6 @@ declare interface EntityFuncs  {
   * @returns {string} - Name of the sequence.
   **/
   GetSequenceName(this: Entity, index: number): string
-  
-  /**
-  * 
-  * Returns the change in heading direction in between the start and the end of the sequence.
-  * 
-  * @name EntityFuncs:GetSequenceMoveYaw
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/Entity/GetSequenceMoveYaw
-  * @param {Entity} this - no description
-  * @param {number} seq - The sequence index. See @EntityFuncs:LookupSequence.
-  * @returns {number} - The yaw delta. Returns 99999 for no movement.
-  **/
-  GetSequenceMoveYaw(this: Entity, seq: number): number
   
   /**
   * 
@@ -44891,6 +45395,32 @@ declare interface EntityFuncs  {
   * @tupleReturn
   **/
   GetSequenceMovement(this: Entity, sequenceId: number, startCycle: number, endCyclnde: number): [boolean, Vector, Angle]
+  
+  /**
+  * 
+  * Returns the change in heading direction in between the start and the end of the sequence.
+  * 
+  * @name EntityFuncs:GetSequenceMoveYaw
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/Entity/GetSequenceMoveYaw
+  * @param {Entity} this - no description
+  * @param {number} seq - The sequence index. See @EntityFuncs:LookupSequence.
+  * @returns {number} - The yaw delta. Returns 99999 for no movement.
+  **/
+  GetSequenceMoveYaw(this: Entity, seq: number): number
+  
+  /**
+  * 
+  * Returns an entity's sequence move distance (the change in position over the course of the entire sequence).
+  * 
+  * @name EntityFuncs:GetSequenceMoveDist
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/Entity/GetSequenceMoveDist
+  * @param {Entity} this - no description
+  * @param {number} sequenceId - The sequence index.
+  * @returns {number} - The move distance of the sequence.
+  **/
+  GetSequenceMoveDist(this: Entity, sequenceId: number): number
   
   /**
   * 
@@ -44916,19 +45446,6 @@ declare interface EntityFuncs  {
   * @returns {SequenceInfo[]} - Table of information about the entity's sequence, or nil is ID is out of range. See @SequenceInfo structure
   **/
   GetSequenceInfo(this: Entity, sequenceId: number): SequenceInfo[]
-  
-  /**
-  * 
-  * Returns an entity's sequence move distance (the change in position over the course of the entire sequence).
-  * 
-  * @name EntityFuncs:GetSequenceMoveDist
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/Entity/GetSequenceMoveDist
-  * @param {Entity} this - no description
-  * @param {number} sequenceId - The sequence index.
-  * @returns {number} - The move distance of the sequence.
-  **/
-  GetSequenceMoveDist(this: Entity, sequenceId: number): number
   
   /**
   * 
@@ -45108,6 +45625,18 @@ declare interface EntityFuncs  {
   
   /**
   * 
+  * Returns current render FX of the entity.
+  * 
+  * @name EntityFuncs:GetRenderFX
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Entity/GetRenderFX
+  * @param {Entity} this - no description
+  * @returns {kRenderFx} - The current render FX of the entity. See @kRenderFx enum
+  **/
+  GetRenderFX(this: Entity): kRenderFx
+  
+  /**
+  * 
   * Returns render bounds of the entity. Can be overridden by @EntityFuncs:SetRenderBounds.
   * If the render bounds are not inside players view, the entity will not be drawn!
   * 
@@ -45120,18 +45649,6 @@ declare interface EntityFuncs  {
   * @tupleReturn
   **/
   GetRenderBounds(this: Entity): [Vector, Vector]
-  
-  /**
-  * 
-  * Returns current render FX of the entity.
-  * 
-  * @name EntityFuncs:GetRenderFX
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Entity/GetRenderFX
-  * @param {Entity} this - no description
-  * @returns {kRenderFx} - The current render FX of the entity. See @kRenderFx enum
-  **/
-  GetRenderFX(this: Entity): kRenderFx
   
   /**
   * 
@@ -45367,130 +45884,6 @@ declare interface EntityFuncs  {
   
   /**
   * 
-  * Retrieves a networked vector value at specified index on the entity that is set by @EntityFuncs:SetNWVector.
-  * 
-  * @name EntityFuncs:GetNWVector
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Entity/GetNWVector
-  * @param {Entity} this - no description
-  * @param {string} key - The key that is associated with the value
-  * @param {any} fallback - The value to return if we failed to retrieve the value. (If it isn't set)
-  * @returns {any} - The value associated with the key
-  **/
-  GetNWVector(this: Entity, key: string, fallback: any): any
-  
-  /**
-  * 
-  * Returns all the networked variables in an entity.
-  * 
-  * @name EntityFuncs:GetNWVarTable
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Entity/GetNWVarTable
-  * @param {Entity} this - no description
-  * @returns {table} - Key-Value table of all networked variables.
-  **/
-  GetNWVarTable(this: Entity): table
-  
-  /**
-  * 
-  * Returns callback function for given NWVar of this entity.
-  * 
-  * @name EntityFuncs:GetNWVarProxy
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Entity/GetNWVarProxy
-  * @param {Entity} this - no description
-  * @param {any} key - The key of the NWVar to get callback of.
-  * @returns {function} - The callback of given NWVar, or nil if not found.
-  **/
-  GetNWVarProxy(this: Entity, key: any): UnknownFunc
-  
-  /**
-  * 
-  * Retrieves a networked string value at specified index on the entity that is set by @EntityFuncs:SetNWString.
-  * 
-  * @name EntityFuncs:GetNWString
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Entity/GetNWString
-  * @param {Entity} this - no description
-  * @param {string} key - The key that is associated with the value
-  * @param {any} fallback - The value to return if we failed to retrieve the value. (If it isn't set)
-  * @returns {any} - The value associated with the key
-  **/
-  GetNWString(this: Entity, key: string, fallback: any): any
-  
-  /**
-  * 
-  * Retrieves a networked integer (whole number) value that was previously set by @EntityFuncs:SetNWInt.
-  * 
-  * @name EntityFuncs:GetNWInt
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Entity/GetNWInt
-  * @bug #3374 This function will not round decimal values as it actually networks a float internally.
-  * @param {Entity} this - no description
-  * @param {string} key - The key that is associated with the value
-  * @param {any} fallback - The value to return if we failed to retrieve the value (If it isn't set).
-  * @returns {any} - The value associated with the key
-  **/
-  GetNWInt(this: Entity, key: string, fallback: any): any
-  
-  /**
-  * 
-  * Retrieves a networked float value at specified index on the entity that is set by @EntityFuncs:SetNWFloat.
-  * 
-  * @name EntityFuncs:GetNWFloat
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Entity/GetNWFloat
-  * @param {Entity} this - no description
-  * @param {string} key - The key that is associated with the value
-  * @param {any} fallback - The value to return if we failed to retrieve the value. (If it isn't set)
-  * @returns {any} - The value associated with the key
-  **/
-  GetNWFloat(this: Entity, key: string, fallback: any): any
-  
-  /**
-  * 
-  * Retrieves a networked entity value at specified index on the entity that is set by @EntityFuncs:SetNWEntity.
-  * 
-  * @name EntityFuncs:GetNWEntity
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Entity/GetNWEntity
-  * @param {Entity} this - no description
-  * @param {string} key - The key that is associated with the value
-  * @param {any} fallback - The value to return if we failed to retrieve the value. (If it isn't set)
-  * @returns {any} - The value associated with the key
-  **/
-  GetNWEntity(this: Entity, key: string, fallback: any): any
-  
-  /**
-  * 
-  * Retrieves a networked boolean value at specified index on the entity that is set by @EntityFuncs:SetNWBool.
-  * 
-  * @name EntityFuncs:GetNWBool
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Entity/GetNWBool
-  * @param {Entity} this - no description
-  * @param {string} key - The key that is associated with the value
-  * @param {any} fallback - The value to return if we failed to retrieve the value. (If it isn't set)
-  * @returns {any} - The value associated with the key
-  **/
-  GetNWBool(this: Entity, key: string, fallback: any): any
-  
-  /**
-  * 
-  * Retrieves a networked angle value at specified index on the entity that is set by @EntityFuncs:SetNWAngle.
-  * 
-  * @name EntityFuncs:GetNWAngle
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Entity/GetNWAngle
-  * @param {Entity} this - no description
-  * @param {string} key - The key that is associated with the value
-  * @param {any} fallback - The value to return if we failed to retrieve the value. (If it isn't set)
-  * @returns {any} - The value associated with the key
-  **/
-  GetNWAngle(this: Entity, key: string, fallback: any): any
-  
-  /**
-  * 
   * Returns the number of pose parameters this entity has.
   * 
   * @name EntityFuncs:GetNumPoseParameters
@@ -45528,18 +45921,6 @@ declare interface EntityFuncs  {
   
   /**
   * 
-  * Gets networked origin for entity.
-  * 
-  * @name EntityFuncs:GetNetworkOrigin
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Entity/GetNetworkOrigin
-  * @param {Entity} this - no description
-  * @returns {Vector} - origin
-  **/
-  GetNetworkOrigin(this: Entity): Vector
-  
-  /**
-  * 
   * Retrieves a networked vector value at specified index on the entity that is set by @EntityFuncs:SetNetworkedVector.
   * 
   * @name EntityFuncs:GetNetworkedVector
@@ -45550,7 +45931,7 @@ declare interface EntityFuncs  {
   * @param {Vector} fallback - The value to return if we failed to retrieve the value. ( If it isn't set )
   * @returns {Vector} - The retrieved value
   **/
-  GetNetworkedVector(this: Entity, key: string, fallback: Vector): Vector
+  GetNetworkedVector(this: Entity, key: string, fallback?: Vector): Vector
   
   /**
   * 
@@ -45590,7 +45971,7 @@ declare interface EntityFuncs  {
   * @param {string} fallback - The value to return if we failed to retrieve the value. ( If it isn't set )
   * @returns {string} - The retrieved value
   **/
-  GetNetworkedString(this: Entity, key: string, fallback: string): string
+  GetNetworkedString(this: Entity, key: string, fallback?: string): string
   
   /**
   * 
@@ -45604,7 +45985,7 @@ declare interface EntityFuncs  {
   * @param {number} fallback - The value to return if we failed to retrieve the value. ( If it isn't set )
   * @returns {number} - The retrieved value
   **/
-  GetNetworkedInt(this: Entity, key: string, fallback: number): number
+  GetNetworkedInt(this: Entity, key: string, fallback?: number): number
   
   /**
   * 
@@ -45619,7 +46000,7 @@ declare interface EntityFuncs  {
   * @param {number} fallback - The value to return if we failed to retrieve the value. ( If it isn't set )
   * @returns {number} - The retrieved value
   **/
-  GetNetworkedFloat(this: Entity, key: string, fallback: number): number
+  GetNetworkedFloat(this: Entity, key: string, fallback?: number): number
   
   /**
   * 
@@ -45633,7 +46014,7 @@ declare interface EntityFuncs  {
   * @param {Entity} fallback - The value to return if we failed to retrieve the value. ( If it isn't set )
   * @returns {Entity} - The retrieved value
   **/
-  GetNetworkedEntity(this: Entity, key: string, fallback: Entity): Entity
+  GetNetworkedEntity(this: Entity, key: string, fallback?: Entity): Entity
   
   /**
   * 
@@ -45647,7 +46028,7 @@ declare interface EntityFuncs  {
   * @param {boolean} fallback - The value to return if we failed to retrieve the value. ( If it isn't set )
   * @returns {boolean} - The retrieved value
   **/
-  GetNetworkedBool(this: Entity, key: string, fallback: boolean): boolean
+  GetNetworkedBool(this: Entity, key: string, fallback?: boolean): boolean
   
   /**
   * 
@@ -45661,7 +46042,19 @@ declare interface EntityFuncs  {
   * @param {Angle} fallback - The value to return if we failed to retrieve the value. ( If it isn't set )
   * @returns {Angle} - The retrieved value
   **/
-  GetNetworkedAngle(this: Entity, key: string, fallback: Angle): Angle
+  GetNetworkedAngle(this: Entity, key: string, fallback?: Angle): Angle
+  
+  /**
+  * 
+  * Gets networked origin for entity.
+  * 
+  * @name EntityFuncs:GetNetworkOrigin
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Entity/GetNetworkOrigin
+  * @param {Entity} this - no description
+  * @returns {Vector} - origin
+  **/
+  GetNetworkOrigin(this: Entity): Vector
   
   /**
   * 
@@ -45686,6 +46079,130 @@ declare interface EntityFuncs  {
   * @returns {string} - The name of the Entity
   **/
   GetName(this: Entity): string
+  
+  /**
+  * 
+  * Retrieves a networked vector value at specified index on the entity that is set by @EntityFuncs:SetNWVector.
+  * 
+  * @name EntityFuncs:GetNWVector
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Entity/GetNWVector
+  * @param {Entity} this - no description
+  * @param {string} key - The key that is associated with the value
+  * @param {any} fallback - The value to return if we failed to retrieve the value. (If it isn't set)
+  * @returns {any} - The value associated with the key
+  **/
+  GetNWVector(this: Entity, key: string, fallback?: any): any
+  
+  /**
+  * 
+  * Returns all the networked variables in an entity.
+  * 
+  * @name EntityFuncs:GetNWVarTable
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Entity/GetNWVarTable
+  * @param {Entity} this - no description
+  * @returns {table} - Key-Value table of all networked variables.
+  **/
+  GetNWVarTable(this: Entity): table
+  
+  /**
+  * 
+  * Returns callback function for given NWVar of this entity.
+  * 
+  * @name EntityFuncs:GetNWVarProxy
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Entity/GetNWVarProxy
+  * @param {Entity} this - no description
+  * @param {any} key - The key of the NWVar to get callback of.
+  * @returns {function} - The callback of given NWVar, or nil if not found.
+  **/
+  GetNWVarProxy(this: Entity, key: any): UnknownFunc
+  
+  /**
+  * 
+  * Retrieves a networked string value at specified index on the entity that is set by @EntityFuncs:SetNWString.
+  * 
+  * @name EntityFuncs:GetNWString
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Entity/GetNWString
+  * @param {Entity} this - no description
+  * @param {string} key - The key that is associated with the value
+  * @param {any} fallback - The value to return if we failed to retrieve the value. (If it isn't set)
+  * @returns {any} - The value associated with the key
+  **/
+  GetNWString(this: Entity, key: string, fallback?: any): any
+  
+  /**
+  * 
+  * Retrieves a networked integer (whole number) value that was previously set by @EntityFuncs:SetNWInt.
+  * 
+  * @name EntityFuncs:GetNWInt
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Entity/GetNWInt
+  * @bug #3374 This function will not round decimal values as it actually networks a float internally.
+  * @param {Entity} this - no description
+  * @param {string} key - The key that is associated with the value
+  * @param {any} fallback - The value to return if we failed to retrieve the value (If it isn't set).
+  * @returns {any} - The value associated with the key
+  **/
+  GetNWInt(this: Entity, key: string, fallback?: any): any
+  
+  /**
+  * 
+  * Retrieves a networked float value at specified index on the entity that is set by @EntityFuncs:SetNWFloat.
+  * 
+  * @name EntityFuncs:GetNWFloat
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Entity/GetNWFloat
+  * @param {Entity} this - no description
+  * @param {string} key - The key that is associated with the value
+  * @param {any} fallback - The value to return if we failed to retrieve the value. (If it isn't set)
+  * @returns {any} - The value associated with the key
+  **/
+  GetNWFloat(this: Entity, key: string, fallback?: any): any
+  
+  /**
+  * 
+  * Retrieves a networked entity value at specified index on the entity that is set by @EntityFuncs:SetNWEntity.
+  * 
+  * @name EntityFuncs:GetNWEntity
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Entity/GetNWEntity
+  * @param {Entity} this - no description
+  * @param {string} key - The key that is associated with the value
+  * @param {any} fallback - The value to return if we failed to retrieve the value. (If it isn't set)
+  * @returns {any} - The value associated with the key
+  **/
+  GetNWEntity(this: Entity, key: string, fallback?: any): any
+  
+  /**
+  * 
+  * Retrieves a networked boolean value at specified index on the entity that is set by @EntityFuncs:SetNWBool.
+  * 
+  * @name EntityFuncs:GetNWBool
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Entity/GetNWBool
+  * @param {Entity} this - no description
+  * @param {string} key - The key that is associated with the value
+  * @param {any} fallback - The value to return if we failed to retrieve the value. (If it isn't set)
+  * @returns {any} - The value associated with the key
+  **/
+  GetNWBool(this: Entity, key: string, fallback?: any): any
+  
+  /**
+  * 
+  * Retrieves a networked angle value at specified index on the entity that is set by @EntityFuncs:SetNWAngle.
+  * 
+  * @name EntityFuncs:GetNWAngle
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Entity/GetNWAngle
+  * @param {Entity} this - no description
+  * @param {string} key - The key that is associated with the value
+  * @param {any} fallback - The value to return if we failed to retrieve the value. (If it isn't set)
+  * @returns {any} - The value associated with the key
+  **/
+  GetNWAngle(this: Entity, key: string, fallback?: any): any
   
   /**
   * 
@@ -45843,6 +46360,22 @@ declare interface EntityFuncs  {
   
   /**
   * 
+  * Returns all materials of the entity's model.
+  * This function is unaffected by @EntityFuncs:SetSubMaterial as it returns the original materials.
+  * 
+  * @name EntityFuncs:GetMaterials
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Entity/GetMaterials
+  * @bug #3362 The server's values take priority on the client.
+  * @bug  The table returned by this function will not contain materials if they are missing from the disk/repository. This means that if you are attempting to find the ID of a material to replace with @EntityFuncs:SetSubMaterial and there are missing materials on the model, all subsequent materials will be offset in the table, meaning that the ID you are trying to get will be incorrect.
+  * @bug #3216 This table is limited to 256 materials, even if the entity has more.
+  * @param {Entity} this - no description
+  * @returns {table} - A table containing full paths to the materials of the model.
+  **/
+  GetMaterials(this: Entity): table
+  
+  /**
+  * 
   * Returns the surface material of this entity.
   * 
   * @name EntityFuncs:GetMaterialType
@@ -45852,22 +46385,6 @@ declare interface EntityFuncs  {
   * @returns {MAT} - Surface material. See @MAT enum
   **/
   GetMaterialType(this: Entity): MAT
-  
-  /**
-  * 
-  * Returns all materials of the entity's model.
-  * This function is unaffected by @EntityFuncs:SetSubMaterial as it returns the original materials.
-  * 
-  * @name EntityFuncs:GetMaterials
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Entity/GetMaterials
-  * @bug #3362 The server's values take priority on the client.
-  * @bug  The table returned by this function will not contain materials if they are missing from the disk/repository. This means that if you are attempting to find the ID of a material to replace with @EntityFuncs:SetSubMaterial and there are missing materials on the model, all subsequent materials will be offset in the table, meaning that the ID you are trying to get will be incorrect.
-  * @bug #3216 This table is limited to 127 materials, even if the entity has more.
-  * @param {Entity} this - no description
-  * @returns {table} - A table containing full paths to the materials of the model.
-  **/
-  GetMaterials(this: Entity): table
   
   /**
   * 
@@ -45974,6 +46491,18 @@ declare interface EntityFuncs  {
   
   /**
   * 
+  * Returns the entity that is being used as the light origin position for this entity.
+  * 
+  * @name EntityFuncs:GetLightingOriginEntity
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/Entity/GetLightingOriginEntity
+  * @param {Entity} this - no description
+  * @returns {Entity} - The lighting entity. This will usually be NULL.
+  **/
+  GetLightingOriginEntity(this: Entity): Entity
+  
+  /**
+  * 
   * Returns the current weight of the layer. See @EntityFuncs:SetLayerWeight for more information.
   * 
   * @name EntityFuncs:GetLayerWeight
@@ -46069,6 +46598,15 @@ declare interface EntityFuncs  {
   GetHitboxSet(this: Entity): [number, string]
   
   /**
+  * @name EntityFuncs:GetHitboxBone
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/Entity/GetHitboxBone
+  * @param {Entity} this - no description
+  * @returns {void}
+  **/
+  GetHitboxBone(this: Entity): void
+  
+  /**
   * 
   * Returns the number of hit box groups that an entity has.
   * 
@@ -46108,15 +46646,6 @@ declare interface EntityFuncs  {
   * @tupleReturn
   **/
   GetHitBoxBounds(this: Entity, hitbox: number, group: number): [Vector, Vector]
-  
-  /**
-  * @name EntityFuncs:GetHitboxBone
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/Entity/GetHitboxBone
-  * @param {Entity} this - no description
-  * @returns {void}
-  **/
-  GetHitboxBone(this: Entity): void
   
   /**
   * 
@@ -46183,18 +46712,6 @@ declare interface EntityFuncs  {
   
   /**
   * 
-  * Returns the forward vector of the entity, as a normalized direction vector
-  * 
-  * @name EntityFuncs:GetForward
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Entity/GetForward
-  * @param {Entity} this - no description
-  * @returns {Vector} - forwardDir
-  **/
-  GetForward(this: Entity): Vector
-  
-  /**
-  * 
   * Returns current weight ( value ) of the flex.
   * 
   * @name EntityFuncs:GetFlexWeight
@@ -46205,6 +46722,18 @@ declare interface EntityFuncs  {
   * @returns {number} - The current weight of the flex
   **/
   GetFlexWeight(this: Entity, flex: number): number
+  
+  /**
+  * 
+  * Returns the forward vector of the entity, as a normalized direction vector
+  * 
+  * @name EntityFuncs:GetForward
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Entity/GetForward
+  * @param {Entity} this - no description
+  * @returns {Vector} - forwardDir
+  **/
+  GetForward(this: Entity): Vector
   
   /**
   * 
@@ -46298,18 +46827,6 @@ declare interface EntityFuncs  {
   
   /**
   * 
-  * Returns a bit flag of all engine flags of the entity.
-  * 
-  * @name EntityFuncs:GetEFlags
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Entity/GetEFlags
-  * @param {Entity} this - no description
-  * @returns {EFL} - Engine flags, see @EFL enum
-  **/
-  GetEFlags(this: Entity): EFL
-  
-  /**
-  * 
   * Returns a bit flag of all engine effect flags of the entity.
   * 
   * @name EntityFuncs:GetEffects
@@ -46319,6 +46836,18 @@ declare interface EntityFuncs  {
   * @returns {EF} - Engine effect flags, see @EF enum
   **/
   GetEffects(this: Entity): EF
+  
+  /**
+  * 
+  * Returns a bit flag of all engine flags of the entity.
+  * 
+  * @name EntityFuncs:GetEFlags
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Entity/GetEFlags
+  * @param {Entity} this - no description
+  * @returns {EFL} - Engine flags, see @EFL enum
+  **/
+  GetEFlags(this: Entity): EFL
   
   /**
   * 
@@ -46614,6 +47143,18 @@ declare interface EntityFuncs  {
   
   /**
   * 
+  * Returns a table of brushes surfaces for brush model entities.
+  * 
+  * @name EntityFuncs:GetBrushSurfaces
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Entity/GetBrushSurfaces
+  * @param {Entity} this - no description
+  * @returns {SurfaceInfo[]} - Table of @SurfaceInfo types if the entity has a brush model, or @no value type otherwise.
+  **/
+  GetBrushSurfaces(this: Entity): SurfaceInfo[]
+  
+  /**
+  * 
   * Returns the amount of planes of non-nodraw brush model surfaces of the entity's model.
   * 
   * @name EntityFuncs:GetBrushPlaneCount
@@ -46762,18 +47303,6 @@ declare interface EntityFuncs  {
   
   /**
   * 
-  * Returns a list of all bodygroups of the entity.
-  * 
-  * @name EntityFuncs:GetBodyGroups
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Entity/GetBodyGroups
-  * @param {Entity} this - no description
-  * @returns {BodyGroupData[]} - Bodygroups as a table of @BodyGroupData structures if the entity can have bodygroups.
-  **/
-  GetBodyGroups(this: Entity): BodyGroupData[]
-  
-  /**
-  * 
   * Gets the name of specific bodygroup for given entity.
   * 
   * @name EntityFuncs:GetBodygroupName
@@ -46811,6 +47340,18 @@ declare interface EntityFuncs  {
   * @returns {number} - Current bodygroup. Starts from 0.
   **/
   GetBodygroup(this: Entity, id: number): number
+  
+  /**
+  * 
+  * Returns a list of all bodygroups of the entity.
+  * 
+  * @name EntityFuncs:GetBodyGroups
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Entity/GetBodyGroups
+  * @param {Entity} this - no description
+  * @returns {BodyGroupData[]} - Bodygroups as a table of @BodyGroupData structures if the entity can have bodygroups.
+  **/
+  GetBodyGroups(this: Entity): BodyGroupData[]
   
   /**
   * 
@@ -46960,7 +47501,7 @@ declare interface EntityFuncs  {
   * @param {number} boneid - The bone to follow
   * @returns {void}
   **/
-  FollowBone(this: Entity, parent: Entity, boneid: number): void
+  FollowBone(this: Entity, parent?: Entity, boneid: number): void
   
   /**
   * 
@@ -46976,7 +47517,7 @@ declare interface EntityFuncs  {
   * @param {boolean} suppressHostEvents - Has the effect of encasing the FireBullets call in @SuppressHostEvents function, only works in multiplayer.
   * @returns {void}
   **/
-  FireBullets(this: Entity, bulletInfo: Bullet, suppressHostEvents: boolean): void
+  FireBullets(this: Entity, bulletInfo: Bullet, suppressHostEvents?: boolean): void
   
   /**
   * 
@@ -46992,7 +47533,7 @@ declare interface EntityFuncs  {
   * @param {number} delay - Delay in seconds before firing
   * @returns {void}
   **/
-  Fire(this: Entity, input: string, param: string, delay: number): void
+  Fire(this: Entity, input: string, param?: string, delay?: number): void
   
   /**
   * 
@@ -47024,6 +47565,18 @@ declare interface EntityFuncs  {
   
   /**
   * 
+  * Returns the position of an Player/NPC's view.
+  * 
+  * @name EntityFuncs:EyePos
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Entity/EyePos
+  * @param {Entity} this - no description
+  * @returns {Vector} - View position of the entity.
+  **/
+  EyePos(this: Entity): Vector
+  
+  /**
+  * 
   * Returns the direction a player/npc/ragdoll is looking as a world-oriented angle.
   * 
   * @name EntityFuncs:EyeAngles
@@ -47038,20 +47591,9 @@ declare interface EntityFuncs  {
   
   /**
   * 
-  * Returns the position of an Player/NPC's view.
-  * 
-  * @name EntityFuncs:EyePos
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Entity/EyePos
-  * @param {Entity} this - no description
-  * @returns {Vector} - View position of the entity.
-  **/
-  EyePos(this: Entity): Vector
-  
-  /**
-  * 
   * Extinguishes the entity if it is on fire.
-  * Has no effect if called inside EntityTakeDamage (and the attacker is the flame that's hurting the entity)
+  * Has no effect if called inside @GamemodeHooks:EntityTakeDamage (and the attacker is the flame that's hurting the entity)
+  * See also @EntityFuncs:Ignite.
   * 
   * @name EntityFuncs:Extinguish
   * @realm server
@@ -47132,6 +47674,7 @@ declare interface EntityFuncs  {
   * @realm client, server
   * @wiki https://wiki.garrysmod.com/page/Entity/EmitSound
   * @note When using this function with weapons, use the @Weapon type itself as the entity, not its owner!
+  * @warning Do not use this for looping sounds with a filepath: see @EntityFuncs:StopSound for more details.
   * @warning The string will cannot have whitespace at the start or end. You can remove this with @string.Trim.
   * @bug #2651 This does not respond to @SuppressHostEvents function.
   * @param {Entity} this - no description
@@ -47144,24 +47687,7 @@ declare interface EntityFuncs  {
   * Will not work if a [sound script](https://developer.valvesoftware.com/wiki/Soundscripts) is used.
   * @returns {void}
   **/
-  EmitSound(this: Entity, soundName: string, soundLevel: SNDLVL, pitchPercent: number, volume: number, channel: CHAN): void
-  
-  /**
-  * 
-  * Sets up a self.dt.NAME alias for a Data Table variable.
-  * 
-  * @name EntityFuncs:DTVar
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Entity/DTVar
-  * @internal
-  * @warning You should use @EntityFuncs:NetworkVar instead
-  * @param {Entity} this - no description
-  * @param {string} Type - The type of the DTVar being set up. It can be one of the following: 'Int', 'Float', 'Vector', 'Angle', 'Bool', 'Entity' or 'String'
-  * @param {number} ID - The ID of the DTVar. Can be between 0 and 3 for strings, 0 and 31 for everything else.
-  * @param {string} Name - Name by which you will refer to DTVar. It must be a valid variable name. (No spaces!)
-  * @returns {void}
-  **/
-  DTVar(this: Entity, Type: string, ID: number, Name: string): void
+  EmitSound(this: Entity, soundName: string, soundLevel?: SNDLVL, pitchPercent?: number, volume?: number, channel?: CHAN): void
   
   /**
   * 
@@ -47222,20 +47748,6 @@ declare interface EntityFuncs  {
   
   /**
   * 
-  * Disables an active matrix.
-  * 
-  * @name EntityFuncs:DisableMatrix
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/Entity/DisableMatrix
-  * @param {Entity} this - no description
-  * @param {string} matrixType - The name of the matrix type to disable.
-  * The only known matrix type is "RenderMultiply".
-  * @returns {void}
-  **/
-  DisableMatrix(this: Entity, matrixType: string): void
-  
-  /**
-  * 
   * Performs a trace attack.
   * 
   * @name EntityFuncs:DispatchTraceAttack
@@ -47248,7 +47760,21 @@ declare interface EntityFuncs  {
   * @param {Vector} dir - Direction of the attack.
   * @returns {void}
   **/
-  DispatchTraceAttack(this: Entity, damageInfo: CTakeDamageInfo, traceRes: TraceResult, dir: Vector): void
+  DispatchTraceAttack(this: Entity, damageInfo: CTakeDamageInfo, traceRes: TraceResult, dir?: Vector): void
+  
+  /**
+  * 
+  * Disables an active matrix.
+  * 
+  * @name EntityFuncs:DisableMatrix
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/Entity/DisableMatrix
+  * @param {Entity} this - no description
+  * @param {string} matrixType - The name of the matrix type to disable.
+  * The only known matrix type is "RenderMultiply".
+  * @returns {void}
+  **/
+  DisableMatrix(this: Entity, matrixType: string): void
   
   /**
   * 
@@ -47279,6 +47805,35 @@ declare interface EntityFuncs  {
   
   /**
   * 
+  * Sets up a self.dt.NAME alias for a Data Table variable.
+  * 
+  * @name EntityFuncs:DTVar
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Entity/DTVar
+  * @internal
+  * @warning You should use @EntityFuncs:NetworkVar instead
+  * @param {Entity} this - no description
+  * @param {string} Type - The type of the DTVar being set up. It can be one of the following: 'Int', 'Float', 'Vector', 'Angle', 'Bool', 'Entity' or 'String'
+  * @param {number} ID - The ID of the DTVar. Can be between 0 and 3 for strings, 0 and 31 for everything else.
+  * @param {string} Name - Name by which you will refer to DTVar. It must be a valid variable name. (No spaces!)
+  * @returns {void}
+  **/
+  DTVar(this: Entity, Type: string, ID: number, Name: string): void
+  
+  /**
+  * 
+  * Returns whether the entity was created by map or not.
+  * 
+  * @name EntityFuncs:CreatedByMap
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/Entity/CreatedByMap
+  * @param {Entity} this - no description
+  * @returns {boolean} - Is created by map?
+  **/
+  CreatedByMap(this: Entity): boolean
+  
+  /**
+  * 
   * Draws the shadow of an entity.
   * 
   * @name EntityFuncs:CreateShadow
@@ -47304,19 +47859,7 @@ declare interface EntityFuncs  {
   * This only affects the control points of the particle effects and will do nothing if the effect doesn't use control points.
   * @returns {CNewParticleEffect} - The created particle system.
   **/
-  CreateParticleEffect(this: Entity, particle: string, attachment: number, options: table[]): CNewParticleEffect
-  
-  /**
-  * 
-  * Returns whether the entity was created by map or not.
-  * 
-  * @name EntityFuncs:CreatedByMap
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/Entity/CreatedByMap
-  * @param {Entity} this - no description
-  * @returns {boolean} - Is created by map?
-  **/
-  CreatedByMap(this: Entity): boolean
+  CreateParticleEffect(this: Entity, particle: string, attachment: number, options?: table[]): CNewParticleEffect
   
   /**
   * 
@@ -47412,7 +47955,7 @@ declare interface EntityFuncs  {
   * @param {boolean} noisy - Decides if it should return the centered vector with a random offset to it.
   * @returns {Vector} - The centered vector.
   **/
-  BodyTarget(this: Entity, origin: Vector, noisy: boolean): Vector
+  BodyTarget(this: Entity, origin: Vector, noisy?: boolean): Vector
   
   /**
   * 
@@ -47533,7 +48076,7 @@ declare interface EntityFuncs  {
   * @param {boolean} autokill - no description
   * @returns {number} - Layer ID of the started gesture, used to manipulate the played gesture by other functions.
   **/
-  AddGestureSequence(this: Entity, sequence: number, autokill: boolean): number
+  AddGestureSequence(this: Entity, sequence: number, autokill?: boolean): number
   
   /**
   * 
@@ -47549,7 +48092,7 @@ declare interface EntityFuncs  {
   * @param {boolean} autokill - no description
   * @returns {number} - Layer ID of the started gesture, used to manipulate the played gesture by other functions.
   **/
-  AddGesture(this: Entity, activity: ACT, autokill: boolean): number
+  AddGesture(this: Entity, activity: ACT, autokill?: boolean): number
   
   /**
   * 
@@ -47566,6 +48109,20 @@ declare interface EntityFuncs  {
   
   /**
   * 
+  * Applies an engine effect to an entity.
+  * See also @EntityFuncs:IsEffectActive and  @EntityFuncs:RemoveEffects.
+  * 
+  * @name EntityFuncs:AddEffects
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Entity/AddEffects
+  * @param {Entity} this - no description
+  * @param {EF} effect - The effect to apply, see @EF enum.
+  * @returns {void}
+  **/
+  AddEffects(this: Entity, effect: EF): void
+  
+  /**
+  * 
   * Adds engine flags.
   * 
   * @name EntityFuncs:AddEFlags
@@ -47576,19 +48133,6 @@ declare interface EntityFuncs  {
   * @returns {void}
   **/
   AddEFlags(this: Entity, flag: EFL): void
-  
-  /**
-  * 
-  * Applies an engine effect to an entity.
-  * 
-  * @name EntityFuncs:AddEffects
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Entity/AddEffects
-  * @param {Entity} this - no description
-  * @param {EF} effect - The effect to apply, see @EF enum.
-  * @returns {void}
-  **/
-  AddEffects(this: Entity, effect: EF): void
   
   /**
   * 
@@ -47670,7 +48214,7 @@ declare interface EntityHooks  {
   * @param {string} data - The data to give to the output.
   * @returns {void}
   **/
-  TriggerOutput(this: _ENTITY, output: string, activator: Entity, data: string): void
+  TriggerOutput(this: _ENTITY, output: string, activator: Entity, data?: string): void
   
   /**
   * 
@@ -47706,6 +48250,18 @@ declare interface EntityHooks  {
   
   /**
   * 
+  * Returns how many seconds we've been doing this current task
+  * 
+  * @name EntityHooks:TaskTime
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/ENTITY/TaskTime
+  * @param {_ENTITY} this - no description
+  * @returns {number} - How many seconds we've been doing this current task
+  **/
+  TaskTime(this: _ENTITY): number
+  
+  /**
+  * 
   * Allows you to override trace result when a trace hits the entitys Bounding Box.
   * 
   * @name EntityHooks:TestCollision
@@ -47722,18 +48278,6 @@ declare interface EntityHooks  {
   * @returns {table} - A table containing new HitPos, Fraction and Normal. Returning nothing allows the trace to ignore the entity completely.
   **/
   TestCollision(this: _ENTITY, startpos: Vector, delta: Vector, isbox: boolean, extents: Vector, mask: CONTENTS): table
-  
-  /**
-  * 
-  * Returns how many seconds we've been doing this current task
-  * 
-  * @name EntityHooks:TaskTime
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/ENTITY/TaskTime
-  * @param {_ENTITY} this - no description
-  * @returns {number} - How many seconds we've been doing this current task
-  **/
-  TaskTime(this: _ENTITY): number
   
   /**
   * 
@@ -47843,6 +48387,7 @@ declare interface EntityHooks  {
   * @predicted false
   * @realm server
   * @wiki https://wiki.garrysmod.com/page/ENTITY/SpawnFunction
+  * @warning Unlike other ENTITY functions, the "self" parameter of this function is not an entity but rather the table used to generate the SENT. This table is equivalent to @scripted_ents.GetStored("ent_name").
   * @param {_ENTITY} this - no description
   * @param {Player} ply - The player that is spawning this SENT
   * @param {TraceResult} tr - A @TraceResult structure from player eyes to their aim position
@@ -47993,6 +48538,20 @@ declare interface EntityHooks  {
   
   /**
   * 
+  * Called after the duplicator finished copying the entity.
+  * See also @EntityHooks:PreEntityCopy and @EntityHooks:PostEntityPaste.
+  * 
+  * @name EntityHooks:PostEntityCopy
+  * @predicted false
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/ENTITY/PostEntityCopy
+  * @param {_ENTITY} this - no description
+  * @returns {void}
+  **/
+  PostEntityCopy(this: _ENTITY): void
+  
+  /**
+  * 
   * Called after the @duplicator library pastes the entity, after the bone/entity modifiers have been applied to the entity.
   * This hook is called after @EntityHooks:OnDuplicated.
   * 
@@ -48010,20 +48569,6 @@ declare interface EntityHooks  {
   * @returns {void}
   **/
   PostEntityPaste(this: _ENTITY, ply: Player, ent: Entity, createdEntities: table): void
-  
-  /**
-  * 
-  * Called after the duplicator finished copying the entity.
-  * See also @EntityHooks:PreEntityCopy and @EntityHooks:PostEntityPaste.
-  * 
-  * @name EntityHooks:PostEntityCopy
-  * @predicted false
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/ENTITY/PostEntityCopy
-  * @param {_ENTITY} this - no description
-  * @returns {void}
-  **/
-  PostEntityCopy(this: _ENTITY): void
   
   /**
   * 
@@ -48316,7 +48861,7 @@ declare interface EntityHooks  {
   * Possible arguments are ImpactJeep, AirboatGunImpact, HelicopterImpact, ImpactGunship.
   * @returns {boolean} - Return true to override the default impact effects.
   **/
-  ImpactTrace(this: _ENTITY, traceResult: TraceResult, damageType: DMG, customImpactName: string): boolean
+  ImpactTrace(this: _ENTITY, traceResult: TraceResult, damageType: DMG, customImpactName?: string): boolean
   
   /**
   * 
@@ -48503,6 +49048,18 @@ declare interface EntityHooks  {
   
   /**
   * 
+  * Called whenever an engine schedule is being ran.
+  * 
+  * @name EntityHooks:DoingEngineSchedule
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/ENTITY/DoingEngineSchedule
+  * @param {_ENTITY} this - no description
+  * @returns {void}
+  **/
+  DoingEngineSchedule(this: _ENTITY): void
+  
+  /**
+  * 
   * Runs a Lua schedule. Runs tasks inside the schedule.
   * [Category:ENT_AI_Hooks](https://wiki.garrysmod.com/page/Category:ENT_AI_Hooks)
   * 
@@ -48515,18 +49072,6 @@ declare interface EntityHooks  {
   * @returns {void}
   **/
   DoSchedule(this: _ENTITY, sched: table): void
-  
-  /**
-  * 
-  * Called whenever an engine schedule is being ran.
-  * 
-  * @name EntityHooks:DoingEngineSchedule
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/ENTITY/DoingEngineSchedule
-  * @param {_ENTITY} this - no description
-  * @returns {void}
-  **/
-  DoingEngineSchedule(this: _ENTITY): void
   
   /**
   * 
@@ -48585,6 +49130,8 @@ declare interface EntityHooks  {
   * @predicted false
   * @realm client, server
   * @wiki https://wiki.garrysmod.com/page/ENTITY/CalcAbsolutePosition
+  * @note If EFL_DIRTY_ABSTRANSFORM is set on the entity, this will be called serverside only; otherwise, this will be called clientside only. This means serverside calls of @EntityFuncs:SetPos without the EFL_DIRTY_ABSTRANSFORM flag enabled (most cases) will be called clientside only.
+  * @note The give concommand will call this hook serverside only upon entity spawn.
   * @param {_ENTITY} this - no description
   * @param {Vector} pos - The entity's actual position. May differ from @EntityFuncs:GetPos
   * @param {Angle} ang - The entity's actual angles. May differ from @EntityFuncs:GetAngles
@@ -48700,6 +49247,15 @@ declare interface EffectHooks  {
   Init(this: _EFFECT, effectData: CEffectData): void
   
   /**
+  * @name EffectHooks:EndTouch
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/EFFECT/EndTouch
+  * @param {_EFFECT} this - no description
+  * @returns {void}
+  **/
+  EndTouch(this: _EFFECT): void
+  
+  /**
   * 
   * Used to get the "real" start position of a trace, for weapon tracer effects.
   * "real" meaning in 3rd person, the 3rd person position will be used, in first person the first person position will be used.
@@ -48716,147 +49272,6 @@ declare interface EffectHooks  {
   * @returns {Vector} - The "real" start position.
   **/
   GetTracerShootPos(this: _EFFECT, pos: Vector, ent: Weapon, attachment: number): Vector
-  
-  /**
-  * @name EffectHooks:EndTouch
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/EFFECT/EndTouch
-  * @param {_EFFECT} this - no description
-  * @returns {void}
-  **/
-  EndTouch(this: _EFFECT): void
-  
-}
-
-declare interface DVScrollBar extends Panel {
-  /**
-  * 
-  * Should return nil in all cases. See @DVScrollBar:GetScroll.
-  * 
-  * @name DVScrollBar:Value
-  * @wiki https://wiki.garrysmod.com/page/DVScrollBar/Value
-  * @param {DVScrollBar} this - no description
-  * @returns {any} - no description
-  **/
-  Value(this: DVScrollBar): any
-  
-  /**
-  * 
-  * Sets up the scrollbar for use.
-  * The scrollbar will automatically disable itself if the total height of the canvas is lower than the height of the panel that holds the canvas during this function call.
-  * 
-  * @name DVScrollBar:SetUp
-  * @wiki https://wiki.garrysmod.com/page/DVScrollBar/SetUp
-  * @param {DVScrollBar} this - no description
-  * @param {number} barSize - The size of the panel that holds the canvas, basically size of "1 page".
-  * @param {number} cavasSize - The total size of the canvas, this typically is the bigger number.
-  * @returns {void}
-  **/
-  SetUp(this: DVScrollBar, barSize: number, cavasSize: number): void
-  
-  /**
-  * 
-  * Sets the scroll level in pixels.
-  * 
-  * @name DVScrollBar:SetScroll
-  * @wiki https://wiki.garrysmod.com/page/DVScrollBar/SetScroll
-  * @param {DVScrollBar} this - no description
-  * @param {number} scroll - no description
-  * @returns {void}
-  **/
-  SetScroll(this: DVScrollBar, scroll: number): void
-  
-  /**
-  * 
-  * Allows hiding the up and down buttons for better visual stylisation.
-  * 
-  * @name DVScrollBar:SetHideButtons
-  * @wiki https://wiki.garrysmod.com/page/DVScrollBar/SetHideButtons
-  * @param {DVScrollBar} this - no description
-  * @param {boolean} hide - True to hide
-  * @returns {void}
-  **/
-  SetHideButtons(this: DVScrollBar, hide: boolean): void
-  
-  /**
-  * 
-  * Called from within @DScrollBarGrip type
-  * 
-  * @name DVScrollBar:Grip
-  * @wiki https://wiki.garrysmod.com/page/DVScrollBar/Grip
-  * @internal
-  * @param {DVScrollBar} this - no description
-  * @returns {void}
-  **/
-  Grip(this: DVScrollBar): void
-  
-  /**
-  * 
-  * Returns the amount of scroll level from the top in pixels
-  * 
-  * @name DVScrollBar:GetScroll
-  * @wiki https://wiki.garrysmod.com/page/DVScrollBar/GetScroll
-  * @param {DVScrollBar} this - no description
-  * @returns {number} - The amount of scroll level from the top
-  **/
-  GetScroll(this: DVScrollBar): number
-  
-  /**
-  * 
-  * Returns the negative of @DVScrollBar:GetScroll.
-  * 
-  * @name DVScrollBar:GetOffset
-  * @wiki https://wiki.garrysmod.com/page/DVScrollBar/GetOffset
-  * @param {DVScrollBar} this - no description
-  * @returns {number} - no description
-  **/
-  GetOffset(this: DVScrollBar): number
-  
-  /**
-  * 
-  * Returns whether or not the manual up/down scroll buttons are visible or not. Set by @DVScrollBar:SetHideButtons.
-  * 
-  * @name DVScrollBar:GetHideButtons
-  * @wiki https://wiki.garrysmod.com/page/DVScrollBar/GetHideButtons
-  * @param {DVScrollBar} this - no description
-  * @returns {boolean} - Whether or not the manual up/down scroll buttons are visible or not.
-  **/
-  GetHideButtons(this: DVScrollBar): boolean
-  
-  /**
-  * @name DVScrollBar:BarScale
-  * @wiki https://wiki.garrysmod.com/page/DVScrollBar/BarScale
-  * @param {DVScrollBar} this - no description
-  * @returns {number} - no description
-  **/
-  BarScale(this: DVScrollBar): number
-  
-  /**
-  * 
-  * Smoothly scrolls to given level.
-  * 
-  * @name DVScrollBar:AnimateTo
-  * @wiki https://wiki.garrysmod.com/page/DVScrollBar/AnimateTo
-  * @param {DVScrollBar} this - no description
-  * @param {number} scroll - The scroll level to animate to. In pixels from the top ( from 0 )
-  * @param {number} length - Length of the animation in seconds
-  * @param {number} delay - Delay of the animation in seconds
-  * @param {number} ease - See @Panel:NewAnimation for explanation.
-  * @returns {void}
-  **/
-  AnimateTo(this: DVScrollBar, scroll: number, length: number, delay: number, ease: number): void
-  
-  /**
-  * 
-  * Adds specified amount of scroll in pixels.
-  * 
-  * @name DVScrollBar:AddScroll
-  * @wiki https://wiki.garrysmod.com/page/DVScrollBar/AddScroll
-  * @param {DVScrollBar} this - no description
-  * @param {number} add - How much to scroll downwards. Can be negative for upwards scroll
-  * @returns {boolean} - True if the scroll level was changed (i.e. if we did or did not scroll)
-  **/
-  AddScroll(this: DVScrollBar, add: number): boolean
   
 }
 
@@ -49109,6 +49524,138 @@ declare interface DVerticalDivider extends DPanel {
   
 }
 
+declare interface DVScrollBar extends Panel {
+  /**
+  * 
+  * Should return nil in all cases. See @DVScrollBar:GetScroll.
+  * 
+  * @name DVScrollBar:Value
+  * @wiki https://wiki.garrysmod.com/page/DVScrollBar/Value
+  * @param {DVScrollBar} this - no description
+  * @returns {any} - no description
+  **/
+  Value(this: DVScrollBar): any
+  
+  /**
+  * 
+  * Sets up the scrollbar for use.
+  * The scrollbar will automatically disable itself if the total height of the canvas is lower than the height of the panel that holds the canvas during this function call.
+  * 
+  * @name DVScrollBar:SetUp
+  * @wiki https://wiki.garrysmod.com/page/DVScrollBar/SetUp
+  * @param {DVScrollBar} this - no description
+  * @param {number} barSize - The size of the panel that holds the canvas, basically size of "1 page".
+  * @param {number} cavasSize - The total size of the canvas, this typically is the bigger number.
+  * @returns {void}
+  **/
+  SetUp(this: DVScrollBar, barSize: number, cavasSize: number): void
+  
+  /**
+  * 
+  * Sets the scroll level in pixels.
+  * 
+  * @name DVScrollBar:SetScroll
+  * @wiki https://wiki.garrysmod.com/page/DVScrollBar/SetScroll
+  * @param {DVScrollBar} this - no description
+  * @param {number} scroll - no description
+  * @returns {void}
+  **/
+  SetScroll(this: DVScrollBar, scroll: number): void
+  
+  /**
+  * 
+  * Allows hiding the up and down buttons for better visual stylisation.
+  * 
+  * @name DVScrollBar:SetHideButtons
+  * @wiki https://wiki.garrysmod.com/page/DVScrollBar/SetHideButtons
+  * @param {DVScrollBar} this - no description
+  * @param {boolean} hide - True to hide
+  * @returns {void}
+  **/
+  SetHideButtons(this: DVScrollBar, hide: boolean): void
+  
+  /**
+  * 
+  * Called from within @DScrollBarGrip type
+  * 
+  * @name DVScrollBar:Grip
+  * @wiki https://wiki.garrysmod.com/page/DVScrollBar/Grip
+  * @internal
+  * @param {DVScrollBar} this - no description
+  * @returns {void}
+  **/
+  Grip(this: DVScrollBar): void
+  
+  /**
+  * 
+  * Returns the amount of scroll level from the top in pixels
+  * 
+  * @name DVScrollBar:GetScroll
+  * @wiki https://wiki.garrysmod.com/page/DVScrollBar/GetScroll
+  * @param {DVScrollBar} this - no description
+  * @returns {number} - The amount of scroll level from the top
+  **/
+  GetScroll(this: DVScrollBar): number
+  
+  /**
+  * 
+  * Returns the negative of @DVScrollBar:GetScroll.
+  * 
+  * @name DVScrollBar:GetOffset
+  * @wiki https://wiki.garrysmod.com/page/DVScrollBar/GetOffset
+  * @param {DVScrollBar} this - no description
+  * @returns {number} - no description
+  **/
+  GetOffset(this: DVScrollBar): number
+  
+  /**
+  * 
+  * Returns whether or not the manual up/down scroll buttons are visible or not. Set by @DVScrollBar:SetHideButtons.
+  * 
+  * @name DVScrollBar:GetHideButtons
+  * @wiki https://wiki.garrysmod.com/page/DVScrollBar/GetHideButtons
+  * @param {DVScrollBar} this - no description
+  * @returns {boolean} - Whether or not the manual up/down scroll buttons are visible or not.
+  **/
+  GetHideButtons(this: DVScrollBar): boolean
+  
+  /**
+  * @name DVScrollBar:BarScale
+  * @wiki https://wiki.garrysmod.com/page/DVScrollBar/BarScale
+  * @param {DVScrollBar} this - no description
+  * @returns {number} - no description
+  **/
+  BarScale(this: DVScrollBar): number
+  
+  /**
+  * 
+  * Smoothly scrolls to given level.
+  * 
+  * @name DVScrollBar:AnimateTo
+  * @wiki https://wiki.garrysmod.com/page/DVScrollBar/AnimateTo
+  * @param {DVScrollBar} this - no description
+  * @param {number} scroll - The scroll level to animate to. In pixels from the top ( from 0 )
+  * @param {number} length - Length of the animation in seconds
+  * @param {number} delay - Delay of the animation in seconds
+  * @param {number} ease - See @Panel:NewAnimation for explanation.
+  * @returns {void}
+  **/
+  AnimateTo(this: DVScrollBar, scroll: number, length: number, delay?: number, ease?: number): void
+  
+  /**
+  * 
+  * Adds specified amount of scroll in pixels.
+  * 
+  * @name DVScrollBar:AddScroll
+  * @wiki https://wiki.garrysmod.com/page/DVScrollBar/AddScroll
+  * @param {DVScrollBar} this - no description
+  * @param {number} add - How much to scroll downwards. Can be negative for upwards scroll
+  * @returns {boolean} - True if the scroll level was changed (i.e. if we did or did not scroll)
+  **/
+  AddScroll(this: DVScrollBar, add: number): boolean
+  
+}
+
 declare interface DTree_Node extends DPanel {
   /**
   * 
@@ -49124,6 +49671,17 @@ declare interface DTree_Node extends DPanel {
   
   /**
   * 
+  * Currently does nothing, not implemented.
+  * 
+  * @name DTree_Node:SetupCopy
+  * @wiki https://wiki.garrysmod.com/page/DTree Node/SetupCopy
+  * @param {DTree_Node} this - no description
+  * @returns {void}
+  **/
+  SetupCopy(this: DTree_Node): void
+  
+  /**
+  * 
   * Sets the search wildcard.
   * Use @DTree_Node:MakeFolder instead
   * 
@@ -49135,17 +49693,6 @@ declare interface DTree_Node extends DPanel {
   * @returns {void}
   **/
   SetWildCard(this: DTree_Node, wildcard: string): void
-  
-  /**
-  * 
-  * Currently does nothing, not implemented.
-  * 
-  * @name DTree_Node:SetupCopy
-  * @wiki https://wiki.garrysmod.com/page/DTree Node/SetupCopy
-  * @param {DTree_Node} this - no description
-  * @returns {void}
-  **/
-  SetupCopy(this: DTree_Node): void
   
   /**
   * 
@@ -49326,7 +49873,7 @@ declare interface DTree_Node extends DPanel {
   * @param {boolean} surpressAnimation - Whether to play animation (false) or not (true)
   * @returns {void}
   **/
-  SetExpanded(this: DTree_Node, expand: boolean, surpressAnimation: boolean): void
+  SetExpanded(this: DTree_Node, expand: boolean, surpressAnimation?: boolean): void
   
   /**
   * 
@@ -49479,7 +50026,7 @@ declare interface DTree_Node extends DPanel {
   * @param {boolean} dontForceExpandable - If set to true, don't show the expand buttons on empty nodes.
   * @returns {void}
   **/
-  MakeFolder(this: DTree_Node, folder: string, path: string, showFiles: boolean, wildcard: string, dontForceExpandable: boolean): void
+  MakeFolder(this: DTree_Node, folder: string, path: string, showFiles?: boolean, wildcard?: string, dontForceExpandable?: boolean): void
   
   /**
   * 
@@ -49619,6 +50166,17 @@ declare interface DTree_Node extends DPanel {
   
   /**
   * 
+  * Returns the parent @DTree_Node type. Note that @Panel:GetParent will not be the same!
+  * 
+  * @name DTree_Node:GetParentNode
+  * @wiki https://wiki.garrysmod.com/page/DTree Node/GetParentNode
+  * @param {DTree_Node} this - no description
+  * @returns {Panel} - The parent node.
+  **/
+  GetParentNode(this: DTree_Node): Panel
+  
+  /**
+  * 
   * Returns whether or not the node is set to be populated from the filesystem.
   * 
   * @name DTree_Node:GetNeedsPopulating
@@ -49630,15 +50188,13 @@ declare interface DTree_Node extends DPanel {
   GetNeedsPopulating(this: DTree_Node): boolean
   
   /**
-  * 
-  * Returns the parent @DTree_Node type. Note that @Panel:GetParent will not be the same!
-  * 
-  * @name DTree_Node:GetParentNode
-  * @wiki https://wiki.garrysmod.com/page/DTree Node/GetParentNode
+  * @name DTree_Node:GetNeedsChildSearch
+  * @wiki https://wiki.garrysmod.com/page/DTree Node/GetNeedsChildSearch
+  * @internal
   * @param {DTree_Node} this - no description
-  * @returns {Panel} - The parent node.
+  * @returns {boolean} - no description
   **/
-  GetParentNode(this: DTree_Node): Panel
+  GetNeedsChildSearch(this: DTree_Node): boolean
   
   /**
   * 
@@ -49651,15 +50207,6 @@ declare interface DTree_Node extends DPanel {
   * @returns {number} - The height of a single @DTree_Node type.
   **/
   GetLineHeight(this: DTree_Node): number
-  
-  /**
-  * @name DTree_Node:GetNeedsChildSearch
-  * @wiki https://wiki.garrysmod.com/page/DTree Node/GetNeedsChildSearch
-  * @internal
-  * @param {DTree_Node} this - no description
-  * @returns {boolean} - no description
-  **/
-  GetNeedsChildSearch(this: DTree_Node): boolean
   
   /**
   * 
@@ -49754,17 +50301,6 @@ declare interface DTree_Node extends DPanel {
   
   /**
   * 
-  * Returns whether the double clock to collapse/expand functionality is enabled on this node.
-  * 
-  * @name DTree_Node:GetDoubleClickToOpen
-  * @wiki https://wiki.garrysmod.com/page/DTree Node/GetDoubleClickToOpen
-  * @param {DTree_Node} this - no description
-  * @returns {boolean} - no description
-  **/
-  GetDoubleClickToOpen(this: DTree_Node): boolean
-  
-  /**
-  * 
   * Returns what is set by @DTree_Node:SetDraggableName.
   * 
   * @name DTree_Node:GetDraggableName
@@ -49774,6 +50310,17 @@ declare interface DTree_Node extends DPanel {
   * @returns {string} - no description
   **/
   GetDraggableName(this: DTree_Node): string
+  
+  /**
+  * 
+  * Returns whether the double clock to collapse/expand functionality is enabled on this node.
+  * 
+  * @name DTree_Node:GetDoubleClickToOpen
+  * @wiki https://wiki.garrysmod.com/page/DTree Node/GetDoubleClickToOpen
+  * @param {DTree_Node} this - no description
+  * @returns {boolean} - no description
+  **/
+  GetDoubleClickToOpen(this: DTree_Node): boolean
   
   /**
   * 
@@ -49972,6 +50519,19 @@ declare interface DTree_Node extends DPanel {
   
   /**
   * 
+  * Add a child node to the DTree_Node
+  * 
+  * @name DTree_Node:AddNode
+  * @wiki https://wiki.garrysmod.com/page/DTree Node/AddNode
+  * @param {DTree_Node} this - no description
+  * @param {string} name - Name of the node.
+  * @param {string} icon - The icon that will show nexto the node in the DTree.
+  * @returns {DTree_Node} - Returns the created @DTree_Node type panel.
+  **/
+  AddNode(this: DTree_Node, name: string, icon?: string): DTree_Node
+  
+  /**
+  * 
   * A helper function that adds a new node and calls to @DTree_Node:MakeFolder on it.
   * 
   * @name DTree_Node:AddFolder
@@ -49985,20 +50545,7 @@ declare interface DTree_Node extends DPanel {
   * @param {boolean} bDontForceExpandable - no description
   * @returns {void}
   **/
-  AddFolder(this: DTree_Node, name: string, folder: string, path: string, showFiles: boolean, wildcard: string, bDontForceExpandable: boolean): void
-  
-  /**
-  * 
-  * Add a child node to the DTree_Node
-  * 
-  * @name DTree_Node:AddNode
-  * @wiki https://wiki.garrysmod.com/page/DTree Node/AddNode
-  * @param {DTree_Node} this - no description
-  * @param {string} name - Name of the node.
-  * @param {string} icon - The icon that will show nexto the node in the DTree.
-  * @returns {DTree_Node} - Returns the created @DTree_Node type panel.
-  **/
-  AddNode(this: DTree_Node, name: string, icon: string): DTree_Node
+  AddFolder(this: DTree_Node, name: string, folder: string, path: string, showFiles?: boolean, wildcard?: string, bDontForceExpandable?: boolean): void
   
 }
 
@@ -50030,6 +50577,18 @@ declare interface DTree extends DScrollPanel {
   
   /**
   * 
+  * Set the currently selected top-level node.
+  * 
+  * @name DTree:SetSelectedItem
+  * @wiki https://wiki.garrysmod.com/page/DTree/SetSelectedItem
+  * @param {DTree} this - no description
+  * @param {DTree_Node} node - @DTree_Node type to select.
+  * @returns {void}
+  **/
+  SetSelectedItem(this: DTree, node: DTree_Node): void
+  
+  /**
+  * 
   * Sets the height of each @DTree_Node type in the tree.
   * The default value is 17.
   * 
@@ -50040,18 +50599,6 @@ declare interface DTree extends DScrollPanel {
   * @returns {void}
   **/
   SetLineHeight(this: DTree, h: number): void
-  
-  /**
-  * 
-  * Set the currently selected top-level node.
-  * 
-  * @name DTree:SetSelectedItem
-  * @wiki https://wiki.garrysmod.com/page/DTree/SetSelectedItem
-  * @param {DTree} this - no description
-  * @param {DTree_Node} node - @DTree_Node type to select.
-  * @returns {void}
-  **/
-  SetSelectedItem(this: DTree, node: DTree_Node): void
   
   /**
   * 
@@ -50134,6 +50681,17 @@ declare interface DTree extends DScrollPanel {
   
   /**
   * 
+  * Does nothing.
+  * 
+  * @name DTree:LayoutTree
+  * @wiki https://wiki.garrysmod.com/page/DTree/LayoutTree
+  * @param {DTree} this - no description
+  * @returns {void}
+  **/
+  LayoutTree(this: DTree): void
+  
+  /**
+  * 
   * Returns whether or not the [Silkicons](https://wiki.garrysmod.com/page/Silkicons) next to each node of the DTree will be displayed.
   * Individual icons can be set with @DTree_Node:SetIcon or passed as the second argument in @DTree:AddNode.
   * 
@@ -50143,17 +50701,6 @@ declare interface DTree extends DScrollPanel {
   * @returns {boolean} - Whether or not the silkicons next to each node will be displayed.
   **/
   GetShowIcons(this: DTree): boolean
-  
-  /**
-  * 
-  * Does nothing.
-  * 
-  * @name DTree:LayoutTree
-  * @wiki https://wiki.garrysmod.com/page/DTree/LayoutTree
-  * @param {DTree} this - no description
-  * @returns {void}
-  **/
-  LayoutTree(this: DTree): void
   
   /**
   * 
@@ -50191,17 +50738,6 @@ declare interface DTree extends DScrollPanel {
   
   /**
   * 
-  * Returns the status of @DTree:SetClickOnDragHover. See that for more info.
-  * 
-  * @name DTree:GetClickOnDragHover
-  * @wiki https://wiki.garrysmod.com/page/DTree/GetClickOnDragHover
-  * @param {DTree} this - no description
-  * @returns {boolean} - no description
-  **/
-  GetClickOnDragHover(this: DTree): boolean
-  
-  /**
-  * 
   * Does nothing. Used as a placeholder empty function alongside @DTree:MoveChildTo, @DTree:SetExpanded and @DTree:ChildExpanded.
   * The @DTree type acts a root node and methods with the same name in @DTree_Node type call to the parent.
   * 
@@ -50213,6 +50749,17 @@ declare interface DTree extends DScrollPanel {
   * @returns {void}
   **/
   ExpandTo(this: DTree, bExpand: boolean): void
+  
+  /**
+  * 
+  * Returns the status of @DTree:SetClickOnDragHover. See that for more info.
+  * 
+  * @name DTree:GetClickOnDragHover
+  * @wiki https://wiki.garrysmod.com/page/DTree/GetClickOnDragHover
+  * @param {DTree} this - no description
+  * @returns {boolean} - no description
+  **/
+  GetClickOnDragHover(this: DTree): boolean
   
   /**
   * 
@@ -50263,7 +50810,7 @@ declare interface DTree extends DScrollPanel {
   * @param {string} icon - The icon that will show nexto the node in the DTree.
   * @returns {DTree_Node} - Returns the created @DTree_Node type panel.
   **/
-  AddNode(this: DTree, name: string, icon: string): DTree_Node
+  AddNode(this: DTree, name: string, icon?: string): DTree_Node
   
 }
 
@@ -50280,7 +50827,7 @@ declare interface DTooltip extends DLabel {
   * @param {boolean} bDelete - If set to true, the panel in the first argument will be automatically removed when @DTooltip type is closed via @DTooltip:Close.
   * @returns {void}
   **/
-  SetContents(this: DTooltip, panel: Panel, bDelete: boolean): void
+  SetContents(this: DTooltip, panel: Panel, bDelete?: boolean): void
   
   /**
   * 
@@ -50493,17 +51040,6 @@ declare interface DTileLayout extends DDragBase {
   
   /**
   * 
-  * Returns the border spacing set by @DTileLayout:SetBorder.
-  * 
-  * @name DTileLayout:GetBorder
-  * @wiki https://wiki.garrysmod.com/page/DTileLayout/GetBorder
-  * @param {DTileLayout} this - no description
-  * @returns {number} - no description
-  **/
-  GetBorder(this: DTileLayout): number
-  
-  /**
-  * 
   * Returns the size of each single tile, set with @DTileLayout:SetBaseSize.
   * 
   * @name DTileLayout:GetBaseSize
@@ -50512,6 +51048,17 @@ declare interface DTileLayout extends DDragBase {
   * @returns {number} - Base tile size.
   **/
   GetBaseSize(this: DTileLayout): number
+  
+  /**
+  * 
+  * Returns the border spacing set by @DTileLayout:SetBorder.
+  * 
+  * @name DTileLayout:GetBorder
+  * @wiki https://wiki.garrysmod.com/page/DTileLayout/GetBorder
+  * @param {DTileLayout} this - no description
+  * @returns {number} - no description
+  **/
+  GetBorder(this: DTileLayout): number
   
   /**
   * 
@@ -50647,7 +51194,7 @@ declare interface DTextEntry extends TextEntry {
   * @param {string} text - no description
   * @returns {void}
   **/
-  SetPlaceholderText(this: DTextEntry, text: string): void
+  SetPlaceholderText(this: DTextEntry, text?: string): void
   
   /**
   * 
@@ -50659,7 +51206,7 @@ declare interface DTextEntry extends TextEntry {
   * @param {Color} color - The color of the placeholder.
   * @returns {void}
   **/
-  SetPlaceholderColor(this: DTextEntry, color: Color): void
+  SetPlaceholderColor(this: DTextEntry, color?: Color): void
   
   /**
   * 
@@ -50791,6 +51338,17 @@ declare interface DTextEntry extends TextEntry {
   * @returns {boolean} - Whether you've handled the key press. Returning true prevents the default text entry behavior from occurring.
   **/
   OnKeyCodeTyped(this: DTextEntry, keyCode: KEY): boolean
+  
+  /**
+  * 
+  * Called whenever the DTextEntry gains focus.
+  * 
+  * @name DTextEntry:OnGetFocus
+  * @wiki https://wiki.garrysmod.com/page/DTextEntry/OnGetFocus
+  * @param {DTextEntry} this - no description
+  * @returns {void}
+  **/
+  OnGetFocus(this: DTextEntry): void
   
   /**
   * 
@@ -51130,20 +51688,6 @@ declare interface DSlider extends DPanel {
   
   /**
   * 
-  * Sets the lock on the Y axis.
-  * For example the value 0.5 will lock the draggable panel to half the height of the slider's panel.
-  * 
-  * @name DSlider:SetLockY
-  * @wiki https://wiki.garrysmod.com/page/DSlider/SetLockY
-  * @param {DSlider} this - no description
-  * @param {number} lockY - Set to nil to reset lock.
-  * The value range is from 0 to 1.
-  * @returns {void}
-  **/
-  SetLockY(this: DSlider, lockY: number): void
-  
-  /**
-  * 
   * Sets the lock on the X axis.
   * For example the value 0.5 will lock the draggable panel to half the width of the slider's panel.
   * 
@@ -51154,7 +51698,21 @@ declare interface DSlider extends DPanel {
   * The value range is from 0 to 1.
   * @returns {void}
   **/
-  SetLockX(this: DSlider, lockX: number): void
+  SetLockX(this: DSlider, lockX?: number): void
+  
+  /**
+  * 
+  * Sets the lock on the Y axis.
+  * For example the value 0.5 will lock the draggable panel to half the height of the slider's panel.
+  * 
+  * @name DSlider:SetLockY
+  * @wiki https://wiki.garrysmod.com/page/DSlider/SetLockY
+  * @param {DSlider} this - no description
+  * @param {number} lockY - Set to nil to reset lock.
+  * The value range is from 0 to 1.
+  * @returns {void}
+  **/
+  SetLockY(this: DSlider, lockY?: number): void
   
   /**
   * 
@@ -51455,17 +52013,6 @@ declare interface DScrollPanel extends DPanel {
   
   /**
   * 
-  * Gets the DScrollPanels padding
-  * 
-  * @name DScrollPanel:GetPadding
-  * @wiki https://wiki.garrysmod.com/page/DScrollPanel/GetPadding
-  * @param {DScrollPanel} this - no description
-  * @returns {number} - DScrollPanels padding
-  **/
-  GetPadding(this: DScrollPanel): number
-  
-  /**
-  * 
   * Returns the canvas ( The panel all child panels are parented to ) of the DScrollPanel.
   * 
   * @name DScrollPanel:GetCanvas
@@ -51474,6 +52021,17 @@ declare interface DScrollPanel extends DPanel {
   * @returns {Panel} - The canvas
   **/
   GetCanvas(this: DScrollPanel): Panel
+  
+  /**
+  * 
+  * Gets the DScrollPanels padding
+  * 
+  * @name DScrollPanel:GetPadding
+  * @wiki https://wiki.garrysmod.com/page/DScrollPanel/GetPadding
+  * @param {DScrollPanel} this - no description
+  * @returns {number} - DScrollPanels padding
+  **/
+  GetPadding(this: DScrollPanel): number
   
   /**
   * 
@@ -51548,18 +52106,6 @@ declare interface DRGBPicker extends DPanel {
 declare interface DProperty_VectorColor extends DProperty_Generic {
   /**
   * 
-  * Sets the color value of the property.
-  * 
-  * @name DProperty_VectorColor:SetValue
-  * @wiki https://wiki.garrysmod.com/page/DProperty VectorColor/SetValue
-  * @param {DProperty_VectorColor} this - no description
-  * @param {DProperty_VectorColor} color - Sets the color to use in a @DProperty_VectorColor type.
-  * @returns {void}
-  **/
-  SetValue(this: DProperty_VectorColor, color: DProperty_VectorColor): void
-  
-  /**
-  * 
   * Called by a property row to setup a color selection control.
   * 
   * @name DProperty_VectorColor:Setup
@@ -51570,7 +52116,19 @@ declare interface DProperty_VectorColor extends DProperty_Generic {
   * @param {table} settings - A table of settings. None of the values are used for this property. See [Editable Entities](https://wiki.garrysmod.com/page/Editable%20Entities).
   * @returns {void}
   **/
-  Setup(this: DProperty_VectorColor, prop: string, settings: table): void
+  Setup(this: DProperty_VectorColor, prop?: string, settings: table): void
+  
+  /**
+  * 
+  * Sets the color value of the property.
+  * 
+  * @name DProperty_VectorColor:SetValue
+  * @wiki https://wiki.garrysmod.com/page/DProperty VectorColor/SetValue
+  * @param {DProperty_VectorColor} this - no description
+  * @param {DProperty_VectorColor} color - Sets the color to use in a @DProperty_VectorColor type.
+  * @returns {void}
+  **/
+  SetValue(this: DProperty_VectorColor, color: DProperty_VectorColor): void
   
 }
 
@@ -51587,7 +52145,7 @@ declare interface DProperty_Combo extends DProperty_Generic {
   * Structure:
   * @returns {void}
   **/
-  Setup(this: DProperty_Combo, prop: string, data: IDProperty_ComboSetupData): void
+  Setup(this: DProperty_Combo, prop?: string, data?: IDProperty_ComboSetupData): void
   
   /**
   * 
@@ -51625,7 +52183,7 @@ declare interface DProperty_Combo extends DProperty_Generic {
   * @param {boolean} select - Select this element?
   * @returns {void}
   **/
-  AddChoice(this: DProperty_Combo, Text: string, data: any, select: boolean): void
+  AddChoice(this: DProperty_Combo, Text: string, data: any, select?: boolean): void
   
 }
 
@@ -51644,6 +52202,17 @@ declare interface DPropertySheet extends DPanel {
   
   /**
   * 
+  * Sets the width of the @DPropertySheet type to fit the contents of all of the tabs.
+  * 
+  * @name DPropertySheet:SizeToContentWidth
+  * @wiki https://wiki.garrysmod.com/page/DPropertySheet/SizeToContentWidth
+  * @param {DPropertySheet} this - no description
+  * @returns {void}
+  **/
+  SizeToContentWidth(this: DPropertySheet): void
+  
+  /**
+  * 
   * Creates a close button on the right side of the @DPropertySheet type that will run the given callback function when pressed.
   * 
   * @name DPropertySheet:SetupCloseButton
@@ -51653,17 +52222,6 @@ declare interface DPropertySheet extends DPanel {
   * @returns {void}
   **/
   SetupCloseButton(this: DPropertySheet, func: UnknownFunc): void
-  
-  /**
-  * 
-  * Sets the width of the @DPropertySheet type to fit the contents of all of the tabs.
-  * 
-  * @name DPropertySheet:SizeToContentWidth
-  * @wiki https://wiki.garrysmod.com/page/DPropertySheet/SizeToContentWidth
-  * @param {DPropertySheet} this - no description
-  * @returns {void}
-  **/
-  SizeToContentWidth(this: DPropertySheet): void
   
   /**
   * 
@@ -51687,7 +52245,7 @@ declare interface DPropertySheet extends DPanel {
   * @param {number} padding - Amount of padding
   * @returns {void}
   **/
-  SetPadding(this: DPropertySheet, padding: number): void
+  SetPadding(this: DPropertySheet, padding?: number): void
   
   /**
   * 
@@ -51699,7 +52257,7 @@ declare interface DPropertySheet extends DPanel {
   * @param {number} time - The amount of time it takes (in seconds) to fade between tabs.
   * @returns {void}
   **/
-  SetFadeTime(this: DPropertySheet, time: number): void
+  SetFadeTime(this: DPropertySheet, time?: number): void
   
   /**
   * 
@@ -51740,6 +52298,17 @@ declare interface DPropertySheet extends DPanel {
   
   /**
   * 
+  * Gets the padding from the parent panel to child panels.
+  * 
+  * @name DPropertySheet:GetPadding
+  * @wiki https://wiki.garrysmod.com/page/DPropertySheet/GetPadding
+  * @param {DPropertySheet} this - no description
+  * @returns {number} - Padding
+  **/
+  GetPadding(this: DPropertySheet): number
+  
+  /**
+  * 
   * Returns a list of all tabs of this @DPropertySheet type.
   * 
   * @name DPropertySheet:GetItems
@@ -51749,17 +52318,6 @@ declare interface DPropertySheet extends DPanel {
   * Each table contains 3 key-value pairs:
   **/
   GetItems(this: DPropertySheet): table[]
-  
-  /**
-  * 
-  * Gets the padding from the parent panel to child panels.
-  * 
-  * @name DPropertySheet:GetPadding
-  * @wiki https://wiki.garrysmod.com/page/DPropertySheet/GetPadding
-  * @param {DPropertySheet} this - no description
-  * @returns {number} - Padding
-  **/
-  GetPadding(this: DPropertySheet): number
   
   /**
   * 
@@ -51828,7 +52386,7 @@ declare interface DPropertySheet extends DPanel {
   * @param {string} tooltip - Tooltip for the tab when user hovers over it with his cursor
   * @returns {IDPropertySheetAddSheetReturn} - A table containing the following keys:
   **/
-  AddSheet(this: DPropertySheet, name: string, pnl: DPanel, icon: string, noStretchX: boolean, noStretchY: boolean, tooltip: string): IDPropertySheetAddSheetReturn
+  AddSheet(this: DPropertySheet, name: string, pnl: DPanel, icon?: string, noStretchX?: boolean, noStretchY?: boolean, tooltip?: string): IDPropertySheetAddSheetReturn
   
 }
 
@@ -51933,6 +52491,20 @@ declare interface DPanelOverlay extends DPanel {
   
   /**
   * 
+  * Used internally by the panel for types 1 and 2.
+  * 
+  * @name DPanelOverlay:PaintInnerCorners
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/DPanelOverlay/PaintInnerCorners
+  * @internal
+  * @param {DPanelOverlay} this - no description
+  * @param {number} size - no description
+  * @returns {void}
+  **/
+  PaintInnerCorners(this: DPanelOverlay, size: number): void
+  
+  /**
+  * 
   * Used internally by the panel for type 3.
   * 
   * @name DPanelOverlay:PaintDifferentColours
@@ -51972,20 +52544,6 @@ declare interface DPanelOverlay extends DPanel {
   * @returns {IColor} - The set color. Uses the @IColor structure.
   **/
   GetColor(this: DPanelOverlay): IColor
-  
-  /**
-  * 
-  * Used internally by the panel for types 1 and 2.
-  * 
-  * @name DPanelOverlay:PaintInnerCorners
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/DPanelOverlay/PaintInnerCorners
-  * @internal
-  * @param {DPanelOverlay} this - no description
-  * @param {number} size - no description
-  * @returns {void}
-  **/
-  PaintInnerCorners(this: DPanelOverlay, size: number): void
   
 }
 
@@ -52070,6 +52628,17 @@ declare interface DPanelList extends DPanel {
   
   /**
   * 
+  * Removes all items.
+  * 
+  * @name DPanelList:CleanList
+  * @wiki https://wiki.garrysmod.com/page/DPanelList/CleanList
+  * @param {DPanelList} this - no description
+  * @returns {void}
+  **/
+  CleanList(this: DPanelList): void
+  
+  /**
+  * 
   * Adds a existing panel to the end of @DPanelList type.
   * 
   * @name DPanelList:AddItem
@@ -52079,7 +52648,7 @@ declare interface DPanelList extends DPanel {
   * @param {string} state - If set to "ownline", the item will take its own entire line.
   * @returns {void}
   **/
-  AddItem(this: DPanelList, pnl: Panel, state: string): void
+  AddItem(this: DPanelList, pnl: Panel, state?: string): void
   
 }
 
@@ -52179,254 +52748,6 @@ declare interface DPanel extends Panel {
   
 }
 
-declare interface DNumSlider extends Panel {
-  /**
-  * 
-  * Called when the value has been changed. This will also be called when the user manually changes the value through the text panel.
-  * This is an internal function. Override @DNumSlider:OnValueChanged instead.
-  * 
-  * @name DNumSlider:ValueChanged
-  * @wiki https://wiki.garrysmod.com/page/DNumSlider/ValueChanged
-  * @internal
-  * @param {DNumSlider} this - no description
-  * @param {number} value - The value the slider has been changed to.
-  * @returns {void}
-  **/
-  ValueChanged(this: DNumSlider, value: number): void
-  
-  /**
-  * @name DNumSlider:UpdateNotches
-  * @wiki https://wiki.garrysmod.com/page/DNumSlider/UpdateNotches
-  * @internal
-  * @param {DNumSlider} this - no description
-  * @returns {void}
-  **/
-  UpdateNotches(this: DNumSlider): void
-  
-  /**
-  * @name DNumSlider:TranslateSliderValues
-  * @wiki https://wiki.garrysmod.com/page/DNumSlider/TranslateSliderValues
-  * @internal
-  * @param {DNumSlider} this - no description
-  * @param {number} x - no description
-  * @param {number} y - no description
-  * @returns {number} - no description
-  * @returns {number} - The second passed argument.
-  * @tupleReturn
-  **/
-  TranslateSliderValues(this: DNumSlider, x: number, y: number): [number, number]
-  
-  /**
-  * 
-  * Sets the value of the @DNumSlider type.
-  * 
-  * @name DNumSlider:SetValue
-  * @wiki https://wiki.garrysmod.com/page/DNumSlider/SetValue
-  * @param {DNumSlider} this - no description
-  * @param {number} val - The value to set.
-  * @returns {void}
-  **/
-  SetValue(this: DNumSlider, val: number): void
-  
-  /**
-  * 
-  * Sets the minimum and the maximum value of the slider.
-  * 
-  * @name DNumSlider:SetMinMax
-  * @wiki https://wiki.garrysmod.com/page/DNumSlider/SetMinMax
-  * @param {DNumSlider} this - no description
-  * @param {number} min - The minimum value of the slider.
-  * @param {number} max - The maximum value of the slider.
-  * @returns {void}
-  **/
-  SetMinMax(this: DNumSlider, min: number, max: number): void
-  
-  /**
-  * 
-  * Sets the minimum value for the slider
-  * 
-  * @name DNumSlider:SetMin
-  * @wiki https://wiki.garrysmod.com/page/DNumSlider/SetMin
-  * @param {DNumSlider} this - no description
-  * @param {number} min - The value to set as minimum for the slider.
-  * @returns {void}
-  **/
-  SetMin(this: DNumSlider, min: number): void
-  
-  /**
-  * 
-  * Sets the maximum value for the slider.
-  * 
-  * @name DNumSlider:SetMax
-  * @wiki https://wiki.garrysmod.com/page/DNumSlider/SetMax
-  * @param {DNumSlider} this - no description
-  * @param {number} max - The value to set as maximum for the slider.
-  * @returns {void}
-  **/
-  SetMax(this: DNumSlider, max: number): void
-  
-  /**
-  * 
-  * Sets the default value of the slider, to be used by @DNumSlider:ResetToDefaultValue or by middle mouse clicking the draggable knob of the slider.
-  * 
-  * @name DNumSlider:SetDefaultValue
-  * @wiki https://wiki.garrysmod.com/page/DNumSlider/SetDefaultValue
-  * @param {DNumSlider} this - no description
-  * @param {number} def - The new default value of the slider to set
-  * @returns {void}
-  **/
-  SetDefaultValue(this: DNumSlider, def: number): void
-  
-  /**
-  * 
-  * Sets the desired amount of numbers after the decimal point.
-  * 
-  * @name DNumSlider:SetDecimals
-  * @wiki https://wiki.garrysmod.com/page/DNumSlider/SetDecimals
-  * @param {DNumSlider} this - no description
-  * @param {number} decimals - 0 for whole numbers only, 1 for one number after the decimal point, etc.
-  * @returns {void}
-  **/
-  SetDecimals(this: DNumSlider, decimals: number): void
-  
-  /**
-  * 
-  * Calls @DLabel:SetDark on the @DLabel type part of the @DNumSlider type.
-  * 
-  * @name DNumSlider:SetDark
-  * @wiki https://wiki.garrysmod.com/page/DNumSlider/SetDark
-  * @param {DNumSlider} this - no description
-  * @param {boolean} dark - no description
-  * @returns {void}
-  **/
-  SetDark(this: DNumSlider, dark: boolean): void
-  
-  /**
-  * 
-  * Sets the console variable to be updated when the value of the slider is changed.
-  * 
-  * @name DNumSlider:SetConVar
-  * @wiki https://wiki.garrysmod.com/page/DNumSlider/SetConVar
-  * @param {DNumSlider} this - no description
-  * @param {string} cvar - The name of the @ConVar type to be updated.
-  * @returns {void}
-  **/
-  SetConVar(this: DNumSlider, cvar: string): void
-  
-  /**
-  * 
-  * Resets the slider to the default value, if one was set by @DNumSlider:SetDefaultValue.
-  * This function is called by the @DNumSlider type when user middle mouse clicks on the draggable knob of the slider.
-  * 
-  * @name DNumSlider:ResetToDefaultValue
-  * @wiki https://wiki.garrysmod.com/page/DNumSlider/ResetToDefaultValue
-  * @param {DNumSlider} this - no description
-  * @returns {void}
-  **/
-  ResetToDefaultValue(this: DNumSlider): void
-  
-  /**
-  * 
-  * Called when the value of the slider is changed, through code or changing the slider.
-  * 
-  * @name DNumSlider:OnValueChanged
-  * @wiki https://wiki.garrysmod.com/page/DNumSlider/OnValueChanged
-  * @param {DNumSlider} this - no description
-  * @param {number} value - The new value of the DNumSlider
-  * @returns {void}
-  **/
-  OnValueChanged(this: DNumSlider, value: number): void
-  
-  /**
-  * 
-  * Returns true if either the @DTextEntry type, the @DSlider type or the @DNumberScratch type are being edited.
-  * 
-  * @name DNumSlider:IsEditing
-  * @wiki https://wiki.garrysmod.com/page/DNumSlider/IsEditing
-  * @param {DNumSlider} this - no description
-  * @returns {boolean} - Whether or not the @DNumSlider type is being edited by the player.
-  **/
-  IsEditing(this: DNumSlider): boolean
-  
-  /**
-  * 
-  * Returns the value of the @DNumSlider type
-  * 
-  * @name DNumSlider:GetValue
-  * @wiki https://wiki.garrysmod.com/page/DNumSlider/GetValue
-  * @param {DNumSlider} this - no description
-  * @returns {number} - The value of the slider.
-  **/
-  GetValue(this: DNumSlider): number
-  
-  /**
-  * 
-  * Returns the @DTextEntry type component of the slider.
-  * 
-  * @name DNumSlider:GetTextArea
-  * @wiki https://wiki.garrysmod.com/page/DNumSlider/GetTextArea
-  * @param {DNumSlider} this - no description
-  * @returns {DTextEntry} - The @DTextEntry type.
-  **/
-  GetTextArea(this: DNumSlider): DTextEntry
-  
-  /**
-  * 
-  * Returns the range of the slider, basically maximum value - minimum value.
-  * 
-  * @name DNumSlider:GetRange
-  * @wiki https://wiki.garrysmod.com/page/DNumSlider/GetRange
-  * @param {DNumSlider} this - no description
-  * @returns {number} - The range of the slider
-  **/
-  GetRange(this: DNumSlider): number
-  
-  /**
-  * 
-  * Returns the minimum value of the slider
-  * 
-  * @name DNumSlider:GetMin
-  * @wiki https://wiki.garrysmod.com/page/DNumSlider/GetMin
-  * @param {DNumSlider} this - no description
-  * @returns {number} - The minimum value of the slider
-  **/
-  GetMin(this: DNumSlider): number
-  
-  /**
-  * 
-  * Returns the maximum value of the slider
-  * 
-  * @name DNumSlider:GetMax
-  * @wiki https://wiki.garrysmod.com/page/DNumSlider/GetMax
-  * @param {DNumSlider} this - no description
-  * @returns {number} - The maximum value of the slider
-  **/
-  GetMax(this: DNumSlider): number
-  
-  /**
-  * 
-  * Returns the default value of the slider, if one was set by @DNumSlider:SetDefaultValue
-  * 
-  * @name DNumSlider:GetDefaultValue
-  * @wiki https://wiki.garrysmod.com/page/DNumSlider/GetDefaultValue
-  * @param {DNumSlider} this - no description
-  * @returns {number} - The default value of the slider
-  **/
-  GetDefaultValue(this: DNumSlider): number
-  
-  /**
-  * 
-  * Returns the amount of numbers after the decimal point.
-  * 
-  * @name DNumSlider:GetDecimals
-  * @wiki https://wiki.garrysmod.com/page/DNumSlider/GetDecimals
-  * @param {DNumSlider} this - no description
-  * @returns {number} - 0 for whole numbers only, 1 for one number after the decimal point, etc.
-  **/
-  GetDecimals(this: DNumSlider): number
-  
-}
-
 declare interface DNumberWang extends DTextEntry {
   /**
   * 
@@ -52515,18 +52836,6 @@ declare interface DNumberWang extends DTextEntry {
   
   /**
   * 
-  * Internal function which is called when the number selector value is changed. This function is empty by default so it needs to be overridden in order to provide functionality.
-  * 
-  * @name DNumberWang:OnValueChanged
-  * @wiki https://wiki.garrysmod.com/page/DNumberWang/OnValueChanged
-  * @param {DNumberWang} this - no description
-  * @param {number} val - The new value of the number selector.
-  * @returns {void}
-  **/
-  OnValueChanged(this: DNumberWang, val: number): void
-  
-  /**
-  * 
   * Hides the number selector arrows.
   * 
   * @name DNumberWang:HideWang
@@ -52546,6 +52855,18 @@ declare interface DNumberWang extends DTextEntry {
   * @returns {number} - The numeric value.
   **/
   GetValue(this: DNumberWang): number
+  
+  /**
+  * 
+  * Internal function which is called when the number selector value is changed. This function is empty by default so it needs to be overridden in order to provide functionality.
+  * 
+  * @name DNumberWang:OnValueChanged
+  * @wiki https://wiki.garrysmod.com/page/DNumberWang/OnValueChanged
+  * @param {DNumberWang} this - no description
+  * @param {number} val - The new value of the number selector.
+  * @returns {void}
+  **/
+  OnValueChanged(this: DNumberWang, val: number): void
   
   /**
   * 
@@ -52680,18 +53001,6 @@ declare interface DNumberScratch extends DImageButton {
   
   /**
   * 
-  * Sets the value of the @DNumberScratch type as a fraction, a value between 0 and 1 where 0 is the minimum and 1 is the maximum value of the @DNumberScratch type
-  * 
-  * @name DNumberScratch:SetFraction
-  * @wiki https://wiki.garrysmod.com/page/DNumberScratch/SetFraction
-  * @param {DNumberScratch} this - no description
-  * @param {number} frac - A value between 0 and 1
-  * @returns {void}
-  **/
-  SetFraction(this: DNumberScratch, frac: number): void
-  
-  /**
-  * 
   * Sets the max value that can be selected on the number scratch
   * 
   * @name DNumberScratch:SetMax
@@ -52701,6 +53010,18 @@ declare interface DNumberScratch extends DImageButton {
   * @returns {void}
   **/
   SetMax(this: DNumberScratch, max: number): void
+  
+  /**
+  * 
+  * Sets the value of the @DNumberScratch type as a fraction, a value between 0 and 1 where 0 is the minimum and 1 is the maximum value of the @DNumberScratch type
+  * 
+  * @name DNumberScratch:SetFraction
+  * @wiki https://wiki.garrysmod.com/page/DNumberScratch/SetFraction
+  * @param {DNumberScratch} this - no description
+  * @param {number} frac - A value between 0 and 1
+  * @returns {void}
+  **/
+  SetFraction(this: DNumberScratch, frac: number): void
   
   /**
   * 
@@ -52955,6 +53276,254 @@ declare interface DNumberScratch extends DImageButton {
   
 }
 
+declare interface DNumSlider extends Panel {
+  /**
+  * 
+  * Called when the value has been changed. This will also be called when the user manually changes the value through the text panel.
+  * This is an internal function. Override @DNumSlider:OnValueChanged instead.
+  * 
+  * @name DNumSlider:ValueChanged
+  * @wiki https://wiki.garrysmod.com/page/DNumSlider/ValueChanged
+  * @internal
+  * @param {DNumSlider} this - no description
+  * @param {number} value - The value the slider has been changed to.
+  * @returns {void}
+  **/
+  ValueChanged(this: DNumSlider, value: number): void
+  
+  /**
+  * @name DNumSlider:UpdateNotches
+  * @wiki https://wiki.garrysmod.com/page/DNumSlider/UpdateNotches
+  * @internal
+  * @param {DNumSlider} this - no description
+  * @returns {void}
+  **/
+  UpdateNotches(this: DNumSlider): void
+  
+  /**
+  * @name DNumSlider:TranslateSliderValues
+  * @wiki https://wiki.garrysmod.com/page/DNumSlider/TranslateSliderValues
+  * @internal
+  * @param {DNumSlider} this - no description
+  * @param {number} x - no description
+  * @param {number} y - no description
+  * @returns {number} - no description
+  * @returns {number} - The second passed argument.
+  * @tupleReturn
+  **/
+  TranslateSliderValues(this: DNumSlider, x: number, y: number): [number, number]
+  
+  /**
+  * 
+  * Sets the value of the @DNumSlider type.
+  * 
+  * @name DNumSlider:SetValue
+  * @wiki https://wiki.garrysmod.com/page/DNumSlider/SetValue
+  * @param {DNumSlider} this - no description
+  * @param {number} val - The value to set.
+  * @returns {void}
+  **/
+  SetValue(this: DNumSlider, val: number): void
+  
+  /**
+  * 
+  * Sets the minimum and the maximum value of the slider.
+  * 
+  * @name DNumSlider:SetMinMax
+  * @wiki https://wiki.garrysmod.com/page/DNumSlider/SetMinMax
+  * @param {DNumSlider} this - no description
+  * @param {number} min - The minimum value of the slider.
+  * @param {number} max - The maximum value of the slider.
+  * @returns {void}
+  **/
+  SetMinMax(this: DNumSlider, min: number, max: number): void
+  
+  /**
+  * 
+  * Sets the minimum value for the slider
+  * 
+  * @name DNumSlider:SetMin
+  * @wiki https://wiki.garrysmod.com/page/DNumSlider/SetMin
+  * @param {DNumSlider} this - no description
+  * @param {number} min - The value to set as minimum for the slider.
+  * @returns {void}
+  **/
+  SetMin(this: DNumSlider, min: number): void
+  
+  /**
+  * 
+  * Sets the maximum value for the slider.
+  * 
+  * @name DNumSlider:SetMax
+  * @wiki https://wiki.garrysmod.com/page/DNumSlider/SetMax
+  * @param {DNumSlider} this - no description
+  * @param {number} max - The value to set as maximum for the slider.
+  * @returns {void}
+  **/
+  SetMax(this: DNumSlider, max: number): void
+  
+  /**
+  * 
+  * Sets the default value of the slider, to be used by @DNumSlider:ResetToDefaultValue or by middle mouse clicking the draggable knob of the slider.
+  * 
+  * @name DNumSlider:SetDefaultValue
+  * @wiki https://wiki.garrysmod.com/page/DNumSlider/SetDefaultValue
+  * @param {DNumSlider} this - no description
+  * @param {number} def - The new default value of the slider to set
+  * @returns {void}
+  **/
+  SetDefaultValue(this: DNumSlider, def: number): void
+  
+  /**
+  * 
+  * Sets the desired amount of numbers after the decimal point.
+  * 
+  * @name DNumSlider:SetDecimals
+  * @wiki https://wiki.garrysmod.com/page/DNumSlider/SetDecimals
+  * @param {DNumSlider} this - no description
+  * @param {number} decimals - 0 for whole numbers only, 1 for one number after the decimal point, etc.
+  * @returns {void}
+  **/
+  SetDecimals(this: DNumSlider, decimals: number): void
+  
+  /**
+  * 
+  * Calls @DLabel:SetDark on the @DLabel type part of the @DNumSlider type.
+  * 
+  * @name DNumSlider:SetDark
+  * @wiki https://wiki.garrysmod.com/page/DNumSlider/SetDark
+  * @param {DNumSlider} this - no description
+  * @param {boolean} dark - no description
+  * @returns {void}
+  **/
+  SetDark(this: DNumSlider, dark: boolean): void
+  
+  /**
+  * 
+  * Sets the console variable to be updated when the value of the slider is changed.
+  * 
+  * @name DNumSlider:SetConVar
+  * @wiki https://wiki.garrysmod.com/page/DNumSlider/SetConVar
+  * @param {DNumSlider} this - no description
+  * @param {string} cvar - The name of the @ConVar type to be updated.
+  * @returns {void}
+  **/
+  SetConVar(this: DNumSlider, cvar: string): void
+  
+  /**
+  * 
+  * Resets the slider to the default value, if one was set by @DNumSlider:SetDefaultValue.
+  * This function is called by the @DNumSlider type when user middle mouse clicks on the draggable knob of the slider.
+  * 
+  * @name DNumSlider:ResetToDefaultValue
+  * @wiki https://wiki.garrysmod.com/page/DNumSlider/ResetToDefaultValue
+  * @param {DNumSlider} this - no description
+  * @returns {void}
+  **/
+  ResetToDefaultValue(this: DNumSlider): void
+  
+  /**
+  * 
+  * Called when the value of the slider is changed, through code or changing the slider.
+  * 
+  * @name DNumSlider:OnValueChanged
+  * @wiki https://wiki.garrysmod.com/page/DNumSlider/OnValueChanged
+  * @param {DNumSlider} this - no description
+  * @param {number} value - The new value of the DNumSlider
+  * @returns {void}
+  **/
+  OnValueChanged(this: DNumSlider, value: number): void
+  
+  /**
+  * 
+  * Returns true if either the @DTextEntry type, the @DSlider type or the @DNumberScratch type are being edited.
+  * 
+  * @name DNumSlider:IsEditing
+  * @wiki https://wiki.garrysmod.com/page/DNumSlider/IsEditing
+  * @param {DNumSlider} this - no description
+  * @returns {boolean} - Whether or not the @DNumSlider type is being edited by the player.
+  **/
+  IsEditing(this: DNumSlider): boolean
+  
+  /**
+  * 
+  * Returns the value of the @DNumSlider type
+  * 
+  * @name DNumSlider:GetValue
+  * @wiki https://wiki.garrysmod.com/page/DNumSlider/GetValue
+  * @param {DNumSlider} this - no description
+  * @returns {number} - The value of the slider.
+  **/
+  GetValue(this: DNumSlider): number
+  
+  /**
+  * 
+  * Returns the @DTextEntry type component of the slider.
+  * 
+  * @name DNumSlider:GetTextArea
+  * @wiki https://wiki.garrysmod.com/page/DNumSlider/GetTextArea
+  * @param {DNumSlider} this - no description
+  * @returns {DTextEntry} - The @DTextEntry type.
+  **/
+  GetTextArea(this: DNumSlider): DTextEntry
+  
+  /**
+  * 
+  * Returns the range of the slider, basically maximum value - minimum value.
+  * 
+  * @name DNumSlider:GetRange
+  * @wiki https://wiki.garrysmod.com/page/DNumSlider/GetRange
+  * @param {DNumSlider} this - no description
+  * @returns {number} - The range of the slider
+  **/
+  GetRange(this: DNumSlider): number
+  
+  /**
+  * 
+  * Returns the minimum value of the slider
+  * 
+  * @name DNumSlider:GetMin
+  * @wiki https://wiki.garrysmod.com/page/DNumSlider/GetMin
+  * @param {DNumSlider} this - no description
+  * @returns {number} - The minimum value of the slider
+  **/
+  GetMin(this: DNumSlider): number
+  
+  /**
+  * 
+  * Returns the maximum value of the slider
+  * 
+  * @name DNumSlider:GetMax
+  * @wiki https://wiki.garrysmod.com/page/DNumSlider/GetMax
+  * @param {DNumSlider} this - no description
+  * @returns {number} - The maximum value of the slider
+  **/
+  GetMax(this: DNumSlider): number
+  
+  /**
+  * 
+  * Returns the default value of the slider, if one was set by @DNumSlider:SetDefaultValue
+  * 
+  * @name DNumSlider:GetDefaultValue
+  * @wiki https://wiki.garrysmod.com/page/DNumSlider/GetDefaultValue
+  * @param {DNumSlider} this - no description
+  * @returns {number} - The default value of the slider
+  **/
+  GetDefaultValue(this: DNumSlider): number
+  
+  /**
+  * 
+  * Returns the amount of numbers after the decimal point.
+  * 
+  * @name DNumSlider:GetDecimals
+  * @wiki https://wiki.garrysmod.com/page/DNumSlider/GetDecimals
+  * @param {DNumSlider} this - no description
+  * @returns {number} - 0 for whole numbers only, 1 for one number after the decimal point, etc.
+  **/
+  GetDecimals(this: DNumSlider): number
+  
+}
+
 declare interface DNotify extends Panel {
   /**
   * @name DNotify:Shuffle
@@ -52964,18 +53533,6 @@ declare interface DNotify extends Panel {
   * @returns {void}
   **/
   Shuffle(this: DNotify): void
-  
-  /**
-  * 
-  * Sets the spacing between child elements of the notification panel.
-  * 
-  * @name DNotify:SetSpacing
-  * @wiki https://wiki.garrysmod.com/page/DNotify/SetSpacing
-  * @param {DNotify} this - no description
-  * @param {number} spacing - no description
-  * @returns {void}
-  **/
-  SetSpacing(this: DNotify, spacing: number): void
   
   /**
   * 
@@ -52991,14 +53548,15 @@ declare interface DNotify extends Panel {
   
   /**
   * 
-  * Returns the spacing between items set by @DNotify:SetSpacing.
+  * Sets the spacing between child elements of the notification panel.
   * 
-  * @name DNotify:GetSpacing
-  * @wiki https://wiki.garrysmod.com/page/DNotify/GetSpacing
+  * @name DNotify:SetSpacing
+  * @wiki https://wiki.garrysmod.com/page/DNotify/SetSpacing
   * @param {DNotify} this - no description
-  * @returns {number} - no description
+  * @param {number} spacing - no description
+  * @returns {void}
   **/
-  GetSpacing(this: DNotify): number
+  SetSpacing(this: DNotify, spacing: number): void
   
   /**
   * 
@@ -53011,6 +53569,17 @@ declare interface DNotify extends Panel {
   * @returns {void}
   **/
   SetAlignment(this: DNotify, alignment: number): void
+  
+  /**
+  * 
+  * Returns the spacing between items set by @DNotify:SetSpacing.
+  * 
+  * @name DNotify:GetSpacing
+  * @wiki https://wiki.garrysmod.com/page/DNotify/GetSpacing
+  * @param {DNotify} this - no description
+  * @returns {number} - no description
+  **/
+  GetSpacing(this: DNotify): number
   
   /**
   * 
@@ -53037,6 +53606,17 @@ declare interface DNotify extends Panel {
   
   /**
   * 
+  * Returns the current alignment of this notification panel. Set by @DNotify:SetAlignment.
+  * 
+  * @name DNotify:GetAlignment
+  * @wiki https://wiki.garrysmod.com/page/DNotify/GetAlignment
+  * @param {DNotify} this - no description
+  * @returns {number} - The numpad alignment
+  **/
+  GetAlignment(this: DNotify): number
+  
+  /**
+  * 
   * Adds a panel to the notification
   * 
   * @name DNotify:AddItem
@@ -53046,18 +53626,7 @@ declare interface DNotify extends Panel {
   * @param {number} lifeLength - If set, overrides @DNotify:SetLife.
   * @returns {void}
   **/
-  AddItem(this: DNotify, pnl: Panel, lifeLength: number): void
-  
-  /**
-  * 
-  * Returns the current alignment of this notification panel. Set by @DNotify:SetAlignment.
-  * 
-  * @name DNotify:GetAlignment
-  * @wiki https://wiki.garrysmod.com/page/DNotify/GetAlignment
-  * @param {DNotify} this - no description
-  * @returns {number} - The numpad alignment
-  **/
-  GetAlignment(this: DNotify): number
+  AddItem(this: DNotify, pnl: Panel, lifeLength?: number): void
   
 }
 
@@ -53088,11 +53657,20 @@ declare interface DModelSelect extends DPanelSelect {
   * @param {number} num - Basically how many rows of 64x64 px spawnicons should fit in this DModelSelect
   * @returns {void}
   **/
-  SetHeight(this: DModelSelect, num: number): void
+  SetHeight(this: DModelSelect, num?: number): void
   
 }
 
 declare interface DModelPanel extends DButton {
+  /**
+  * @name DModelPanel:StartScene
+  * @wiki https://wiki.garrysmod.com/page/DModelPanel/StartScene
+  * @param {DModelPanel} this - no description
+  * @param {string} path - The path to the scene file. (.vcd)
+  * @returns {void}
+  **/
+  StartScene(this: DModelPanel, path: string): void
+  
   /**
   * 
   * Sets the model of the rendered entity.
@@ -53104,15 +53682,6 @@ declare interface DModelPanel extends DButton {
   * @returns {void}
   **/
   SetModel(this: DModelPanel, model: string): void
-  
-  /**
-  * @name DModelPanel:StartScene
-  * @wiki https://wiki.garrysmod.com/page/DModelPanel/StartScene
-  * @param {DModelPanel} this - no description
-  * @param {string} path - The path to the scene file. (.vcd)
-  * @returns {void}
-  **/
-  StartScene(this: DModelPanel, path: string): void
   
   /**
   * 
@@ -53203,6 +53772,18 @@ declare interface DModelPanel extends DButton {
   
   /**
   * 
+  * Sets whether or not to animate the entity when the default @DModelPanel:LayoutEntity is called.
+  * 
+  * @name DModelPanel:SetAnimated
+  * @wiki https://wiki.garrysmod.com/page/DModelPanel/SetAnimated
+  * @param {DModelPanel} this - no description
+  * @param {boolean} animated - True to animate, false otherwise.
+  * @returns {void}
+  **/
+  SetAnimated(this: DModelPanel, animated: boolean): void
+  
+  /**
+  * 
   * Sets the speed used by @DModelPanel:RunAnimation to advance frame on an entity sequence.
   * 
   * @name DModelPanel:SetAnimSpeed
@@ -53213,18 +53794,6 @@ declare interface DModelPanel extends DButton {
   * @returns {void}
   **/
   SetAnimSpeed(this: DModelPanel, animSpeed: number): void
-  
-  /**
-  * 
-  * Sets whether or not to animate the entity when the default @DModelPanel:LayoutEntity is called.
-  * 
-  * @name DModelPanel:SetAnimated
-  * @wiki https://wiki.garrysmod.com/page/DModelPanel/SetAnimated
-  * @param {DModelPanel} this - no description
-  * @param {boolean} animated - True to animate, false otherwise.
-  * @returns {void}
-  **/
-  SetAnimated(this: DModelPanel, animated: boolean): void
   
   /**
   * 
@@ -53367,17 +53936,6 @@ declare interface DModelPanel extends DButton {
   
   /**
   * 
-  * Returns the animation speed of the panel entity, see @DModelPanel:SetAnimSpeed.
-  * 
-  * @name DModelPanel:GetAnimSpeed
-  * @wiki https://wiki.garrysmod.com/page/DModelPanel/GetAnimSpeed
-  * @param {DModelPanel} this - no description
-  * @returns {number} - The animation speed.
-  **/
-  GetAnimSpeed(this: DModelPanel): number
-  
-  /**
-  * 
   * Returns whether or not the panel entity should be animated when the default @DModelPanel:LayoutEntity function is called.
   * 
   * @name DModelPanel:GetAnimated
@@ -53386,6 +53944,17 @@ declare interface DModelPanel extends DButton {
   * @returns {boolean} - True if the panel entity can be animated with @EntityFuncs:SetSequence directly, false otherwise.
   **/
   GetAnimated(this: DModelPanel): boolean
+  
+  /**
+  * 
+  * Returns the animation speed of the panel entity, see @DModelPanel:SetAnimSpeed.
+  * 
+  * @name DModelPanel:GetAnimSpeed
+  * @wiki https://wiki.garrysmod.com/page/DModelPanel/GetAnimSpeed
+  * @param {DModelPanel} this - no description
+  * @returns {number} - The animation speed.
+  **/
+  GetAnimSpeed(this: DModelPanel): number
   
   /**
   * 
@@ -53715,17 +54284,6 @@ declare interface DMenuBar extends DPanel {
   
   /**
   * 
-  * Returns the DMenuBar's background color
-  * 
-  * @name DMenuBar:GetBackgroundColor
-  * @wiki https://wiki.garrysmod.com/page/DMenuBar/GetBackgroundColor
-  * @param {DMenuBar} this - no description
-  * @returns {IColor} - The background's color. See @IColor structure
-  **/
-  GetBackgroundColor(this: DMenuBar): IColor
-  
-  /**
-  * 
   * Retrieves a @DMenu type object from the menu bar. If one with the given label doesn't exist, a new one is created.
   * To add a DMenu without checking, use @DMenuBar:AddMenu.
   * 
@@ -53736,6 +54294,17 @@ declare interface DMenuBar extends DPanel {
   * @returns {DMenu} - The @DMenu type with the given label.
   **/
   AddOrGetMenu(this: DMenuBar, label: string): DMenu
+  
+  /**
+  * 
+  * Returns the DMenuBar's background color
+  * 
+  * @name DMenuBar:GetBackgroundColor
+  * @wiki https://wiki.garrysmod.com/page/DMenuBar/GetBackgroundColor
+  * @param {DMenuBar} this - no description
+  * @returns {IColor} - The background's color. See @IColor structure
+  **/
+  GetBackgroundColor(this: DMenuBar): IColor
   
   /**
   * 
@@ -53816,12 +54385,13 @@ declare interface DMenu extends DScrollPanel {
   
   /**
   * 
-  * Unused. Set to true by default.
+  * Set to true by default. IF set to true, the menu will be deleted when it is closed, not simply hidden.
+  * This is used by @DMenuBar type
   * 
   * @name DMenu:SetDeleteSelf
   * @wiki https://wiki.garrysmod.com/page/DMenu/SetDeleteSelf
   * @param {DMenu} this - no description
-  * @param {boolean} newState - no description
+  * @param {boolean} newState - true to delete menu on close, false to simply hide.
   * @returns {void}
   **/
   SetDeleteSelf(this: DMenu, newState: boolean): void
@@ -53863,7 +54433,7 @@ declare interface DMenu extends DScrollPanel {
   * @param {Panel} menu - The submenu to open. If set to nil, the function just closes existing submenus.
   * @returns {void}
   **/
-  OpenSubMenu(this: DMenu, item: DMenuOption, menu: Panel): void
+  OpenSubMenu(this: DMenu, item: DMenuOption, menu?: Panel): void
   
   /**
   * 
@@ -53878,7 +54448,7 @@ declare interface DMenu extends DScrollPanel {
   * @param {Panel} ownerpanel - no description
   * @returns {void}
   **/
-  Open(this: DMenu, x: number, y: number, skipanimation: any, ownerpanel: Panel): void
+  Open(this: DMenu, x?: number, y?: number, skipanimation: any, ownerpanel: Panel): void
   
   /**
   * 
@@ -53964,7 +54534,7 @@ declare interface DMenu extends DScrollPanel {
   
   /**
   * 
-  * Unused. Set by @DMenu:SetDeleteSelf
+  * Set by @DMenu:SetDeleteSelf
   * 
   * @name DMenu:GetDeleteSelf
   * @wiki https://wiki.garrysmod.com/page/DMenu/GetDeleteSelf
@@ -54035,7 +54605,7 @@ declare interface DMenu extends DScrollPanel {
   * @returns {DMenuOption} - The created @DMenuOption type
   * @tupleReturn
   **/
-  AddSubMenu(this: DMenu, Name: string, func: UnknownFunc): [DMenu, DMenuOption]
+  AddSubMenu(this: DMenu, Name: string, func?: UnknownFunc): [DMenu, DMenuOption]
   
   /**
   * 
@@ -54072,7 +54642,7 @@ declare interface DMenu extends DScrollPanel {
   * @param {function} func - Function to execute when this option is clicked.
   * @returns {DMenuOption} - Returns the created @DMenuOption type panel.
   **/
-  AddOption(this: DMenu, name: string, func: UnknownFunc): DMenuOption
+  AddOption(this: DMenu, name: string, func?: UnknownFunc): DMenuOption
   
   /**
   * 
@@ -54089,7 +54659,7 @@ declare interface DMenu extends DScrollPanel {
   * It will have only one argument:
   * @returns {DMenuOptionCVar} - The created @DMenuOptionCVar type
   **/
-  AddCVar(this: DMenu, strText: string, convar: string, on: string, off: string, funcFunction: DMenuAddCVarFunc): DMenuOptionCVar
+  AddCVar(this: DMenu, strText: string, convar: string, on: string, off: string, funcFunction?: DMenuAddCVarFunc): DMenuOptionCVar
   
 }
 
@@ -54164,18 +54734,6 @@ declare interface DListView_Column extends DPanel {
   
   /**
   * 
-  * Sets the maximum width of a column.
-  * 
-  * @name DListView_Column:SetMaxWidth
-  * @wiki https://wiki.garrysmod.com/page/DListView Column/SetMaxWidth
-  * @param {DListView_Column} this - no description
-  * @param {number} width - The number value which will determine a maximum width.
-  * @returns {void}
-  **/
-  SetMaxWidth(this: DListView_Column, width: number): void
-  
-  /**
-  * 
   * Sets the fixed width of the column.
   * 
   * @name DListView_Column:SetFixedWidth
@@ -54185,6 +54743,18 @@ declare interface DListView_Column extends DPanel {
   * @returns {void}
   **/
   SetFixedWidth(this: DListView_Column, width: number): void
+  
+  /**
+  * 
+  * Sets the maximum width of a column.
+  * 
+  * @name DListView_Column:SetMaxWidth
+  * @wiki https://wiki.garrysmod.com/page/DListView Column/SetMaxWidth
+  * @param {DListView_Column} this - no description
+  * @param {number} width - The number value which will determine a maximum width.
+  * @returns {void}
+  **/
+  SetMaxWidth(this: DListView_Column, width: number): void
   
 }
 
@@ -54207,7 +54777,7 @@ declare interface DListView extends DPanel {
   * @param {boolean} descrending4 - no description
   * @returns {void}
   **/
-  SortByColumns(this: DListView, column1: number, descrending1: boolean, column2: number, descrending2: boolean, column3: number, descrending3: boolean, column4: number, descrending4: boolean): void
+  SortByColumns(this: DListView, column1?: number, descrending1?: boolean, column2?: number, descrending2?: boolean, column3?: number, descrending3?: boolean, column4?: number, descrending4?: boolean): void
   
   /**
   * 
@@ -54220,19 +54790,7 @@ declare interface DListView extends DPanel {
   * @param {boolean} descending - Whether the items should be sorted in descending order or not.
   * @returns {void}
   **/
-  SortByColumn(this: DListView, columnIndex: number, descending: boolean): void
-  
-  /**
-  * 
-  * Enables/disables the sorting of columns by clicking.
-  * 
-  * @name DListView:SetSortable
-  * @wiki https://wiki.garrysmod.com/page/DListView/SetSortable
-  * @param {DListView} this - no description
-  * @param {boolean} isSortable - Whether sorting columns with clicking is allowed or not.
-  * @returns {void}
-  **/
-  SetSortable(this: DListView, isSortable: boolean): void
+  SortByColumn(this: DListView, columnIndex: number, descending?: boolean): void
   
   /**
   * 
@@ -54245,6 +54803,18 @@ declare interface DListView extends DPanel {
   * @returns {void}
   **/
   SetMultiSelect(this: DListView, allowMultiSelect: boolean): void
+  
+  /**
+  * 
+  * Enables/disables the sorting of columns by clicking.
+  * 
+  * @name DListView:SetSortable
+  * @wiki https://wiki.garrysmod.com/page/DListView/SetSortable
+  * @param {DListView} this - no description
+  * @param {boolean} isSortable - Whether sorting columns with clicking is allowed or not.
+  * @returns {void}
+  **/
+  SetSortable(this: DListView, isSortable: boolean): void
   
   /**
   * 
@@ -54413,15 +54983,17 @@ declare interface DListView extends DPanel {
   
   /**
   * 
-  * Gets the currently selected DListViewLine.
+  * Gets the currently selected @DListView_Line type index.
   * If @DListView:SetMultiSelect is set to true, only the first line of all selected lines will be returned. Use @DListView:GetSelected instead to get all of the selected lines.
   * 
   * @name DListView:GetSelectedLine
   * @wiki https://wiki.garrysmod.com/page/DListView/GetSelectedLine
   * @param {DListView} this - no description
   * @returns {number} - The index of the currently selected line.
+  * @returns {DListView_Line} - The currently selected @DListView_Line type.
+  * @tupleReturn
   **/
-  GetSelectedLine(this: DListView): number
+  GetSelectedLine(this: DListView): [number, DListView_Line]
   
   /**
   * 
@@ -55237,6 +55809,18 @@ declare interface DImageButton extends DButton {
   
   /**
   * 
+  * Sets a @Material function directly as an image. Equivalent of @DImage:SetMaterial.
+  * 
+  * @name DImageButton:SetMaterial
+  * @wiki https://wiki.garrysmod.com/page/DImageButton/SetMaterial
+  * @param {DImageButton} this - no description
+  * @param {IMaterial} mat - The material to set
+  * @returns {void}
+  **/
+  SetMaterial(this: DImageButton, mat: IMaterial): void
+  
+  /**
+  * 
   * See @DImage:SetOnViewMaterial
   * 
   * @name DImageButton:SetOnViewMaterial
@@ -55247,18 +55831,6 @@ declare interface DImageButton extends DButton {
   * @returns {void}
   **/
   SetOnViewMaterial(this: DImageButton, mat: string, backup: string): void
-  
-  /**
-  * 
-  * Sets a @Material function directly as an image. Equivalent of @DImage:SetMaterial.
-  * 
-  * @name DImageButton:SetMaterial
-  * @wiki https://wiki.garrysmod.com/page/DImageButton/SetMaterial
-  * @param {DImageButton} this - no description
-  * @param {IMaterial} mat - The material to set
-  * @returns {void}
-  **/
-  SetMaterial(this: DImageButton, mat: IMaterial): void
   
   /**
   * 
@@ -55374,6 +55946,18 @@ declare interface DImage extends DPanel {
   
   /**
   * 
+  * Sets a @Material function directly as an image.
+  * 
+  * @name DImage:SetMaterial
+  * @wiki https://wiki.garrysmod.com/page/DImage/SetMaterial
+  * @param {DImage} this - no description
+  * @param {IMaterial} mat - The material to set
+  * @returns {void}
+  **/
+  SetMaterial(this: DImage, mat: IMaterial): void
+  
+  /**
+  * 
   * Sets the material to be loaded when the image is first rendered. Used by @DImage:SetOnViewMaterial.
   * 
   * @name DImage:SetMatName
@@ -55384,18 +55968,6 @@ declare interface DImage extends DPanel {
   * @returns {void}
   **/
   SetMatName(this: DImage, mat: string): void
-  
-  /**
-  * 
-  * Sets a @Material function directly as an image.
-  * 
-  * @name DImage:SetMaterial
-  * @wiki https://wiki.garrysmod.com/page/DImage/SetMaterial
-  * @param {DImage} this - no description
-  * @param {IMaterial} mat - The material to set
-  * @returns {void}
-  **/
-  SetMaterial(this: DImage, mat: IMaterial): void
   
   /**
   * 
@@ -55434,7 +56006,7 @@ declare interface DImage extends DPanel {
   * @param {string} strBackup - The path of the backup image.
   * @returns {void}
   **/
-  SetImage(this: DImage, strImage: string, strBackup: string): void
+  SetImage(this: DImage, strImage: string, strBackup?: string): void
   
   /**
   * 
@@ -55479,6 +56051,17 @@ declare interface DImage extends DPanel {
   
   /**
   * 
+  * Returns the current @Material function of the @DImage type.
+  * 
+  * @name DImage:GetMaterial
+  * @wiki https://wiki.garrysmod.com/page/DImage/GetMaterial
+  * @param {DImage} this - no description
+  * @returns {IMaterial} - no description
+  **/
+  GetMaterial(this: DImage): IMaterial
+  
+  /**
+  * 
   * Returns the texture path set by @DImage:SetMatName.
   * 
   * @name DImage:GetMatName
@@ -55488,17 +56071,6 @@ declare interface DImage extends DPanel {
   * @returns {string} - no description
   **/
   GetMatName(this: DImage): string
-  
-  /**
-  * 
-  * Returns the current @Material function of the @DImage type.
-  * 
-  * @name DImage:GetMaterial
-  * @wiki https://wiki.garrysmod.com/page/DImage/GetMaterial
-  * @param {DImage} this - no description
-  * @returns {IMaterial} - no description
-  **/
-  GetMaterial(this: DImage): IMaterial
   
   /**
   * 
@@ -55851,17 +56423,6 @@ declare interface DIconBrowser extends DScrollPanel {
   
   /**
   * 
-  * Called when the selected icon was changed. Use @DIconBrowser:GetSelectedIcon to get the selected icon's filepath.
-  * 
-  * @name DIconBrowser:OnChange
-  * @wiki https://wiki.garrysmod.com/page/DIconBrowser/OnChange
-  * @param {DIconBrowser} this - no description
-  * @returns {void}
-  **/
-  OnChange(this: DIconBrowser): void
-  
-  /**
-  * 
   * Returns the currently selected icon's file path.
   * 
   * @name DIconBrowser:GetSelectedIcon
@@ -55870,6 +56431,17 @@ declare interface DIconBrowser extends DScrollPanel {
   * @returns {string} - The currently selected icon's file path.
   **/
   GetSelectedIcon(this: DIconBrowser): string
+  
+  /**
+  * 
+  * Called when the selected icon was changed. Use @DIconBrowser:GetSelectedIcon to get the selected icon's filepath.
+  * 
+  * @name DIconBrowser:OnChange
+  * @wiki https://wiki.garrysmod.com/page/DIconBrowser/OnChange
+  * @param {DIconBrowser} this - no description
+  * @returns {void}
+  **/
+  OnChange(this: DIconBrowser): void
   
   /**
   * 
@@ -55905,183 +56477,6 @@ declare interface DIconBrowser extends DScrollPanel {
   * @returns {void}
   **/
   Fill(this: DIconBrowser): void
-  
-}
-
-declare interface DHTMLControls extends Panel {
-  /**
-  * @name DHTMLControls:UpdateNavButtonStatus
-  * @wiki https://wiki.garrysmod.com/page/DHTMLControls/UpdateNavButtonStatus
-  * @internal
-  * @param {DHTMLControls} this - no description
-  * @returns {void}
-  **/
-  UpdateNavButtonStatus(this: DHTMLControls): void
-  
-  /**
-  * 
-  * Basically adds an URL to the history.
-  * 
-  * @name DHTMLControls:UpdateHistory
-  * @wiki https://wiki.garrysmod.com/page/DHTMLControls/UpdateHistory
-  * @internal
-  * @param {DHTMLControls} this - no description
-  * @param {string} url - no description
-  * @returns {void}
-  **/
-  UpdateHistory(this: DHTMLControls, url: string): void
-  
-  /**
-  * @name DHTMLControls:StartedLoading
-  * @wiki https://wiki.garrysmod.com/page/DHTMLControls/StartedLoading
-  * @internal
-  * @param {DHTMLControls} this - no description
-  * @returns {void}
-  **/
-  StartedLoading(this: DHTMLControls): void
-  
-  /**
-  * 
-  * Sets the @DHTML type element to control with these @DHTMLControls type.
-  * 
-  * @name DHTMLControls:SetHTML
-  * @wiki https://wiki.garrysmod.com/page/DHTMLControls/SetHTML
-  * @param {DHTMLControls} this - no description
-  * @param {Panel} dhtml - The HTML panel
-  * @returns {void}
-  **/
-  SetHTML(this: DHTMLControls, dhtml: Panel): void
-  
-  /**
-  * 
-  * Sets the color of the navigation buttons.
-  * 
-  * @name DHTMLControls:SetButtonColor
-  * @wiki https://wiki.garrysmod.com/page/DHTMLControls/SetButtonColor
-  * @param {DHTMLControls} this - no description
-  * @param {IColor} clr - A @IColor structure
-  * @returns {void}
-  **/
-  SetButtonColor(this: DHTMLControls, clr: IColor): void
-  
-  /**
-  * @name DHTMLControls:FinishedLoading
-  * @wiki https://wiki.garrysmod.com/page/DHTMLControls/FinishedLoading
-  * @internal
-  * @param {DHTMLControls} this - no description
-  * @returns {void}
-  **/
-  FinishedLoading(this: DHTMLControls): void
-  
-}
-
-declare interface DHTML extends Awesomium {
-  /**
-  * 
-  * Stops the loading of the HTML panel's current page.
-  * [Category:HTML](https://wiki.garrysmod.com/page/Category:HTML)
-  * [Category:Awesomium](https://wiki.garrysmod.com/page/Category:Awesomium)
-  * 
-  * @name DHTML:StopLoading
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/DHTML/StopLoading
-  * @param {DHTML} this - no description
-  * @returns {void}
-  **/
-  StopLoading(this: DHTML): void
-  
-  /**
-  * 
-  * Sets if the loaded window should display scrollbars when the webpage is larger than the viewing window. This is similar to the CSS *overflow* rule.
-  * 
-  * @name DHTML:SetScrollbars
-  * @wiki https://wiki.garrysmod.com/page/DHTML/SetScrollbars
-  * @param {DHTML} this - no description
-  * @param {boolean} show - True if scrollbars should be visible.
-  * @returns {void}
-  **/
-  SetScrollbars(this: DHTML, show: boolean): void
-  
-  /**
-  * 
-  * Determines whether the loaded page can run Lua code or not. See @DHTML type for how to run Lua from a DHTML window.
-  * 
-  * @name DHTML:SetAllowLua
-  * @wiki https://wiki.garrysmod.com/page/DHTML/SetAllowLua
-  * @param {DHTML} this - no description
-  * @param {boolean} allow - Whether or not to allow Lua.
-  * @returns {void}
-  **/
-  SetAllowLua(this: DHTML, allow: boolean): void
-  
-  /**
-  * 
-  * Runs/Executes a string as JavaScript code.
-  * 
-  * @name DHTML:QueueJavascript
-  * @wiki https://wiki.garrysmod.com/page/DHTML/QueueJavascript
-  * @note This function does **NOT** evaluate expression (i.e. allow you to pass variables from JavaScript (JS) to Lua context).
-  * Because a return value is nil/no value (a.k.a. void).
-  * If you wish to pass/return values from JS to Lua, you may want to use @DHTML:AddFunction function to accomplish that job.
-  * @param {DHTML} this - no description
-  * @param {string} js - Specify JavaScript code to be executed.
-  * @returns {void}
-  **/
-  QueueJavascript(this: DHTML, js: string): void
-  
-  /**
-  * 
-  * Returns if the loaded page can run Lua code, set by @DHTML:SetAllowLua
-  * 
-  * @name DHTML:GetAllowLua
-  * @wiki https://wiki.garrysmod.com/page/DHTML/GetAllowLua
-  * @param {DHTML} this - no description
-  * @returns {boolean} - Whether or not Lua code can be called from the loaded page.
-  **/
-  GetAllowLua(this: DHTML): boolean
-  
-  /**
-  * 
-  * Called when the page inside the @DHTML type window runs *console.log*. This can also be called within the Lua environment to emulate *console.log*. If the contained message begins with *RUNLUA:* the following text will be executed as code within the Lua environment (this is how Lua is called from DHTML windows).
-  * 
-  * @name DHTML:ConsoleMessage
-  * @wiki https://wiki.garrysmod.com/page/DHTML/ConsoleMessage
-  * @param {DHTML} this - no description
-  * @param {string} msg - The message to be logged (or Lua code to be executed; see above).
-  * @returns {void}
-  **/
-  ConsoleMessage(this: DHTML, msg: string): void
-  
-  /**
-  * 
-  * Runs/Executes a string as JavaScript code.
-  * 
-  * @name DHTML:Call
-  * @wiki https://wiki.garrysmod.com/page/DHTML/Call
-  * @note This function does **NOT** evaluate expression (i.e. allow you to pass variables from JavaScript (JS) to Lua context).
-  * Because a return value is nil/no value (a.k.a. void).
-  * If you wish to pass/return values from JS to Lua, you may want to use @DHTML:AddFunction function to accomplish that job.
-  * @note This function is an alias of @DHTML:QueueJavascript ([source](https://github.com/Facepunch/garrysmod/blob/master/garrysmod/lua/vgui/dhtml.lua#L62)).
-  * @param {DHTML} this - no description
-  * @param {string} js - Specify JavaScript code to be executed.
-  * @returns {void}
-  **/
-  Call(this: DHTML, js: string): void
-  
-  /**
-  * 
-  * Defines a Javascript function that when called will call a Lua callback.
-  * 
-  * @name DHTML:AddFunction
-  * @wiki https://wiki.garrysmod.com/page/DHTML/AddFunction
-  * @note Must be called after the HTML document has fully loaded.
-  * @param {DHTML} this - no description
-  * @param {string} library - Library name of the JS function you are defining.
-  * @param {string} name - Name of the JS function you are defining.
-  * @param {function} callback - Function called when the JS function is called. Arguments passed to the JS function will be passed here.
-  * @returns {void}
-  **/
-  AddFunction(this: DHTML, library: string, name: string, callback: UnknownFunc): void
   
 }
 
@@ -56244,6 +56639,18 @@ declare interface DHorizontalDivider extends DPanel {
   
   /**
   * 
+  * Sets the middle content, over the draggable divider bar panel.
+  * 
+  * @name DHorizontalDivider:SetMiddle
+  * @wiki https://wiki.garrysmod.com/page/DHorizontalDivider/SetMiddle
+  * @param {DHorizontalDivider} this - no description
+  * @param {Panel} middle - The middle content
+  * @returns {void}
+  **/
+  SetMiddle(this: DHorizontalDivider, middle: Panel): void
+  
+  /**
+  * 
   * Sets the current/starting width of the left side.
   * The width of the right side is automatically calculated by subtracting this from the total width of the @DHorizontalDivider type.
   * 
@@ -56254,18 +56661,6 @@ declare interface DHorizontalDivider extends DPanel {
   * @returns {void}
   **/
   SetLeftWidth(this: DHorizontalDivider, width: number): void
-  
-  /**
-  * 
-  * Sets the middle content, over the draggable divider bar panel.
-  * 
-  * @name DHorizontalDivider:SetMiddle
-  * @wiki https://wiki.garrysmod.com/page/DHorizontalDivider/SetMiddle
-  * @param {DHorizontalDivider} this - no description
-  * @param {Panel} middle - The middle content
-  * @returns {void}
-  **/
-  SetMiddle(this: DHorizontalDivider, middle: Panel): void
   
   /**
   * 
@@ -56431,6 +56826,183 @@ declare interface DHorizontalDivider extends DPanel {
   
 }
 
+declare interface DHTMLControls extends Panel {
+  /**
+  * @name DHTMLControls:UpdateNavButtonStatus
+  * @wiki https://wiki.garrysmod.com/page/DHTMLControls/UpdateNavButtonStatus
+  * @internal
+  * @param {DHTMLControls} this - no description
+  * @returns {void}
+  **/
+  UpdateNavButtonStatus(this: DHTMLControls): void
+  
+  /**
+  * 
+  * Basically adds an URL to the history.
+  * 
+  * @name DHTMLControls:UpdateHistory
+  * @wiki https://wiki.garrysmod.com/page/DHTMLControls/UpdateHistory
+  * @internal
+  * @param {DHTMLControls} this - no description
+  * @param {string} url - no description
+  * @returns {void}
+  **/
+  UpdateHistory(this: DHTMLControls, url: string): void
+  
+  /**
+  * @name DHTMLControls:StartedLoading
+  * @wiki https://wiki.garrysmod.com/page/DHTMLControls/StartedLoading
+  * @internal
+  * @param {DHTMLControls} this - no description
+  * @returns {void}
+  **/
+  StartedLoading(this: DHTMLControls): void
+  
+  /**
+  * 
+  * Sets the @DHTML type element to control with these @DHTMLControls type.
+  * 
+  * @name DHTMLControls:SetHTML
+  * @wiki https://wiki.garrysmod.com/page/DHTMLControls/SetHTML
+  * @param {DHTMLControls} this - no description
+  * @param {Panel} dhtml - The HTML panel
+  * @returns {void}
+  **/
+  SetHTML(this: DHTMLControls, dhtml: Panel): void
+  
+  /**
+  * 
+  * Sets the color of the navigation buttons.
+  * 
+  * @name DHTMLControls:SetButtonColor
+  * @wiki https://wiki.garrysmod.com/page/DHTMLControls/SetButtonColor
+  * @param {DHTMLControls} this - no description
+  * @param {IColor} clr - A @IColor structure
+  * @returns {void}
+  **/
+  SetButtonColor(this: DHTMLControls, clr: IColor): void
+  
+  /**
+  * @name DHTMLControls:FinishedLoading
+  * @wiki https://wiki.garrysmod.com/page/DHTMLControls/FinishedLoading
+  * @internal
+  * @param {DHTMLControls} this - no description
+  * @returns {void}
+  **/
+  FinishedLoading(this: DHTMLControls): void
+  
+}
+
+declare interface DHTML extends Awesomium {
+  /**
+  * 
+  * Stops the loading of the HTML panel's current page.
+  * [Category:HTML](https://wiki.garrysmod.com/page/Category:HTML)
+  * [Category:Awesomium](https://wiki.garrysmod.com/page/Category:Awesomium)
+  * 
+  * @name DHTML:StopLoading
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/DHTML/StopLoading
+  * @param {DHTML} this - no description
+  * @returns {void}
+  **/
+  StopLoading(this: DHTML): void
+  
+  /**
+  * 
+  * Sets if the loaded window should display scrollbars when the webpage is larger than the viewing window. This is similar to the CSS *overflow* rule.
+  * 
+  * @name DHTML:SetScrollbars
+  * @wiki https://wiki.garrysmod.com/page/DHTML/SetScrollbars
+  * @param {DHTML} this - no description
+  * @param {boolean} show - True if scrollbars should be visible.
+  * @returns {void}
+  **/
+  SetScrollbars(this: DHTML, show: boolean): void
+  
+  /**
+  * 
+  * Determines whether the loaded page can run Lua code or not. See @DHTML type for how to run Lua from a DHTML window.
+  * 
+  * @name DHTML:SetAllowLua
+  * @wiki https://wiki.garrysmod.com/page/DHTML/SetAllowLua
+  * @param {DHTML} this - no description
+  * @param {boolean} allow - Whether or not to allow Lua.
+  * @returns {void}
+  **/
+  SetAllowLua(this: DHTML, allow?: boolean): void
+  
+  /**
+  * 
+  * Runs/Executes a string as JavaScript code.
+  * 
+  * @name DHTML:QueueJavascript
+  * @wiki https://wiki.garrysmod.com/page/DHTML/QueueJavascript
+  * @note This function does **NOT** evaluate expression (i.e. allow you to pass variables from JavaScript (JS) to Lua context).
+  * Because a return value is nil/no value (a.k.a. void).
+  * If you wish to pass/return values from JS to Lua, you may want to use @DHTML:AddFunction function to accomplish that job.
+  * @param {DHTML} this - no description
+  * @param {string} js - Specify JavaScript code to be executed.
+  * @returns {void}
+  **/
+  QueueJavascript(this: DHTML, js: string): void
+  
+  /**
+  * 
+  * Returns if the loaded page can run Lua code, set by @DHTML:SetAllowLua
+  * 
+  * @name DHTML:GetAllowLua
+  * @wiki https://wiki.garrysmod.com/page/DHTML/GetAllowLua
+  * @param {DHTML} this - no description
+  * @returns {boolean} - Whether or not Lua code can be called from the loaded page.
+  **/
+  GetAllowLua(this: DHTML): boolean
+  
+  /**
+  * 
+  * Called when the page inside the @DHTML type window runs *console.log*. This can also be called within the Lua environment to emulate *console.log*. If the contained message begins with *RUNLUA:* the following text will be executed as code within the Lua environment (this is how Lua is called from DHTML windows).
+  * 
+  * @name DHTML:ConsoleMessage
+  * @wiki https://wiki.garrysmod.com/page/DHTML/ConsoleMessage
+  * @param {DHTML} this - no description
+  * @param {string} msg - The message to be logged (or Lua code to be executed; see above).
+  * @returns {void}
+  **/
+  ConsoleMessage(this: DHTML, msg: string): void
+  
+  /**
+  * 
+  * Runs/Executes a string as JavaScript code.
+  * 
+  * @name DHTML:Call
+  * @wiki https://wiki.garrysmod.com/page/DHTML/Call
+  * @note This function does **NOT** evaluate expression (i.e. allow you to pass variables from JavaScript (JS) to Lua context).
+  * Because a return value is nil/no value (a.k.a. void).
+  * If you wish to pass/return values from JS to Lua, you may want to use @DHTML:AddFunction function to accomplish that job.
+  * @note This function is an alias of @DHTML:QueueJavascript ([source](https://github.com/Facepunch/garrysmod/blob/master/garrysmod/lua/vgui/dhtml.lua#L62)).
+  * @param {DHTML} this - no description
+  * @param {string} js - Specify JavaScript code to be executed.
+  * @returns {void}
+  **/
+  Call(this: DHTML, js: string): void
+  
+  /**
+  * 
+  * Defines a Javascript function that when called will call a Lua callback.
+  * 
+  * @name DHTML:AddFunction
+  * @wiki https://wiki.garrysmod.com/page/DHTML/AddFunction
+  * @note Must be called after the HTML document has fully loaded.
+  * @param {DHTML} this - no description
+  * @param {string} library - Library name of the JS function you are defining.
+  * @param {string} name - Name of the JS function you are defining.
+  * @param {function} callback - Function called when the JS function is called. Arguments passed to the JS function will be passed here.
+  * @returns {void}
+  **/
+  AddFunction(this: DHTML, library: string, name: string, callback: UnknownFunc): void
+  
+}
+
 declare interface DGrid extends Panel {
   /**
   * 
@@ -56443,7 +57015,7 @@ declare interface DGrid extends Panel {
   * @param {boolean} desc - True for descending order, false for ascending.
   * @returns {void}
   **/
-  SortByMember(this: DGrid, key: string, desc: boolean): void
+  SortByMember(this: DGrid, key: string, desc?: boolean): void
   
   /**
   * 
@@ -56460,19 +57032,6 @@ declare interface DGrid extends Panel {
   
   /**
   * 
-  * Sets the width of each column.
-  * The cell panels (grid items) will not be resized or centered.
-  * 
-  * @name DGrid:SetColWide
-  * @wiki https://wiki.garrysmod.com/page/DGrid/SetColWide
-  * @param {DGrid} this - no description
-  * @param {number} colWidth - The width of each column.
-  * @returns {void}
-  **/
-  SetColWide(this: DGrid, colWidth: number): void
-  
-  /**
-  * 
   * Sets the number of columns this panel should have.
   * The @DGrid type will resize its width to match this value.
   * 
@@ -56486,6 +57045,19 @@ declare interface DGrid extends Panel {
   
   /**
   * 
+  * Sets the width of each column.
+  * The cell panels (grid items) will not be resized or centered.
+  * 
+  * @name DGrid:SetColWide
+  * @wiki https://wiki.garrysmod.com/page/DGrid/SetColWide
+  * @param {DGrid} this - no description
+  * @param {number} colWidth - The width of each column.
+  * @returns {void}
+  **/
+  SetColWide(this: DGrid, colWidth: number): void
+  
+  /**
+  * 
   * Removes given panel from the @DGrid:GetItems.
   * 
   * @name DGrid:RemoveItem
@@ -56495,7 +57067,7 @@ declare interface DGrid extends Panel {
   * @param {boolean} bDontDelete - If set to true, the actual panel will not be removed via @Panel:Remove.
   * @returns {void}
   **/
-  RemoveItem(this: DGrid, item: Panel, bDontDelete: boolean): void
+  RemoveItem(this: DGrid, item: Panel, bDontDelete?: boolean): void
   
   /**
   * 
@@ -56521,17 +57093,6 @@ declare interface DGrid extends Panel {
   
   /**
   * 
-  * Returns the width of each column of the @DGrid type, which is set by @DGrid:SetColWide.
-  * 
-  * @name DGrid:GetColWide
-  * @wiki https://wiki.garrysmod.com/page/DGrid/GetColWide
-  * @param {DGrid} this - no description
-  * @returns {number} - The width of each column
-  **/
-  GetColWide(this: DGrid): number
-  
-  /**
-  * 
   * Returns the number of columns of this @DGrid type. Set by @DGrid:SetCols.
   * 
   * @name DGrid:GetCols
@@ -56540,6 +57101,17 @@ declare interface DGrid extends Panel {
   * @returns {number} - The number of columns of this @DGrid type
   **/
   GetCols(this: DGrid): number
+  
+  /**
+  * 
+  * Returns the width of each column of the @DGrid type, which is set by @DGrid:SetColWide.
+  * 
+  * @name DGrid:GetColWide
+  * @wiki https://wiki.garrysmod.com/page/DGrid/GetColWide
+  * @param {DGrid} this - no description
+  * @returns {number} - The width of each column
+  **/
+  GetColWide(this: DGrid): number
   
   /**
   * 
@@ -56582,8 +57154,9 @@ declare interface DFrame extends EditablePanel {
   
   /**
   * 
-  * Sets whether or not the DFrame can be resized by the user.
+  * Sets whether or not the @DFrame type can be resized by the user.
   * This is achieved by clicking and dragging in the bottom right corner of the frame.
+  * You can set the minimum size using @DFrame:SetMinWidth and @DFrame:SetMinHeight.
   * 
   * @name DFrame:SetSizable
   * @wiki https://wiki.garrysmod.com/page/DFrame/SetSizable
@@ -56741,6 +57314,17 @@ declare interface DFrame extends EditablePanel {
   
   /**
   * 
+  * Gets whether or not the DFrame is restricted to the boundaries of the screen resolution.
+  * 
+  * @name DFrame:GetScreenLock
+  * @wiki https://wiki.garrysmod.com/page/DFrame/GetScreenLock
+  * @param {DFrame} this - no description
+  * @returns {boolean} - Whether or not the frame is restricted.
+  **/
+  GetScreenLock(this: DFrame): boolean
+  
+  /**
+  * 
   * Gets whether or not the DFrame can be resized by the user.
   * This is achieved by clicking and dragging in the bottom right corner of the frame.
   * 
@@ -56750,17 +57334,6 @@ declare interface DFrame extends EditablePanel {
   * @returns {boolean} - Whether the frame can be resized or not.
   **/
   GetSizable(this: DFrame): boolean
-  
-  /**
-  * 
-  * Gets whether or not the DFrame is restricted to the boundaries of the screen resolution.
-  * 
-  * @name DFrame:GetScreenLock
-  * @wiki https://wiki.garrysmod.com/page/DFrame/GetScreenLock
-  * @param {DFrame} this - no description
-  * @returns {boolean} - Whether or not the frame is restricted.
-  **/
-  GetScreenLock(this: DFrame): boolean
   
   /**
   * 
@@ -56918,22 +57491,6 @@ declare interface DForm extends DCollapsibleCategory {
   
   /**
   * 
-  * Adds a @DNumSlider type onto the @DForm type
-  * 
-  * @name DForm:NumSlider
-  * @wiki https://wiki.garrysmod.com/page/DForm/NumSlider
-  * @param {DForm} this - no description
-  * @param {string} label - The label of the DNumSlider
-  * @param {string} convar - The console variable to change when the slider is changed
-  * @param {number} min - The minimum value of the slider
-  * @param {number} max - The maximum value of the slider
-  * @param {number} decimals - The number of decimals to allow on the slider. (Optional)
-  * @returns {DNumSlider} - The created @DNumSlider type
-  **/
-  NumSlider(this: DForm, label: string, convar: string, min: number, max: number, decimals: number): DNumSlider
-  
-  /**
-  * 
   * Adds a @DNumberWang type onto the @DForm type
   * 
   * @name DForm:NumberWang
@@ -56948,7 +57505,23 @@ declare interface DForm extends DCollapsibleCategory {
   * @returns {DLabel} - The created @DLabel type
   * @tupleReturn
   **/
-  NumberWang(this: DForm, label: string, convar: string, min: number, max: number, decimals: number): [DNumberWang, DLabel]
+  NumberWang(this: DForm, label: string, convar: string, min: number, max: number, decimals?: number): [DNumberWang, DLabel]
+  
+  /**
+  * 
+  * Adds a @DNumSlider type onto the @DForm type
+  * 
+  * @name DForm:NumSlider
+  * @wiki https://wiki.garrysmod.com/page/DForm/NumSlider
+  * @param {DForm} this - no description
+  * @param {string} label - The label of the DNumSlider
+  * @param {string} convar - The console variable to change when the slider is changed
+  * @param {number} min - The minimum value of the slider
+  * @param {number} max - The maximum value of the slider
+  * @param {number} decimals - The number of decimals to allow on the slider. (Optional)
+  * @returns {DNumSlider} - The created @DNumSlider type
+  **/
+  NumSlider(this: DForm, label: string, convar: string, min: number, max: number, decimals?: number): DNumSlider
   
   /**
   * 
@@ -57043,7 +57616,7 @@ declare interface DForm extends DCollapsibleCategory {
   * @param {Panel} right - Right-hand element to add to the DForm.
   * @returns {void}
   **/
-  AddItem(this: DForm, left: Panel, right: Panel): void
+  AddItem(this: DForm, left: Panel, right?: Panel): void
   
 }
 
@@ -57059,7 +57632,7 @@ declare interface DFileBrowser extends DPanel {
   * @param {boolean} descending - The sort order. *true* for descending (z-a), *false* for ascending (a-z).
   * @returns {void}
   **/
-  SortFiles(this: DFileBrowser, descending: boolean): void
+  SortFiles(this: DFileBrowser, descending?: boolean): void
   
   /**
   * 
@@ -57124,7 +57697,7 @@ declare interface DFileBrowser extends DPanel {
   * @param {string} filter - The filter to use on the file tree.
   * @returns {void}
   **/
-  SetSearch(this: DFileBrowser, filter: string): void
+  SetSearch(this: DFileBrowser, filter?: string): void
   
   /**
   * 
@@ -57150,7 +57723,7 @@ declare interface DFileBrowser extends DPanel {
   * @param {boolean} useAnim - If *true*, the @DTree type's open/close animation is used.
   * @returns {void}
   **/
-  SetOpen(this: DFileBrowser, open: boolean, useAnim: boolean): void
+  SetOpen(this: DFileBrowser, open?: boolean, useAnim?: boolean): void
   
   /**
   * 
@@ -57162,7 +57735,7 @@ declare interface DFileBrowser extends DPanel {
   * @param {string} treeName - The name for the root of the file tree. Passing no value causes this to be the base folder name. See @DFileBrowser:SetBaseFolder.
   * @returns {void}
   **/
-  SetName(this: DFileBrowser, treeName: string): void
+  SetName(this: DFileBrowser, treeName?: string): void
   
   /**
   * 
@@ -57175,7 +57748,7 @@ declare interface DFileBrowser extends DPanel {
   * @param {boolean} showModels - Whether or not to display files using @SpawnIcon types.
   * @returns {void}
   **/
-  SetModels(this: DFileBrowser, showModels: boolean): void
+  SetModels(this: DFileBrowser, showModels?: boolean): void
   
   /**
   * 
@@ -57189,7 +57762,7 @@ declare interface DFileBrowser extends DPanel {
   * ```"*.lua *.txt *.mdl"```
   * @returns {void}
   **/
-  SetFileTypes(this: DFileBrowser, fileTypes: string): void
+  SetFileTypes(this: DFileBrowser, fileTypes?: string): void
   
   /**
   * 
@@ -57262,6 +57835,17 @@ declare interface DFileBrowser extends DPanel {
   
   /**
   * 
+  * Returns the current search filter on the file tree.
+  * 
+  * @name DFileBrowser:GetSearch
+  * @wiki https://wiki.garrysmod.com/page/DFileBrowser/GetSearch
+  * @param {DFileBrowser} this - no description
+  * @returns {string} - The filter in use on the file tree.
+  **/
+  GetSearch(this: DFileBrowser): string
+  
+  /**
+  * 
   * Returns the access path of the file tree. This is *GAME* unless changed with @DFileBrowser:SetPath.
   * See @file.Read for how paths work.
   * 
@@ -57271,17 +57855,6 @@ declare interface DFileBrowser extends DPanel {
   * @returns {string} - The current access path i.e. "GAME", "LUA", "DATA" etc.
   **/
   SetPath(this: DFileBrowser): string
-  
-  /**
-  * 
-  * Returns the current search filter on the file tree.
-  * 
-  * @name DFileBrowser:GetSearch
-  * @wiki https://wiki.garrysmod.com/page/DFileBrowser/GetSearch
-  * @param {DFileBrowser} this - no description
-  * @returns {string} - The filter in use on the file tree.
-  **/
-  GetSearch(this: DFileBrowser): string
   
   /**
   * 
@@ -57503,17 +58076,6 @@ declare interface DDrawer extends Panel {
   
   /**
   * 
-  * Opens the @DDrawer type.
-  * 
-  * @name DDrawer:Open
-  * @wiki https://wiki.garrysmod.com/page/DDrawer/Open
-  * @param {DDrawer} this - no description
-  * @returns {void}
-  **/
-  Open(this: DDrawer): void
-  
-  /**
-  * 
   * Return the Open Time of DDrawer.
   * 
   * @name DDrawer:GetOpenTime
@@ -57544,6 +58106,17 @@ declare interface DDrawer extends Panel {
   * @returns {void}
   **/
   Close(this: DDrawer): void
+  
+  /**
+  * 
+  * Opens the @DDrawer type.
+  * 
+  * @name DDrawer:Open
+  * @wiki https://wiki.garrysmod.com/page/DDrawer/Open
+  * @param {DDrawer} this - no description
+  * @returns {void}
+  **/
+  Open(this: DDrawer): void
   
 }
 
@@ -57586,7 +58159,7 @@ declare interface DDragBase extends DPanel {
   * @param {string} pos - Where you're allowed to drop things.
   * @returns {void}
   **/
-  SetDropPos(this: DDragBase, pos: string): void
+  SetDropPos(this: DDragBase, pos?: string): void
   
   /**
   * @name DDragBase:SetDnD
@@ -57884,10 +58457,10 @@ declare interface DComboBox extends DButton {
   * @param {any} data - The data accompanying this string. If left empty, the value argument is used instead.
   * Can be accessed with the second argument of @DComboBox:GetSelected, @DComboBox:GetOptionData and as an argument of @DComboBox:OnSelect.
   * @param {boolean} select - Should this be the default selected text show to the user or not.
-  * @param {Panel} icon - Adds an icon for this choice.
+  * @param {string} icon - Adds an icon for this choice.
   * @returns {number} - The index of the new option.
   **/
-  AddChoice(this: DComboBox, value: string, data: any, select: boolean, icon: Panel): number
+  AddChoice(this: DComboBox, value: string, data?: any, select?: boolean, icon?: string): number
   
 }
 
@@ -57939,7 +58512,7 @@ declare interface DColumnSheet extends Panel {
   * @param {string} icon - Icon for the tab. This will ideally be a [silkicon](https://wiki.garrysmod.com/page/Silkicons), but any material name can be used.
   * @returns {IDColumnSheetAddSheetReturn} - A table containing the following keys:
   **/
-  AddSheet(this: DColumnSheet, name: string, pnl: DPanel, icon: string): IDColumnSheetAddSheetReturn
+  AddSheet(this: DColumnSheet, name: string, pnl: DPanel, icon?: string): IDColumnSheetAddSheetReturn
   
 }
 
@@ -58005,22 +58578,6 @@ declare interface DColorPalette extends DIconLayout {
   
   /**
   * 
-  * Sets the @ConVar type name for the green channel of the color.
-  * See also:
-  * * @DColorPalette:SetConVarR - For the red channel
-  * * @DColorPalette:SetConVarB - For the blue channel
-  * * @DColorPalette:SetConVarA - For the alpha channel
-  * 
-  * @name DColorPalette:SetConVarG
-  * @wiki https://wiki.garrysmod.com/page/DColorPalette/SetConVarG
-  * @param {DColorPalette} this - no description
-  * @param {string} convar - The @ConVar type name for the green channel of the color
-  * @returns {void}
-  **/
-  SetConVarG(this: DColorPalette, convar: string): void
-  
-  /**
-  * 
   * Sets the @ConVar type name for the blue channel of the color.
   * See also:
   * * @DColorPalette:SetConVarR - For the red channel
@@ -58034,6 +58591,22 @@ declare interface DColorPalette extends DIconLayout {
   * @returns {void}
   **/
   SetConVarB(this: DColorPalette, convar: string): void
+  
+  /**
+  * 
+  * Sets the @ConVar type name for the green channel of the color.
+  * See also:
+  * * @DColorPalette:SetConVarR - For the red channel
+  * * @DColorPalette:SetConVarB - For the blue channel
+  * * @DColorPalette:SetConVarA - For the alpha channel
+  * 
+  * @name DColorPalette:SetConVarG
+  * @wiki https://wiki.garrysmod.com/page/DColorPalette/SetConVarG
+  * @param {DColorPalette} this - no description
+  * @param {string} convar - The @ConVar type name for the green channel of the color
+  * @returns {void}
+  **/
+  SetConVarG(this: DColorPalette, convar: string): void
   
   /**
   * 
@@ -58223,6 +58796,17 @@ declare interface DColorPalette extends DIconLayout {
   
   /**
   * 
+  * Returns the size of each palette button. Set by @DColorPalette:SetButtonSize.
+  * 
+  * @name DColorPalette:GetButtonSize
+  * @wiki https://wiki.garrysmod.com/page/DColorPalette/GetButtonSize
+  * @param {DColorPalette} this - no description
+  * @returns {number} - The size of each palette button
+  **/
+  GetButtonSize(this: DColorPalette): number
+  
+  /**
+  * 
   * Returns the @ConVar type name for the alpha channel of the color.
   * See also:
   * * @DColorPalette:GetConVarR - For the red channel
@@ -58235,17 +58819,6 @@ declare interface DColorPalette extends DIconLayout {
   * @returns {string} - The @ConVar type name for the alpha channel of the color
   **/
   GetConVarA(this: DColorPalette): string
-  
-  /**
-  * 
-  * Returns the size of each palette button. Set by @DColorPalette:SetButtonSize.
-  * 
-  * @name DColorPalette:GetButtonSize
-  * @wiki https://wiki.garrysmod.com/page/DColorPalette/GetButtonSize
-  * @param {DColorPalette} this - no description
-  * @returns {number} - The size of each palette button
-  **/
-  GetButtonSize(this: DColorPalette): number
   
   /**
   * 
@@ -58369,7 +58942,7 @@ declare interface DColorMixer extends DPanel {
   * Give it an empty string or nothing and the label will be hidden.
   * @returns {void}
   **/
-  SetLabel(this: DColorMixer, text: string): void
+  SetLabel(this: DColorMixer, text?: string): void
   
   /**
   * 
@@ -58571,6 +59144,7 @@ declare interface DColorMixer extends DPanel {
   * 
   * @name DColorMixer:GetColor
   * @wiki https://wiki.garrysmod.com/page/DColorMixer/GetColor
+  * @warning This method returns a **table** with keys r,g,b,a and not a Color type
   * @param {DColorMixer} this - no description
   * @returns {IColor} - The current selected color as a @IColor structure.
   **/
@@ -58611,20 +59185,6 @@ declare interface DColorMixer extends DPanel {
 declare interface DColorCube extends DSlider {
   /**
   * 
-  * Updates the color cube RGB based on the given x and y position. Similar to @DColorCube:TranslateValues.
-  * 
-  * @name DColorCube:UpdateColor
-  * @wiki https://wiki.garrysmod.com/page/DColorCube/UpdateColor
-  * @internal
-  * @param {DColorCube} this - no description
-  * @param {number} x - The x position to set color to/the percentage of saturation to remove from the color (ranges from 0.0 to 1.0).
-  * @param {number} y - The y position to set color to/the percentage of brightness or value to remove from the color (ranges from 0.0 to 1.0).
-  * @returns {void}
-  **/
-  UpdateColor(this: DColorCube, x: number, y: number): void
-  
-  /**
-  * 
   * Updates the color cube RGB based on the given x and y position and returns its arguments. Similar to @DColorCube:UpdateColor.
   * 
   * @name DColorCube:TranslateValues
@@ -58638,6 +59198,20 @@ declare interface DColorCube extends DSlider {
   * @tupleReturn
   **/
   TranslateValues(this: DColorCube, x: number, y: number): [number, number]
+  
+  /**
+  * 
+  * Updates the color cube RGB based on the given x and y position. Similar to @DColorCube:TranslateValues.
+  * 
+  * @name DColorCube:UpdateColor
+  * @wiki https://wiki.garrysmod.com/page/DColorCube/UpdateColor
+  * @internal
+  * @param {DColorCube} this - no description
+  * @param {number} x - The x position to set color to/the percentage of saturation to remove from the color (ranges from 0.0 to 1.0).
+  * @param {number} y - The y position to set color to/the percentage of brightness or value to remove from the color (ranges from 0.0 to 1.0).
+  * @returns {void}
+  **/
+  UpdateColor(this: DColorCube, x?: number, y?: number): void
   
   /**
   * 
@@ -58826,17 +59400,6 @@ declare interface DColorButton extends DLabel {
   
   /**
   * 
-  * Returns whether the @DColorButton type is currently being pressed (the user is holding it down).
-  * 
-  * @name DColorButton:IsDown
-  * @wiki https://wiki.garrysmod.com/page/DColorButton/IsDown
-  * @param {DColorButton} this - no description
-  * @returns {boolean} - no description
-  **/
-  IsDown(this: DColorButton): boolean
-  
-  /**
-  * 
   * Returns the unique ID set by @DColorButton:SetID.
   * Used internally by @DColorPalette type
   * 
@@ -58846,6 +59409,17 @@ declare interface DColorButton extends DLabel {
   * @returns {number} - The unique ID of the button
   **/
   GetID(this: DColorButton): number
+  
+  /**
+  * 
+  * Returns whether the @DColorButton type is currently being pressed (the user is holding it down).
+  * 
+  * @name DColorButton:IsDown
+  * @wiki https://wiki.garrysmod.com/page/DColorButton/IsDown
+  * @param {DColorButton} this - no description
+  * @returns {boolean} - no description
+  **/
+  IsDown(this: DColorButton): boolean
   
   /**
   * 
@@ -58862,6 +59436,14 @@ declare interface DColorButton extends DLabel {
 
 declare interface DCollapsibleCategory extends Panel {
   /**
+  * @name DCollapsibleCategory:UnselectAll
+  * @wiki https://wiki.garrysmod.com/page/DCollapsibleCategory/UnselectAll
+  * @param {DCollapsibleCategory} this - no description
+  * @returns {void}
+  **/
+  UnselectAll(this: DCollapsibleCategory): void
+  
+  /**
   * 
   * Used internally to update the "AltLine" property on all "child" panels.
   * 
@@ -58872,14 +59454,6 @@ declare interface DCollapsibleCategory extends Panel {
   * @returns {void}
   **/
   UpdateAltLines(this: DCollapsibleCategory): void
-  
-  /**
-  * @name DCollapsibleCategory:UnselectAll
-  * @wiki https://wiki.garrysmod.com/page/DCollapsibleCategory/UnselectAll
-  * @param {DCollapsibleCategory} this - no description
-  * @returns {void}
-  **/
-  UnselectAll(this: DCollapsibleCategory): void
   
   /**
   * 
@@ -58948,19 +59522,6 @@ declare interface DCollapsibleCategory extends Panel {
   
   /**
   * 
-  * Sets whether the @DCollapsibleCategory type is expanded or not upon opening the container.
-  * You should use @DCollapsibleCategory:Toggle or @DCollapsibleCategory:DoExpansion instead.
-  * 
-  * @name DCollapsibleCategory:SetExpanded
-  * @wiki https://wiki.garrysmod.com/page/DCollapsibleCategory/SetExpanded
-  * @param {DCollapsibleCategory} this - no description
-  * @param {boolean} expanded - Whether it shall be expanded or not by default
-  * @returns {void}
-  **/
-  SetExpanded(this: DCollapsibleCategory, expanded: boolean): void
-  
-  /**
-  * 
   * Sets the contents of the DCollapsibleCategory.
   * 
   * @name DCollapsibleCategory:SetContents
@@ -58970,6 +59531,19 @@ declare interface DCollapsibleCategory extends Panel {
   * @returns {void}
   **/
   SetContents(this: DCollapsibleCategory, pnl: Panel): void
+  
+  /**
+  * 
+  * Sets whether the @DCollapsibleCategory type is expanded or not upon opening the container.
+  * You should use @DCollapsibleCategory:Toggle or @DCollapsibleCategory:DoExpansion instead.
+  * 
+  * @name DCollapsibleCategory:SetExpanded
+  * @wiki https://wiki.garrysmod.com/page/DCollapsibleCategory/SetExpanded
+  * @param {DCollapsibleCategory} this - no description
+  * @param {boolean} expanded - Whether it shall be expanded or not by default
+  * @returns {void}
+  **/
+  SetExpanded(this: DCollapsibleCategory, expanded?: boolean): void
   
   /**
   * 
@@ -59004,17 +59578,6 @@ declare interface DCollapsibleCategory extends Panel {
   
   /**
   * 
-  * Returns whether or not the background should be painted.
-  * 
-  * @name DCollapsibleCategory:GetPaintBackground
-  * @wiki https://wiki.garrysmod.com/page/DCollapsibleCategory/GetPaintBackground
-  * @param {DCollapsibleCategory} this - no description
-  * @returns {boolean} - If the background is painted or not
-  **/
-  GetPaintBackground(this: DCollapsibleCategory): boolean
-  
-  /**
-  * 
   * Doesn't actually do anything.
   * Returns the number set by @DCollapsibleCategory:SetPadding.
   * 
@@ -59024,6 +59587,17 @@ declare interface DCollapsibleCategory extends Panel {
   * @returns {number} - no description
   **/
   GetPadding(this: DCollapsibleCategory): number
+  
+  /**
+  * 
+  * Returns whether or not the background should be painted.
+  * 
+  * @name DCollapsibleCategory:GetPaintBackground
+  * @wiki https://wiki.garrysmod.com/page/DCollapsibleCategory/GetPaintBackground
+  * @param {DCollapsibleCategory} this - no description
+  * @returns {boolean} - If the background is painted or not
+  **/
+  GetPaintBackground(this: DCollapsibleCategory): boolean
   
   /**
   * @name DCollapsibleCategory:GetList
@@ -59350,17 +59924,6 @@ declare interface DCategoryList extends DScrollPanel {
   
 }
 
-declare interface DButton2 extends DLabel {
-  /**
-  * @name DButton2:Test
-  * @wiki https://wiki.garrysmod.com/page/DButton2/Test
-  * @param {DButton2} this - no description
-  * @returns {void}
-  **/
-  Test(this: DButton2): void
-  
-}
-
 declare interface DButton extends DLabel {
   /**
   * 
@@ -59385,7 +59948,7 @@ declare interface DButton extends DLabel {
   * @param {string} img - The image file to use, relative to * /materials*. If this is nil, the image background is removed.
   * @returns {void}
   **/
-  SetImage(this: DButton, img: string): void
+  SetImage(this: DButton, img?: string): void
   
   /**
   * 
@@ -59397,7 +59960,7 @@ declare interface DButton extends DLabel {
   * @param {string} img - The image file to use, relative to * /materials*. If this is nil, the image background is removed.
   * @returns {void}
   **/
-  SetIcon(this: DButton, img: string): void
+  SetIcon(this: DButton, img?: string): void
   
   /**
   * 
@@ -59459,6 +60022,17 @@ declare interface DButton extends DLabel {
   * @returns {boolean} - value set by @DButton:SetDrawBorder.
   **/
   GetDrawBorder(this: DButton): boolean
+  
+}
+
+declare interface DButton2 extends DLabel {
+  /**
+  * @name DButton2:Test
+  * @wiki https://wiki.garrysmod.com/page/DButton2/Test
+  * @param {DButton2} this - no description
+  * @returns {void}
+  **/
+  Test(this: DButton2): void
   
 }
 
@@ -59665,6 +60239,619 @@ declare interface DAdjustableModelPanel extends DModelPanel {
   
 }
 
+declare interface ControlPresets extends Panel {
+  /**
+  * 
+  * Set the name label text.
+  * 
+  * @name ControlPresets:SetLabel
+  * @wiki https://wiki.garrysmod.com/page/ControlPresets/SetLabel
+  * @param {ControlPresets} this - no description
+  * @param {string} name - The text to put in the label
+  * @returns {void}
+  **/
+  SetLabel(this: ControlPresets, name: string): void
+  
+  /**
+  * 
+  * Get a list of all Console Variables being managed by this panel.
+  * 
+  * @name ControlPresets:GetConVars
+  * @wiki https://wiki.garrysmod.com/page/ControlPresets/GetConVars
+  * @param {ControlPresets} this - no description
+  * @returns {table} - numbered table of convars
+  **/
+  GetConVars(this: ControlPresets): table
+  
+  /**
+  * 
+  * Adds a convar to be managed by this control.
+  * 
+  * @name ControlPresets:AddConVar
+  * @wiki https://wiki.garrysmod.com/page/ControlPresets/AddConVar
+  * @param {ControlPresets} this - no description
+  * @param {string} convar - The convar to add.
+  * @returns {void}
+  **/
+  AddConVar(this: ControlPresets, convar: string): void
+  
+}
+
+declare interface ControlPanel extends DForm {
+  /**
+  * 
+  * Creates a @MatSelect type panel and adds it as an [item](https://wiki.garrysmod.com/page/ControlPanel/AddPanel).
+  * 
+  * @name ControlPanel:MatSelect
+  * @wiki https://wiki.garrysmod.com/page/ControlPanel/MatSelect
+  * @param {ControlPanel} this - no description
+  * @param {string} convar - Calls @MatSelect type:[SetConVar](https://wiki.garrysmod.com/page/ContextBase/SetConVar) with this value.
+  * @param {table} options - If specified, calls @MatSelect:AddMaterial(key, value) for each table entry. If the table key is a number, the function will instead be called with the value as both arguments.
+  * @param {boolean} autostretch - If specified, calls @MatSelect:SetAutoHeight with this value.
+  * @param {number} width - If specified, calls @MatSelect:SetItemWidth with this value.
+  * @param {number} height - If specified, calls @MatSelect:SetItemHeight with this value.
+  * @returns {MatSelect} - The created MatSelect panel.
+  **/
+  MatSelect(this: ControlPanel, convar: string, options?: table, autostretch?: boolean, width?: number, height?: number): MatSelect
+  
+  /**
+  * 
+  * Returns this control panel.
+  * 
+  * @name ControlPanel:GetEmbeddedPanel
+  * @wiki https://wiki.garrysmod.com/page/ControlPanel/GetEmbeddedPanel
+  * @param {ControlPanel} this - no description
+  * @returns {ControlPanel} - The same control panel the function is being called on.
+  **/
+  GetEmbeddedPanel(this: ControlPanel): ControlPanel
+  
+  /**
+  * 
+  * Calls the given function with this panel as the only argument. Used by the spawnmenu to populate the control panel.
+  * 
+  * @name ControlPanel:FillViaFunction
+  * @wiki https://wiki.garrysmod.com/page/ControlPanel/FillViaFunction
+  * @param {ControlPanel} this - no description
+  * @param {ControlPanel} func - A function that takes one argument:
+  * * @ControlPanel type panelToPopulate
+  * @returns {void}
+  **/
+  FillViaFunction(this: ControlPanel, func: ControlPanel): void
+  
+  /**
+  * 
+  * Sets control values of the control panel.
+  * 
+  * @name ControlPanel:ControlValues
+  * @wiki https://wiki.garrysmod.com/page/ControlPanel/ControlValues
+  * @param {ControlPanel} this - no description
+  * @param {IControlPanelControlValuesData} data - A two-membered table:
+  * @returns {void}
+  **/
+  ControlValues(this: ControlPanel, data: IControlPanelControlValuesData): void
+  
+  /**
+  * 
+  * Adds an item by calling @DForm:AddItem.
+  * 
+  * @name ControlPanel:AddPanel
+  * @wiki https://wiki.garrysmod.com/page/ControlPanel/AddPanel
+  * @param {ControlPanel} this - no description
+  * @param {Panel} panel - Panel to add as an item to the control panel.
+  * @returns {void}
+  **/
+  AddPanel(this: ControlPanel, panel: Panel): void
+  
+  /**
+  * 
+  * Adds a control to the control panel.
+  * 
+  * @name ControlPanel:AddControl
+  * @wiki https://wiki.garrysmod.com/page/ControlPanel/AddControl
+  * @param {ControlPanel} this - no description
+  * @param {string} type - The control type to add. The complete list is:
+  * * header
+  * * textbox
+  * * label
+  * * checkbox/toggle
+  * * slider
+  * * propselect
+  * * matselect
+  * * ropematerial
+  * * button
+  * * numpad
+  * * color
+  * * combobox
+  * * listbox
+  * * materialgallery
+  * @param {DListView[]} controlinfo - Each control takes their own table structure. You may search "AddControl" on GitHub for examples.
+  * Here is a full list of each type and the table members it requires:
+  * *header
+  * **description
+  * *textbox:
+  * **label (def: "Untitled")
+  * **command
+  * *label:
+  * **text
+  * *checkbox, toggle (same thing):
+  * **label (def: "Untitled")
+  * **command
+  * **help (boolean, if true assumes label is a language string ("#tool.toolname.stuff") and adds ".help" at the end)
+  * *slider:
+  * **type (optional string, if equals "float" then 2 digits after the decimal will be used, otherwise 0)
+  * **label (def: "Untitled")
+  * **command
+  * **min (def: 0)
+  * **max (def: 100)
+  * *help (boolean, see above)
+  * *propselect:
+  * **(data goes directly to PropSelect's :ControlValues(data))
+  * *matselect:
+  * **(data goes directly to MatSelect's :ControlValues(data))
+  * *ropematerial:
+  * **convar (notice: NOT called command this time!)
+  * *button:
+  * **label / text (if label is missing will use text. Def: "No Label")
+  * **command
+  * *numpad:
+  * **command
+  * **command2
+  * **label
+  * **label2
+  * *color:
+  * **label
+  * **red (convar)
+  * **green (convar)
+  * **blue (convar)
+  * **alpha (convar)
+  * *combobox:
+  * **menubutton (if doesn't equal "1", becomes a listbox)
+  * **folder
+  * **options (optional, ha)
+  * **cvars (optional)
+  * *listbox:
+  * **height (if set, becomes @DListView type, otherwise is @CtrlListBox type)
+  * **label (def: "unknown")
+  * **options (optional)
+  * *materialgallery:
+  * **width (def: 32)
+  * **height (def: 32)
+  * **rows (def: 4)
+  * **convar
+  * **options
+  * @returns {void}
+  **/
+  AddControl(this: ControlPanel, type: string, controlinfo?: DListView[]): void
+  
+}
+
+declare interface ContextBase extends Panel {
+  /**
+  * 
+  * You should override this function and use it to check whether your convar value changed.
+  * 
+  * @name ContextBase:TestForChanges
+  * @wiki https://wiki.garrysmod.com/page/ContextBase/TestForChanges
+  * @param {ContextBase} this - no description
+  * @returns {void}
+  **/
+  TestForChanges(this: ContextBase): void
+  
+  /**
+  * 
+  * Sets the @ConVar type for the panel to change/handle.
+  * 
+  * @name ContextBase:SetConVar
+  * @wiki https://wiki.garrysmod.com/page/ContextBase/SetConVar
+  * @param {ContextBase} this - no description
+  * @param {string} cvar - The @ConVar type for the panel to change.
+  * @returns {void}
+  **/
+  SetConVar(this: ContextBase, cvar: string): void
+  
+  /**
+  * 
+  * Called by spawnmenu functions (when creating a context menu) to fill this control with data.
+  * 
+  * @name ContextBase:ControlValues
+  * @wiki https://wiki.garrysmod.com/page/ContextBase/ControlValues
+  * @param {ContextBase} this - no description
+  * @param {IContextBaseControlValuesContextData} contextData - A two-membered table:
+  * @returns {void}
+  **/
+  ControlValues(this: ContextBase, contextData: IContextBaseControlValuesContextData): void
+  
+  /**
+  * 
+  * Returns the @ConVar type for the panel to change/handle, set by @ContextBase:SetConVar
+  * 
+  * @name ContextBase:ConVar
+  * @wiki https://wiki.garrysmod.com/page/ContextBase/ConVar
+  * @param {ContextBase} this - no description
+  * @returns {string} - The @ConVar type for the panel to change.
+  **/
+  ConVar(this: ContextBase): string
+  
+}
+
+declare interface ContentIcon extends DButton {
+  /**
+  * 
+  * Sets the internal "name" for the content icon, usually a class name for an entity.
+  * 
+  * @name ContentIcon:SetSpawnName
+  * @wiki https://wiki.garrysmod.com/page/ContentIcon/SetSpawnName
+  * @param {ContentIcon} this - no description
+  * @param {string} name - Internal "name" to be used when user left clicks the icon.
+  * @returns {void}
+  **/
+  SetSpawnName(this: ContentIcon, name: string): void
+  
+  /**
+  * 
+  * Sets the tool tip and the "nice" name to be displayed by the content icon.
+  * 
+  * @name ContentIcon:SetName
+  * @wiki https://wiki.garrysmod.com/page/ContentIcon/SetName
+  * @param {ContentIcon} this - no description
+  * @param {string} name - "Nice" name to display.
+  * @returns {void}
+  **/
+  SetName(this: ContentIcon, name: string): void
+  
+  /**
+  * 
+  * Sets a table of weapon classes for the content icon with "NPC" content type to be randomly chosen from when user tries to spawn the NPC.
+  * 
+  * @name ContentIcon:SetNPCWeapon
+  * @wiki https://wiki.garrysmod.com/page/ContentIcon/SetNPCWeapon
+  * @param {ContentIcon} this - no description
+  * @param {table} weapons - A table of weapon classes to be chosen from when user tries to spawn the NPC.
+  * @returns {void}
+  **/
+  SetNPCWeapon(this: ContentIcon, weapons: table): void
+  
+  /**
+  * 
+  * Sets the material to be displayed as the content icon.
+  * 
+  * @name ContentIcon:SetMaterial
+  * @wiki https://wiki.garrysmod.com/page/ContentIcon/SetMaterial
+  * @param {ContentIcon} this - no description
+  * @param {string} path - Path to the icon to use.
+  * @returns {void}
+  **/
+  SetMaterial(this: ContentIcon, path: string): void
+  
+  /**
+  * 
+  * Sets the content type used to save and restore the content icon in a spawnlist.
+  * 
+  * @name ContentIcon:SetContentType
+  * @wiki https://wiki.garrysmod.com/page/ContentIcon/SetContentType
+  * @param {ContentIcon} this - no description
+  * @param {string} type - The content type, for example "entity" or "weapon"
+  * @returns {void}
+  **/
+  SetContentType(this: ContentIcon, type: string): void
+  
+  /**
+  * 
+  * Sets the color for the content icon. Currently is not used by the content icon panel.
+  * 
+  * @name ContentIcon:SetColor
+  * @wiki https://wiki.garrysmod.com/page/ContentIcon/SetColor
+  * @param {ContentIcon} this - no description
+  * @param {IColor} clr - The color to set. See @IColor structure
+  * @returns {void}
+  **/
+  SetColor(this: ContentIcon, clr: IColor): void
+  
+  /**
+  * 
+  * Sets whether the content item is admin only. This makes the icon to display a admin icon in the top left corner of the icon.
+  * 
+  * @name ContentIcon:SetAdminOnly
+  * @wiki https://wiki.garrysmod.com/page/ContentIcon/SetAdminOnly
+  * @param {ContentIcon} this - no description
+  * @param {boolean} adminOnly - Whether this content should be admin only or not
+  * @returns {void}
+  **/
+  SetAdminOnly(this: ContentIcon, adminOnly: boolean): void
+  
+  /**
+  * 
+  * A hook for override, by default does nothing. Called when user right clicks on the content icon, you are supposed to open a @DermaMenu function here with additional options.
+  * 
+  * @name ContentIcon:OpenMenu
+  * @wiki https://wiki.garrysmod.com/page/ContentIcon/OpenMenu
+  * @param {ContentIcon} this - no description
+  * @returns {void}
+  **/
+  OpenMenu(this: ContentIcon): void
+  
+  /**
+  * 
+  * Returns the internal "name" for the content icon, usually a class name for an entity.
+  * 
+  * @name ContentIcon:GetSpawnName
+  * @wiki https://wiki.garrysmod.com/page/ContentIcon/GetSpawnName
+  * @param {ContentIcon} this - no description
+  * @returns {string} - Internal "name" to be used when user left clicks the icon.
+  **/
+  GetSpawnName(this: ContentIcon): string
+  
+  /**
+  * 
+  * Returns a table of weapon classes for the content icon with "NPC" content type to be randomly chosen from when user tries to spawn the NPC.
+  * 
+  * @name ContentIcon:GetNPCWeapon
+  * @wiki https://wiki.garrysmod.com/page/ContentIcon/GetNPCWeapon
+  * @param {ContentIcon} this - no description
+  * @returns {table} - A table of weapon classes to be chosen from when user tries to spawn the NPC.
+  **/
+  GetNPCWeapon(this: ContentIcon): table
+  
+  /**
+  * 
+  * Returns the content type used to save and restore the content icon in a spawnlist.
+  * 
+  * @name ContentIcon:GetContentType
+  * @wiki https://wiki.garrysmod.com/page/ContentIcon/GetContentType
+  * @param {ContentIcon} this - no description
+  * @returns {string} - The content type, for example "entity" or "weapon".
+  **/
+  GetContentType(this: ContentIcon): string
+  
+  /**
+  * 
+  * Returns the color set by @ContentIcon:SetColor
+  * 
+  * @name ContentIcon:GetColor
+  * @wiki https://wiki.garrysmod.com/page/ContentIcon/GetColor
+  * @param {ContentIcon} this - no description
+  * @returns {IColor} - See @IColor structure
+  **/
+  GetColor(this: ContentIcon): IColor
+  
+}
+
+declare interface ConVar  {
+  /**
+  * 
+  * Sets a ConVar's value to the input string. This can only be ran on ConVars created from within Lua.
+  * 
+  * @name ConVar:SetString
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/ConVar/SetString
+  * @param {ConVar} this - no description
+  * @param {string} value - Value to set the ConVar to.
+  * @returns {void}
+  **/
+  SetString(this: ConVar, value: string): void
+  
+  /**
+  * 
+  * Sets a ConVar's value to the input number after converting it to an integer. This can only be ran on ConVars created from within Lua.
+  * 
+  * @name ConVar:SetInt
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/ConVar/SetInt
+  * @param {ConVar} this - no description
+  * @param {number} value - Value to set the ConVar to.
+  * @returns {void}
+  **/
+  SetInt(this: ConVar, value: number): void
+  
+  /**
+  * 
+  * Sets a ConVar's value to to the input number. This can only be ran on ConVars created from within Lua.
+  * 
+  * @name ConVar:SetFloat
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/ConVar/SetFloat
+  * @param {ConVar} this - no description
+  * @param {number} value - Value to set the ConVar to.
+  * @returns {void}
+  **/
+  SetFloat(this: ConVar, value: number): void
+  
+  /**
+  * 
+  * Sets a ConVar's value to 1 or 0 based on the input boolean. This can only be ran on ConVars created from within Lua.
+  * 
+  * @name ConVar:SetBool
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/ConVar/SetBool
+  * @param {ConVar} this - no description
+  * @param {boolean} value - Value to set the ConVar to.
+  * @returns {void}
+  **/
+  SetBool(this: ConVar, value: boolean): void
+  
+  /**
+  * 
+  * Returns the current @ConVar type value as a string.
+  * 
+  * @name ConVar:GetString
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/ConVar/GetString
+  * @param {ConVar} this - no description
+  * @returns {string} - The current console variable value as a string.
+  **/
+  GetString(this: ConVar): string
+  
+  /**
+  * 
+  * Returns the name of the @ConVar type.
+  * 
+  * @name ConVar:GetName
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/ConVar/GetName
+  * @param {ConVar} this - no description
+  * @returns {string} - The name of the console variable.
+  **/
+  GetName(this: ConVar): string
+  
+  /**
+  * 
+  * Attempts to convert the @ConVar type value to a integer.
+  * 
+  * @name ConVar:GetInt
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/ConVar/GetInt
+  * @param {ConVar} this - no description
+  * @returns {number} - The integer value of the console variable.
+  * If it fails to convert to an integer, it will return 0.
+  * All float/decimal values will be rounded down. ( With @math.floor )
+  **/
+  GetInt(this: ConVar): number
+  
+  /**
+  * 
+  * Returns the help text assigned to that convar.
+  * 
+  * @name ConVar:GetHelpText
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/ConVar/GetHelpText
+  * @param {ConVar} this - no description
+  * @returns {string} - The help text
+  **/
+  GetHelpText(this: ConVar): string
+  
+  /**
+  * 
+  * Attempts to convert the @ConVar type value to a float
+  * 
+  * @name ConVar:GetFloat
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/ConVar/GetFloat
+  * @param {ConVar} this - no description
+  * @returns {number} - The float value of the console variable.
+  * If the value cannot be converted to a float, it will return 0.
+  **/
+  GetFloat(this: ConVar): number
+  
+  /**
+  * 
+  * Tries to convert the current string value of a @ConVar type to a boolean.
+  * 
+  * @name ConVar:GetBool
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/ConVar/GetBool
+  * @param {ConVar} this - no description
+  * @returns {boolean} - The boolean value of the console variable. If the variable is numeric and not 0, the result will be true. Otherwise the result will be false.
+  **/
+  GetBool(this: ConVar): boolean
+  
+  /**
+  * 
+  * Returns the default value of the @ConVar type
+  * 
+  * @name ConVar:GetDefault
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/ConVar/GetDefault
+  * @param {ConVar} this - no description
+  * @returns {string} - The default value of the console variable.
+  **/
+  GetDefault(this: ConVar): string
+  
+}
+
+declare interface ColorFuncs  {
+  /**
+  * 
+  * Translates the @IColor structure into a @Vector type, losing the alpha channel.
+  * This will also range the values from 0 - 255 to 0 - 1
+  * r / 255 -> x
+  * g / 255 -> y
+  * b / 255 -> z
+  * This is the opposite of @VectorFuncs:ToColor
+  * 
+  * @name ColorFuncs:ToVector
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Color/ToVector
+  * @param {ColorFuncs} this - no description
+  * @returns {Vector} - The created @Vector type
+  **/
+  ToVector(this: ColorFuncs): Vector
+  
+  /**
+  * 
+  * Returns the red, green, blue, and alpha of the color.
+  * 
+  * @name ColorFuncs:Unpack
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Color/Unpack
+  * @param {ColorFuncs} this - no description
+  * @returns {number} - Red
+  * @returns {number} - Green
+  * @returns {number} - Blue
+  * @returns {number} - Alpha
+  * @tupleReturn
+  **/
+  Unpack(this: ColorFuncs): [number, number, number, number]
+  
+  /**
+  * 
+  * Returns the color as a table with four elements.
+  * 
+  * @name ColorFuncs:ToTable
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Color/ToTable
+  * @param {ColorFuncs} this - no description
+  * @returns {table} - The table with elements 1 = r, 2 = g, 3 = b, 4 = a.
+  **/
+  ToTable(this: ColorFuncs): table
+  
+  /**
+  * 
+  * Converts a @IColor structure into HSV color space. This calls @ColorToHSV function internally.
+  * 
+  * @name ColorFuncs:ToHSV
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/Color/ToHSV
+  * @param {ColorFuncs} this - no description
+  * @returns {number} - The hue in degrees [0, 360).
+  * @returns {number} - The saturation in range [0, 1].
+  * @returns {number} - The value in range [0, 1].
+  * @tupleReturn
+  **/
+  ToHSV(this: ColorFuncs): [number, number, number]
+  
+  /**
+  * 
+  * Converts a @IColor structure into HSL color space. This calls @ColorToHSL function internally.
+  * 
+  * @name ColorFuncs:ToHSL
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/Color/ToHSL
+  * @param {ColorFuncs} this - no description
+  * @returns {number} - The hue in degrees [0, 360).
+  * @returns {number} - The saturation in the range [0, 1].
+  * @returns {number} - The lightness in the range [0, 1].
+  * @tupleReturn
+  **/
+  ToHSL(this: ColorFuncs): [number, number, number]
+  
+  /**
+  * 
+  * Sets the red, green, blue, and alpha of the color.
+  * 
+  * @name ColorFuncs:SetUnpacked
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Color/SetUnpacked
+  * @param {ColorFuncs} this - no description
+  * @param {number} r - The red component
+  * @param {number} g - The green component
+  * @param {number} b - The blue component
+  * @param {number} a - The alpha component
+  * @returns {void}
+  **/
+  SetUnpacked(this: ColorFuncs, r: number, g: number, b: number, a: number): void
+  
+}
+
 declare interface CUserCmd  {
   /**
   * 
@@ -59807,6 +60994,19 @@ declare interface CUserCmd  {
   
   /**
   * 
+  * Removed a key bit from the current key bitflag.
+  * 
+  * @name CUserCmd:RemoveKey
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/CUserCmd/RemoveKey
+  * @param {CUserCmd} this - no description
+  * @param {IN} button - Bitflag to be removed from the key bitflag, see @IN enum.
+  * @returns {void}
+  **/
+  RemoveKey(this: CUserCmd, button: IN): void
+  
+  /**
+  * 
   * Forces the associated player to select a weapon. This is used internally in the default HL2 weapon selection HUD.
   * This may not work immediately if the current command is in prediction. Use @input.SelectWeapon to switch the weapon from the client when the next available command can do so.
   * 
@@ -59819,19 +61019,6 @@ declare interface CUserCmd  {
   * @returns {void}
   **/
   SelectWeapon(this: CUserCmd, weapon: Weapon): void
-  
-  /**
-  * 
-  * Removed a key bit from the current key bitflag.
-  * 
-  * @name CUserCmd:RemoveKey
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/CUserCmd/RemoveKey
-  * @param {CUserCmd} this - no description
-  * @param {IN} button - Bitflag to be removed from the key bitflag, see @IN enum.
-  * @returns {void}
-  **/
-  RemoveKey(this: CUserCmd, button: IN): void
   
   /**
   * 
@@ -59945,18 +61132,6 @@ declare interface CUserCmd  {
   
   /**
   * 
-  * Returns a bitflag indicating which buttons are pressed.
-  * 
-  * @name CUserCmd:GetButtons
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/CUserCmd/GetButtons
-  * @param {CUserCmd} this - no description
-  * @returns {IN} - Pressed buttons, see @IN enum
-  **/
-  GetButtons(this: CUserCmd): IN
-  
-  /**
-  * 
   * The speed the client wishes to move forward with, negative if the clients wants to move backwards.
   * 
   * @name CUserCmd:GetForwardMove
@@ -59969,15 +61144,28 @@ declare interface CUserCmd  {
   
   /**
   * 
-  * Returns an increasing number representing the index of the user cmd. The value returned is occasionally 0 inside @GamemodeHooks:CreateMove, so it's advised to check for a non-zero value if you wish to get the correct number.
+  * Returns an increasing number representing the index of the user cmd.
   * 
   * @name CUserCmd:CommandNumber
   * @realm client, server
   * @wiki https://wiki.garrysmod.com/page/CUserCmd/CommandNumber
+  * @warning The value returned is occasionally 0 inside @GamemodeHooks:CreateMove and @GamemodeHooks:StartCommand. It is advised to check for a non-zero value if you wish to get the correct number.
   * @param {CUserCmd} this - no description
   * @returns {number} - The command number
   **/
   CommandNumber(this: CUserCmd): number
+  
+  /**
+  * 
+  * Returns a bitflag indicating which buttons are pressed.
+  * 
+  * @name CUserCmd:GetButtons
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/CUserCmd/GetButtons
+  * @param {CUserCmd} this - no description
+  * @returns {IN} - Pressed buttons, see @IN enum
+  **/
+  GetButtons(this: CUserCmd): IN
   
   /**
   * 
@@ -60422,11 +61610,12 @@ declare interface CSoundPatch  {
   
   /**
   * 
-  * Sets the DSP ( Digital Signal Processor ) effect for the sound. Similar to @Player:SetDSP
+  * Sets the DSP (Digital Signal Processor) effect for the sound. Similar to @Player:SetDSP but for individual sounds.
   * 
   * @name CSoundPatch:SetDSP
   * @realm client, server
   * @wiki https://wiki.garrysmod.com/page/CSoundPatch/SetDSP
+  * @bug #4086 This will only apply if the sound is not playing.
   * @param {CSoundPatch} this - no description
   * @param {number} dsp - The DSP effect to set.
   * Pick from the [list of DSP's](https://developer.valvesoftware.com/wiki/Dsp_presets)
@@ -60547,7 +61736,7 @@ declare interface CSoundPatch  {
   * @param {number} deltaTime - Time to fade the volume from previous to new value from.
   * @returns {void}
   **/
-  ChangeVolume(this: CSoundPatch, volume: number, deltaTime: number): void
+  ChangeVolume(this: CSoundPatch, volume: number, deltaTime?: number): void
   
   /**
   * 
@@ -60562,7 +61751,7 @@ declare interface CSoundPatch  {
   * @param {number} deltaTime - The time to fade from previous to the new pitch.
   * @returns {void}
   **/
-  ChangePitch(this: CSoundPatch, pitch: number, deltaTime: number): void
+  ChangePitch(this: CSoundPatch, pitch: number, deltaTime?: number): void
   
 }
 
@@ -60610,19 +61799,6 @@ declare interface CRecipientFilter  {
   
   /**
   * 
-  * Removes all players that can see this PVS from the recipient filter.
-  * 
-  * @name CRecipientFilter:RemovePVS
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/CRecipientFilter/RemovePVS
-  * @param {CRecipientFilter} this - no description
-  * @param {Vector} pos - Position that players may be able to see.
-  * @returns {void}
-  **/
-  RemovePVS(this: CRecipientFilter, pos: Vector): void
-  
-  /**
-  * 
   * Removes the player from the recipient filter.
   * 
   * @name CRecipientFilter:RemovePlayer
@@ -60633,6 +61809,19 @@ declare interface CRecipientFilter  {
   * @returns {void}
   **/
   RemovePlayer(this: CRecipientFilter, Player: Player): void
+  
+  /**
+  * 
+  * Removes all players that can see this PVS from the recipient filter.
+  * 
+  * @name CRecipientFilter:RemovePVS
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/CRecipientFilter/RemovePVS
+  * @param {CRecipientFilter} this - no description
+  * @param {Vector} pos - Position that players may be able to see.
+  * @returns {void}
+  **/
+  RemovePVS(this: CRecipientFilter, pos: Vector): void
   
   /**
   * 
@@ -60698,19 +61887,6 @@ declare interface CRecipientFilter  {
   
   /**
   * 
-  * Adds all players that are in the same PVS as this position.
-  * 
-  * @name CRecipientFilter:AddPVS
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/CRecipientFilter/AddPVS
-  * @param {CRecipientFilter} this - no description
-  * @param {Vector} Position - PVS position.
-  * @returns {void}
-  **/
-  AddPVS(this: CRecipientFilter, Position: Vector): void
-  
-  /**
-  * 
   * Adds a player to the recipient filter
   * 
   * @name CRecipientFilter:AddPlayer
@@ -60721,6 +61897,19 @@ declare interface CRecipientFilter  {
   * @returns {void}
   **/
   AddPlayer(this: CRecipientFilter, Player: Player): void
+  
+  /**
+  * 
+  * Adds all players that are in the same PVS as this position.
+  * 
+  * @name CRecipientFilter:AddPVS
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/CRecipientFilter/AddPVS
+  * @param {CRecipientFilter} this - no description
+  * @param {Vector} Position - PVS position.
+  * @returns {void}
+  **/
+  AddPVS(this: CRecipientFilter, Position: Vector): void
   
   /**
   * 
@@ -60746,545 +61935,6 @@ declare interface CRecipientFilter  {
   * @returns {void}
   **/
   AddAllPlayers(this: CRecipientFilter): void
-  
-}
-
-declare interface ConVar  {
-  /**
-  * 
-  * Sets a ConVar's value to the input string. This can only be ran on ConVars created from within Lua.
-  * 
-  * @name ConVar:SetString
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/ConVar/SetString
-  * @param {ConVar} this - no description
-  * @param {string} value - Value to set the ConVar to.
-  * @returns {void}
-  **/
-  SetString(this: ConVar, value: string): void
-  
-  /**
-  * 
-  * Sets a ConVar's value to the input number after converting it to an integer. This can only be ran on ConVars created from within Lua.
-  * 
-  * @name ConVar:SetInt
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/ConVar/SetInt
-  * @param {ConVar} this - no description
-  * @param {number} value - Value to set the ConVar to.
-  * @returns {void}
-  **/
-  SetInt(this: ConVar, value: number): void
-  
-  /**
-  * 
-  * Sets a ConVar's value to to the input number. This can only be ran on ConVars created from within Lua.
-  * 
-  * @name ConVar:SetFloat
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/ConVar/SetFloat
-  * @param {ConVar} this - no description
-  * @param {number} value - Value to set the ConVar to.
-  * @returns {void}
-  **/
-  SetFloat(this: ConVar, value: number): void
-  
-  /**
-  * 
-  * Sets a ConVar's value to 1 or 0 based on the input boolean. This can only be ran on ConVars created from within Lua.
-  * 
-  * @name ConVar:SetBool
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/ConVar/SetBool
-  * @param {ConVar} this - no description
-  * @param {boolean} value - Value to set the ConVar to.
-  * @returns {void}
-  **/
-  SetBool(this: ConVar, value: boolean): void
-  
-  /**
-  * 
-  * Returns the current @ConVar type value as a string.
-  * 
-  * @name ConVar:GetString
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/ConVar/GetString
-  * @param {ConVar} this - no description
-  * @returns {string} - The current console variable value as a string.
-  **/
-  GetString(this: ConVar): string
-  
-  /**
-  * 
-  * Returns the name of the @ConVar type.
-  * 
-  * @name ConVar:GetName
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/ConVar/GetName
-  * @param {ConVar} this - no description
-  * @returns {string} - The name of the console variable.
-  **/
-  GetName(this: ConVar): string
-  
-  /**
-  * 
-  * Attempts to convert the @ConVar type value to a integer.
-  * 
-  * @name ConVar:GetInt
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/ConVar/GetInt
-  * @param {ConVar} this - no description
-  * @returns {number} - The integer value of the console variable.
-  * If it fails to convert to an integer, it will return 0.
-  * All float/decimal values will be rounded down. ( With @math.floor )
-  **/
-  GetInt(this: ConVar): number
-  
-  /**
-  * 
-  * Returns the help text assigned to that convar.
-  * 
-  * @name ConVar:GetHelpText
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/ConVar/GetHelpText
-  * @param {ConVar} this - no description
-  * @returns {string} - The help text
-  **/
-  GetHelpText(this: ConVar): string
-  
-  /**
-  * 
-  * Attempts to convert the @ConVar type value to a float
-  * 
-  * @name ConVar:GetFloat
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/ConVar/GetFloat
-  * @param {ConVar} this - no description
-  * @returns {number} - The float value of the console variable.
-  * If the value cannot be converted to a float, it will return 0.
-  **/
-  GetFloat(this: ConVar): number
-  
-  /**
-  * 
-  * Returns the default value of the @ConVar type
-  * 
-  * @name ConVar:GetDefault
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/ConVar/GetDefault
-  * @param {ConVar} this - no description
-  * @returns {string} - The default value of the console variable.
-  **/
-  GetDefault(this: ConVar): string
-  
-  /**
-  * 
-  * Tries to convert the current string value of a @ConVar type to a boolean.
-  * 
-  * @name ConVar:GetBool
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/ConVar/GetBool
-  * @param {ConVar} this - no description
-  * @returns {boolean} - The boolean value of the console variable. If the variable is numeric and not 0, the result will be true. Otherwise the result will be false.
-  **/
-  GetBool(this: ConVar): boolean
-  
-}
-
-declare interface ControlPresets extends Panel {
-  /**
-  * 
-  * Set the name label text.
-  * 
-  * @name ControlPresets:SetLabel
-  * @wiki https://wiki.garrysmod.com/page/ControlPresets/SetLabel
-  * @param {ControlPresets} this - no description
-  * @param {string} name - The text to put in the label
-  * @returns {void}
-  **/
-  SetLabel(this: ControlPresets, name: string): void
-  
-  /**
-  * 
-  * Get a list of all Console Variables being managed by this panel.
-  * 
-  * @name ControlPresets:GetConVars
-  * @wiki https://wiki.garrysmod.com/page/ControlPresets/GetConVars
-  * @param {ControlPresets} this - no description
-  * @returns {table} - numbered table of convars
-  **/
-  GetConVars(this: ControlPresets): table
-  
-  /**
-  * 
-  * Adds a convar to be managed by this control.
-  * 
-  * @name ControlPresets:AddConVar
-  * @wiki https://wiki.garrysmod.com/page/ControlPresets/AddConVar
-  * @param {ControlPresets} this - no description
-  * @param {string} convar - The convar to add.
-  * @returns {void}
-  **/
-  AddConVar(this: ControlPresets, convar: string): void
-  
-}
-
-declare interface ControlPanel extends DForm {
-  /**
-  * 
-  * Creates a @MatSelect type panel and adds it as an [item](https://wiki.garrysmod.com/page/ControlPanel/AddPanel).
-  * 
-  * @name ControlPanel:MatSelect
-  * @wiki https://wiki.garrysmod.com/page/ControlPanel/MatSelect
-  * @param {ControlPanel} this - no description
-  * @param {string} convar - Calls @MatSelect type:[SetConVar](https://wiki.garrysmod.com/page/ContextBase/SetConVar) with this value.
-  * @param {table} options - If specified, calls @MatSelect:AddMaterial(key, value) for each table entry. If the table key is a number, the function will instead be called with the value as both arguments.
-  * @param {boolean} autostretch - If specified, calls @MatSelect:SetAutoHeight with this value.
-  * @param {number} width - If specified, calls @MatSelect:SetItemWidth with this value.
-  * @param {number} height - If specified, calls @MatSelect:SetItemHeight with this value.
-  * @returns {MatSelect} - The created MatSelect panel.
-  **/
-  MatSelect(this: ControlPanel, convar: string, options: table, autostretch: boolean, width: number, height: number): MatSelect
-  
-  /**
-  * 
-  * Returns this control panel.
-  * 
-  * @name ControlPanel:GetEmbeddedPanel
-  * @wiki https://wiki.garrysmod.com/page/ControlPanel/GetEmbeddedPanel
-  * @param {ControlPanel} this - no description
-  * @returns {ControlPanel} - The same control panel the function is being called on.
-  **/
-  GetEmbeddedPanel(this: ControlPanel): ControlPanel
-  
-  /**
-  * 
-  * Calls the given function with this panel as the only argument. Used by the spawnmenu to populate the control panel.
-  * 
-  * @name ControlPanel:FillViaFunction
-  * @wiki https://wiki.garrysmod.com/page/ControlPanel/FillViaFunction
-  * @param {ControlPanel} this - no description
-  * @param {ControlPanel} func - A function that takes one argument:
-  * * @ControlPanel type panelToPopulate
-  * @returns {void}
-  **/
-  FillViaFunction(this: ControlPanel, func: ControlPanel): void
-  
-  /**
-  * 
-  * Sets control values of the control panel.
-  * 
-  * @name ControlPanel:ControlValues
-  * @wiki https://wiki.garrysmod.com/page/ControlPanel/ControlValues
-  * @param {ControlPanel} this - no description
-  * @param {IControlPanelControlValuesData} data - A two-membered table:
-  * @returns {void}
-  **/
-  ControlValues(this: ControlPanel, data: IControlPanelControlValuesData): void
-  
-  /**
-  * 
-  * Adds an item by calling @DForm:AddItem.
-  * 
-  * @name ControlPanel:AddPanel
-  * @wiki https://wiki.garrysmod.com/page/ControlPanel/AddPanel
-  * @param {ControlPanel} this - no description
-  * @param {Panel} panel - Panel to add as an item to the control panel.
-  * @returns {void}
-  **/
-  AddPanel(this: ControlPanel, panel: Panel): void
-  
-  /**
-  * 
-  * Adds a control to the control panel.
-  * 
-  * @name ControlPanel:AddControl
-  * @wiki https://wiki.garrysmod.com/page/ControlPanel/AddControl
-  * @param {ControlPanel} this - no description
-  * @param {string} type - The control type to add. The complete list is:
-  * * header
-  * * textbox
-  * * label
-  * * checkbox/toggle
-  * * slider
-  * * propselect
-  * * matselect
-  * * ropematerial
-  * * button
-  * * numpad
-  * * color
-  * * combobox
-  * * listbox
-  * * materialgallery
-  * @param {DListView[]} controlinfo - Each control takes their own table structure. You may search "AddControl" on GitHub for examples.
-  * Here is a full list of each type and the table members it requires:
-  * *header
-  * **description
-  * *textbox:
-  * **label (def: "Untitled")
-  * **command
-  * *label:
-  * **text
-  * *checkbox, toggle (same thing):
-  * **label (def: "Untitled")
-  * **command
-  * **help (boolean, if true assumes label is a language string ("#tool.toolname.stuff") and adds ".help" at the end)
-  * *slider:
-  * **type (optional string, if equals "float" then 2 digits after the decimal will be used, otherwise 0)
-  * **label (def: "Untitled")
-  * **command
-  * **min (def: 0)
-  * **max (def: 100)
-  * *help (boolean, see above)
-  * *propselect:
-  * **(data goes directly to PropSelect's :ControlValues(data))
-  * *matselect:
-  * **(data goes directly to MatSelect's :ControlValues(data))
-  * *ropematerial:
-  * **convar (notice: NOT called command this time!)
-  * *button:
-  * **label / text (if label is missing will use text. Def: "No Label")
-  * **command
-  * *numpad:
-  * **command
-  * **command2
-  * **label
-  * **label2
-  * *color:
-  * **label
-  * **red (convar)
-  * **green (convar)
-  * **blue (convar)
-  * **alpha (convar)
-  * *combobox:
-  * **menubutton (if doesn't equal "1", becomes a listbox)
-  * **folder
-  * **options (optional, ha)
-  * **cvars (optional)
-  * *listbox:
-  * **height (if set, becomes @DListView type, otherwise is @CtrlListBox type)
-  * **label (def: "unknown")
-  * **options (optional)
-  * *materialgallery:
-  * **width (def: 32)
-  * **height (def: 32)
-  * **rows (def: 4)
-  * **convar
-  * **options
-  * @returns {void}
-  **/
-  AddControl(this: ControlPanel, type: string, controlinfo?: DListView[]): void
-  
-}
-
-declare interface ContextBase extends Panel {
-  /**
-  * 
-  * You should override this function and use it to check whether your convar value changed.
-  * 
-  * @name ContextBase:TestForChanges
-  * @wiki https://wiki.garrysmod.com/page/ContextBase/TestForChanges
-  * @param {ContextBase} this - no description
-  * @returns {void}
-  **/
-  TestForChanges(this: ContextBase): void
-  
-  /**
-  * 
-  * Sets the @ConVar type for the panel to change/handle.
-  * 
-  * @name ContextBase:SetConVar
-  * @wiki https://wiki.garrysmod.com/page/ContextBase/SetConVar
-  * @param {ContextBase} this - no description
-  * @param {string} cvar - The @ConVar type for the panel to change.
-  * @returns {void}
-  **/
-  SetConVar(this: ContextBase, cvar: string): void
-  
-  /**
-  * 
-  * Returns the @ConVar type for the panel to change/handle, set by @ContextBase:SetConVar
-  * 
-  * @name ContextBase:ConVar
-  * @wiki https://wiki.garrysmod.com/page/ContextBase/ConVar
-  * @param {ContextBase} this - no description
-  * @returns {string} - The @ConVar type for the panel to change.
-  **/
-  ConVar(this: ContextBase): string
-  
-  /**
-  * 
-  * Called by spawnmenu functions (when creating a context menu) to fill this control with data.
-  * 
-  * @name ContextBase:ControlValues
-  * @wiki https://wiki.garrysmod.com/page/ContextBase/ControlValues
-  * @param {ContextBase} this - no description
-  * @param {IContextBaseControlValuesContextData} contextData - A two-membered table:
-  * @returns {void}
-  **/
-  ControlValues(this: ContextBase, contextData: IContextBaseControlValuesContextData): void
-  
-}
-
-declare interface ContentIcon extends DButton {
-  /**
-  * 
-  * Sets the internal "name" for the content icon, usually a class name for an entity.
-  * 
-  * @name ContentIcon:SetSpawnName
-  * @wiki https://wiki.garrysmod.com/page/ContentIcon/SetSpawnName
-  * @param {ContentIcon} this - no description
-  * @param {string} name - Internal "name" to be used when user left clicks the icon.
-  * @returns {void}
-  **/
-  SetSpawnName(this: ContentIcon, name: string): void
-  
-  /**
-  * 
-  * Sets a table of weapon classes for the content icon with "NPC" content type to be randomly chosen from when user tries to spawn the NPC.
-  * 
-  * @name ContentIcon:SetNPCWeapon
-  * @wiki https://wiki.garrysmod.com/page/ContentIcon/SetNPCWeapon
-  * @param {ContentIcon} this - no description
-  * @param {table} weapons - A table of weapon classes to be chosen from when user tries to spawn the NPC.
-  * @returns {void}
-  **/
-  SetNPCWeapon(this: ContentIcon, weapons: table): void
-  
-  /**
-  * 
-  * Sets the tool tip and the "nice" name to be displayed by the content icon.
-  * 
-  * @name ContentIcon:SetName
-  * @wiki https://wiki.garrysmod.com/page/ContentIcon/SetName
-  * @param {ContentIcon} this - no description
-  * @param {string} name - "Nice" name to display.
-  * @returns {void}
-  **/
-  SetName(this: ContentIcon, name: string): void
-  
-  /**
-  * 
-  * Sets the material to be displayed as the content icon.
-  * 
-  * @name ContentIcon:SetMaterial
-  * @wiki https://wiki.garrysmod.com/page/ContentIcon/SetMaterial
-  * @param {ContentIcon} this - no description
-  * @param {string} path - Path to the icon to use.
-  * @returns {void}
-  **/
-  SetMaterial(this: ContentIcon, path: string): void
-  
-  /**
-  * 
-  * Sets the content type used to save and restore the content icon in a spawnlist.
-  * 
-  * @name ContentIcon:SetContentType
-  * @wiki https://wiki.garrysmod.com/page/ContentIcon/SetContentType
-  * @param {ContentIcon} this - no description
-  * @param {string} type - The content type, for example "entity" or "weapon"
-  * @returns {void}
-  **/
-  SetContentType(this: ContentIcon, type: string): void
-  
-  /**
-  * 
-  * Sets the color for the content icon. Currently is not used by the content icon panel.
-  * 
-  * @name ContentIcon:SetColor
-  * @wiki https://wiki.garrysmod.com/page/ContentIcon/SetColor
-  * @param {ContentIcon} this - no description
-  * @param {IColor} clr - The color to set. See @IColor structure
-  * @returns {void}
-  **/
-  SetColor(this: ContentIcon, clr: IColor): void
-  
-  /**
-  * 
-  * Sets whether the content item is admin only. This makes the icon to display a admin icon in the top left corner of the icon.
-  * 
-  * @name ContentIcon:SetAdminOnly
-  * @wiki https://wiki.garrysmod.com/page/ContentIcon/SetAdminOnly
-  * @param {ContentIcon} this - no description
-  * @param {boolean} adminOnly - Whether this content should be admin only or not
-  * @returns {void}
-  **/
-  SetAdminOnly(this: ContentIcon, adminOnly: boolean): void
-  
-  /**
-  * 
-  * A hook for override, by default does nothing. Called when user right clicks on the content icon, you are supposed to open a @DermaMenu function here with additional options.
-  * 
-  * @name ContentIcon:OpenMenu
-  * @wiki https://wiki.garrysmod.com/page/ContentIcon/OpenMenu
-  * @param {ContentIcon} this - no description
-  * @returns {void}
-  **/
-  OpenMenu(this: ContentIcon): void
-  
-  /**
-  * 
-  * Returns the internal "name" for the content icon, usually a class name for an entity.
-  * 
-  * @name ContentIcon:GetSpawnName
-  * @wiki https://wiki.garrysmod.com/page/ContentIcon/GetSpawnName
-  * @param {ContentIcon} this - no description
-  * @returns {string} - Internal "name" to be used when user left clicks the icon.
-  **/
-  GetSpawnName(this: ContentIcon): string
-  
-  /**
-  * 
-  * Returns a table of weapon classes for the content icon with "NPC" content type to be randomly chosen from when user tries to spawn the NPC.
-  * 
-  * @name ContentIcon:GetNPCWeapon
-  * @wiki https://wiki.garrysmod.com/page/ContentIcon/GetNPCWeapon
-  * @param {ContentIcon} this - no description
-  * @returns {table} - A table of weapon classes to be chosen from when user tries to spawn the NPC.
-  **/
-  GetNPCWeapon(this: ContentIcon): table
-  
-  /**
-  * 
-  * Returns the content type used to save and restore the content icon in a spawnlist.
-  * 
-  * @name ContentIcon:GetContentType
-  * @wiki https://wiki.garrysmod.com/page/ContentIcon/GetContentType
-  * @param {ContentIcon} this - no description
-  * @returns {string} - The content type, for example "entity" or "weapon".
-  **/
-  GetContentType(this: ContentIcon): string
-  
-  /**
-  * 
-  * Returns the color set by @ContentIcon:SetColor
-  * 
-  * @name ContentIcon:GetColor
-  * @wiki https://wiki.garrysmod.com/page/ContentIcon/GetColor
-  * @param {ContentIcon} this - no description
-  * @returns {IColor} - See @IColor structure
-  **/
-  GetColor(this: ContentIcon): IColor
-  
-}
-
-declare interface ColorFuncs  {
-  /**
-  * 
-  * Translates the @IColor structure into a @Vector type, losing the alpha channel.
-  * This will also range the values from 0 - 255 to 0 - 1
-  * r / 255 -> x
-  * g / 255 -> y
-  * b / 255 -> z
-  * This is the opposite of @VectorFuncs:ToColor
-  * 
-  * @name ColorFuncs:ToVector
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/Color/ToVector
-  * @param {ColorFuncs} this - no description
-  * @returns {Vector} - The created @Vector type
-  **/
-  ToVector(this: ColorFuncs): Vector
   
 }
 
@@ -61316,7 +61966,7 @@ declare interface CNewParticleEffect  {
   * @param {boolean} wakeOnStop - no description
   * @returns {void}
   **/
-  StopEmission(this: CNewParticleEffect, infiniteOnly: boolean, removeAllParticles: boolean, wakeOnStop: boolean): void
+  StopEmission(this: CNewParticleEffect, infiniteOnly?: boolean, removeAllParticles?: boolean, wakeOnStop?: boolean): void
   
   /**
   * 
@@ -61329,7 +61979,7 @@ declare interface CNewParticleEffect  {
   * @param {boolean} infiniteOnly - no description
   * @returns {void}
   **/
-  StartEmission(this: CNewParticleEffect, infiniteOnly: boolean): void
+  StartEmission(this: CNewParticleEffect, infiniteOnly?: boolean): void
   
   /**
   * 
@@ -61591,7 +62241,7 @@ declare interface CNewParticleEffect  {
   * @param {Vector} offset - The offset from the @EntityFuncs:GetPos of the entity we are attaching this CP to.
   * @returns {void}
   **/
-  AddControlPoint(this: CNewParticleEffect, cpID: number, ent: Entity, partAttachment: PATTACH, entAttachment: number, offset: Vector): void
+  AddControlPoint(this: CNewParticleEffect, cpID: number, ent: Entity, partAttachment: PATTACH, entAttachment?: number, offset?: Vector): void
   
 }
 
@@ -61737,18 +62387,6 @@ declare interface CNavLadder  {
   
   /**
   * 
-  * Returns the top forward @CNavArea type of the @CNavLadder type.
-  * 
-  * @name CNavLadder:GetTopForwardArea
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/CNavLadder/GetTopForwardArea
-  * @param {CNavLadder} this - no description
-  * @returns {CNavArea | CNavLadder} - The top forward @CNavArea type of the @CNavLadder type.
-  **/
-  GetTopForwardArea(this: CNavLadder): CNavArea | CNavLadder
-  
-  /**
-  * 
   * Returns the top behind @CNavArea type of the @CNavLadder type.
   * 
   * @name CNavLadder:GetTopBehindArea
@@ -61758,6 +62396,18 @@ declare interface CNavLadder  {
   * @returns {CNavArea | CNavLadder} - The top behind @CNavArea type of the @CNavLadder type.
   **/
   GetTopBehindArea(this: CNavLadder): CNavArea | CNavLadder
+  
+  /**
+  * 
+  * Returns the top forward @CNavArea type of the @CNavLadder type.
+  * 
+  * @name CNavLadder:GetTopForwardArea
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/CNavLadder/GetTopForwardArea
+  * @param {CNavLadder} this - no description
+  * @returns {CNavArea | CNavLadder} - The top forward @CNavArea type of the @CNavLadder type.
+  **/
+  GetTopForwardArea(this: CNavLadder): CNavArea | CNavLadder
   
   /**
   * 
@@ -61773,6 +62423,18 @@ declare interface CNavLadder  {
   
   /**
   * 
+  * Returns the direction of this @CNavLadder type. ( The direction in which players back will be facing if they are looking directly at the ladder )
+  * 
+  * @name CNavLadder:GetNormal
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/CNavLadder/GetNormal
+  * @param {CNavLadder} this - no description
+  * @returns {CNavLadder} - The direction of this @CNavLadder type.
+  **/
+  GetNormal(this: CNavLadder): CNavLadder
+  
+  /**
+  * 
   * Returns the world position based on given height relative to the ladder.
   * 
   * @name CNavLadder:GetPosAtHeight
@@ -61783,18 +62445,6 @@ declare interface CNavLadder  {
   * @returns {Vector} - The closest point on the ladder to that height.
   **/
   GetPosAtHeight(this: CNavLadder, height: number): Vector
-  
-  /**
-  * 
-  * Returns the direction of this @CNavLadder type. ( The direction in which players back will be facing if they are looking directly at the ladder )
-  * 
-  * @name CNavLadder:GetNormal
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/CNavLadder/GetNormal
-  * @param {CNavLadder} this - no description
-  * @returns {CNavLadder} - The direction of this @CNavLadder type.
-  **/
-  GetNormal(this: CNavLadder): CNavLadder
   
   /**
   * 
@@ -62102,7 +62752,7 @@ declare interface CNavArea  {
   * @param {number} tolerance - The tolerance of the overlapping, set to 0 for no tolerance.
   * @returns {boolean} - Whether the given position overlaps the Nav Area or not.
   **/
-  IsOverlapping(this: CNavArea, pos: Vector, tolerance: number): boolean
+  IsOverlapping(this: CNavArea, pos: Vector, tolerance?: number): boolean
   
   /**
   * 
@@ -62213,7 +62863,7 @@ declare interface CNavArea  {
   * @param {boolean} ignoreNavBlockers - Whether to ignore [func_nav_blocker](https://developer.valvesoftware.com/wiki/Func_nav_blocker) entities.
   * @returns {boolean} - Whether the area is blocked or not
   **/
-  IsBlocked(this: CNavArea, teamID: number, ignoreNavBlockers: boolean): boolean
+  IsBlocked(this: CNavArea, teamID?: number, ignoreNavBlockers?: boolean): boolean
   
   /**
   * 
@@ -62306,18 +62956,6 @@ declare interface CNavArea  {
   
   /**
   * 
-  * Returns the Place of the nav area.
-  * 
-  * @name CNavArea:GetPlace
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/CNavArea/GetPlace
-  * @param {CNavArea} this - no description
-  * @returns {string} - The place of the nav area, or no value if it doesn't have a place set.
-  **/
-  GetPlace(this: CNavArea): string
-  
-  /**
-  * 
   * Returns how this @CNavArea type is connected to its parent.
   * 
   * @name CNavArea:GetParentHow
@@ -62327,6 +62965,18 @@ declare interface CNavArea  {
   * @returns {NavTraverseType} - See @NavTraverseType enum
   **/
   GetParentHow(this: CNavArea): NavTraverseType
+  
+  /**
+  * 
+  * Returns the Place of the nav area.
+  * 
+  * @name CNavArea:GetPlace
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/CNavArea/GetPlace
+  * @param {CNavArea} this - no description
+  * @returns {string} - The place of the nav area, or no value if it doesn't have a place set.
+  **/
+  GetPlace(this: CNavArea): string
   
   /**
   * 
@@ -62428,7 +63078,7 @@ declare interface CNavArea  {
   * * Values over 255 and below 0 will be clamped.
   * @returns {Vector[]} - A table of @Vector types
   **/
-  GetHidingSpots(this: CNavArea, type: number): Vector[]
+  GetHidingSpots(this: CNavArea, type?: number): Vector[]
   
   /**
   * 
@@ -62578,18 +63228,6 @@ declare interface CNavArea  {
   
   /**
   * 
-  * Draws the hiding spots on debug overlay. This includes sniper/exposed spots too!
-  * 
-  * @name CNavArea:DrawSpots
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/CNavArea/DrawSpots
-  * @param {CNavArea} this - no description
-  * @returns {void}
-  **/
-  DrawSpots(this: CNavArea): void
-  
-  /**
-  * 
   * Draws this navarea on debug overlay.
   * 
   * @name CNavArea:Draw
@@ -62599,6 +63237,18 @@ declare interface CNavArea  {
   * @returns {void}
   **/
   Draw(this: CNavArea): void
+  
+  /**
+  * 
+  * Draws the hiding spots on debug overlay. This includes sniper/exposed spots too!
+  * 
+  * @name CNavArea:DrawSpots
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/CNavArea/DrawSpots
+  * @param {CNavArea} this - no description
+  * @returns {void}
+  **/
+  DrawSpots(this: CNavArea): void
   
   /**
   * 
@@ -62740,7 +63390,7 @@ declare interface CNavArea  {
   * Values over 255 will be clamped.
   * @returns {void}
   **/
-  AddHidingSpot(this: CNavArea, pos: Vector, flags: number): void
+  AddHidingSpot(this: CNavArea, pos: Vector, flags?: number): void
   
 }
 
@@ -63209,7 +63859,7 @@ declare interface CLuaParticle  {
   * @param {boolean} doScale - Use velocity scaling.
   * @returns {void}
   **/
-  SetVelocityScale(this: CLuaParticle, doScale: boolean): void
+  SetVelocityScale(this: CLuaParticle, doScale?: boolean): void
   
   /**
   * 
@@ -63481,19 +64131,6 @@ declare interface CLuaParticle  {
   
   /**
   * 
-  * Sets the angular velocity of the the particle.
-  * 
-  * @name CLuaParticle:SetAngleVelocity
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/CLuaParticle/SetAngleVelocity
-  * @param {CLuaParticle} this - no description
-  * @param {Angle} angVel - New angular velocity.
-  * @returns {void}
-  **/
-  SetAngleVelocity(this: CLuaParticle, angVel: Angle): void
-  
-  /**
-  * 
   * Sets the angles of the particle.
   * 
   * @name CLuaParticle:SetAngles
@@ -63504,6 +64141,19 @@ declare interface CLuaParticle  {
   * @returns {void}
   **/
   SetAngles(this: CLuaParticle, ang: Angle): void
+  
+  /**
+  * 
+  * Sets the angular velocity of the the particle.
+  * 
+  * @name CLuaParticle:SetAngleVelocity
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/CLuaParticle/SetAngleVelocity
+  * @param {CLuaParticle} this - no description
+  * @param {Angle} angVel - New angular velocity.
+  * @returns {void}
+  **/
+  SetAngleVelocity(this: CLuaParticle, angVel: Angle): void
   
   /**
   * 
@@ -63520,18 +64170,6 @@ declare interface CLuaParticle  {
   
   /**
   * 
-  * Returns the current velocity of the particle.
-  * 
-  * @name CLuaParticle:GetVelocity
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/CLuaParticle/GetVelocity
-  * @param {CLuaParticle} this - no description
-  * @returns {Vector} - The current velocity of the particle.
-  **/
-  GetVelocity(this: CLuaParticle): Vector
-  
-  /**
-  * 
   * Returns the size which the particle has when it's created.
   * 
   * @name CLuaParticle:GetStartSize
@@ -63541,6 +64179,18 @@ declare interface CLuaParticle  {
   * @returns {number} - The size which the particle has when it's created.
   **/
   GetStartSize(this: CLuaParticle): number
+  
+  /**
+  * 
+  * Returns the current velocity of the particle.
+  * 
+  * @name CLuaParticle:GetVelocity
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/CLuaParticle/GetVelocity
+  * @param {CLuaParticle} this - no description
+  * @returns {Vector} - The current velocity of the particle.
+  **/
+  GetVelocity(this: CLuaParticle): Vector
   
   /**
   * 
@@ -63680,21 +64330,6 @@ declare interface CLuaParticle  {
   
   /**
   * 
-  * Returns the color of the particle.
-  * 
-  * @name CLuaParticle:GetColor
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/CLuaParticle/GetColor
-  * @param {CLuaParticle} this - no description
-  * @returns {number} - Red part of the color
-  * @returns {number} - Green part of the color
-  * @returns {number} - Blue part of the color
-  * @tupleReturn
-  **/
-  GetColor(this: CLuaParticle): [number, number, number]
-  
-  /**
-  * 
   * Returns the 'bounciness' of the particle.
   * 
   * @name CLuaParticle:GetBounce
@@ -63710,15 +64345,18 @@ declare interface CLuaParticle  {
   
   /**
   * 
-  * Returns the angular velocity of the particle
+  * Returns the color of the particle.
   * 
-  * @name CLuaParticle:GetAngleVelocity
+  * @name CLuaParticle:GetColor
   * @realm client
-  * @wiki https://wiki.garrysmod.com/page/CLuaParticle/GetAngleVelocity
+  * @wiki https://wiki.garrysmod.com/page/CLuaParticle/GetColor
   * @param {CLuaParticle} this - no description
-  * @returns {Angle} - The angular velocity of the particle
+  * @returns {number} - Red part of the color
+  * @returns {number} - Green part of the color
+  * @returns {number} - Blue part of the color
+  * @tupleReturn
   **/
-  GetAngleVelocity(this: CLuaParticle): Angle
+  GetColor(this: CLuaParticle): [number, number, number]
   
   /**
   * 
@@ -63731,6 +64369,18 @@ declare interface CLuaParticle  {
   * @returns {Angle} - The angles of the particle
   **/
   GetAngles(this: CLuaParticle): Angle
+  
+  /**
+  * 
+  * Returns the angular velocity of the particle
+  * 
+  * @name CLuaParticle:GetAngleVelocity
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/CLuaParticle/GetAngleVelocity
+  * @param {CLuaParticle} this - no description
+  * @returns {Angle} - The angular velocity of the particle
+  **/
+  GetAngleVelocity(this: CLuaParticle): Angle
   
   /**
   * 
@@ -63798,6 +64448,20 @@ declare interface CLuaLocomotion  {
   * @returns {void}
   **/
   SetJumpHeight(this: CLuaLocomotion, height: number): void
+  
+  /**
+  * 
+  * Sets the locomotion's gravity.
+  * 
+  * @name CLuaLocomotion:SetGravity
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/CLuaLocomotion/SetGravity
+  * @note With values 0 or below, or even lower positive values, the nextbot will start to drift sideways, use @CLuaLocomotion:SetVelocity to counteract this.
+  * @param {CLuaLocomotion} this - no description
+  * @param {number} gravity - New gravity to set. Default is 1000.
+  * @returns {void}
+  **/
+  SetGravity(this: CLuaLocomotion, gravity: number): void
   
   /**
   * 
@@ -63900,13 +64564,13 @@ declare interface CLuaLocomotion  {
   
   /**
   * 
-  * Returns whether the locomotion/nextbot is on ground or not.
+  * Returns whether the nextbot this locomotion is attached to is on ground or not.
   * 
   * @name CLuaLocomotion:IsOnGround
   * @realm server
   * @wiki https://wiki.garrysmod.com/page/CLuaLocomotion/IsOnGround
   * @param {CLuaLocomotion} this - no description
-  * @returns {boolean} - Whether the locomotion/nextbot is on ground or not.
+  * @returns {boolean} - Whether the nextbot is on ground or not.
   **/
   IsOnGround(this: CLuaLocomotion): boolean
   
@@ -64030,6 +64694,18 @@ declare interface CLuaLocomotion  {
   * @returns {Vector} - A vector representing the X and Y movement
   **/
   GetGroundMotionVector(this: CLuaLocomotion): Vector
+  
+  /**
+  * 
+  * Returns the locomotion's gravity.
+  * 
+  * @name CLuaLocomotion:GetGravity
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/CLuaLocomotion/GetGravity
+  * @param {CLuaLocomotion} this - no description
+  * @returns {number} - The gravity.
+  **/
+  GetGravity(this: CLuaLocomotion): number
   
   /**
   * 
@@ -64203,18 +64879,6 @@ declare interface CLuaEmitter  {
   
   /**
   * 
-  * Returns whether this emitter is 3D or not. This is set when creating the emitter with @ParticleEmitter function.
-  * 
-  * @name CLuaEmitter:Is3D
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/CLuaEmitter/Is3D
-  * @param {CLuaEmitter} this - no description
-  * @returns {boolean} - Whether this emitter is 3D or not.
-  **/
-  Is3D(this: CLuaEmitter): boolean
-  
-  /**
-  * 
   * Returns the position of this emitter. This is set when creating the emitter with @ParticleEmitter function.
   * 
   * @name CLuaEmitter:GetPos
@@ -64224,6 +64888,18 @@ declare interface CLuaEmitter  {
   * @returns {Vector} - Position of this particle emitter.
   **/
   GetPos(this: CLuaEmitter): Vector
+  
+  /**
+  * 
+  * Returns whether this emitter is 3D or not. This is set when creating the emitter with @ParticleEmitter function.
+  * 
+  * @name CLuaEmitter:Is3D
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/CLuaEmitter/Is3D
+  * @param {CLuaEmitter} this - no description
+  * @returns {boolean} - Whether this emitter is 3D or not.
+  **/
+  Is3D(this: CLuaEmitter): boolean
   
   /**
   * 
@@ -64685,141 +65361,6 @@ declare interface CEffectData  {
   
 }
 
-declare interface bf_read  {
-  /**
-  * 
-  * Rewinds the bitstream so it can be read again.
-  * 
-  * @name bf_read:Reset
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/bf read/Reset
-  * @param {bf_read} this - no description
-  * @returns {void}
-  **/
-  Reset(this: bf_read): void
-  
-  /**
-  * 
-  * Reads a special encoded vector normal from the bitstream and returns it, this function is not suitable to send vectors that represent a position.
-  * 
-  * @name bf_read:ReadVectorNormal
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/bf read/ReadVectorNormal
-  * @param {bf_read} this - no description
-  * @returns {Vector} - normal
-  **/
-  ReadVectorNormal(this: bf_read): Vector
-  
-  /**
-  * 
-  * Reads a special encoded vector from the bitstream and returns it, this function is not suitable to send normals.
-  * 
-  * @name bf_read:ReadVector
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/bf read/ReadVector
-  * @param {bf_read} this - no description
-  * @returns {Vector} - vec
-  **/
-  ReadVector(this: bf_read): Vector
-  
-  /**
-  * 
-  * Reads a null terminated string from the bitstream.
-  * 
-  * @name bf_read:ReadString
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/bf read/ReadString
-  * @param {bf_read} this - no description
-  * @returns {string} - str
-  **/
-  ReadString(this: bf_read): string
-  
-  /**
-  * 
-  * Reads a 2 byte short from the bitstream and returns it.
-  * 
-  * @name bf_read:ReadShort
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/bf read/ReadShort
-  * @param {bf_read} this - no description
-  * @returns {number} - short
-  **/
-  ReadShort(this: bf_read): number
-  
-  /**
-  * 
-  * Reads a 4 byte long from the bitstream and returns it.
-  * 
-  * @name bf_read:ReadLong
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/bf read/ReadLong
-  * @param {bf_read} this - no description
-  * @returns {number} - int
-  **/
-  ReadLong(this: bf_read): number
-  
-  /**
-  * 
-  * Reads a 4 byte float from the bitstream and returns it.
-  * 
-  * @name bf_read:ReadFloat
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/bf read/ReadFloat
-  * @param {bf_read} this - no description
-  * @returns {number} - float
-  **/
-  ReadFloat(this: bf_read): number
-  
-  /**
-  * 
-  * Reads a short representing an entity index and returns the matching entity handle.
-  * 
-  * @name bf_read:ReadEntity
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/bf read/ReadEntity
-  * @param {bf_read} this - no description
-  * @returns {Entity} - ent
-  **/
-  ReadEntity(this: bf_read): Entity
-  
-  /**
-  * 
-  * Reads a signed char and returns a number from -127 to 127 representing the ascii value of that char.
-  * 
-  * @name bf_read:ReadChar
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/bf read/ReadChar
-  * @param {bf_read} this - no description
-  * @returns {number} - asciiVal
-  **/
-  ReadChar(this: bf_read): number
-  
-  /**
-  * 
-  * Reads 1 bit an returns a bool representing the bit.
-  * 
-  * @name bf_read:ReadBool
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/bf read/ReadBool
-  * @param {bf_read} this - no description
-  * @returns {boolean} - bit
-  **/
-  ReadBool(this: bf_read): boolean
-  
-  /**
-  * 
-  * Reads an returns an angle object from the bitstream.
-  * 
-  * @name bf_read:ReadAngle
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/bf read/ReadAngle
-  * @param {bf_read} this - no description
-  * @returns {Angle} - The read angle
-  **/
-  ReadAngle(this: bf_read): Angle
-  
-}
-
 declare interface AngleFuncs  {
   /**
   * 
@@ -64848,6 +65389,33 @@ declare interface AngleFuncs  {
   
   /**
   * 
+  * Returns the pitch, yaw, and roll components of the angle.
+  * 
+  * @name AngleFuncs:Unpack
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Angle/Unpack
+  * @param {Angle} this - no description
+  * @returns {number} - p, pitch, x, or Angle[1].
+  * @returns {number} - y, yaw, or Angle[2].
+  * @returns {number} - r, roll, r, or Angle[3].
+  * @tupleReturn
+  **/
+  Unpack(this: Angle): [number, number, number]
+  
+  /**
+  * 
+  * Returns the angle as a table with three elements.
+  * 
+  * @name AngleFuncs:ToTable
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Angle/ToTable
+  * @param {Angle} this - no description
+  * @returns {table} - The table with elements 1 = p, 2 = y, 3 = r.
+  **/
+  ToTable(this: Angle): table
+  
+  /**
+  * 
   * Subtracts the values of the argument angle to the orignal angle. This functions the same as angle1 - angle2 without creating a new angle object, skipping object construction and garbage collection.
   * 
   * @name AngleFuncs:Sub
@@ -64873,6 +65441,21 @@ declare interface AngleFuncs  {
   * @returns {Angle} - The snapped angle.
   **/
   SnapTo(this: Angle, axis: string, target: number): Angle
+  
+  /**
+  * 
+  * Sets the p, y, and r of the angle.
+  * 
+  * @name AngleFuncs:SetUnpacked
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/Angle/SetUnpacked
+  * @param {Angle} this - no description
+  * @param {number} p - The pitch component of the Angle
+  * @param {number} y - The yaw component of the Angle
+  * @param {number} r - The roll component of the Angle
+  * @returns {void}
+  **/
+  SetUnpacked(this: Angle, p: number, y: number, r: number): void
   
   /**
   * 
@@ -65081,6 +65664,18 @@ declare namespace weapons {
   
   /**
   * 
+  * Get a list of all the registered SWEPs. This does not include weapons added to spawnmenu manually.
+  * 
+  * @name weapons.GetList
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/weapons/GetList
+  * @param {void} this - no description
+  * @returns {table} - List of all the registered SWEPs
+  **/
+  export function GetList(this: void): table
+  
+  /**
+  * 
   * Get a *copy* of weapon table by name. This function also inherits fields from the weapon's base class, unlike @weapons.GetStored.
   * 
   * @name weapons.Get
@@ -65091,18 +65686,6 @@ declare namespace weapons {
   * @returns {table} - The retrieved table or nil
   **/
   export function Get(this: void, classname: string): table
-  
-  /**
-  * 
-  * Get a list of all the registered SWEPs. This does not include weapons added to spawnmenu manually.
-  * 
-  * @name weapons.GetList
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/weapons/GetList
-  * @param {void} this - no description
-  * @returns {table} - List of all the registered SWEPs
-  **/
-  export function GetList(this: void): table
   
 }
 
@@ -65127,20 +65710,6 @@ declare namespace video {
 declare namespace vgui {
   /**
   * 
-  * Registers a table to use as a panel. All this function does is assigns Base key to your table and returns the table.
-  * 
-  * @name vgui.RegisterTable
-  * @realm client, menu
-  * @wiki https://wiki.garrysmod.com/page/vgui/RegisterTable
-  * @param {void} this - no description
-  * @param {table} panel - The PANEL table
-  * @param {string} base - A base for the panel
-  * @returns {table} - The PANEL table
-  **/
-  export function RegisterTable(this: void, panel: table, base: string): table
-  
-  /**
-  * 
   * Registers a new VGUI panel from a file.
   * 
   * @name vgui.RegisterFile
@@ -65154,6 +65723,20 @@ declare namespace vgui {
   
   /**
   * 
+  * Registers a table to use as a panel. All this function does is assigns Base key to your table and returns the table.
+  * 
+  * @name vgui.RegisterTable
+  * @realm client, menu
+  * @wiki https://wiki.garrysmod.com/page/vgui/RegisterTable
+  * @param {void} this - no description
+  * @param {table} panel - The PANEL table
+  * @param {string} base - A base for the panel
+  * @returns {table} - The PANEL table
+  **/
+  export function RegisterTable(this: void, panel: table, base?: string): table
+  
+  /**
+  * 
   * Registers a panel for later creation.
   * 
   * @name vgui.Register
@@ -65163,9 +65746,9 @@ declare namespace vgui {
   * @param {string} classname - Classname of the panel to create.
   * @param {table} panelTable - The table containg the panel information.
   * @param {string} baseName - Name of the base of the panel.
-  * @returns {Panel} - panel
+  * @returns {table} - The given panel table from second argument
   **/
-  export function Register(this: void, classname: string, panelTable: table, baseName: string): Panel
+  export function Register(this: void, classname: string, panelTable: table, baseName: string): table
   
   /**
   * 
@@ -65206,6 +65789,20 @@ declare namespace vgui {
   
   /**
   * 
+  * Returns the panel the cursor is hovering above.
+  * 
+  * @name vgui.GetHoveredPanel
+  * @realm client, menu
+  * @wiki https://wiki.garrysmod.com/page/vgui/GetHoveredPanel
+  * @warning This returns a cached value that is only updated after rendering and *before* the next VGUI Think/Layout pass.
+  * ie. it lags one frame behind panel layout and is completely unhelpful for @PanelHooks:Paint if your panels are moving around under the mouse a lot every frame.
+  * @param {void} this - no description
+  * @returns {Panel} - The panel that the user is currently hovering over with their cursor.
+  **/
+  export function GetHoveredPanel(this: void): Panel
+  
+  /**
+  * 
   * Gets the method table of this panel. Does not return parent methods!
   * 
   * @name vgui.GetControlTable
@@ -65219,17 +65816,15 @@ declare namespace vgui {
   
   /**
   * 
-  * Returns the panel the cursor is hovering above.
+  * Returns whenever the cursor is currently active and visible.
   * 
-  * @name vgui.GetHoveredPanel
+  * @name vgui.CursorVisible
   * @realm client, menu
-  * @wiki https://wiki.garrysmod.com/page/vgui/GetHoveredPanel
-  * @warning This returns a cached value that is only updated after rendering and *before* the next VGUI Think/Layout pass.
-  * ie. it lags one frame behind panel layout and is completely unhelpful for @PanelHooks:Paint if your panels are moving around under the mouse a lot every frame.
+  * @wiki https://wiki.garrysmod.com/page/vgui/CursorVisible
   * @param {void} this - no description
-  * @returns {Panel} - The panel that the user is currently hovering over with their cursor.
+  * @returns {boolean} - isCursorVisible
   **/
-  export function GetHoveredPanel(this: void): Panel
+  export function CursorVisible(this: void): boolean
   
   /**
   * 
@@ -65246,18 +65841,6 @@ declare namespace vgui {
   
   /**
   * 
-  * Returns whenever the cursor is currently active and visible.
-  * 
-  * @name vgui.CursorVisible
-  * @realm client, menu
-  * @wiki https://wiki.garrysmod.com/page/vgui/CursorVisible
-  * @param {void} this - no description
-  * @returns {boolean} - isCursorVisible
-  **/
-  export function CursorVisible(this: void): boolean
-  
-  /**
-  * 
   * Creates a engine panel.
   * 
   * @name vgui.CreateX
@@ -65270,7 +65853,7 @@ declare namespace vgui {
   * @param {string} name - Name of the created panel
   * @returns {Panel} - Created panel
   **/
-  export function CreateX(this: void, cls: string, parent: Panel, name: string): Panel
+  export function CreateX(this: void, cls: string, parent?: Panel, name?: string): Panel
   
   /**
   * 
@@ -65285,7 +65868,7 @@ declare namespace vgui {
   * @param {string} name - Name of your panel
   * @returns {Panel} - Created panel
   **/
-  export function CreateFromTable(this: void, metatable: table, parent: Panel, name: string): Panel
+  export function CreateFromTable(this: void, metatable: table, parent?: Panel, name?: string): Panel
   
   /**
   * 
@@ -65300,7 +65883,7 @@ declare namespace vgui {
   * @param {string} name - Name of the created panel.
   * @returns {Panel} - panel
   **/
-  export function Create(this: void, classname: string, parent: Panel, name: string): Panel
+  export function Create(this: void, classname: string, parent?: Panel, name?: string): Panel
   
 }
 
@@ -65327,6 +65910,18 @@ declare namespace util.worldpicker {
   
   /**
   * 
+  * Returns if the user is currently picking an entity.
+  * 
+  * @name util.worldpicker.Active
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/util.worldpicker/Active
+  * @param {void} this - no description
+  * @returns {boolean} - Is world picking
+  **/
+  export function Active(this: void): boolean
+  
+  /**
+  * 
   * Finishes the world picking. This is called when a user presses their mouse after calling @util.worldpicker.Start.
   * 
   * @name util.worldpicker.Finish
@@ -65339,21 +65934,22 @@ declare namespace util.worldpicker {
   **/
   export function Finish(this: void, tr: TraceResult): void
   
-  /**
-  * 
-  * Returns if the user is currently picking an entity.
-  * 
-  * @name util.worldpicker.Active
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/util.worldpicker/Active
-  * @param {void} this - no description
-  * @returns {boolean} - Is world picking
-  **/
-  export function Active(this: void): boolean
-  
 }
 
 declare namespace util {
+  /**
+  * 
+  * Converts string or a number to a bool, if possible. Alias of @tobool function.
+  * 
+  * @name util.tobool
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/util/tobool
+  * @param {void} this - no description
+  * @param {any} input - A string or a number to convert.
+  * @returns {boolean} - False if the input is equal to the string or boolean "false", if the input is equal to the string or number "0", or if the input is nil. Returns true otherwise.
+  **/
+  export function tobool(this: void, input: any): boolean
+  
   /**
   * 
   * Converts a type to a (nice, but still parsable) string
@@ -65428,31 +66024,6 @@ declare namespace util {
   
   /**
   * 
-  * Converts string or a number to a bool, if possible. Alias of @tobool function.
-  * 
-  * @name util.tobool
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/util/tobool
-  * @param {void} this - no description
-  * @param {any} input - A string or a number to convert.
-  * @returns {boolean} - False if the input is equal to the string or boolean "false", if the input is equal to the string or number "0", or if the input is nil. Returns true otherwise.
-  **/
-  export function tobool(this: void, input: any): boolean
-  
-  /**
-  * 
-  * Returns the time since this function has been last called
-  * 
-  * @name util.TimerCycle
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/util/TimerCycle
-  * @param {void} this - no description
-  * @returns {number} - Time since this function has been last called in ms
-  **/
-  export function TimerCycle(this: void): number
-  
-  /**
-  * 
   * Creates a timer object.
   * 
   * @name util.Timer
@@ -65466,7 +66037,19 @@ declare namespace util {
   * ;Started() - Returns true if the timer has been started
   * ;Elapsed() - Returns true if the time has elapsed
   **/
-  export function Timer(this: void, startdelay: number): table
+  export function Timer(this: void, startdelay?: number): table
+  
+  /**
+  * 
+  * Returns the time since this function has been last called
+  * 
+  * @name util.TimerCycle
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/util/TimerCycle
+  * @param {void} this - no description
+  * @returns {number} - Time since this function has been last called in ms
+  **/
+  export function TimerCycle(this: void): number
   
   /**
   * 
@@ -65496,7 +66079,7 @@ declare namespace util {
   * @param {boolean} prettyPrint - Format and indent the JSON.
   * @returns {string} - A JSON formatted string containing the serialized data
   **/
-  export function TableToJSON(this: void, table: table, prettyPrint: boolean): string
+  export function TableToJSON(this: void, table: table, prettyPrint?: boolean): string
   
   /**
   * 
@@ -65574,23 +66157,6 @@ declare namespace util {
   
   /**
   * 
-  * Generates a random float value that should be the same on client and server.
-  * 
-  * @name util.SharedRandom
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/util/SharedRandom
-  * @note This function is best used in a [Predicted Hook](https://wiki.garrysmod.com/page/Category:Predicted_Hooks)
-  * @param {void} this - no description
-  * @param {string} uniqueName - The seed for the random value
-  * @param {number} min - The minimum value of the random range
-  * @param {number} max - The maximum value of the random range
-  * @param {number} additionalSeed - The additional seed
-  * @returns {number} - The random float value
-  **/
-  export function SharedRandom(this: void, uniqueName: string, min: number, max: number, additionalSeed: number): number
-  
-  /**
-  * 
   * Sets PData for offline player using his SteamID
   * 
   * @name util.SetPData
@@ -65604,6 +66170,23 @@ declare namespace util {
   * @returns {void}
   **/
   export function SetPData(this: void, steamID: string, name: string, value: any): void
+  
+  /**
+  * 
+  * Generates a random float value that should be the same on client and server.
+  * 
+  * @name util.SharedRandom
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/util/SharedRandom
+  * @note This function is best used in a [Predicted Hook](https://wiki.garrysmod.com/page/Category:Predicted_Hooks)
+  * @param {void} this - no description
+  * @param {string} uniqueName - The seed for the random value
+  * @param {number} min - The minimum value of the random range
+  * @param {number} max - The maximum value of the random range
+  * @param {number} additionalSeed - The additional seed
+  * @returns {number} - The random float value
+  **/
+  export function SharedRandom(this: void, uniqueName: string, min: number, max: number, additionalSeed?: number): number
   
   /**
   * 
@@ -65666,7 +66249,7 @@ declare namespace util {
   * @param {Entity} filter - Entity which should be ignored by the trace. Can also be a table of entities or a function - see @Trace structure.
   * @returns {TraceResult} - Trace result. See @TraceResult structure.
   **/
-  export function QuickTrace(this: void, origin: Vector, endpos: Vector, filter: Entity): TraceResult
+  export function QuickTrace(this: void, origin: Vector, endpos: Vector, filter?: Entity): TraceResult
   
   /**
   * 
@@ -65676,6 +66259,8 @@ declare namespace util {
   * @realm client, server
   * @wiki https://wiki.garrysmod.com/page/util/PrecacheSound
   * @note Soundcache is limited to 16384 unique sounds.
+  * @bug  Positively broken on purpose because it fills stringtables
+  * @bug  Ultimately does nothing on client, and only works with sound scripts, not direct paths
   * @param {void} this - no description
   * @param {string} soundName - The sound to precache.
   * @returns {void}
@@ -65826,7 +66411,7 @@ declare namespace util {
   * @param {boolean} preserveKeyCase - Whether we should preserve key case or not.
   * @returns {table} - The output table
   **/
-  export function KeyValuesToTablePreserveOrder(this: void, keyvals: string, usesEscapeSequences: boolean, preserveKeyCase: boolean): table
+  export function KeyValuesToTablePreserveOrder(this: void, keyvals: string, usesEscapeSequences?: boolean, preserveKeyCase?: boolean): table
   
   /**
   * 
@@ -65842,7 +66427,20 @@ declare namespace util {
   * @param {boolean} preserveKeyCase - Whether we should preserve key case or not.
   * @returns {table} - The converted table
   **/
-  export function KeyValuesToTable(this: void, keyValues: string, usesEscapeSequences: boolean, preserveKeyCase: boolean): table
+  export function KeyValuesToTable(this: void, keyValues: string, usesEscapeSequences?: boolean, preserveKeyCase?: boolean): table
+  
+  /**
+  * 
+  * Checks if the specified model name points to a valid ragdoll.
+  * 
+  * @name util.IsValidRagdoll
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/util/IsValidRagdoll
+  * @param {void} this - no description
+  * @param {string} ragdollName - Name/Path of the ragdoll model to check.
+  * @returns {boolean} - Returns true if the specified model name points to a valid ragdoll; otherwise false.
+  **/
+  export function IsValidRagdoll(this: void, ragdollName: string): boolean
   
   /**
   * 
@@ -65858,19 +66456,6 @@ declare namespace util {
   * @returns {table} - The table containing converted information. Returns nothing on failure.
   **/
   export function JSONToTable(this: void, json: string): table
-  
-  /**
-  * 
-  * Checks if the specified model name points to a valid ragdoll.
-  * 
-  * @name util.IsValidRagdoll
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/util/IsValidRagdoll
-  * @param {void} this - no description
-  * @param {string} ragdollName - Name/Path of the ragdoll model to check.
-  * @returns {boolean} - Returns true if the specified model name points to a valid ragdoll; otherwise false.
-  **/
-  export function IsValidRagdoll(this: void, ragdollName: string): boolean
   
   /**
   * 
@@ -65898,6 +66483,20 @@ declare namespace util {
   * @returns {boolean} - true is valid, false otherwise
   **/
   export function IsValidPhysicsObject(this: void, ent: Entity, physobj: number): boolean
+  
+  /**
+  * 
+  * Check whether the skybox is visibile from the point specified.
+  * 
+  * @name util.IsSkyboxVisibleFromPoint
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/util/IsSkyboxVisibleFromPoint
+  * @note This will always return true in fullbright maps
+  * @param {void} this - no description
+  * @param {Vector} position - The position to check the skybox visibility from.
+  * @returns {boolean} - Whether the skybox is visible from the position.
+  **/
+  export function IsSkyboxVisibleFromPoint(this: void, position: Vector): boolean
   
   /**
   * 
@@ -65931,20 +66530,6 @@ declare namespace util {
   
   /**
   * 
-  * Check whether the skybox is visibile from the point specified.
-  * 
-  * @name util.IsSkyboxVisibleFromPoint
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/util/IsSkyboxVisibleFromPoint
-  * @note This will always return true in fullbright maps
-  * @param {void} this - no description
-  * @param {Vector} position - The position to check the skybox visibility from.
-  * @returns {boolean} - Whether the skybox is visible from the position.
-  **/
-  export function IsSkyboxVisibleFromPoint(this: void, position: Vector): boolean
-  
-  /**
-  * 
   * Checks if the model is loaded in the game.
   * 
   * @name util.IsModelLoaded
@@ -65968,6 +66553,22 @@ declare namespace util {
   * @returns {boolean} - Whether the vector is in world.
   **/
   export function IsInWorld(this: void, position: Vector): boolean
+  
+  /**
+  * 
+  * Performs a [ray-plane intersection](https://en.wikipedia.org/wiki/Line%E2%80%93plane_intersection) and returns the hit position or nil.
+  * 
+  * @name util.IntersectRayWithPlane
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/util/IntersectRayWithPlane
+  * @param {void} this - no description
+  * @param {Vector} rayOrigin - Origin/start position of the ray.
+  * @param {Vector} rayDirection - The direction of the ray.
+  * @param {Vector} planePosition - Any position of the plane.
+  * @param {Vector} planeNormal - The normal vector of the plane.
+  * @returns {Vector} - The position of intersection, nil if not hit.
+  **/
+  export function IntersectRayWithPlane(this: void, rayOrigin: Vector, rayDirection: Vector, planePosition: Vector, planeNormal: Vector): Vector
   
   /**
   * 
@@ -66006,22 +66607,6 @@ declare namespace util {
   
   /**
   * 
-  * Performs a [ray-plane intersection](https://en.wikipedia.org/wiki/Line%E2%80%93plane_intersection) and returns the hit position or nil.
-  * 
-  * @name util.IntersectRayWithPlane
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/util/IntersectRayWithPlane
-  * @param {void} this - no description
-  * @param {Vector} rayOrigin - Origin/start position of the ray.
-  * @param {Vector} rayDirection - The direction of the ray.
-  * @param {Vector} planePosition - Any position of the plane.
-  * @param {Vector} planeNormal - The normal vector of the plane.
-  * @returns {Vector} - The position of intersection, nil if not hit.
-  **/
-  export function IntersectRayWithPlane(this: void, rayOrigin: Vector, rayDirection: Vector, planePosition: Vector, planeNormal: Vector): Vector
-  
-  /**
-  * 
   * Returns the name of a surface property at given ID.
   * See also @util.GetSurfaceData and @util.GetSurfaceIndex for opposite function.
   * 
@@ -66050,18 +66635,6 @@ declare namespace util {
   
   /**
   * 
-  * Gets information about the sun position and obstruction or nil if there is no sun.
-  * 
-  * @name util.GetSunInfo
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/util/GetSunInfo
-  * @param {void} this - no description
-  * @returns {SunInfo} - The sun info. See @SunInfo structure
-  **/
-  export function GetSunInfo(this: void): SunInfo
-  
-  /**
-  * 
   * Returns data of a surface property at given ID.
   * 
   * @name util.GetSurfaceData
@@ -66076,6 +66649,18 @@ declare namespace util {
   
   /**
   * 
+  * Gets information about the sun position and obstruction or nil if there is no sun.
+  * 
+  * @name util.GetSunInfo
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/util/GetSunInfo
+  * @param {void} this - no description
+  * @returns {SunInfo} - The sun info. See @SunInfo structure
+  **/
+  export function GetSunInfo(this: void): SunInfo
+  
+  /**
+  * 
   * Utility function to quickly generate a trace table that starts at the players view position, and ends 16384 units along a specified direction.
   * 
   * @name util.GetPlayerTrace
@@ -66086,7 +66671,7 @@ declare namespace util {
   * @param {Vector} dir - The direction of the trace
   * @returns {Trace} - The trace data. See @Trace structure
   **/
-  export function GetPlayerTrace(this: void, ply: Player, dir: Vector): Trace
+  export function GetPlayerTrace(this: void, ply: Player, dir?: Vector): Trace
   
   /**
   * 
@@ -66132,7 +66717,7 @@ declare namespace util {
   * @returns {table[]} - A table of tables with the following format:
   * Each @MeshVertex structure returned also has an extra table of tables field called "weights" with the following data:
   **/
-  export function GetModelMeshes(this: void, model: string, lod: number, bodygroupMask: number): table[]
+  export function GetModelMeshes(this: void, model: string, lod?: number, bodygroupMask?: number): table[]
   
   /**
   * 
@@ -66177,7 +66762,7 @@ declare namespace util {
   * Set this to true if you wish to call this function in multiplayer from server.
   * @returns {void}
   **/
-  export function Effect(this: void, effectName: string, effectData: CEffectData, allowOverride: boolean, ignorePredictionOrRecipientFilter: CRecipientFilter): void
+  export function Effect(this: void, effectName: string, effectData: CEffectData, allowOverride?: boolean, ignorePredictionOrRecipientFilter?: CRecipientFilter): void
   
   /**
   * 
@@ -66209,7 +66794,20 @@ declare namespace util {
   * @param {number} maxSize - The maximal size in bytes it will decompress.
   * @returns {string} - The original, decompressed string or an empty string on failure or invalid input.
   **/
-  export function Decompress(this: void, compressedString: string, maxSize: number): string
+  export function Decompress(this: void, compressedString: string, maxSize?: number): string
+  
+  /**
+  * 
+  * Gets the full material path by the decal name. Used with @util.DecalEx.
+  * 
+  * @name util.DecalMaterial
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/util/DecalMaterial
+  * @param {void} this - no description
+  * @param {string} decalName - Name of the decal.
+  * @returns {string} - Material path of the decal.
+  **/
+  export function DecalMaterial(this: void, decalName: string): string
   
   /**
   * 
@@ -66234,19 +66832,6 @@ declare namespace util {
   
   /**
   * 
-  * Gets the full material path by the decal name. Used with @util.DecalEx.
-  * 
-  * @name util.DecalMaterial
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/util/DecalMaterial
-  * @param {void} this - no description
-  * @param {string} decalName - Name of the decal.
-  * @returns {string} - Material path of the decal.
-  **/
-  export function DecalMaterial(this: void, decalName: string): string
-  
-  /**
-  * 
   * Performs a trace and paints a decal to the surface hit.
   * 
   * @name util.Decal
@@ -66259,7 +66844,7 @@ declare namespace util {
   * @param {Entity} filter - If set, the decal will not be able to be placed on given entity. Can also be a table of entities.
   * @returns {void}
   **/
-  export function Decal(this: void, name: string, start: Vector, end: Vector, filter: Entity): void
+  export function Decal(this: void, name: string, start: Vector, end: Vector, filter?: Entity): void
   
   /**
   * 
@@ -66275,19 +66860,6 @@ declare namespace util {
   
   /**
   * 
-  * Generates the [CRC checksum](https://en.wikipedia.org/wiki/Cyclic%20redundancy%20check) of the specified string.
-  * 
-  * @name util.CRC
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/util/CRC
-  * @param {void} this - no description
-  * @param {string} stringToHash - The string to calculate the checksum of.
-  * @returns {string} - The unsigned 32 bit checksum.
-  **/
-  export function CRC(this: void, stringToHash: string): string
-  
-  /**
-  * 
   * Compresses the given string using the [LZMA](https://en.wikipedia.org/wiki/LZMA) algorithm.
   * Use with @net.WriteData and @net.ReadData for networking and  @util.Decompress to decompress the data.
   * 
@@ -66299,6 +66871,19 @@ declare namespace util {
   * @returns {string} - The compressed string, or nil if the input string was zero length ("").
   **/
   export function Compress(this: void, str: string): string
+  
+  /**
+  * 
+  * Generates the [CRC checksum](https://en.wikipedia.org/wiki/Cyclic%20redundancy%20check) of the specified string.
+  * 
+  * @name util.CRC
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/util/CRC
+  * @param {void} this - no description
+  * @param {string} stringToHash - The string to calculate the checksum of.
+  * @returns {string} - The unsigned 32 bit checksum.
+  **/
+  export function CRC(this: void, stringToHash: string): string
   
   /**
   * 
@@ -66429,7 +67014,7 @@ declare namespace utf8 {
   * @param {number} startPos - The offset for n.
   * @returns {number} - Starting byte-index of the given position.
   **/
-  export function offset(this: void, str: string, n: number, startPos: number): number
+  export function offset(this: void, str: string, n: number, startPos?: number): number
   
   /**
   * 
@@ -66446,7 +67031,7 @@ declare namespace utf8 {
   * @returns {number} - The position of the first invalid byte. If there were no invalid bytes, this will be nil.
   * @tupleReturn
   **/
-  export function len(this: void, str: string, startPos: number, endPos: number): [number, number]
+  export function len(this: void, str: string, startPos?: number, endPos?: number): [number, number]
   
   /**
   * 
@@ -66488,7 +67073,7 @@ declare namespace utf8 {
   * @param {number} endPos - The ending byte of the string to get the codepoint of.
   * @returns {any[]} - The codepoint number(s).
   **/
-  export function codepoint(this: void, str: string, startPos: number, endPos: number): any[]
+  export function codepoint(this: void, str: string, startPos?: number, endPos?: number): any[]
   
   /**
   * 
@@ -66544,7 +67129,7 @@ declare namespace usermessage {
   * @param {any[]} ...preArgs - Arguments that are passed to the callback function when the hook is called. *ring ring*
   * @returns {void}
   **/
-  export function Hook(this: void, name: string, callback: usermessageHookCallback, ...preArgs: any[]): void
+  export function Hook(this: void, name: string, callback: usermessageHookCallback, ...preArgs?: any[]): void
   
   /**
   * 
@@ -66709,19 +67294,6 @@ declare namespace undo {
 declare namespace umsg {
   /**
   * 
-  * Writes a vector normal to the usermessage.
-  * 
-  * @name umsg.VectorNormal
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/umsg/VectorNormal
-  * @param {void} this - no description
-  * @param {Vector} normal - The vector normal to be sent.
-  * @returns {void}
-  **/
-  export function VectorNormal(this: void, normal: Vector): void
-  
-  /**
-  * 
   * Writes a Vector to the usermessage.
   * 
   * @name umsg.Vector
@@ -66745,6 +67317,19 @@ declare namespace umsg {
   * @returns {void}
   **/
   export function String(this: void, str: string): void
+  
+  /**
+  * 
+  * Writes a vector normal to the usermessage.
+  * 
+  * @name umsg.VectorNormal
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/umsg/VectorNormal
+  * @param {void} this - no description
+  * @param {Vector} normal - The vector normal to be sent.
+  * @returns {void}
+  **/
+  export function VectorNormal(this: void, normal: Vector): void
   
   /**
   * 
@@ -66882,19 +67467,6 @@ declare namespace umsg {
 declare namespace timer {
   /**
   * 
-  * Unpauses the timer.
-  * 
-  * @name timer.UnPause
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/timer/UnPause
-  * @param {void} this - no description
-  * @param {any} identifier - Identifier of the timer.
-  * @returns {boolean} - false if the timer didn't exist or was already running, true otherwise.
-  **/
-  export function UnPause(this: void, identifier: any): boolean
-  
-  /**
-  * 
   * Runs either @timer.Pause or @timer.UnPause based on the timer's current status.
   * 
   * @name timer.Toggle
@@ -66905,6 +67477,19 @@ declare namespace timer {
   * @returns {boolean} - status of the timer.
   **/
   export function Toggle(this: void, identifier: any): boolean
+  
+  /**
+  * 
+  * Unpauses the timer.
+  * 
+  * @name timer.UnPause
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/timer/UnPause
+  * @param {void} this - no description
+  * @param {any} identifier - Identifier of the timer.
+  * @returns {boolean} - false if the timer didn't exist or was already running, true otherwise.
+  **/
+  export function UnPause(this: void, identifier: any): boolean
   
   /**
   * 
@@ -67019,19 +67604,6 @@ declare namespace timer {
   
   /**
   * 
-  * Stops and destroys the given timer. Alias of @timer.Remove.
-  * 
-  * @name timer.Destroy
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/timer/Destroy
-  * @param {void} this - no description
-  * @param {string} identifier - Identifier of the timer to destroy.
-  * @returns {void}
-  **/
-  export function Destroy(this: void, identifier: string): void
-  
-  /**
-  * 
   * Creates a new timer that will repeat its function given amount of times.
   * This function also requires the timer to be named, which allows you to control it after it was created via the @timer library.
   * For a simple one-time timer with no identifiers, see @timer.Simple.
@@ -67049,6 +67621,19 @@ declare namespace timer {
   * @returns {void}
   **/
   export function Create(this: void, identifier: string, delay: number, repetitions: number, func: UnknownFunc): void
+  
+  /**
+  * 
+  * Stops and destroys the given timer. Alias of @timer.Remove.
+  * 
+  * @name timer.Destroy
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/timer/Destroy
+  * @param {void} this - no description
+  * @param {string} identifier - Identifier of the timer to destroy.
+  * @returns {void}
+  **/
+  export function Destroy(this: void, identifier: string): void
   
   /**
   * 
@@ -67134,7 +67719,7 @@ declare namespace team {
   * @param {boolean} isJoinable - Whether the team is joinable or not.
   * @returns {void}
   **/
-  export function SetUp(this: void, teamIndex: number, teamName: string, teamColor: Color, isJoinable: boolean): void
+  export function SetUp(this: void, teamIndex: number, teamName: string, teamColor: Color, isJoinable?: boolean): void
   
   /**
   * 
@@ -67361,6 +67946,122 @@ declare namespace table {
   
   /**
   * 
+  * Sorts a table either ascending or by the given sort function.
+  * 
+  * @name table.sort
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/table/sort
+  * @param {void} this - no description
+  * @param {table} tbl - The table to sort.
+  * @param {function} sorter - If specified, the function will be called with 2 parameters each.
+  * Return true in this function if you want the first parameter to come first in the sorted array.
+  * @returns {void}
+  **/
+  export function sort(this: void, tbl: table, sorter: UnknownFunc): void
+  
+  /**
+  * 
+  * Removes a value from a table and shifts any other values down to fill the gap.
+  * 
+  * @name table.remove
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/table/remove
+  * @param {void} this - no description
+  * @param {table} tbl - The table to remove the value from.
+  * @param {number} index - The index of the value to remove.
+  * @returns {any} - The value that was removed.
+  **/
+  export function remove(this: void, tbl: table, index?: number): any
+  
+  /**
+  * 
+  * Returns the highest numerical key.
+  * 
+  * @name table.maxn
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/table/maxn
+  * @param {void} this - no description
+  * @param {table} tbl - The table to search.
+  * @returns {number} - The highest numerical key.
+  **/
+  export function maxn(this: void, tbl: table): number
+  
+  /**
+  * 
+  * Inserts a value into a table at the end of the table or at the given position.
+  * 
+  * @name table.insert
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/table/insert
+  * @param {void} this - no description
+  * @param {table} tbl - The table to insert the variable into.
+  * @param {number} position - The position in the table to insert the variable. If the third argument is nil this argument becomes the value to insert at the end of given table.
+  * @param {any} value - The variable to insert into the table.
+  * @returns {number} - The index the object was placed at.
+  **/
+  export function insert(this: void, tbl: table, position: number, value: any): number
+  
+  /**
+  * 
+  * Returns the length of the table.
+  * 
+  * @name table.getn
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/table/getn
+  * @param {void} this - no description
+  * @param {table} tbl - The table to check.
+  * @returns {number} - Sequential length.
+  **/
+  export function getn(this: void, tbl: table): number
+  
+  /**
+  * 
+  * Iterates for each numeric index in the table in order.
+  * This is inherited from the original Lua implementation and is deprecated in Lua as of 5.1; see [here](http://lua-users.org/wiki/TableLibraryTutorial). You should use @ipairs function() instead.
+  * 
+  * @name table.foreachi
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/table/foreachi
+  * @param {void} this - no description
+  * @param {table} table - The table to iterate over.
+  * @param {function} func - The function to run for each index.
+  * @returns {void}
+  **/
+  export function foreachi(this: void, table: table, func: UnknownFunc): void
+  
+  /**
+  * 
+  * Iterates for each key-value pair in the table, calling the function with the key and value of the pair. If the function returns anything, the loop is broken.
+  * This is inherited from the original Lua implementation and is deprecated in Lua as of 5.1; see [here](http://lua-users.org/wiki/TableLibraryTutorial). You should use @pairs function() instead. The GLua interpretation of this is @table.ForEach.
+  * 
+  * @name table.foreach
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/table/foreach
+  * @param {void} this - no description
+  * @param {table} tbl - The table to iterate over.
+  * @param {function} callback - The function to run for each key and value.
+  * @returns {void}
+  **/
+  export function foreach(this: void, tbl: table, callback: UnknownFunc): void
+  
+  /**
+  * 
+  * Concatenates the contents of a table to a string.
+  * 
+  * @name table.concat
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/table/concat
+  * @param {void} this - no description
+  * @param {table} tbl - The table to concatenate.
+  * @param {string} concatenator - A seperator to insert between strings
+  * @param {number} startPos - The key to start at
+  * @param {number} endPos - The key to end at
+  * @returns {string} - Concatenated values
+  **/
+  export function concat(this: void, tbl: table, concatenator?: string, startPos?: number, endPos?: number): string
+  
+  /**
+  * 
   * Converts a table into a string
   * 
   * @name table.ToString
@@ -67389,21 +68090,6 @@ declare namespace table {
   
   /**
   * 
-  * Sorts a table by a named member
-  * 
-  * @name table.SortByMember
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/table/SortByMember
-  * @param {void} this - no description
-  * @param {table} tab - Table to sort
-  * @param {any} memberKey - The key used to identify the member
-  * @param {boolean} ascending - Whether or not the order should be ascending
-  * @returns {void}
-  **/
-  export function SortByMember(this: void, tab: table, memberKey: any, ascending: boolean): void
-  
-  /**
-  * 
   * Returns a list of keys sorted based on values of those keys.
   * For normal sorting see @table.sort.
   * 
@@ -67415,22 +68101,22 @@ declare namespace table {
   * @param {boolean} descending - Should the order be descending?
   * @returns {table} - A table of keys sorted by values from supplied table.
   **/
-  export function SortByKey(this: void, tab: table, descending: boolean): table
+  export function SortByKey(this: void, tab: table, descending?: boolean): table
   
   /**
   * 
-  * Sorts a table either ascending or by the given sort function.
+  * Sorts a table by a named member
   * 
-  * @name table.sort
+  * @name table.SortByMember
   * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/table/sort
+  * @wiki https://wiki.garrysmod.com/page/table/SortByMember
   * @param {void} this - no description
-  * @param {table} tbl - The table to sort.
-  * @param {function} sorter - If specified, the function will be called with 2 parameters each.
-  * Return true in this function if you want the first parameter to come first in the sorted array.
+  * @param {table} tab - Table to sort
+  * @param {any} memberKey - The key used to identify the member
+  * @param {boolean} ascending - Whether or not the order should be ascending
   * @returns {void}
   **/
-  export function sort(this: void, tbl: table, sorter: UnknownFunc): void
+  export function SortByMember(this: void, tab: table, memberKey: any, ascending?: boolean): void
   
   /**
   * 
@@ -67474,20 +68160,6 @@ declare namespace table {
   
   /**
   * 
-  * Removes a value from a table and shifts any other values down to fill the gap.
-  * 
-  * @name table.remove
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/table/remove
-  * @param {void} this - no description
-  * @param {table} tbl - The table to remove the value from.
-  * @param {number} index - The index of the value to remove.
-  * @returns {any} - The value that was removed.
-  **/
-  export function remove(this: void, tbl: table, index: number): any
-  
-  /**
-  * 
   * Returns a random value from the supplied table.
   * 
   * @name table.Random
@@ -67518,19 +68190,6 @@ declare namespace table {
   * @returns {table} - Destination table
   **/
   export function Merge(this: void, destination: table, source: table): table
-  
-  /**
-  * 
-  * Returns the highest numerical key.
-  * 
-  * @name table.maxn
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/table/maxn
-  * @param {void} this - no description
-  * @param {table} tbl - The table to search.
-  * @returns {number} - The highest numerical key.
-  **/
-  export function maxn(this: void, tbl: table): number
   
   /**
   * 
@@ -67602,21 +68261,6 @@ declare namespace table {
   
   /**
   * 
-  * Inserts a value into a table at the end of the table or at the given position.
-  * 
-  * @name table.insert
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/table/insert
-  * @param {void} this - no description
-  * @param {table} tbl - The table to insert the variable into.
-  * @param {number} position - The position in the table to insert the variable. If the third argument is nil this argument becomes the value to insert at the end of given table.
-  * @param {any} value - The variable to insert into the table.
-  * @returns {number} - The index the object was placed at.
-  **/
-  export function insert(this: void, tbl: table, position: number, value: any): number
-  
-  /**
-  * 
   * Copies any missing data from base to target, and sets the target's *BaseClass* member to the base table's pointer.
   * See @table.Merge, which overrides existing values and doesn't add a BaseClass member.
   * See also @table.Add, which simply adds values of one table to another.
@@ -67663,19 +68307,6 @@ declare namespace table {
   
   /**
   * 
-  * Returns the length of the table.
-  * 
-  * @name table.getn
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/table/getn
-  * @param {void} this - no description
-  * @param {table} tbl - The table to check.
-  * @returns {number} - Sequential length.
-  **/
-  export function getn(this: void, tbl: table): number
-  
-  /**
-  * 
   * Returns the last value found in the given table
   * 
   * @name table.GetLastValue
@@ -67689,19 +68320,6 @@ declare namespace table {
   
   /**
   * 
-  * Returns the last key found in the given table
-  * 
-  * @name table.GetLastKey
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/table/GetLastKey
-  * @param {void} this - no description
-  * @param {table} tab - Table to retrieve key from
-  * @returns {any} - Key
-  **/
-  export function GetLastKey(this: void, tab: table): any
-  
-  /**
-  * 
   * Returns all keys of a table.
   * 
   * @name table.GetKeys
@@ -67712,6 +68330,19 @@ declare namespace table {
   * @returns {table} - Table of keys
   **/
   export function GetKeys(this: void, tabl: table): table
+  
+  /**
+  * 
+  * Returns the last key found in the given table
+  * 
+  * @name table.GetLastKey
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/table/GetLastKey
+  * @param {void} this - no description
+  * @param {table} tab - Table to retrieve key from
+  * @returns {any} - Key
+  **/
+  export function GetLastKey(this: void, tab: table): any
   
   /**
   * 
@@ -67741,18 +68372,17 @@ declare namespace table {
   
   /**
   * 
-  * Iterates for each numeric index in the table in order.
-  * This is inherited from the original Lua implementation and is deprecated in Lua as of 5.1; see [here](http://lua-users.org/wiki/TableLibraryTutorial). You should use @ipairs function() instead.
+  * Inserts a value in to the given table even if the table is non-existent
   * 
-  * @name table.foreachi
+  * @name table.ForceInsert
   * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/table/foreachi
+  * @wiki https://wiki.garrysmod.com/page/table/ForceInsert
   * @param {void} this - no description
-  * @param {table} table - The table to iterate over.
-  * @param {function} func - The function to run for each index.
-  * @returns {void}
+  * @param {table} tab - Table to insert value in to
+  * @param {any} value - Value to insert
+  * @returns {table} - The supplied or created table
   **/
-  export function foreachi(this: void, table: table, func: UnknownFunc): void
+  export function ForceInsert(this: void, tab?: table, value: any): table
   
   /**
   * 
@@ -67767,35 +68397,6 @@ declare namespace table {
   * @returns {void}
   **/
   export function ForEach(this: void, tab: table, callback: tableForEachCallback): void
-  
-  /**
-  * 
-  * Iterates for each key-value pair in the table, calling the function with the key and value of the pair. If the function returns anything, the loop is broken.
-  * This is inherited from the original Lua implementation and is deprecated in Lua as of 5.1; see [here](http://lua-users.org/wiki/TableLibraryTutorial). You should use @pairs function() instead. The GLua interpretation of this is @table.ForEach.
-  * 
-  * @name table.foreach
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/table/foreach
-  * @param {void} this - no description
-  * @param {table} tbl - The table to iterate over.
-  * @param {function} callback - The function to run for each key and value.
-  * @returns {void}
-  **/
-  export function foreach(this: void, tbl: table, callback: UnknownFunc): void
-  
-  /**
-  * 
-  * Inserts a value in to the given table even if the table is non-existent
-  * 
-  * @name table.ForceInsert
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/table/ForceInsert
-  * @param {void} this - no description
-  * @param {table} tab - Table to insert value in to
-  * @param {any} value - Value to insert
-  * @returns {table} - The supplied or created table
-  **/
-  export function ForceInsert(this: void, tab: table, value: any): table
   
   /**
   * 
@@ -67895,22 +68496,6 @@ declare namespace table {
   
   /**
   * 
-  * Concatenates the contents of a table to a string.
-  * 
-  * @name table.concat
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/table/concat
-  * @param {void} this - no description
-  * @param {table} tbl - The table to concatenate.
-  * @param {string} concatenator - A seperator to insert between strings
-  * @param {number} startPos - The key to start at
-  * @param {number} endPos - The key to end at
-  * @returns {string} - Concatenated values
-  **/
-  export function concat(this: void, tbl: table, concatenator: string, startPos: number, endPos: number): string
-  
-  /**
-  * 
   * Collapses a table with keyvalue structure
   * 
   * @name table.CollapseKeyValue
@@ -67934,7 +68519,7 @@ declare namespace table {
   * @param {boolean} saveKeys - Save the keys within each member table. This will insert a new field *__key* into each value, and should not be used if the table contains non-table values.
   * @returns {table} - Table with integer keys.
   **/
-  export function ClearKeys(this: void, table: table, saveKeys: boolean): table
+  export function ClearKeys(this: void, table: table, saveKeys?: boolean): table
   
   /**
   * 
@@ -68142,7 +68727,7 @@ declare namespace surface {
   * @param {number} a - The alpha value of color
   * @returns {void}
   **/
-  export function SetTextColor(this: void, r: number, g: number, b: number, a: number): void
+  export function SetTextColor(this: void, r: number, g: number, b: number, a?: number): void
   
   /**
   * 
@@ -68188,7 +68773,7 @@ declare namespace surface {
   * @param {number} a - The alpha value of color. Unused if a @IColor structure was given.
   * @returns {void}
   **/
-  export function SetDrawColor(this: void, r: number, g: number, b: number, a: number): void
+  export function SetDrawColor(this: void, r: number, g: number, b: number, a?: number): void
   
   /**
   * 
@@ -68217,6 +68802,18 @@ declare namespace surface {
   
   /**
   * 
+  * Returns the height of the current client's screen.
+  * 
+  * @name surface.ScreenHeight
+  * @realm client, menu
+  * @wiki https://wiki.garrysmod.com/page/surface/ScreenHeight
+  * @param {void} this - no description
+  * @returns {number} - screenHeight
+  **/
+  export function ScreenHeight(this: void): number
+  
+  /**
+  * 
   * Play a sound file directly on the client (such as UI sounds, etc).
   * 
   * @name surface.PlaySound
@@ -68227,18 +68824,6 @@ declare namespace surface {
   * @returns {void}
   **/
   export function PlaySound(this: void, soundfile: string): void
-  
-  /**
-  * 
-  * Returns the height of the current client's screen.
-  * 
-  * @name surface.ScreenHeight
-  * @realm client, menu
-  * @wiki https://wiki.garrysmod.com/page/surface/ScreenHeight
-  * @param {void} this - no description
-  * @returns {number} - screenHeight
-  **/
-  export function ScreenHeight(this: void): number
   
   /**
   * 
@@ -68513,7 +69098,7 @@ declare namespace surface {
   * @param {number} a - The alpha value of the color to draw the circle with. Unused if a @IColor structure was given.
   * @returns {void}
   **/
-  export function DrawCircle(this: void, originX: number, originY: number, radius: number, r: number, g: number, b: number, a: number): void
+  export function DrawCircle(this: void, originX: number, originY: number, radius: number, r: number, g: number, b: number, a?: number): void
   
   /**
   * 
@@ -68564,6 +69149,215 @@ declare namespace string {
   
   /**
   * 
+  * Returns a sub-string, starting from the character at position *StartPos* of the string (inclusive), and optionally ending at the character at position *EndPos* of the string (also inclusive). If EndPos is not given, the rest of the string is returned.
+  * 
+  * @name string.sub
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/string/sub
+  * @param {void} this - no description
+  * @param {string} str - The string you'll take a sub-string out of.
+  * @param {number} StartPos - The position of the first character that will be included in the sub-string.
+  * @param {number} EndPos - The position of the last character to be included in the sub-string. It can be negative to count from the end.
+  * @returns {string} - The substring.
+  **/
+  export function sub(this: void, str: string, StartPos: number, EndPos?: number): string
+  
+  /**
+  * 
+  * Reverses a string.
+  * 
+  * @name string.reverse
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/string/reverse
+  * @param {void} this - no description
+  * @param {string} str - The string to be reversed.
+  * @returns {string} - reversed string
+  **/
+  export function reverse(this: void, str: string): string
+  
+  /**
+  * 
+  * Repeats a string by the provided number, with an optional separator.
+  * 
+  * @name string.rep
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/string/rep
+  * @param {void} this - no description
+  * @param {string} str - The string to convert.
+  * @param {number} repetitions - Timer to repeat, this values gets rounded internally.
+  * @param {string} separator - String that will separate the repeated piece. Notice that it doesn't add this string to the start or the end of the result, only between the repeated parts.
+  * @returns {string} - Repeated string.
+  **/
+  export function rep(this: void, str: string, repetitions: number, separator?: string): string
+  
+  /**
+  * 
+  * Finds a [Pattern](https://wiki.garrysmod.com/page/Patterns) in a string.
+  * 
+  * @name string.match
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/string/match
+  * @param {void} this - no description
+  * @param {string} str - String which should be searched in for matches.
+  * @param {string} pattern - The pattern that defines what should be matched.
+  * @param {number} startPosition - The start index to start the matching from, can be negative to start the match from a position relative to the end.
+  * @returns {any[]} - Matched text(s)
+  **/
+  export function match(this: void, str: string, pattern: string, startPosition?: number): any[]
+  
+  /**
+  * 
+  * Changes any upper-case letters in a string to lower-case letters.
+  * 
+  * @name string.lower
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/string/lower
+  * @param {void} this - no description
+  * @param {string} str - The string to convert.
+  * @returns {string} - The original string, with all uppercase letters replaced with their lowercase variants.
+  **/
+  export function lower(this: void, str: string): string
+  
+  /**
+  * 
+  * Counts the number of characters in the string (length). This is equivalent to using the length operator (#).
+  * 
+  * @name string.len
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/string/len
+  * @param {void} this - no description
+  * @param {string} str - The string to find the length of.
+  * @returns {number} - Length of the string
+  **/
+  export function len(this: void, str: string): number
+  
+  /**
+  * 
+  * This functions main purpose is to replace certain character sequences in a string using [Patterns](https://wiki.garrysmod.com/page/Patterns).
+  * 
+  * @name string.gsub
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/string/gsub
+  * @param {void} this - no description
+  * @param {string} str - String which should be modified.
+  * @param {string} pattern - The pattern that defines what should be matched and eventually be replaced.
+  * @param {string} replacement - In case of a string the matches sequence will be replaced with it.
+  * In case of a table, the matched sequence will be used as key and the table will tested for the key, if a value exists it will be used as replacement.
+  * In case of a function all matches will be passed as parameters to the function, the return value(s) of the function will then be used as replacement.
+  * @param {number} maxReplaces - Maximum number of replacements to be made.
+  * @returns {string} - replaceResult
+  * @returns {number} - replaceCount
+  * @tupleReturn
+  **/
+  export function gsub(this: void, str: string, pattern: string, replacement: string, maxReplaces?: number): [string, number]
+  
+  /**
+  * 
+  * Using [Patterns](https://wiki.garrysmod.com/page/Patterns), returns an iterator which will return either one value if no capture groups are defined, or any capture group matches.
+  * 
+  * @name string.gmatch
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/string/gmatch
+  * @param {void} this - no description
+  * @param {string} data - The string to search in
+  * @param {string} pattern - The pattern to search for
+  * @returns {function} - The iterator function that can be used in a for-in loop
+  **/
+  export function gmatch(this: void, data: string, pattern: string): UnknownFunc
+  
+  /**
+  * 
+  * Returns an iterator function that is called for every complete match of the pattern, all sub matches will be passed as to the loop.
+  * 
+  * @name string.gfind
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/string/gfind
+  * @param {void} this - no description
+  * @param {string} data - The string to search in
+  * @param {string} pattern - The pattern to search for
+  * @returns {function} - The iterator function that can be used in a for-in loop
+  **/
+  export function gfind(this: void, data: string, pattern: string): UnknownFunc
+  
+  /**
+  * 
+  * Formats the specified values into the string given.
+  * 
+  * @name string.format
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/string/format
+  * @param {void} this - no description
+  * @param {string} format - The string to be formatted.
+  * Follows this format: http://www.cplusplus.com/reference/cstdio/printf/
+  * @param {any[]} ...formatParameters - Values to be formatted into the string.
+  * @returns {string} - The formatted string
+  **/
+  export function format(this: void, format: string, ...formatParameters: any[]): string
+  
+  /**
+  * 
+  * Attempts to find the specified substring in a string, uses [Patterns](https://wiki.garrysmod.com/page/Patterns) by default.
+  * 
+  * @name string.find
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/string/find
+  * @param {void} this - no description
+  * @param {string} haystack - The string to search in.
+  * @param {string} needle - The string to find, can contain patterns if enabled.
+  * @param {number} startPos - The position to start the search from, can be negative start position will be relative to the end position.
+  * @param {boolean} noPatterns - Disable patterns.
+  * @returns {number} - Starting position of the found text, or nil if the text wasn't found
+  * @returns {number} - Ending position of found text, or nil if the text wasn't found
+  * @returns {string} - Matched text for each group if patterns are enabled and used, or nil if the text wasn't found
+  * @tupleReturn
+  **/
+  export function find(this: void, haystack: string, needle: string, startPos?: number, noPatterns?: boolean): [number, number, string]
+  
+  /**
+  * 
+  * Returns the binary bytecode of the given function.
+  * 
+  * @name string.dump
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/string/dump
+  * @note This does not work with functions created in C/C++. An error will be thrown if it is
+  * @param {void} this - no description
+  * @param {function} func - The function to get the bytecode of
+  * @param {boolean} stripDebugInfo - True to strip the debug data, false to keep it
+  * @returns {string} - Bytecode
+  **/
+  export function dump(this: void, func: UnknownFunc, stripDebugInfo?: boolean): string
+  
+  /**
+  * 
+  * Takes the given numerical bytes and converts them to a string.
+  * 
+  * @name string.char
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/string/char
+  * @param {void} this - no description
+  * @param {any[]} ...bytes - The bytes to create the string from.
+  * @returns {string} - String built from given bytes
+  **/
+  export function char(this: void, ...bytes: any[]): string
+  
+  /**
+  * 
+  * Returns the given string's characters in their numeric ASCII representation.
+  * 
+  * @name string.byte
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/string/byte
+  * @param {void} this - no description
+  * @param {string} str - The string to get the chars from.
+  * @param {number} startPos - The first character of the string to get the byte of.
+  * @param {number} endPos - The last character of the string to get the byte of.
+  * @returns {any[]} - Numerical bytes
+  **/
+  export function byte(this: void, str: string, startPos?: number, endPos?: number): any[]
+  
+  /**
+  * 
   * Removes trailing spaces/passed character from a string.
   * 
   * @name string.TrimRight
@@ -68574,7 +69368,7 @@ declare namespace string {
   * @param {string} char - Custom character to remove, default is a space
   * @returns {string} - Trimmed string
   **/
-  export function TrimRight(this: void, str: string, char: string): string
+  export function TrimRight(this: void, str: string, char?: string): string
   
   /**
   * 
@@ -68588,7 +69382,7 @@ declare namespace string {
   * @param {string} char - Custom character to remove
   * @returns {string} - Trimmed string
   **/
-  export function TrimLeft(this: void, str: string, char: string): string
+  export function TrimLeft(this: void, str: string, char?: string): string
   
   /**
   * 
@@ -68602,7 +69396,7 @@ declare namespace string {
   * @param {string} Char - String to match.
   * @returns {string} - Modified string
   **/
-  export function Trim(this: void, Inputstring: string, Char: string): string
+  export function Trim(this: void, Inputstring: string, Char?: string): string
   
   /**
   * 
@@ -68656,21 +69450,6 @@ declare namespace string {
   * @returns {IColor} - The output @IColor structure
   **/
   export function ToColor(this: void, Inputstring: string): IColor
-  
-  /**
-  * 
-  * Returns a sub-string, starting from the character at position *StartPos* of the string (inclusive), and optionally ending at the character at position *EndPos* of the string (also inclusive). If EndPos is not given, the rest of the string is returned.
-  * 
-  * @name string.sub
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/string/sub
-  * @param {void} this - no description
-  * @param {string} str - The string you'll take a sub-string out of.
-  * @param {number} StartPos - The position of the first character that will be included in the sub-string.
-  * @param {number} EndPos - The position of the last character to be included in the sub-string. It can be negative to count from the end.
-  * @returns {string} - The substring.
-  **/
-  export function sub(this: void, str: string, StartPos: number, EndPos: number): string
   
   /**
   * 
@@ -68744,19 +69523,6 @@ declare namespace string {
   
   /**
   * 
-  * Reverses a string.
-  * 
-  * @name string.reverse
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/string/reverse
-  * @param {void} this - no description
-  * @param {string} str - The string to be reversed.
-  * @returns {string} - reversed string
-  **/
-  export function reverse(this: void, str: string): string
-  
-  /**
-  * 
   * Replaces all occurrences of the supplied second string.
   * 
   * @name string.Replace
@@ -68769,21 +69535,6 @@ declare namespace string {
   * @returns {string} - string
   **/
   export function Replace(this: void, str: string, find: string, replace: string): string
-  
-  /**
-  * 
-  * Repeats a string by the provided number, with an optional separator.
-  * 
-  * @name string.rep
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/string/rep
-  * @param {void} this - no description
-  * @param {string} str - The string to convert.
-  * @param {number} repetitions - Timer to repeat, this values gets rounded internally.
-  * @param {string} separator - String that will separate the repeated piece. Notice that it doesn't add this string to the start or the end of the result, only between the repeated parts.
-  * @returns {string} - Repeated string.
-  **/
-  export function rep(this: void, str: string, repetitions: number, separator: string): string
   
   /**
   * 
@@ -68826,47 +69577,6 @@ declare namespace string {
   
   /**
   * 
-  * Finds a [Pattern](https://wiki.garrysmod.com/page/Patterns) in a string.
-  * 
-  * @name string.match
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/string/match
-  * @param {void} this - no description
-  * @param {string} str - String which should be searched in for matches.
-  * @param {string} pattern - The pattern that defines what should be matched.
-  * @param {number} startPosition - The start index to start the matching from, can be negative to start the match from a position relative to the end.
-  * @returns {any[]} - Matched text(s)
-  **/
-  export function match(this: void, str: string, pattern: string, startPosition: number): any[]
-  
-  /**
-  * 
-  * Changes any upper-case letters in a string to lower-case letters.
-  * 
-  * @name string.lower
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/string/lower
-  * @param {void} this - no description
-  * @param {string} str - The string to convert.
-  * @returns {string} - The original string, with all uppercase letters replaced with their lowercase variants.
-  **/
-  export function lower(this: void, str: string): string
-  
-  /**
-  * 
-  * Counts the number of characters in the string (length). This is equivalent to using the length operator (#).
-  * 
-  * @name string.len
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/string/len
-  * @param {void} this - no description
-  * @param {string} str - The string to find the length of.
-  * @returns {number} - Length of the string
-  **/
-  export function len(this: void, str: string): number
-  
-  /**
-  * 
   * Returns everything left of supplied place of that string.
   * 
   * @name string.Left
@@ -68905,55 +69615,7 @@ declare namespace string {
   * @param {table} pieces - The table of pieces to concatenate. The keys for these must be numeric and sequential.
   * @returns {string} - Imploded pieces
   **/
-  export function Implode(this: void, separator: string, pieces: table): string
-  
-  /**
-  * 
-  * This functions main purpose is to replace certain character sequences in a string using [Patterns](https://wiki.garrysmod.com/page/Patterns).
-  * 
-  * @name string.gsub
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/string/gsub
-  * @param {void} this - no description
-  * @param {string} str - String which should be modified.
-  * @param {string} pattern - The pattern that defines what should be matched and eventually be replaced.
-  * @param {string} replacement - In case of a string the matches sequence will be replaced with it.
-  * In case of a table, the matched sequence will be used as key and the table will tested for the key, if a value exists it will be used as replacement.
-  * In case of a function all matches will be passed as parameters to the function, the return value(s) of the function will then be used as replacement.
-  * @param {number} maxReplaces - Maximum number of replacements to be made.
-  * @returns {string} - replaceResult
-  * @returns {number} - replaceCount
-  * @tupleReturn
-  **/
-  export function gsub(this: void, str: string, pattern: string, replacement: string, maxReplaces: number): [string, number]
-  
-  /**
-  * 
-  * Using [Patterns](https://wiki.garrysmod.com/page/Patterns), returns an iterator which will return either one value if no capture groups are defined, or any capture group matches.
-  * 
-  * @name string.gmatch
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/string/gmatch
-  * @param {void} this - no description
-  * @param {string} data - The string to search in
-  * @param {string} pattern - The pattern to search for
-  * @returns {function} - The iterator function that can be used in a for-in loop
-  **/
-  export function gmatch(this: void, data: string, pattern: string): UnknownFunc
-  
-  /**
-  * 
-  * Returns an iterator function that is called for every complete match of the pattern, all sub matches will be passed as to the loop.
-  * 
-  * @name string.gfind
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/string/gfind
-  * @param {void} this - no description
-  * @param {string} data - The string to search in
-  * @param {string} pattern - The pattern to search for
-  * @returns {function} - The iterator function that can be used in a for-in loop
-  **/
-  export function gfind(this: void, data: string, pattern: string): UnknownFunc
+  export function Implode(this: void, separator?: string, pieces: table): string
   
   /**
   * 
@@ -69010,19 +69672,6 @@ declare namespace string {
   
   /**
   * 
-  * Creates a string from a Color variable.
-  * 
-  * @name string.FromColor
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/string/FromColor
-  * @param {void} this - no description
-  * @param {Color} color - The color to put in the string.
-  * @returns {string} - Output
-  **/
-  export function FromColor(this: void, color: Color): string
-  
-  /**
-  * 
   * Returns the time as a formatted string or as a table if no format is given.
   * 
   * @name string.FormattedTime
@@ -69038,37 +69687,16 @@ declare namespace string {
   
   /**
   * 
-  * Formats the specified values into the string given.
+  * Creates a string from a Color variable.
   * 
-  * @name string.format
+  * @name string.FromColor
   * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/string/format
+  * @wiki https://wiki.garrysmod.com/page/string/FromColor
   * @param {void} this - no description
-  * @param {string} format - The string to be formatted.
-  * Follows this format: http://www.cplusplus.com/reference/cstdio/printf/
-  * @param {any[]} ...formatParameters - Values to be formatted into the string.
-  * @returns {string} - The formatted string
+  * @param {Color} color - The color to put in the string.
+  * @returns {string} - Output
   **/
-  export function format(this: void, format: string, ...formatParameters: any[]): string
-  
-  /**
-  * 
-  * Attempts to find the specified substring in a string, uses [Patterns](https://wiki.garrysmod.com/page/Patterns) by default.
-  * 
-  * @name string.find
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/string/find
-  * @param {void} this - no description
-  * @param {string} haystack - The string to search in.
-  * @param {string} needle - The string to find, can contain patterns if enabled.
-  * @param {number} startPos - The position to start the search from, can be negative start position will be relative to the end position.
-  * @param {boolean} noPatterns - Disable patterns.
-  * @returns {number} - Starting position of the found text, or nil if the text wasn't found
-  * @returns {number} - Ending position of found text, or nil if the text wasn't found
-  * @returns {string} - Matched text for each group if patterns are enabled and used, or nil if the text wasn't found
-  * @tupleReturn
-  **/
-  export function find(this: void, haystack: string, needle: string, startPos: number, noPatterns: boolean): [number, number, string]
+  export function FromColor(this: void, color: Color): string
   
   /**
   * 
@@ -69102,21 +69730,6 @@ declare namespace string {
   
   /**
   * 
-  * Returns the binary bytecode of the given function.
-  * 
-  * @name string.dump
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/string/dump
-  * @note This does not work with functions created in C/C++. An error will be thrown if it is
-  * @param {void} this - no description
-  * @param {function} func - The function to get the bytecode of
-  * @param {boolean} stripDebugInfo - True to strip the debug data, false to keep it
-  * @returns {string} - Bytecode
-  **/
-  export function dump(this: void, func: UnknownFunc, stripDebugInfo: boolean): string
-  
-  /**
-  * 
   * Inserts commas for every third digit.
   * 
   * @name string.Comma
@@ -69127,34 +69740,6 @@ declare namespace string {
   * @returns {string} - Prettystring
   **/
   export function Comma(this: void, InputNumber: number): string
-  
-  /**
-  * 
-  * Takes the given numerical bytes and converts them to a string.
-  * 
-  * @name string.char
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/string/char
-  * @param {void} this - no description
-  * @param {any[]} ...bytes - The bytes to create the string from.
-  * @returns {string} - String built from given bytes
-  **/
-  export function char(this: void, ...bytes: any[]): string
-  
-  /**
-  * 
-  * Returns the given string's characters in their numeric ASCII representation.
-  * 
-  * @name string.byte
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/string/byte
-  * @param {void} this - no description
-  * @param {string} str - The string to get the chars from.
-  * @param {number} startPos - The first character of the string to get the byte of.
-  * @param {number} endPos - The last character of the string to get the byte of.
-  * @returns {any[]} - Numerical bytes
-  **/
-  export function byte(this: void, str: string, startPos: number, endPos: number): any[]
   
 }
 
@@ -69367,13 +69952,17 @@ declare namespace steamworks {
   * @realm client, menu
   * @wiki https://wiki.garrysmod.com/page/steamworks/GetList
   * @param {void} this - no description
-  * @param {string} type - The type of items to retrieve.
+  * @param {string} type - The type of items to retrieve. Possible values include:
+  * * popular (All invalid options will equal to this)
+  * * trending
+  * * latest
+  * * friends
   * @param {table} tags - A table of tags to match.
   * @param {number} offset - How much of results to skip from first one. Mainly used for pages.
-  * @param {number} numRetrieve - How much addons to retrieve.
+  * @param {number} numRetrieve - How much items to retrieve, up to 50 at a time.
   * @param {number} days - When getting Most Popular content from Steam, this determines a time period. ( 7 = most popular addons in last 7 days, 1 = most popular addons today, etc )
-  * @param {string} userID - "0" to retrieve all addons, "1" to retrieve addons only published by you.
-  * @param {function} resultCallback - The function to process retrieved data. The first and only argument is a table, containing all the info.
+  * @param {string} userID - "0" to retrieve all addons, "1" to retrieve addons only published by you, or a valid SteamID64 of a user to get workshop items of.
+  * @param {function} resultCallback - The function to process retrieved data. The first and only argument is a table, containing all the info, or nil in case of error
   * @returns {void}
   **/
   export function GetList(this: void, type: string, tags: table, offset: number, numRetrieve: number, days: number, userID: string, resultCallback: UnknownFunc): void
@@ -69391,6 +69980,20 @@ declare namespace steamworks {
   * @returns {void}
   **/
   export function FileInfo(this: void, workshopItemID: string, resultCallback: steamworksFileInfoCallback): void
+  
+  /**
+  * 
+  * Downloads a Steam Workshop file by its ID and returns a path to it.
+  * 
+  * @name steamworks.DownloadUGC
+  * @realm client, menu
+  * @wiki https://wiki.garrysmod.com/page/steamworks/DownloadUGC
+  * @param {void} this - no description
+  * @param {number} workshopID - The ID of workshop item to download. **NOT** a file ID.
+  * @param {function} resultCallback - The function to process retrieved data. The first and only argument is a string, containing path to the saved file, or nil if the download failed to any reason.
+  * @returns {void}
+  **/
+  export function DownloadUGC(this: void, workshopID: number, resultCallback: UnknownFunc): void
   
   /**
   * 
@@ -69451,7 +70054,7 @@ declare namespace sql {
   * @param {boolean} bNoQuotes - Set this as true, and the function will not wrap the input string in apostrophes.
   * @returns {string} - The escaped input.
   **/
-  export function SQLStr(this: void, str: string, bNoQuotes: boolean): string
+  export function SQLStr(this: void, str: string, bNoQuotes?: boolean): string
   
   /**
   * 
@@ -69479,7 +70082,7 @@ declare namespace sql {
   * @param {number} row - The row number. Say we receive back 5 rows, putting 3 as this argument will give us row #3.
   * @returns {table} - The returned row.
   **/
-  export function QueryRow(this: void, query: string, row: number): table
+  export function QueryRow(this: void, query: string, row?: number): table
   
   /**
   * 
@@ -69642,7 +70245,7 @@ declare namespace spawnmenu {
   * @param {string} icon - The filepath to the icon of the tab. Should be a .png
   * @returns {table[]} - A table of tables representing categories and items in the left part of the tab. See example below to example structure.
   **/
-  export function GetToolMenu(this: void, name: string, label: string, icon: string): table[]
+  export function GetToolMenu(this: void, name: string, label?: string, icon?: string): table[]
   
   /**
   * 
@@ -69757,6 +70360,22 @@ declare namespace spawnmenu {
   
   /**
   * 
+  * Adds a new tool tab to the right side of the spawnmenu via the @SandboxHooks:AddToolMenuTabs hook.
+  * This function is a inferior duplicate of @spawnmenu.GetToolMenu, just without its return value.
+  * 
+  * @name spawnmenu.AddToolTab
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/spawnmenu/AddToolTab
+  * @param {void} this - no description
+  * @param {string} name - The internal name of the tab. This is used for sorting.
+  * @param {string} label - The 'nice' name of the tab (Tip: @language.Add)
+  * @param {string} icon - The filepath to the icon of the tab. Should be a .png
+  * @returns {void}
+  **/
+  export function AddToolTab(this: void, name: string, label?: string, icon?: string): void
+  
+  /**
+  * 
   * Adds an option to the right side of the spawnmenu
   * 
   * @name spawnmenu.AddToolMenuOption
@@ -69773,23 +70392,7 @@ declare namespace spawnmenu {
   * @param {table} table - Allows to override the table that will be added to the tool list. Some of the fields will be overwritten by this function.
   * @returns {void}
   **/
-  export function AddToolMenuOption(this: void, tab: string, category: string, cls: string, name: string, cmd: string, config: string, cpanel: spawnmenuAddToolMenuOptionCpanel, table: table): void
-  
-  /**
-  * 
-  * Adds a new tool tab to the right side of the spawnmenu via the @SandboxHooks:AddToolMenuTabs hook.
-  * This function is a inferior duplicate of @spawnmenu.GetToolMenu, just without its return value.
-  * 
-  * @name spawnmenu.AddToolTab
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/spawnmenu/AddToolTab
-  * @param {void} this - no description
-  * @param {string} name - The internal name of the tab. This is used for sorting.
-  * @param {string} label - The 'nice' name of the tab (Tip: @language.Add)
-  * @param {string} icon - The filepath to the icon of the tab. Should be a .png
-  * @returns {void}
-  **/
-  export function AddToolTab(this: void, name: string, label: string, icon: string): void
+  export function AddToolMenuOption(this: void, tab: string, category: string, cls: string, name: string, cmd: string, config: string, cpanel: spawnmenuAddToolMenuOptionCpanel, table?: table): void
   
   /**
   * 
@@ -69828,7 +70431,7 @@ declare namespace spawnmenu {
   * @param {string} needsApp - The needed game for this prop category, if one is needed. If the specified game is not mounted, the category isn't shown. This uses the shortcut name, e.g. *cstrike*, and not the Steam AppID.
   * @returns {void}
   **/
-  export function AddPropCategory(this: void, classname: string, name: string, contents: any, icon: string, id: number, parentID: number, needsApp: string): void
+  export function AddPropCategory(this: void, classname: string, name: string, contents: any, icon: string, id?: number, parentID?: number, needsApp?: string): void
   
   /**
   * 
@@ -69845,19 +70448,7 @@ declare namespace spawnmenu {
   * @param {string} tooltip - The tooltip to be shown for this tab.
   * @returns {void}
   **/
-  export function AddCreationTab(this: void, name: string, func: UnknownFunc, material: string, order: number, tooltip: string): void
-  
-  /**
-  * 
-  * Returns currently opened control panel of a tool, post process effect or some other menu in spawnmenu.
-  * 
-  * @name spawnmenu.ActiveControlPanel
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/spawnmenu/ActiveControlPanel
-  * @param {void} this - no description
-  * @returns {Panel} - The currently opened control panel, if any.
-  **/
-  export function ActiveControlPanel(this: void): Panel
+  export function AddCreationTab(this: void, name: string, func: UnknownFunc, material?: string, order?: number, tooltip?: string): void
   
   /**
   * 
@@ -69874,6 +70465,18 @@ declare namespace spawnmenu {
   * @returns {void}
   **/
   export function AddContentType(this: void, name: string, constructor: spawnmenuAddContentTypeConstructor): void
+  
+  /**
+  * 
+  * Returns currently opened control panel of a tool, post process effect or some other menu in spawnmenu.
+  * 
+  * @name spawnmenu.ActiveControlPanel
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/spawnmenu/ActiveControlPanel
+  * @param {void} this - no description
+  * @returns {Panel} - The currently opened control panel, if any.
+  **/
+  export function ActiveControlPanel(this: void): Panel
   
   /**
   * 
@@ -70020,9 +70623,11 @@ declare namespace sound {
   * @name sound.Generate
   * @realm client
   * @wiki https://wiki.garrysmod.com/page/sound/Generate
+  * @warning You cannot override already existing ones.
   * @bug #3360 This function cannot generate sounds that have a duration of less than 1 second.
+  * @bug #4082 Sounds persist between disconnects.
   * @param {void} this - no description
-  * @param {string} indentifier - An unique identified for the sound. You cannot override already existing ones.
+  * @param {string} indentifier - An unique identified for the sound.
   * @param {number} samplerate - The sample rate of the sound. Must be 11025, 22050 or 44100.
   * @param {number} length - The length in seconds of the sound to generate.
   * @param {function} callback - A function which will be called to generate every sample on the sound. This function gets the current sample number passed as the first argument. The return value must be between -1.0 and 1.0. Other values will wrap back to the -1 to 1 range and basically clip. There are 65535 possible quantifiable values between -1 and 1.
@@ -70149,7 +70754,7 @@ declare namespace search {
   * @param {string} id - If provided, ensures that only one provider exists with the given ID at a time.
   * @returns {void}
   **/
-  export function AddProvider(this: void, provider: searchAddProviderProvider, id: string): void
+  export function AddProvider(this: void, provider: searchAddProviderProvider, id?: string): void
   
 }
 
@@ -70583,16 +71188,15 @@ declare namespace render {
   
   /**
   * 
-  * Suppresses or enables any engine lighting for any upcoming render operation.
+  * Returns if the current settings and the system allow the usage of pixel shaders 2.0.
   * 
-  * @name render.SuppressEngineLighting
+  * @name render.SupportsPixelShaders_2_0
   * @realm client
-  * @wiki https://wiki.garrysmod.com/page/render/SuppressEngineLighting
+  * @wiki https://wiki.garrysmod.com/page/render/SupportsPixelShaders 2 0
   * @param {void} this - no description
-  * @param {boolean} suppressLighting - True to suppress false to enable.
-  * @returns {void}
+  * @returns {boolean} - Whether Pixel Shaders 2.0 are supported or not.
   **/
-  export function SuppressEngineLighting(this: void, suppressLighting: boolean): void
+  export function SupportsPixelShaders_2_0(this: void): boolean
   
   /**
   * 
@@ -70608,15 +71212,17 @@ declare namespace render {
   
   /**
   * 
-  * Returns if the current settings and the system allow the usage of pixel shaders 2.0.
+  * Suppresses or enables any engine lighting for any upcoming render operation.
   * 
-  * @name render.SupportsPixelShaders_2_0
+  * @name render.SuppressEngineLighting
   * @realm client
-  * @wiki https://wiki.garrysmod.com/page/render/SupportsPixelShaders 2 0
+  * @wiki https://wiki.garrysmod.com/page/render/SuppressEngineLighting
+  * @bug #4070 This does not affect @IMesh typees.
   * @param {void} this - no description
-  * @returns {boolean} - Whether Pixel Shaders 2.0 are supported or not.
+  * @param {boolean} suppressLighting - True to suppress false to enable.
+  * @returns {void}
   **/
-  export function SupportsPixelShaders_2_0(this: void): boolean
+  export function SuppressEngineLighting(this: void, suppressLighting: boolean): void
   
   /**
   * 
@@ -70644,6 +71250,19 @@ declare namespace render {
   
   /**
   * 
+  * Swaps the frame buffers/cycles the frame. In other words, this updates the screen.
+  * If you take a really long time during a single frame render, it is a good idea to use this and let the user know that the game isn't stuck.
+  * 
+  * @name render.Spin
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/render/Spin
+  * @param {void} this - no description
+  * @returns {void}
+  **/
+  export function Spin(this: void): void
+  
+  /**
+  * 
   * Start a new beam draw operation.
   * 
   * @name render.StartBeam
@@ -70668,26 +71287,13 @@ declare namespace render {
   
   /**
   * 
-  * Swaps the frame buffers/cycles the frame. In other words, this updates the screen.
-  * If you take a really long time during a single frame render, it is a good idea to use this and let the user know that the game isn't stuck.
-  * 
-  * @name render.Spin
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/render/Spin
-  * @param {void} this - no description
-  * @returns {void}
-  **/
-  export function Spin(this: void): void
-  
-  /**
-  * 
-  * Changes the view port position and size.
+  * Changes the view port position and size. The values will be clamped to the game's screen resolution.
+  * If you are looking to render something to a texture (render target), you should use @render.PushRenderTarget.
   * 
   * @name render.SetViewPort
   * @realm client
   * @wiki https://wiki.garrysmod.com/page/render/SetViewPort
   * @note This function will override values of @ScrW function and @ScrH function with the ones you set.
-  * @bug #1424 Arguments are clamped to the client's screen bounds, disallowing render targets bigger than the screen. @render.PushRenderTarget doesn't suffer from this.
   * @param {void} this - no description
   * @param {number} x - X origin of the view port.
   * @param {number} y - Y origin of the view port.
@@ -70957,7 +71563,7 @@ declare namespace render {
   * @param {LocalLight} lights - A table containing up to 4 tables for each light source that should be set up. Each of these tables should contain the properties of its associated light source, see @LocalLight structure.
   * @returns {void}
   **/
-  export function SetLocalModelLights(this: void, lights: LocalLight): void
+  export function SetLocalModelLights(this: void, lights?: LocalLight): void
   
   /**
   * 
@@ -70972,20 +71578,6 @@ declare namespace render {
   * @returns {void}
   **/
   export function SetLightmapTexture(this: void, tex: ITexture): void
-  
-  /**
-  * 
-  * Sets the lighting origin.
-  * 
-  * @name render.SetLightingOrigin
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/render/SetLightingOrigin
-  * @bug #2804 This does not work for prop_physics.
-  * @param {void} this - no description
-  * @param {Vector} lightingOrigin - The position from which the light should be "emitted".
-  * @returns {void}
-  **/
-  export function SetLightingOrigin(this: void, lightingOrigin: Vector): void
   
   /**
   * 
@@ -71004,6 +71596,20 @@ declare namespace render {
   * @returns {void}
   **/
   export function SetLightingMode(this: void, Mode: number): void
+  
+  /**
+  * 
+  * Sets the lighting origin.
+  * 
+  * @name render.SetLightingOrigin
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/render/SetLightingOrigin
+  * @bug #2804 This does not work for prop_physics.
+  * @param {void} this - no description
+  * @param {Vector} lightingOrigin - The position from which the light should be "emitted".
+  * @returns {void}
+  **/
+  export function SetLightingOrigin(this: void, lightingOrigin: Vector): void
   
   /**
   * 
@@ -71161,7 +71767,7 @@ declare namespace render {
   * @param {ViewData} view - The view data to be used in the rendering. See @ViewData structure. Any missing value is assumed to be that of the current view. Similarly, you can make a normal render by simply not passing this table at all.
   * @returns {void}
   **/
-  export function RenderView(this: void, view: ViewData): void
+  export function RenderView(this: void, view?: ViewData): void
   
   /**
   * 
@@ -71190,7 +71796,7 @@ declare namespace render {
   * @param {boolean} DoStaticProps - When true, this will also apply lighting changes to static props. This is really slow on large maps.
   * @returns {void}
   **/
-  export function RedownloadAllLightmaps(this: void, DoStaticProps: boolean): void
+  export function RedownloadAllLightmaps(this: void, DoStaticProps?: boolean): void
   
   /**
   * 
@@ -71228,7 +71834,7 @@ declare namespace render {
   * @param {number} h - Height of the viewport
   * @returns {void}
   **/
-  export function PushRenderTarget(this: void, texture: ITexture, x: number, y: number, w: number, h: number): void
+  export function PushRenderTarget(this: void, texture: ITexture, x?: number, y?: number, w?: number, h?: number): void
   
   /**
   * 
@@ -71242,20 +71848,7 @@ declare namespace render {
   * @param {boolean} enable - Whether the flashlight mode should be enabled or disabled.
   * @returns {void}
   **/
-  export function PushFlashlightMode(this: void, enable: boolean): void
-  
-  /**
-  * 
-  * Pushes a texture filter onto the minification texture filter stack.
-  * 
-  * @name render.PushFilterMin
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/render/PushFilterMin
-  * @param {void} this - no description
-  * @param {TEXFILTER} texFilterType - The texture filter type, see @TEXFILTER enum
-  * @returns {void}
-  **/
-  export function PushFilterMin(this: void, texFilterType: TEXFILTER): void
+  export function PushFlashlightMode(this: void, enable?: boolean): void
   
   /**
   * 
@@ -71269,6 +71862,19 @@ declare namespace render {
   * @returns {void}
   **/
   export function PushFilterMag(this: void, texFilterType: TEXFILTER): void
+  
+  /**
+  * 
+  * Pushes a texture filter onto the minification texture filter stack.
+  * 
+  * @name render.PushFilterMin
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/render/PushFilterMin
+  * @param {void} this - no description
+  * @param {TEXFILTER} texFilterType - The texture filter type, see @TEXFILTER enum
+  * @returns {void}
+  **/
+  export function PushFilterMin(this: void, texFilterType: TEXFILTER): void
   
   /**
   * 
@@ -71402,7 +72008,7 @@ declare namespace render {
   * @param {number} destBlendAlpha - no description
   * @returns {void}
   **/
-  export function OverrideBlendFunc(this: void, enabled: boolean, srcBlend: BLEND, destBlend: number, srcBlendAlpha: BLEND, destBlendAlpha: number): void
+  export function OverrideBlendFunc(this: void, enabled: boolean, srcBlend: BLEND, destBlend: number, srcBlendAlpha?: BLEND, destBlendAlpha?: number): void
   
   /**
   * 
@@ -71423,7 +72029,7 @@ declare namespace render {
   * @param {BLENDFUNC} blendFuncAlpha - The blend mode used for drawing the alpha layer @BLENDFUNC enum.
   * @returns {void}
   **/
-  export function OverrideBlend(this: void, enabled: boolean, srcBlend: BLEND, destBlend: BLEND, blendFunc: BLENDFUNC, srcBlendAlpha: BLEND, destBlendAlpha: BLEND, blendFuncAlpha: BLENDFUNC): void
+  export function OverrideBlend(this: void, enabled: boolean, srcBlend: BLEND, destBlend: BLEND, blendFunc: BLENDFUNC, srcBlendAlpha?: BLEND, destBlendAlpha?: BLEND, blendFuncAlpha?: BLENDFUNC): void
   
   /**
   * 
@@ -71468,7 +72074,7 @@ declare namespace render {
   * @param {CSEnt} ent - If provided, this entity will be reused instead of creating a new one with @ClientsideModel function. Note that the ent's model, position and angles will be changed, and @EntityFuncs:SetNoDraw will be set to true.
   * @returns {void}
   **/
-  export function Model(this: void, settings: IrenderModelSettings, ent: CSEnt): void
+  export function Model(this: void, settings: IrenderModelSettings, ent?: CSEnt): void
   
   /**
   * 
@@ -71603,7 +72209,19 @@ declare namespace render {
   * @param {number} textureIndex - Max index is 3, but engine only creates the first two for you.
   * @returns {ITexture} - no description
   **/
-  export function GetScreenEffectTexture(this: void, textureIndex: number): ITexture
+  export function GetScreenEffectTexture(this: void, textureIndex?: number): ITexture
+  
+  /**
+  * 
+  * Returns the _rt_ResolvedFullFrameDepth texture for SSAO depth.
+  * 
+  * @name render.GetResolvedFullFrameDepth
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/render/GetResolvedFullFrameDepth
+  * @param {void} this - no description
+  * @returns {ITexture} - no description
+  **/
+  export function GetResolvedFullFrameDepth(this: void): ITexture
   
   /**
   * 
@@ -71617,18 +72235,6 @@ declare namespace render {
   * @returns {ITexture} - The currently active Render Target
   **/
   export function GetRenderTarget(this: void): ITexture
-  
-  /**
-  * 
-  * Returns the _rt_ResolvedFullFrameDepth texture for SSAO depth.
-  * 
-  * @name render.GetResolvedFullFrameDepth
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/render/GetResolvedFullFrameDepth
-  * @param {void} this - no description
-  * @returns {ITexture} - no description
-  **/
-  export function GetResolvedFullFrameDepth(this: void): ITexture
   
   /**
   * 
@@ -71801,18 +72407,6 @@ declare namespace render {
   
   /**
   * 
-  * Returns the ambient color of the map.
-  * 
-  * @name render.GetAmbientLightColor
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/render/GetAmbientLightColor
-  * @param {void} this - no description
-  * @returns {Vector} - color
-  **/
-  export function GetAmbientLightColor(this: void): Vector
-  
-  /**
-  * 
   * Returns the current alpha blending.
   * 
   * @name render.GetBlend
@@ -71822,6 +72416,18 @@ declare namespace render {
   * @returns {number} - blend
   **/
   export function GetBlend(this: void): number
+  
+  /**
+  * 
+  * Returns the ambient color of the map.
+  * 
+  * @name render.GetAmbientLightColor
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/render/GetAmbientLightColor
+  * @param {void} this - no description
+  * @returns {Vector} - color
+  **/
+  export function GetAmbientLightColor(this: void): Vector
   
   /**
   * 
@@ -71852,6 +72458,19 @@ declare namespace render {
   
   /**
   * 
+  * Sets the maximum density of the fog.
+  * 
+  * @name render.FogMaxDensity
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/render/FogMaxDensity
+  * @param {void} this - no description
+  * @param {number} maxDensity - The maximum density of the fog, 0-1.
+  * @returns {void}
+  **/
+  export function FogMaxDensity(this: void, maxDensity: number): void
+  
+  /**
+  * 
   * Sets the at which the fog reaches its max density.
   * 
   * @name render.FogEnd
@@ -71863,19 +72482,6 @@ declare namespace render {
   * @returns {void}
   **/
   export function FogEnd(this: void, distance: number): void
-  
-  /**
-  * 
-  * Sets the maximum density of the fog.
-  * 
-  * @name render.FogMaxDensity
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/render/FogMaxDensity
-  * @param {void} this - no description
-  * @param {number} maxDensity - The maximum density of the fog, 0-1.
-  * @returns {void}
-  **/
-  export function FogMaxDensity(this: void, maxDensity: number): void
   
   /**
   * 
@@ -71938,7 +72544,7 @@ declare namespace render {
   * @param {boolean} writeZ - Whether or not to consider the Z buffer. If false, the wireframe will be drawn over everything currently drawn. If true, it will be drawn with depth considered, as if it were a regular object in 3D space.
   * @returns {void}
   **/
-  export function DrawWireframeSphere(this: void, position: Vector, radius: number, longitudeSteps: number, latitudeSteps: number, color: Color, writeZ: boolean): void
+  export function DrawWireframeSphere(this: void, position: Vector, radius: number, longitudeSteps: number, latitudeSteps: number, color?: Color, writeZ?: boolean): void
   
   /**
   * 
@@ -71957,7 +72563,7 @@ declare namespace render {
   * @param {boolean} writeZ - Sets whenever to write to the zBuffer.
   * @returns {void}
   **/
-  export function DrawWireframeBox(this: void, position: Vector, angle: Angle, mins: Vector, maxs: Vector, color: Color, writeZ: boolean): void
+  export function DrawWireframeBox(this: void, position: Vector, angle: Angle, mins: Vector, maxs: Vector, color?: Color, writeZ?: boolean): void
   
   /**
   * 
@@ -72006,7 +72612,7 @@ declare namespace render {
   * @param {Color} color - Color of the sprite. Uses the @IColor structure.
   * @returns {void}
   **/
-  export function DrawSprite(this: void, position: Vector, width: number, height: number, color: Color): void
+  export function DrawSprite(this: void, position: Vector, width: number, height: number, color?: Color): void
   
   /**
   * 
@@ -72025,7 +72631,7 @@ declare namespace render {
   * @param {Color} color - The color of the sphere. Uses the @IColor structure.
   * @returns {void}
   **/
-  export function DrawSphere(this: void, position: Vector, radius: number, longitudeSteps: number, latitudeSteps: number, color: Color): void
+  export function DrawSphere(this: void, position: Vector, radius: number, longitudeSteps: number, latitudeSteps: number, color?: Color): void
   
   /**
   * 
@@ -72076,7 +72682,7 @@ declare namespace render {
   * @param {number} rotation - The rotation of the quad counter-clockwise in degrees around the normal axis. In other words, the quad will always face the same way but this will rotate its corners.
   * @returns {void}
   **/
-  export function DrawQuadEasy(this: void, position: Vector, normal: Vector, width: number, height: number, color: Color, rotation: number): void
+  export function DrawQuadEasy(this: void, position: Vector, normal: Vector, width: number, height: number, color: Color, rotation?: number): void
   
   /**
   * 
@@ -72094,7 +72700,7 @@ declare namespace render {
   * @param {Color} color - The color of the quad. See @Color function
   * @returns {void}
   **/
-  export function DrawQuad(this: void, vert1: Vector, vert2: Vector, vert3: Vector, vert4: Vector, color: Color): void
+  export function DrawQuad(this: void, vert1: Vector, vert2: Vector, vert3: Vector, vert4: Vector, color?: Color): void
   
   /**
   * 
@@ -72112,7 +72718,7 @@ declare namespace render {
   * @param {boolean} writeZ - Whether or not to consider the Z buffer. If false, the line will be drawn over everything currently drawn, if true, the line will be drawn with depth considered, as if it were a regular object in 3D space.
   * @returns {void}
   **/
-  export function DrawLine(this: void, startPos: Vector, endPos: Vector, color: Color, writeZ: boolean): void
+  export function DrawLine(this: void, startPos: Vector, endPos: Vector, color?: Color, writeZ?: boolean): void
   
   /**
   * 
@@ -72130,7 +72736,7 @@ declare namespace render {
   * @param {Color} color - The color of the box. Uses the @IColor structure.
   * @returns {void}
   **/
-  export function DrawBox(this: void, position: Vector, angles: Angle, mins: Vector, maxs: Vector, color: Color): void
+  export function DrawBox(this: void, position: Vector, angles: Angle, mins: Vector, maxs: Vector, color?: Color): void
   
   /**
   * 
@@ -72149,7 +72755,7 @@ declare namespace render {
   * @param {Color} color - The color to be used. Uses the @IColor structure.
   * @returns {void}
   **/
-  export function DrawBeam(this: void, startPos: Vector, endPos: Vector, width: number, textureStart: number, textureEnd: number, color: Color): void
+  export function DrawBeam(this: void, startPos: Vector, endPos: Vector, width: number, textureStart: number, textureEnd: number, color?: Color): void
   
   /**
   * 
@@ -72235,18 +72841,6 @@ declare namespace render {
   
   /**
   * 
-  * Resets all values in the stencil buffer to zero.
-  * 
-  * @name render.ClearStencil
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/render/ClearStencil
-  * @param {void} this - no description
-  * @returns {void}
-  **/
-  export function ClearStencil(this: void): void
-  
-  /**
-  * 
   * Sets the stencil value in a specified rect.
   * This is **not** affected by @render.SetStencilWriteMask
   * 
@@ -72262,6 +72856,18 @@ declare namespace render {
   * @returns {void}
   **/
   export function ClearStencilBufferRectangle(this: void, originX: number, originY: number, endX: number, endY: number, stencilValue: number): void
+  
+  /**
+  * 
+  * Resets all values in the stencil buffer to zero.
+  * 
+  * @name render.ClearStencil
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/render/ClearStencil
+  * @param {void} this - no description
+  * @returns {void}
+  **/
+  export function ClearStencil(this: void): void
   
   /**
   * 
@@ -72325,7 +72931,7 @@ declare namespace render {
   * @param {boolean} clearStencil - Clear the stencil.
   * @returns {void}
   **/
-  export function Clear(this: void, r: number, g: number, b: number, a: number, clearDepth: boolean, clearStencil: boolean): void
+  export function Clear(this: void, r: number, g: number, b: number, a: number, clearDepth?: boolean, clearStencil?: boolean): void
   
   /**
   * 
@@ -72363,23 +72969,7 @@ declare namespace render {
   * @param {IMaterial} mat - no description
   * @returns {void}
   **/
-  export function BrushMaterialOverride(this: void, mat: IMaterial): void
-  
-  /**
-  * 
-  * Adds a beam segment to the beam started by @render.StartBeam.
-  * 
-  * @name render.AddBeam
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/render/AddBeam
-  * @param {void} this - no description
-  * @param {Vector} startPos - Beam start position.
-  * @param {number} width - The width of the beam.
-  * @param {number} textureEnd - The end coordinate of the texture used.
-  * @param {Color} color - The color to be used. Uses the @IColor structure.
-  * @returns {void}
-  **/
-  export function AddBeam(this: void, startPos: Vector, width: number, textureEnd: number, color: Color): void
+  export function BrushMaterialOverride(this: void, mat?: IMaterial): void
   
   /**
   * 
@@ -72396,6 +72986,22 @@ declare namespace render {
   * @returns {void}
   **/
   export function BlurRenderTarget(this: void, rendertarget: ITexture, blurx: number, blury: number, passes: number): void
+  
+  /**
+  * 
+  * Adds a beam segment to the beam started by @render.StartBeam.
+  * 
+  * @name render.AddBeam
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/render/AddBeam
+  * @param {void} this - no description
+  * @param {Vector} startPos - Beam start position.
+  * @param {number} width - The width of the beam.
+  * @param {number} textureEnd - The end coordinate of the texture used.
+  * @param {Color} color - The color to be used. Uses the @IColor structure.
+  * @returns {void}
+  **/
+  export function AddBeam(this: void, startPos: Vector, width: number, textureEnd: number, color: Color): void
   
   
   interface IrenderModelSettings  {
@@ -72644,147 +73250,6 @@ declare namespace presets {
   
 }
 
-declare namespace player {
-  /**
-  * 
-  * Returns a table of all human ( non bot/AI ) players.
-  * Unlike @player.GetAll, this does not include bots.
-  * 
-  * @name player.GetHumans
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/player/GetHumans
-  * @param {void} this - no description
-  * @returns {table} - A table of all human ( non bot/AI ) players.
-  **/
-  export function GetHumans(this: void): table
-  
-  /**
-  * 
-  * Gives you the player count.
-  * Similar to #@player.GetAll but with much better performance.
-  * 
-  * @name player.GetCount
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/player/GetCount
-  * @param {void} this - no description
-  * @returns {number} - Number of players
-  **/
-  export function GetCount(this: void): number
-  
-  /**
-  * 
-  * Gets the player with the specified uniqueID (not recommended way to identify players).
-  * 
-  * @name player.GetByUniqueID
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/player/GetByUniqueID
-  * @warning It is highly recommended to use @player.GetByAccountID, @player.GetBySteamID or @player.GetBySteamID64 instead as this function can have collisions ( be same for different people ) while SteamID is guaranteed to unique to each player.
-  * @param {void} this - no description
-  * @param {string} uniqueID - The @Player:UniqueID to find the player by.
-  * @returns {Player} - Player if one is found, false otherwise.
-  **/
-  export function GetByUniqueID(this: void, uniqueID: string): Player
-  
-  /**
-  * 
-  * Gets the player with the specified SteamID64.
-  * 
-  * @name player.GetBySteamID64
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/player/GetBySteamID64
-  * @param {void} this - no description
-  * @param {string} steamID64 - The @Player:SteamID64 to find the player by. Also accepts numbers.
-  * @returns {Player} - Player if one is found, false otherwise.
-  **/
-  export function GetBySteamID64(this: void, steamID64: string): Player
-  
-  /**
-  * 
-  * Gets the player with the specified SteamID.
-  * 
-  * @name player.GetBySteamID
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/player/GetBySteamID
-  * @param {void} this - no description
-  * @param {string} steamID - The @Player:SteamID to find the player by.
-  * @returns {Player} - Player if one is found, false otherwise.
-  **/
-  export function GetBySteamID(this: void, steamID: string): Player
-  
-  /**
-  * 
-  * Gets the player with the specified connection ID.
-  * Connection ID can be retrieved via @gameevent.Listen events.
-  * For a function that returns a player based on their @EntityFuncs:EntIndex, see @Entity function.
-  * For a function that returns a player based on their @Player:UserID, see @Player function.
-  * 
-  * @name player.GetByID
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/player/GetByID
-  * @param {void} this - no description
-  * @param {number} connectionID - The connection ID to find the player by.
-  * @returns {Player} - Player if one is found, nil otherwise
-  **/
-  export function GetByID(this: void, connectionID: number): Player
-  
-  /**
-  * 
-  * Gets the player with the specified AccountID.
-  * 
-  * @name player.GetByAccountID
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/player/GetByAccountID
-  * @param {void} this - no description
-  * @param {string} accountID - The @Player:AccountID to find the player by.
-  * @returns {Player} - Player if one is found, false otherwise.
-  **/
-  export function GetByAccountID(this: void, accountID: string): Player
-  
-  /**
-  * 
-  * Returns a table of all bots on the server.
-  * 
-  * @name player.GetBots
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/player/GetBots
-  * @param {void} this - no description
-  * @returns {table} - A table only containing bots ( AI / non human players )
-  **/
-  export function GetBots(this: void): table
-  
-  /**
-  * 
-  * Gets all the current players in the server (not including connecting clients).
-  * 
-  * @name player.GetAll
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/player/GetAll
-  * @note This function returns bots as well as human players. See @player.GetBots and  @player.GetHumans.
-  * @param {void} this - no description
-  * @returns {table} - All @Player types currently in the server.
-  **/
-  export function GetAll(this: void): table
-  
-  /**
-  * 
-  * Similar to the serverside command "bot", this function creates a new Player bot with the given name. This bot will not obey to the usual "bot_*" commands, and it's the same bot base used in TF2 and CS:S.
-  * The best way to control the behaviour of a Player bot right now is to use the @GamemodeHooks:StartCommand hook and modify its input serverside.
-  * 
-  * @name player.CreateNextBot
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/player/CreateNextBot
-  * @note Despite this Player being fake, it has to be removed from the server by using @Player:Kick and **NOT** @EntityFuncs:Remove.
-  * Also keep in mind that these bots still use player slots, so you won't be able to spawn them in singleplayer!
-  * @note Any Bot created using this method will be considered UnAuthed by Garry's Mod
-  * @param {void} this - no description
-  * @param {string} botName - The name of the bot, using an already existing name will append brackets at the end of it with a number pertaining it.
-  * Example: "Bot name test", "Bot name test(1)".
-  * @returns {Player} - The newly created Player bot. Returns NULL if there's no Player slots available to host it.
-  **/
-  export function CreateNextBot(this: void, botName: string): Player
-  
-}
-
 declare namespace player_manager {
   /**
   * 
@@ -72958,6 +73423,147 @@ declare namespace player_manager {
   
 }
 
+declare namespace player {
+  /**
+  * 
+  * Returns a table of all human ( non bot/AI ) players.
+  * Unlike @player.GetAll, this does not include bots.
+  * 
+  * @name player.GetHumans
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/player/GetHumans
+  * @param {void} this - no description
+  * @returns {table} - A table of all human ( non bot/AI ) players.
+  **/
+  export function GetHumans(this: void): table
+  
+  /**
+  * 
+  * Gives you the player count.
+  * Similar to #@player.GetAll but with much better performance.
+  * 
+  * @name player.GetCount
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/player/GetCount
+  * @param {void} this - no description
+  * @returns {number} - Number of players
+  **/
+  export function GetCount(this: void): number
+  
+  /**
+  * 
+  * Gets the player with the specified uniqueID (not recommended way to identify players).
+  * 
+  * @name player.GetByUniqueID
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/player/GetByUniqueID
+  * @warning It is highly recommended to use @player.GetByAccountID, @player.GetBySteamID or @player.GetBySteamID64 instead as this function can have collisions ( be same for different people ) while SteamID is guaranteed to unique to each player.
+  * @param {void} this - no description
+  * @param {string} uniqueID - The @Player:UniqueID to find the player by.
+  * @returns {Player} - Player if one is found, false otherwise.
+  **/
+  export function GetByUniqueID(this: void, uniqueID: string): Player
+  
+  /**
+  * 
+  * Gets the player with the specified SteamID64.
+  * 
+  * @name player.GetBySteamID64
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/player/GetBySteamID64
+  * @param {void} this - no description
+  * @param {string} steamID64 - The @Player:SteamID64 to find the player by. Also accepts numbers.
+  * @returns {Player} - Player if one is found, false otherwise.
+  **/
+  export function GetBySteamID64(this: void, steamID64: string): Player
+  
+  /**
+  * 
+  * Gets the player with the specified SteamID.
+  * 
+  * @name player.GetBySteamID
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/player/GetBySteamID
+  * @param {void} this - no description
+  * @param {string} steamID - The @Player:SteamID to find the player by.
+  * @returns {Player} - Player if one is found, false otherwise.
+  **/
+  export function GetBySteamID(this: void, steamID: string): Player
+  
+  /**
+  * 
+  * Gets the player with the specified connection ID.
+  * Connection ID can be retrieved via @gameevent.Listen events.
+  * For a function that returns a player based on their @EntityFuncs:EntIndex, see @Entity function.
+  * For a function that returns a player based on their @Player:UserID, see @Player function.
+  * 
+  * @name player.GetByID
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/player/GetByID
+  * @param {void} this - no description
+  * @param {number} connectionID - The connection ID to find the player by.
+  * @returns {Player} - Player if one is found, nil otherwise
+  **/
+  export function GetByID(this: void, connectionID: number): Player
+  
+  /**
+  * 
+  * Gets the player with the specified AccountID.
+  * 
+  * @name player.GetByAccountID
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/player/GetByAccountID
+  * @param {void} this - no description
+  * @param {string} accountID - The @Player:AccountID to find the player by.
+  * @returns {Player} - Player if one is found, false otherwise.
+  **/
+  export function GetByAccountID(this: void, accountID: string): Player
+  
+  /**
+  * 
+  * Returns a table of all bots on the server.
+  * 
+  * @name player.GetBots
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/player/GetBots
+  * @param {void} this - no description
+  * @returns {table} - A table only containing bots ( AI / non human players )
+  **/
+  export function GetBots(this: void): table
+  
+  /**
+  * 
+  * Gets all the current players in the server (not including connecting clients).
+  * 
+  * @name player.GetAll
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/player/GetAll
+  * @note This function returns bots as well as human players. See @player.GetBots and  @player.GetHumans.
+  * @param {void} this - no description
+  * @returns {table} - All @Player types currently in the server.
+  **/
+  export function GetAll(this: void): table
+  
+  /**
+  * 
+  * Similar to the serverside command "bot", this function creates a new Player bot with the given name. This bot will not obey to the usual "bot_*" commands, and it's the same bot base used in TF2 and CS:S.
+  * The best way to control the behaviour of a Player bot right now is to use the @GamemodeHooks:StartCommand hook and modify its input serverside.
+  * 
+  * @name player.CreateNextBot
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/player/CreateNextBot
+  * @note Despite this Player being fake, it has to be removed from the server by using @Player:Kick and **NOT** @EntityFuncs:Remove.
+  * Also keep in mind that these bots still use player slots, so you won't be able to spawn them in singleplayer!
+  * @note Any Bot created using this method will be considered UnAuthed by Garry's Mod
+  * @param {void} this - no description
+  * @param {string} botName - The name of the bot, using an already existing name will append brackets at the end of it with a number pertaining it.
+  * Example: "Bot name test", "Bot name test(1)".
+  * @returns {Player} - The newly created Player bot. Returns NULL if there's no Player slots available to host it.
+  **/
+  export function CreateNextBot(this: void, botName: string): Player
+  
+}
+
 declare namespace physenv {
   /**
   * 
@@ -73078,7 +73684,7 @@ declare namespace os {
   * @param {DateData} dateData - Table to generate the time from. This table's data is interpreted as being in the local timezone. See @DateData structure
   * @returns {number} - Seconds passed since Unix epoch
   **/
-  export function time(this: void, dateData: DateData): number
+  export function time(this: void, dateData?: DateData): number
   
   /**
   * 
@@ -73330,10 +73936,12 @@ declare namespace net {
   /**
   * 
   * Appends an unsigned integer with the specified number of bits to the current net message.
+  * Use @net.WriteInt if you want to send positive and negative numbers. Use @net.WriteFloat for a non-whole number (e.g. 2.25).
   * 
   * @name net.WriteUInt
   * @realm client, server
   * @wiki https://wiki.garrysmod.com/page/net/WriteUInt
+  * @note Unsigned numbers does not support negative numbers.
   * @param {void} this - no description
   * @param {number} unsignedInteger - The unsigned integer to be sent.
   * @param {number} numberOfBits - The size of the integer to be sent, in bits. Acceptable values range from any number 1 to 32 inclusive. For reference, 1 = bit, 4 = nibble, 8 = byte, 16 = short, 32 = long.
@@ -73613,19 +74221,6 @@ declare namespace net {
   
   /**
   * 
-  * Appends a @IColor structure to the current net message.
-  * 
-  * @name net.WriteColor
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/net/WriteColor
-  * @param {void} this - no description
-  * @param {Color} Color - The @IColor structure you want to append to the net message.
-  * @returns {void}
-  **/
-  export function WriteColor(this: void, Color: Color): void
-  
-  /**
-  * 
   * Appends a boolean to the current net message. Alias of @net.WriteBit
   * 
   * @name net.WriteBool
@@ -73636,6 +74231,19 @@ declare namespace net {
   * @returns {void}
   **/
   export function WriteBool(this: void, boolean: boolean): void
+  
+  /**
+  * 
+  * Appends a @IColor structure to the current net message.
+  * 
+  * @name net.WriteColor
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/net/WriteColor
+  * @param {void} this - no description
+  * @param {Color} Color - The @IColor structure you want to append to the net message.
+  * @returns {void}
+  **/
+  export function WriteColor(this: void, Color: Color): void
   
   /**
   * 
@@ -73678,7 +74286,7 @@ declare namespace net {
   * @param {boolean} unreliable - If set to true, the message is not guaranteed to reach its destination
   * @returns {boolean} - True if the message has been started.
   **/
-  export function Start(this: void, messageName: string, unreliable: boolean): boolean
+  export function Start(this: void, messageName: string, unreliable?: boolean): boolean
   
   /**
   * 
@@ -73802,7 +74410,7 @@ declare namespace net {
   * @param {TYPE} typeID - The type of value to be read, using @TYPE enum.
   * @returns {any} - The value, or the respective blank value based on the type you're reading if the value could not be read.
   **/
-  export function ReadType(this: void, typeID: TYPE): any
+  export function ReadType(this: void, typeID?: TYPE): any
   
   /**
   * 
@@ -73902,19 +74510,6 @@ declare namespace net {
   
   /**
   * 
-  * Reads a double-precision number from the received net message.
-  * 
-  * @name net.ReadDouble
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/net/ReadDouble
-  * @warning You **must** read information in same order as you write it.
-  * @param {void} this - no description
-  * @returns {number} - The double-precision number, or 0 if no number could be read.
-  **/
-  export function ReadDouble(this: void): number
-  
-  /**
-  * 
   * Reads an entity from the received net message. You should always check if the specified entity exists as it may have been removed and therefor NULL if it is outside of the players PVS or was already removed.
   * 
   * @name net.ReadEntity
@@ -73925,6 +74520,19 @@ declare namespace net {
   * @returns {Entity} - The entity, or Entity(0) if no entity could be read.
   **/
   export function ReadEntity(this: void): Entity
+  
+  /**
+  * 
+  * Reads a double-precision number from the received net message.
+  * 
+  * @name net.ReadDouble
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/net/ReadDouble
+  * @warning You **must** read information in same order as you write it.
+  * @param {void} this - no description
+  * @returns {number} - The double-precision number, or 0 if no number could be read.
+  **/
+  export function ReadDouble(this: void): number
   
   /**
   * 
@@ -74185,7 +74793,7 @@ declare namespace navmesh {
   * @param {number} team - This will internally call @CNavArea:IsBlocked to check if the target @CNavArea type is not to be navigated by the given team. Currently this appears to do nothing.
   * @returns {CNavArea} - The closest @CNavArea type found with the given parameters.
   **/
-  export function GetNearestNavArea(this: void, pos: Vector, anyZ: boolean, maxDist: number, checkLOS: boolean, checkGround: boolean, team: number): CNavArea
+  export function GetNearestNavArea(this: void, pos: Vector, anyZ?: boolean, maxDist?: number, checkLOS?: boolean, checkGround?: boolean, team?: number): CNavArea
   
   /**
   * 
@@ -74589,22 +75197,6 @@ declare namespace mesh {
   
   /**
   * 
-  * Draws a quad using a position, a normal and the size.
-  * 
-  * @name mesh.QuadEasy
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/mesh/QuadEasy
-  * @param {void} this - no description
-  * @param {Vector} position - The center of the quad.
-  * @param {Vector} normal - The normal of the quad.
-  * @param {number} sizeX - X size in pixels.
-  * @param {number} sizeY - Y size in pixels.
-  * @returns {void}
-  **/
-  export function QuadEasy(this: void, position: Vector, normal: Vector, sizeX: number, sizeY: number): void
-  
-  /**
-  * 
   * Sets the specular map values.
   * This function actually does nothing.
   * 
@@ -74619,6 +75211,22 @@ declare namespace mesh {
   * @returns {void}
   **/
   export function Specular(this: void, r: number, g: number, b: number, a: number): void
+  
+  /**
+  * 
+  * Draws a quad using a position, a normal and the size.
+  * 
+  * @name mesh.QuadEasy
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/mesh/QuadEasy
+  * @param {void} this - no description
+  * @param {Vector} position - The center of the quad.
+  * @param {Vector} normal - The normal of the quad.
+  * @param {number} sizeX - X size in pixels.
+  * @param {number} sizeY - Y size in pixels.
+  * @returns {void}
+  **/
+  export function QuadEasy(this: void, position: Vector, normal: Vector, sizeX: number, sizeY: number): void
   
   /**
   * 
@@ -74703,7 +75311,7 @@ declare namespace mesh {
   * @param {number} primiteCount - The amount of primitives.
   * @returns {void}
   **/
-  export function Begin(this: void, mesh: IMesh, primitiveType: MATERIAL, primiteCount: number): void
+  export function Begin(this: void, mesh?: IMesh, primitiveType: MATERIAL, primiteCount: number): void
   
   /**
   * 
@@ -74758,21 +75366,6 @@ declare namespace menubar {
   * @returns {void}
   **/
   export function Init(this: void): void
-  
-}
-
-declare namespace menu {
-  /**
-  * 
-  * Used by "Demo to Video" to record the frame.
-  * 
-  * @name menu.RecordFrame
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/menu/RecordFrame
-  * @param {void} this - no description
-  * @returns {void}
-  **/
-  export function RecordFrame(this: void): void
   
 }
 
@@ -74836,36 +75429,22 @@ declare namespace matproxy {
   
 }
 
-declare namespace math {
+declare namespace menu {
   /**
   * 
-  * Rounds towards zero.
+  * Used by "Demo to Video" to record the frame.
   * 
-  * @name math.Truncate
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/math/Truncate
+  * @name menu.RecordFrame
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/menu/RecordFrame
   * @param {void} this - no description
-  * @param {number} num - The number to truncate
-  * @param {number} digits - The amount of digits to keep after the point.
   * @returns {void}
   **/
-  export function Truncate(this: void, num: number, digits: number): void
+  export function RecordFrame(this: void): void
   
-  /**
-  * 
-  * Returns the fraction of where the current time is relative to the start and end times
-  * 
-  * @name math.TimeFraction
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/math/TimeFraction
-  * @param {void} this - no description
-  * @param {number} start - Start time in seconds
-  * @param {number} end - End time in seconds
-  * @param {number} current - Current time in seconds
-  * @returns {number} - Fraction
-  **/
-  export function TimeFraction(this: void, start: number, end: number, current: number): number
-  
+}
+
+declare namespace math {
   /**
   * 
   * Returns the [hyperbolic tangents](https://en.wikipedia.org/wiki/hyperbolic%20tangents) of the given number.
@@ -74933,37 +75512,6 @@ declare namespace math {
   
   /**
   * 
-  * Rounds the given value to the nearest whole number or to the given decimal places.
-  * 
-  * @name math.Round
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/math/Round
-  * @param {void} this - no description
-  * @param {number} value - The value to round.
-  * @param {number} decimals - The decimal places to round to.
-  * @returns {number} - The rounded value.
-  **/
-  export function Round(this: void, value: number, decimals: number): number
-  
-  /**
-  * 
-  * Remaps the value from one range to another
-  * 
-  * @name math.Remap
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/math/Remap
-  * @param {void} this - no description
-  * @param {number} value - The value
-  * @param {number} inMin - The minimum of the initial range
-  * @param {number} inMax - The maximum of the initial range
-  * @param {number} outMin - The minimum of new range
-  * @param {number} outMax - The maximum of new range
-  * @returns {number} - The number in the new range
-  **/
-  export function Remap(this: void, value: number, inMin: number, inMax: number, outMin: number, outMax: number): number
-  
-  /**
-  * 
   * Seeds the random number generator. The same seed will guarantee the same sequence of numbers each time with @math.random.
   * For shared random values across predicted realms, use @util.SharedRandom.
   * 
@@ -74995,22 +75543,7 @@ declare namespace math {
   * If provided, this must be an integer.
   * @returns {number} - Random value
   **/
-  export function random(this: void, m: number, n: number): number
-  
-  /**
-  * 
-  * Returns a random float between min and max.
-  * See also @math.random
-  * 
-  * @name math.Rand
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/math/Rand
-  * @param {void} this - no description
-  * @param {number} min - The minimum value.
-  * @param {number} max - The maximum value.
-  * @returns {number} - Random float between min and max.
-  **/
-  export function Rand(this: void, min: number, max: number): number
+  export function random(this: void, m?: number, n?: number): number
   
   /**
   * 
@@ -75039,19 +75572,6 @@ declare namespace math {
   * @returns {number} - y power of x
   **/
   export function pow(this: void, x: number, y: number): number
-  
-  /**
-  * 
-  * Normalizes angle, so it returns value between -180 and 180.
-  * 
-  * @name math.NormalizeAngle
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/math/NormalizeAngle
-  * @param {void} this - no description
-  * @param {number} angle - The angle to normalize, in degrees.
-  * @returns {number} - The normalized angle, in the range of -180 to 180 degrees.
-  **/
-  export function NormalizeAngle(this: void, angle: number): number
   
   /**
   * 
@@ -75134,7 +75654,7 @@ declare namespace math {
   * @param {number} base - The logarithmic base.
   * @returns {number} - Logarithm of x to the given base
   **/
-  export function log(this: void, x: number, base: number): number
+  export function log(this: void, x: number, base?: number): number
   
   /**
   * 
@@ -75149,19 +75669,6 @@ declare namespace math {
   * @returns {number} - result
   **/
   export function ldexp(this: void, normalizedFraction: number, exponent: number): number
-  
-  /**
-  * 
-  * Converts an integer to a binary (base-2) string.
-  * 
-  * @name math.IntToBin
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/math/IntToBin
-  * @param {void} this - no description
-  * @param {number} int - Number to be converted.
-  * @returns {string} - Binary number string. The length of this will always be a multiple of 3.
-  **/
-  export function IntToBin(this: void, int: number): string
   
   /**
   * 
@@ -75196,6 +75703,19 @@ declare namespace math {
   
   /**
   * 
+  * Returns the x power of the Euler constant *[e](https://en.wikipedia.org/wiki/e%20(mathematical%20constant))*.
+  * 
+  * @name math.exp
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/math/exp
+  * @param {void} this - no description
+  * @param {number} exponent - The exponent for the function.
+  * @returns {number} - e to the specified power
+  **/
+  export function exp(this: void, exponent: number): number
+  
+  /**
+  * 
   * Floors or rounds a number down.
   * 
   * @name math.floor
@@ -75209,16 +75729,243 @@ declare namespace math {
   
   /**
   * 
-  * Returns the x power of the Euler constant *[e](https://en.wikipedia.org/wiki/e%20(mathematical%20constant))*.
+  * Converts radians to degrees.
   * 
-  * @name math.exp
+  * @name math.deg
   * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/math/exp
+  * @wiki https://wiki.garrysmod.com/page/math/deg
   * @param {void} this - no description
-  * @param {number} exponent - The exponent for the function.
-  * @returns {number} - e to the specified power
+  * @param {number} radians - Value to be converted to degrees.
+  * @returns {number} - degrees
   **/
-  export function exp(this: void, exponent: number): number
+  export function deg(this: void, radians: number): number
+  
+  /**
+  * 
+  * Returns the [hyperbolic cosine](https://en.wikipedia.org/wiki/hyperbolic%20cosine) of the given angle.
+  * 
+  * @name math.cosh
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/math/cosh
+  * @param {void} this - no description
+  * @param {number} num - Angle in radians.
+  * @returns {number} - The hyperbolic cosine of the given angle.
+  **/
+  export function cosh(this: void, num: number): number
+  
+  /**
+  * 
+  * Returns the [cosine](https://en.wikipedia.org/wiki/cosine) of given angle.
+  * 
+  * @name math.cos
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/math/cos
+  * @param {void} this - no description
+  * @param {number} num - Angle in radians
+  * @returns {number} - Cosine of given angle
+  **/
+  export function cos(this: void, num: number): number
+  
+  /**
+  * 
+  * Ceils or rounds a number up.
+  * 
+  * @name math.ceil
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/math/ceil
+  * @param {void} this - no description
+  * @param {number} num - The number to be rounded up.
+  * @returns {number} - ceiled numbers
+  **/
+  export function ceil(this: void, num: number): number
+  
+  /**
+  * 
+  * Basic code for Bezier-Spline algorithm, helper function for @math.BSplinePoint.
+  * 
+  * @name math.calcBSplineN
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/math/calcBSplineN
+  * @internal Use @math.BSplinePoint instead.
+  * @bug  Sending in a value < 1 will result in an infinite loop.
+  * @param {void} this - no description
+  * @param {number} i - no description
+  * @param {number} k - no description
+  * @param {number} t - no description
+  * @param {number} tinc - no description
+  * @returns {number} - no description
+  **/
+  export function calcBSplineN(this: void, i: number, k: number, t: number, tinc: number): number
+  
+  /**
+  * 
+  * [atan2](https://en.wikipedia.org/wiki/atan2) functions like @math.atan(y / x), except it also takes into account the quadrant of the angle and so doesn't have a limited range of output.
+  * 
+  * @name math.atan2
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/math/atan2
+  * @note The Y argument comes first!
+  * @param {void} this - no description
+  * @param {number} y - Y coordinate.
+  * @param {number} x - X coordinate.
+  * @returns {number} - The angle of the line from (0, 0) to (x, y) in radians, in the range -pi to pi.
+  **/
+  export function atan2(this: void, y: number, x: number): number
+  
+  /**
+  * 
+  * Returns the [arc tangent](https://en.wikipedia.org/wiki/arc%20tangent) of the given number.
+  * 
+  * @name math.atan
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/math/atan
+  * @param {void} this - no description
+  * @param {number} normal - Tangent value.
+  * @returns {number} - An angle in radians, in the range -pi/2 to pi/2, which has the given tangent.
+  **/
+  export function atan(this: void, normal: number): number
+  
+  /**
+  * 
+  * Returns the [arc sine](https://en.wikipedia.org/wiki/arc%20sine) of the given number.
+  * 
+  * @name math.asin
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/math/asin
+  * @param {void} this - no description
+  * @param {number} normal - Sine value in the range of -1 to 1.
+  * @returns {number} - An angle in radians, in the range -pi/2 to pi/2, which has the given sine value.
+  * [nan](https://wiki.garrysmod.com/page/nan) if the argument is out of range.
+  **/
+  export function asin(this: void, normal: number): number
+  
+  /**
+  * 
+  * Returns the [arc cosine](https://en.wikipedia.org/wiki/arc%20cosine) of the given number.
+  * 
+  * @name math.acos
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/math/acos
+  * @param {void} this - no description
+  * @param {number} cos - Cosine value in range of -1 to 1.
+  * @returns {number} - An angle in radians, between 0 and pi, which has the given cos value.
+  * [nan](https://wiki.garrysmod.com/page/nan) if the argument is out of range.
+  **/
+  export function acos(this: void, cos: number): number
+  
+  /**
+  * 
+  * Calculates the absolute value of a number (effectively removes any negative sign).
+  * 
+  * @name math.abs
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/math/abs
+  * @param {void} this - no description
+  * @param {number} x - The number to get the absolute value of.
+  * @returns {number} - absolute_value
+  **/
+  export function abs(this: void, x: number): number
+  
+  /**
+  * 
+  * Rounds towards zero.
+  * 
+  * @name math.Truncate
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/math/Truncate
+  * @param {void} this - no description
+  * @param {number} num - The number to truncate
+  * @param {number} digits - The amount of digits to keep after the point.
+  * @returns {void}
+  **/
+  export function Truncate(this: void, num: number, digits?: number): void
+  
+  /**
+  * 
+  * Returns the fraction of where the current time is relative to the start and end times
+  * 
+  * @name math.TimeFraction
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/math/TimeFraction
+  * @param {void} this - no description
+  * @param {number} start - Start time in seconds
+  * @param {number} end - End time in seconds
+  * @param {number} current - Current time in seconds
+  * @returns {number} - Fraction
+  **/
+  export function TimeFraction(this: void, start: number, end: number, current: number): number
+  
+  /**
+  * 
+  * Rounds the given value to the nearest whole number or to the given decimal places.
+  * 
+  * @name math.Round
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/math/Round
+  * @param {void} this - no description
+  * @param {number} value - The value to round.
+  * @param {number} decimals - The decimal places to round to.
+  * @returns {number} - The rounded value.
+  **/
+  export function Round(this: void, value: number, decimals?: number): number
+  
+  /**
+  * 
+  * Remaps the value from one range to another
+  * 
+  * @name math.Remap
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/math/Remap
+  * @param {void} this - no description
+  * @param {number} value - The value
+  * @param {number} inMin - The minimum of the initial range
+  * @param {number} inMax - The maximum of the initial range
+  * @param {number} outMin - The minimum of new range
+  * @param {number} outMax - The maximum of new range
+  * @returns {number} - The number in the new range
+  **/
+  export function Remap(this: void, value: number, inMin: number, inMax: number, outMin: number, outMax: number): number
+  
+  /**
+  * 
+  * Normalizes angle, so it returns value between -180 and 180.
+  * 
+  * @name math.NormalizeAngle
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/math/NormalizeAngle
+  * @param {void} this - no description
+  * @param {number} angle - The angle to normalize, in degrees.
+  * @returns {number} - The normalized angle, in the range of -180 to 180 degrees.
+  **/
+  export function NormalizeAngle(this: void, angle: number): number
+  
+  /**
+  * 
+  * Returns a random float between min and max.
+  * See also @math.random
+  * 
+  * @name math.Rand
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/math/Rand
+  * @param {void} this - no description
+  * @param {number} min - The minimum value.
+  * @param {number} max - The maximum value.
+  * @returns {number} - Random float between min and max.
+  **/
+  export function Rand(this: void, min: number, max: number): number
+  
+  /**
+  * 
+  * Converts an integer to a binary (base-2) string.
+  * 
+  * @name math.IntToBin
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/math/IntToBin
+  * @param {void} this - no description
+  * @param {number} int - Number to be converted.
+  * @returns {string} - Binary number string. The length of this will always be a multiple of 3.
+  **/
+  export function IntToBin(this: void, int: number): string
   
   /**
   * 
@@ -75269,45 +76016,6 @@ declare namespace math {
   
   /**
   * 
-  * Converts radians to degrees.
-  * 
-  * @name math.deg
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/math/deg
-  * @param {void} this - no description
-  * @param {number} radians - Value to be converted to degrees.
-  * @returns {number} - degrees
-  **/
-  export function deg(this: void, radians: number): number
-  
-  /**
-  * 
-  * Returns the [hyperbolic cosine](https://en.wikipedia.org/wiki/hyperbolic%20cosine) of the given angle.
-  * 
-  * @name math.cosh
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/math/cosh
-  * @param {void} this - no description
-  * @param {number} num - Angle in radians.
-  * @returns {number} - The hyperbolic cosine of the given angle.
-  **/
-  export function cosh(this: void, num: number): number
-  
-  /**
-  * 
-  * Returns the [cosine](https://en.wikipedia.org/wiki/cosine) of given angle.
-  * 
-  * @name math.cos
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/math/cos
-  * @param {void} this - no description
-  * @param {number} num - Angle in radians
-  * @returns {number} - Cosine of given angle
-  **/
-  export function cos(this: void, num: number): number
-  
-  /**
-  * 
   * Clamps a number between a minimum and maximum value
   * 
   * @name math.Clamp
@@ -75320,52 +76028,6 @@ declare namespace math {
   * @returns {number} - The clamped value.
   **/
   export function Clamp(this: void, input: number, min: number, max: number): number
-  
-  /**
-  * 
-  * Ceils or rounds a number up.
-  * 
-  * @name math.ceil
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/math/ceil
-  * @param {void} this - no description
-  * @param {number} num - The number to be rounded up.
-  * @returns {number} - ceiled numbers
-  **/
-  export function ceil(this: void, num: number): number
-  
-  /**
-  * 
-  * Basic code for Bezier-Spline algorithm, helper function for @math.BSplinePoint.
-  * 
-  * @name math.calcBSplineN
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/math/calcBSplineN
-  * @internal Use @math.BSplinePoint instead.
-  * @bug  Sending in a value < 1 will result in an infinite loop.
-  * @param {void} this - no description
-  * @param {number} i - no description
-  * @param {number} k - no description
-  * @param {number} t - no description
-  * @param {number} tinc - no description
-  * @returns {number} - no description
-  **/
-  export function calcBSplineN(this: void, i: number, k: number, t: number, tinc: number): number
-  
-  /**
-  * 
-  * Basic code for [Bézier-Spline](https://en.wikipedia.org/wiki/B%C3%A9zier%20curve) algorithm.
-  * 
-  * @name math.BSplinePoint
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/math/BSplinePoint
-  * @param {void} this - no description
-  * @param {number} tDiff - From 0 to 1, where alongside the spline the point will be.
-  * @param {Vector[]} tPoints - A table of @Vector types. The amount cannot be less than 4.
-  * @param {number} tMax - Just leave this at 1.
-  * @returns {Vector} - Point on Bezier curve, related to tDiff.
-  **/
-  export function BSplinePoint(this: void, tDiff: number, tPoints: Vector[], tMax: number): Vector
   
   /**
   * 
@@ -75382,45 +76044,18 @@ declare namespace math {
   
   /**
   * 
-  * [atan2](https://en.wikipedia.org/wiki/atan2) functions like @math.atan(y / x), except it also takes into account the quadrant of the angle and so doesn't have a limited range of output.
+  * Basic code for [Bézier-Spline](https://en.wikipedia.org/wiki/B%C3%A9zier%20curve) algorithm.
   * 
-  * @name math.atan2
+  * @name math.BSplinePoint
   * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/math/atan2
-  * @note The Y argument comes first!
+  * @wiki https://wiki.garrysmod.com/page/math/BSplinePoint
   * @param {void} this - no description
-  * @param {number} y - Y coordinate.
-  * @param {number} x - X coordinate.
-  * @returns {number} - The angle of the line from (0, 0) to (x, y) in radians, in the range -pi to pi.
+  * @param {number} tDiff - From 0 to 1, where alongside the spline the point will be.
+  * @param {Vector[]} tPoints - A table of @Vector types. The amount cannot be less than 4.
+  * @param {number} tMax - Just leave this at 1.
+  * @returns {Vector} - Point on Bezier curve, related to tDiff.
   **/
-  export function atan2(this: void, y: number, x: number): number
-  
-  /**
-  * 
-  * Returns the [arc tangent](https://en.wikipedia.org/wiki/arc%20tangent) of the given number.
-  * 
-  * @name math.atan
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/math/atan
-  * @param {void} this - no description
-  * @param {number} normal - Tangent value.
-  * @returns {number} - An angle in radians, in the range -pi/2 to pi/2, which has the given tangent.
-  **/
-  export function atan(this: void, normal: number): number
-  
-  /**
-  * 
-  * Returns the [arc sine](https://en.wikipedia.org/wiki/arc%20sine) of the given number.
-  * 
-  * @name math.asin
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/math/asin
-  * @param {void} this - no description
-  * @param {number} normal - Sine value in the range of -1 to 1.
-  * @returns {number} - An angle in radians, in the range -pi/2 to pi/2, which has the given sine value.
-  * [nan](https://wiki.garrysmod.com/page/nan) if the argument is out of range.
-  **/
-  export function asin(this: void, normal: number): number
+  export function BSplinePoint(this: void, tDiff: number, tPoints: Vector[], tMax: number): Vector
   
   /**
   * 
@@ -75466,50 +76101,6 @@ declare namespace math {
   * @returns {number} - The difference between the angles between -180 and 180
   **/
   export function AngleDifference(this: void, a: number, b: number): number
-  
-  /**
-  * 
-  * Returns the [arc cosine](https://en.wikipedia.org/wiki/arc%20cosine) of the given number.
-  * 
-  * @name math.acos
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/math/acos
-  * @param {void} this - no description
-  * @param {number} cos - Cosine value in range of -1 to 1.
-  * @returns {number} - An angle in radians, between 0 and pi, which has the given cos value.
-  * [nan](https://wiki.garrysmod.com/page/nan) if the argument is out of range.
-  **/
-  export function acos(this: void, cos: number): number
-  
-  /**
-  * 
-  * Calculates the absolute value of a number (effectively removes any negative sign).
-  * 
-  * @name math.abs
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/math/abs
-  * @param {void} this - no description
-  * @param {number} x - The number to get the absolute value of.
-  * @returns {number} - absolute_value
-  **/
-  export function abs(this: void, x: number): number
-  
-}
-
-declare namespace markup {
-  /**
-  * 
-  * Parses markup into a @ MarkupObject type. Currently, this only supports fonts and colors as demonstrated in the example.
-  * 
-  * @name markup.Parse
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/markup/Parse
-  * @param {void} this - no description
-  * @param {string} markup - The markup to be parsed.
-  * @param {number} maxwidth - The max width of the output
-  * @returns {MarkupObject} - The parsed markup object ready to be drawn.
-  **/
-  export function Parse(this: void, markup: string, maxwidth: number): MarkupObject
   
 }
 
@@ -75598,6 +76189,23 @@ declare namespace list {
   * @returns {void}
   **/
   export function Add(this: void, identifier: string, item: any): void
+  
+}
+
+declare namespace markup {
+  /**
+  * 
+  * Parses markup into a @ MarkupObject type. Currently, this only supports fonts and colors as demonstrated in the example.
+  * 
+  * @name markup.Parse
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/markup/Parse
+  * @param {void} this - no description
+  * @param {string} markup - The markup to be parsed.
+  * @param {number} maxwidth - The max width of the output
+  * @returns {MarkupObject} - The parsed markup object ready to be drawn.
+  **/
+  export function Parse(this: void, markup: string, maxwidth: number): MarkupObject
   
 }
 
@@ -75849,12 +76457,14 @@ declare namespace jit.util {
   * @name jit.util.funck
   * @realm client, server, menu
   * @wiki https://wiki.garrysmod.com/page/jit/util.funck
+  * @note Numbers constants goes from 0 (included) to n-1, n being the value of nconsts in @jit.util.funcinfo in other words, the consts goes from (nconsts-1) to -n
   * @note This function only works for Lua defined functions.
+  * @note This will return a @proto type for functions that are created inside the target function - see Example 2.
   * @warning This function isn't officially documented on LuJIT wiki, use it at your own risk.
   * @param {void} this - no description
   * @param {function} func - Function to get constant from
   * @param {number} index - Constant index (counting down from the top of the function at -1)
-  * @returns {any} - the constant found
+  * @returns {any} - The constant found.
   **/
   export function funck(this: void, func: UnknownFunc, index: number): any
   
@@ -75881,11 +76491,11 @@ declare namespace jit.util {
   * @realm client, server, menu
   * @wiki https://wiki.garrysmod.com/page/jit/util.funcinfo
   * @param {void} this - no description
-  * @param {function} func - Function to retrieve info about.
+  * @param {function} func - Function or Proto to retrieve info about.
   * @param {number} pos - no description
-  * @returns {table} - Information about the supplied function.
+  * @returns {table} - Information about the supplied function/proto.
   **/
-  export function funcinfo(this: void, func: UnknownFunc, pos: number): table
+  export function funcinfo(this: void, func: UnknownFunc, pos?: number): table
   
   /**
   * 
@@ -76066,20 +76676,6 @@ declare namespace input {
   
   /**
   * 
-  * Returns whether a key was released in the same frame this function was called.
-  * This function only works in Move hooks, and will detect key releases even in main menu or when a typing in a text field.
-  * 
-  * @name input.WasKeyReleased
-  * @realm client, menu
-  * @wiki https://wiki.garrysmod.com/page/input/WasKeyReleased
-  * @param {void} this - no description
-  * @param {KEY} key - The key, see @KEY enum.
-  * @returns {boolean} - True if the key was released the same frame that this function was called, false otherwise.
-  **/
-  export function WasKeyReleased(this: void, key: KEY): boolean
-  
-  /**
-  * 
   * Returns whether a key was initially pressed in the same frame this function was called.
   * This function only works in Move hooks, and will detect key presses even in main menu or when a typing in a text field.
   * 
@@ -76091,6 +76687,20 @@ declare namespace input {
   * @returns {boolean} - True if the key was initially pressed the same frame that this function was called, false otherwise.
   **/
   export function WasKeyPressed(this: void, key: KEY): boolean
+  
+  /**
+  * 
+  * Returns whether a key was released in the same frame this function was called.
+  * This function only works in Move hooks, and will detect key releases even in main menu or when a typing in a text field.
+  * 
+  * @name input.WasKeyReleased
+  * @realm client, menu
+  * @wiki https://wiki.garrysmod.com/page/input/WasKeyReleased
+  * @param {void} this - no description
+  * @param {KEY} key - The key, see @KEY enum.
+  * @returns {boolean} - True if the key was released the same frame that this function was called, false otherwise.
+  **/
+  export function WasKeyReleased(this: void, key: KEY): boolean
   
   /**
   * 
@@ -76157,7 +76767,7 @@ declare namespace input {
   * @returns {string} - The first key found with that binding or no value if no key with given binding was found.
   * See also @input.GetKeyCode.
   **/
-  export function LookupBinding(this: void, binding: string, exact: boolean): string
+  export function LookupBinding(this: void, binding: string, exact?: boolean): string
   
   /**
   * 
@@ -76198,6 +76808,19 @@ declare namespace input {
   
   /**
   * 
+  * Gets whether a key is down
+  * 
+  * @name input.IsKeyDown
+  * @realm client, menu
+  * @wiki https://wiki.garrysmod.com/page/input/IsKeyDown
+  * @param {void} this - no description
+  * @param {KEY} key - The key, see @KEY enum.
+  * @returns {boolean} - Is the key down
+  **/
+  export function IsKeyDown(this: void, key: KEY): boolean
+  
+  /**
+  * 
   * Returns whether a control key is being pressed
   * 
   * @name input.IsControlDown
@@ -76221,19 +76844,6 @@ declare namespace input {
   * @returns {boolean} - Is the button down
   **/
   export function IsButtonDown(this: void, button: BUTTON_CODE): boolean
-  
-  /**
-  * 
-  * Gets whether a key is down
-  * 
-  * @name input.IsKeyDown
-  * @realm client, menu
-  * @wiki https://wiki.garrysmod.com/page/input/IsKeyDown
-  * @param {void} this - no description
-  * @param {KEY} key - The key, see @KEY enum.
-  * @returns {boolean} - Is the key down
-  **/
-  export function IsKeyDown(this: void, key: KEY): boolean
   
   /**
   * 
@@ -76325,7 +76935,7 @@ declare namespace http {
   * @param {table} headers - KeyValue table for headers
   * @returns {void}
   **/
-  export function Post(this: void, url: string, parameters: table, onSuccess: UnknownFunc, onFailure: UnknownFunc, headers: table): void
+  export function Post(this: void, url: string, parameters: table, onSuccess?: UnknownFunc, onFailure?: UnknownFunc, headers?: table): void
   
   /**
   * 
@@ -76341,7 +76951,7 @@ declare namespace http {
   * @param {table} headers - KeyValue table for headers
   * @returns {void}
   **/
-  export function Fetch(this: void, url: string, onSuccess: httpFetchOnSuccess, onFailure: httpFetchOnFailure, headers: table): void
+  export function Fetch(this: void, url: string, onSuccess?: httpFetchOnSuccess, onFailure?: httpFetchOnFailure, headers?: table): void
   
 }
 
@@ -76503,110 +77113,7 @@ declare namespace halo {
   * @param {boolean} ignoreZ - Renders the halo through anything when set to true.
   * @returns {void}
   **/
-  export function Add(this: void, entities: table, color: Color, blurX: number, blurY: number, passes: number, additive: boolean, ignoreZ: boolean): void
-  
-}
-
-declare namespace GWEN {
-  /**
-  * @type GWENCreateTextureNormalReturn
-  * @param {void} this - no description
-  * @param {number} x - X coordinate for the box
-  * @param {number} y - Y coordinate for the box
-  * @param {number} w - Width of the box
-  * @param {number} h - Height of the box
-  * @param {IColor} clr - Optional color, default is white. Uses the @IColor structure
-  **/
-  type GWENCreateTextureNormalReturn = (this: void, x: number, y: number, w: number, h: number, clr: IColor) => unknown
-  
-  /**
-  * @type GWENCreateTextureCenteredReturn
-  * @param {void} this - no description
-  * @param {number} x - X coordinate for the box
-  * @param {number} y - Y coordinate for the box
-  * @param {number} w - Width of the box
-  * @param {number} h - Height of the box
-  * @param {IColor} clr - Optional color, default is white. Uses the @IColor structure
-  **/
-  type GWENCreateTextureCenteredReturn = (this: void, x: number, y: number, w: number, h: number, clr: IColor) => unknown
-  
-  /**
-  * @type GWENCreateTextureBorderReturn
-  * @param {void} this - no description
-  * @param {number} x - X coordinate for the box
-  * @param {number} y - Y coordinate for the box
-  * @param {number} w - Width of the box
-  * @param {number} h - Height of the box
-  * @param {IColor} clr - Optional color, default is white. Uses the @IColor structure
-  **/
-  type GWENCreateTextureBorderReturn = (this: void, x: number, y: number, w: number, h: number, clr: IColor) => unknown
-  
-  /**
-  * 
-  * When used in a material skin, it returns a color value from a point in the skin image.
-  * 
-  * @name GWEN.TextureColor
-  * @realm client, menu
-  * @wiki https://wiki.garrysmod.com/page/GWEN/TextureColor
-  * @param {void} this - no description
-  * @param {number} x - X position of the pixel to get the color from.
-  * @param {number} y - Y position of the pixel to get the color from.
-  * @returns {IColor} - The color of the point on the skin as a @IColor structure.
-  **/
-  export function TextureColor(this: void, x: number, y: number): IColor
-  
-  /**
-  * 
-  * Used in derma skins to create a rectangle drawing function from an image. The texture of the rectangle will be scaled. The texture is taken from SKIN.GwenTexture
-  * 
-  * @name GWEN.CreateTextureNormal
-  * @realm client, menu
-  * @wiki https://wiki.garrysmod.com/page/GWEN/CreateTextureNormal
-  * @param {void} this - no description
-  * @param {number} x - The X coordinate on the texture
-  * @param {number} y - The Y coordinate on the texture
-  * @param {number} w - Width of the area on texture
-  * @param {number} h - Height of the area on texture
-  * @returns {function} - The drawing function. Arguments are:
-  **/
-  export function CreateTextureNormal(this: void, x: number, y: number, w: number, h: number): GWENCreateTextureNormalReturn
-  
-  /**
-  * 
-  * Used in derma skins to create a rectangle drawing function from an image. The rectangle will not be scaled, but instead it will be drawn in the center of the box. The texture is taken from SKIN.GwenTexture
-  * 
-  * @name GWEN.CreateTextureCentered
-  * @realm client, menu
-  * @wiki https://wiki.garrysmod.com/page/GWEN/CreateTextureCentered
-  * @param {void} this - no description
-  * @param {number} x - The X coordinate on the texture
-  * @param {number} y - The Y coordinate on the texture
-  * @param {number} w - Width of the area on texture
-  * @param {number} h - Height of the area on texture
-  * @returns {function} - The drawing function. Arguments are:
-  **/
-  export function CreateTextureCentered(this: void, x: number, y: number, w: number, h: number): GWENCreateTextureCenteredReturn
-  
-  /**
-  * 
-  * Used in derma skins to create a bordered rectangle drawing function from an image. The texture is taken either from last argument or from SKIN.GwenTexture
-  * 
-  * @name GWEN.CreateTextureBorder
-  * @realm client, menu
-  * @wiki https://wiki.garrysmod.com/page/GWEN/CreateTextureBorder
-  * @param {void} this - no description
-  * @param {number} x - The X coordinate on the texture
-  * @param {number} y - The Y coordinate on the texture
-  * @param {number} w - Width of the area on texture
-  * @param {number} h - Height of the area on texture
-  * @param {number} left - Left width of border
-  * @param {number} top - Top width of border
-  * @param {number} right - Right width of border
-  * @param {number} bottom - Bottom width of border
-  * @param {IMaterial} source - Texture of source image to create a bordered rectangle from. Uses SKIN.GwenTexture if not set.
-  * @returns {function} - The drawing function. Arguments are:
-  **/
-  export function CreateTextureBorder(this: void, x: number, y: number, w: number, h: number, left: number, top: number, right: number, bottom: number, source: IMaterial): GWENCreateTextureBorderReturn
+  export function Add(this: void, entities: table, color: Color, blurX?: number, blurY?: number, passes?: number, additive?: boolean, ignoreZ?: boolean): void
   
 }
 
@@ -77145,6 +77652,22 @@ declare namespace game {
   
   /**
   * 
+  * Mounts a GMA addon from the disk. Any error models currently loaded that the mounted addon provides will be reloaded.
+  * Can be used with @steamworks.DownloadUGC
+  * 
+  * @name game.MountGMA
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/game/MountGMA
+  * @param {void} this - no description
+  * @param {string} path - Location of the GMA file to mount, relative to the garrysmod directory
+  * @returns {boolean} - success
+  * @returns {table} - If successful, a table of files that have been mounted
+  * @tupleReturn
+  **/
+  export function MountGMA(this: void, path: string): [boolean, table]
+  
+  /**
+  * 
   * Returns the maximum amount of players (including bots) that the server can have.
   * 
   * @name game.MaxPlayers
@@ -77182,33 +77705,18 @@ declare namespace game {
   
   /**
   * 
-  * Mounts a GMA addon from the disk. Any error models currently loaded that the mounted addon provides will be reloaded.
-  * Can be used with @steamworks.Download
-  * 
-  * @name game.MountGMA
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/game/MountGMA
-  * @param {void} this - no description
-  * @param {string} path - Location of the GMA file to mount, relative to the garrysmod directory
-  * @returns {boolean} - success
-  * @returns {table} - If successful, a table of files that have been mounted
-  * @tupleReturn
-  **/
-  export function MountGMA(this: void, path: string): [boolean, table]
-  
-  /**
-  * 
   * Kicks a player from the server. This can be ran before the player has spawned.
   * 
   * @name game.KickID
   * @realm server
   * @wiki https://wiki.garrysmod.com/page/game/KickID
+  * @warning This will be shortened to ~512 chars, though this includes the command itself and the player index so will realistically be more around ~498. It is recommended to avoid going near the limit to avoid truncation.
   * @param {void} this - no description
   * @param {string} id - UserID or SteamID of the player to kick.
   * @param {string} reason - Reason to display to the player. This can span across multiple lines.
   * @returns {void}
   **/
-  export function KickID(this: void, id: string, reason: string): void
+  export function KickID(this: void, id: string, reason?: string): void
   
   /**
   * 
@@ -77237,6 +77745,18 @@ declare namespace game {
   
   /**
   * 
+  * Returns the time scale of the game
+  * 
+  * @name game.GetTimeScale
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/game/GetTimeScale
+  * @param {void} this - no description
+  * @returns {number} - The time scale
+  **/
+  export function GetTimeScale(this: void): number
+  
+  /**
+  * 
   * Returns the difficulty level of the game.
   * **TIP:** You can use this function in your scripted NPCs or Nextbots to make them harder, however, it is a good idea to lock powerful attacks behind the highest difficulty instead of just increasing the health.
   * 
@@ -77248,18 +77768,6 @@ declare namespace game {
   * @returns {number} - The difficulty level, Easy( 1 ), Normal( 2 ), Hard( 3 ).
   **/
   export function GetSkillLevel(this: void): number
-  
-  /**
-  * 
-  * Returns the time scale of the game
-  * 
-  * @name game.GetTimeScale
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/game/GetTimeScale
-  * @param {void} this - no description
-  * @returns {number} - The time scale
-  **/
-  export function GetTimeScale(this: void): number
   
   /**
   * 
@@ -77371,19 +77879,6 @@ declare namespace game {
   
   /**
   * 
-  * Returns the damage given ammo type should do to NPCs.
-  * 
-  * @name game.GetAmmoNPCDamage
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/game/GetAmmoNPCDamage
-  * @param {void} this - no description
-  * @param {number} id - Ammo ID to retrieve the damage info of. Starts from 1.
-  * @returns {number} - no description
-  **/
-  export function GetAmmoNPCDamage(this: void, id: number): number
-  
-  /**
-  * 
   * Returns the ammo name for given ammo type ID.
   * See @game.GetAmmoID for reverse.
   * 
@@ -77395,6 +77890,19 @@ declare namespace game {
   * @returns {string} - The name of given ammo type ID or nil if ammo type ID is invalid.
   **/
   export function GetAmmoName(this: void, id: number): string
+  
+  /**
+  * 
+  * Returns the damage given ammo type should do to NPCs.
+  * 
+  * @name game.GetAmmoNPCDamage
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/game/GetAmmoNPCDamage
+  * @param {void} this - no description
+  * @param {number} id - Ammo ID to retrieve the damage info of. Starts from 1.
+  * @returns {number} - no description
+  **/
+  export function GetAmmoNPCDamage(this: void, id: number): number
   
   /**
   * 
@@ -77496,7 +78004,7 @@ declare namespace game {
   * @param {table} ExtraFilters - Entity classes not to reset during cleanup.
   * @returns {void}
   **/
-  export function CleanUpMap(this: void, dontSendToClients: boolean, ExtraFilters: table): void
+  export function CleanUpMap(this: void, dontSendToClients?: boolean, ExtraFilters?: table): void
   
   /**
   * 
@@ -77764,7 +78272,7 @@ declare namespace file {
   * * false = "DATA"
   * @returns {string} - The data from the file as a string, or nil if the file isn't found
   **/
-  export function Read(this: void, fileName: string, path: string): string
+  export function Read(this: void, fileName: string, path?: string): string
   
   /**
   * 
@@ -77926,7 +78434,7 @@ declare namespace ents {
   * @param {boolean} IncludeKillMe - Include entities with the FL_KILLME flag. This will skip an internal loop, and the function will be more efficient as a byproduct.
   * @returns {number} - Number of entities
   **/
-  export function GetCount(this: void, IncludeKillMe: boolean): number
+  export function GetCount(this: void, IncludeKillMe?: boolean): number
   
   /**
   * 
@@ -77955,21 +78463,6 @@ declare namespace ents {
   
   /**
   * 
-  * Gets all entities within the specified sphere.
-  * 
-  * @name ents.FindInSphere
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/ents/FindInSphere
-  * @note Clientside entities will not be returned by this function.
-  * @param {void} this - no description
-  * @param {Vector} origin - Center of the sphere.
-  * @param {number} radius - Radius of the sphere.
-  * @returns {Entity[]} - A table of all found @Entity types. Has a limit of 1024 entities.
-  **/
-  export function FindInSphere(this: void, origin: Vector, radius: number): Entity[]
-  
-  /**
-  * 
   * Fires a use event.
   * 
   * @name ents.FireTargets
@@ -77984,6 +78477,21 @@ declare namespace ents {
   * @returns {void}
   **/
   export function FireTargets(this: void, target: string, activator: Entity, caller: Entity, usetype: USE, value: number): void
+  
+  /**
+  * 
+  * Gets all entities within the specified sphere.
+  * 
+  * @name ents.FindInSphere
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/ents/FindInSphere
+  * @note Clientside entities will not be returned by this function.
+  * @param {void} this - no description
+  * @param {Vector} origin - Center of the sphere.
+  * @param {number} radius - Radius of the sphere.
+  * @returns {Entity[]} - A table of all found @Entity types. Has a limit of 1024 entities.
+  **/
+  export function FindInSphere(this: void, origin: Vector, radius: number): Entity[]
   
   /**
   * 
@@ -78107,7 +78615,7 @@ declare namespace ents {
   * @param {Vector} maxs - The maxs corner of the ray
   * @returns {table} - Table of the found entities.
   **/
-  export function FindAlongRay(this: void, start: Vector, end: Vector, mins: Vector, maxs: Vector): table
+  export function FindAlongRay(this: void, start: Vector, end: Vector, mins?: Vector, maxs?: Vector): table
   
   /**
   * 
@@ -78136,7 +78644,7 @@ declare namespace ents {
   * @param {string} model - The model for the entity to be created.
   * @returns {CSEnt} - Created entity.
   **/
-  export function CreateClientProp(this: void, model: string): CSEnt
+  export function CreateClientProp(this: void, model?: string): CSEnt
   
   /**
   * 
@@ -78200,18 +78708,6 @@ declare namespace engine {
   
   /**
   * 
-  * Returns the number of ticks since the game server started.
-  * 
-  * @name engine.TickCount
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/engine/TickCount
-  * @param {void} this - no description
-  * @returns {number} - Number of ticks since the game server started.
-  **/
-  export function TickCount(this: void): number
-  
-  /**
-  * 
   * Returns the number of seconds between each gametick.
   * 
   * @name engine.TickInterval
@@ -78221,6 +78717,18 @@ declare namespace engine {
   * @returns {number} - Number of seconds between each gametick.
   **/
   export function TickInterval(this: void): number
+  
+  /**
+  * 
+  * Returns the number of ticks since the game server started.
+  * 
+  * @name engine.TickCount
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/engine/TickCount
+  * @param {void} this - no description
+  * @returns {number} - Number of ticks since the game server started.
+  **/
+  export function TickCount(this: void): number
   
   /**
   * 
@@ -78393,6 +78901,7 @@ declare namespace engine {
   /**
   * 
   * Returns a list of addons the player have subscribed to on the workshop.
+  * This list will also include "Floating" .gma addons that are mounted by the game, but not the folder addons.
   * 
   * @name engine.GetAddons
   * @realm client, server, menu
@@ -78717,7 +79226,7 @@ declare namespace duplicator {
   * @param {table} data - The data to be applied onto the entity
   * @returns {void}
   **/
-  export function DoGenericPhysics(this: void, ent: Entity, ply: Player, data: table): void
+  export function DoGenericPhysics(this: void, ent: Entity, ply?: Player, data: table): void
   
   /**
   * 
@@ -78748,7 +79257,7 @@ declare namespace duplicator {
   * @param {number} scale - The flex scale to apply. (Flex scale is unchanged if omitted)
   * @returns {void}
   **/
-  export function DoFlex(this: void, ent: Entity, flex: table, scale: number): void
+  export function DoFlex(this: void, ent: Entity, flex: table, scale?: number): void
   
   /**
   * 
@@ -78799,19 +79308,6 @@ declare namespace duplicator {
   
   /**
   * 
-  * Returns a table with some entity data that can be used to create a new entity with @duplicator.CreateEntityFromTable
-  * 
-  * @name duplicator.CopyEntTable
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/duplicator/CopyEntTable
-  * @param {void} this - no description
-  * @param {Entity} ent - The entity table to save
-  * @returns {EntityCopyData} - See @EntityCopyData structure
-  **/
-  export function CopyEntTable(this: void, ent: Entity): EntityCopyData
-  
-  /**
-  * 
   * Copies the passed table of entities to save for later.
   * 
   * @name duplicator.CopyEnts
@@ -78822,6 +79318,19 @@ declare namespace duplicator {
   * @returns {IduplicatorCopyEntsReturn} - A table containing duplication info which includes the following members:
   **/
   export function CopyEnts(this: void, ents: table): IduplicatorCopyEntsReturn
+  
+  /**
+  * 
+  * Returns a table with some entity data that can be used to create a new entity with @duplicator.CreateEntityFromTable
+  * 
+  * @name duplicator.CopyEntTable
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/duplicator/CopyEntTable
+  * @param {void} this - no description
+  * @param {Entity} ent - The entity table to save
+  * @returns {EntityCopyData} - See @EntityCopyData structure
+  **/
+  export function CopyEntTable(this: void, ent: Entity): EntityCopyData
   
   /**
   * 
@@ -78837,7 +79346,7 @@ declare namespace duplicator {
   * @returns {IduplicatorCopyReturn} - A table containing duplication info which includes the following members:
   * The values of Mins & Maxs from the table are returned from @duplicator.WorkoutSize
   **/
-  export function Copy(this: void, ent: Entity, tableToAdd: table): IduplicatorCopyReturn
+  export function Copy(this: void, ent: Entity, tableToAdd?: table): IduplicatorCopyReturn
   
   /**
   * 
@@ -79089,20 +79598,6 @@ declare namespace drive {
   
   /**
   * 
-  * Clientside, the client creates the cmd (usercommand) from their input device (mouse, keyboard) and then it's sent to the server. Restrict view angles here.
-  * 
-  * @name drive.CreateMove
-  * @realm client, server
-  * @wiki https://wiki.garrysmod.com/page/drive/CreateMove
-  * @internal
-  * @param {void} this - no description
-  * @param {CUserCmd} cmd - The user command
-  * @returns {boolean} - true if succeeded
-  **/
-  export function CreateMove(this: void, cmd: CUserCmd): boolean
-  
-  /**
-  * 
   * Destroys players current driving method.
   * 
   * @name drive.DestroyMethod
@@ -79114,6 +79609,20 @@ declare namespace drive {
   * @returns {void}
   **/
   export function DestroyMethod(this: void, ply: Player): void
+  
+  /**
+  * 
+  * Clientside, the client creates the cmd (usercommand) from their input device (mouse, keyboard) and then it's sent to the server. Restrict view angles here.
+  * 
+  * @name drive.CreateMove
+  * @realm client, server
+  * @wiki https://wiki.garrysmod.com/page/drive/CreateMove
+  * @internal
+  * @param {void} this - no description
+  * @param {CUserCmd} cmd - The user command
+  * @returns {boolean} - true if succeeded
+  **/
+  export function CreateMove(this: void, cmd: CUserCmd): boolean
   
   /**
   * 
@@ -79183,7 +79692,7 @@ declare namespace draw {
   * @param {number} alpha - How visible the shadow is (0-255).
   * @returns {void}
   **/
-  export function TextShadow(this: void, textdata: TextData, distance: number, alpha: number): void
+  export function TextShadow(this: void, textdata: TextData, distance: number, alpha?: number): void
   
   /**
   * 
@@ -79223,7 +79732,7 @@ declare namespace draw {
   * @returns {number} - The height of the text. Same value as if you were calling @surface.GetTextSize.
   * @tupleReturn
   **/
-  export function SimpleTextOutlined(this: void, Text: string, font: string, x: number, y: number, color: Color, xAlign: TEXT_ALIGN, yAlign: TEXT_ALIGN, outlinewidth: number, outlinecolor: Color): [number, number]
+  export function SimpleTextOutlined(this: void, Text: string, font?: string, x?: number, y?: number, color?: Color, xAlign?: TEXT_ALIGN, yAlign?: TEXT_ALIGN, outlinewidth: number, outlinecolor?: Color): [number, number]
   
   /**
   * 
@@ -79245,7 +79754,7 @@ declare namespace draw {
   * @returns {number} - The height of the text. Same value as if you were calling @surface.GetTextSize.
   * @tupleReturn
   **/
-  export function SimpleText(this: void, text: string, font: string, x: number, y: number, color: Color, xAlign: TEXT_ALIGN, yAlign: TEXT_ALIGN): [number, number]
+  export function SimpleText(this: void, text: string, font?: string, x?: number, y?: number, color?: Color, xAlign?: TEXT_ALIGN, yAlign?: TEXT_ALIGN): [number, number]
   
   /**
   * 
@@ -79268,7 +79777,7 @@ declare namespace draw {
   * @param {boolean} roundBottomRight - Whether the bottom right corner should be rounded.
   * @returns {void}
   **/
-  export function RoundedBoxEx(this: void, cornerRadius: number, x: number, y: number, width: number, height: number, color: Color, roundTopLeft: boolean, roundTopRight: boolean, roundBottomLeft: boolean, roundBottomRight: boolean): void
+  export function RoundedBoxEx(this: void, cornerRadius: number, x: number, y: number, width: number, height: number, color: Color, roundTopLeft?: boolean, roundTopRight?: boolean, roundBottomLeft?: boolean, roundBottomRight?: boolean): void
   
   /**
   * 
@@ -79335,7 +79844,7 @@ declare namespace draw {
   * @param {TEXT_ALIGN} xAlign - Where to align the text horizontally. Uses the @TEXT_ALIGN enum.
   * @returns {void}
   **/
-  export function DrawText(this: void, text: string, font: string, x: number, y: number, color: Color, xAlign: TEXT_ALIGN): void
+  export function DrawText(this: void, text: string, font?: string, x?: number, y?: number, color?: Color, xAlign?: TEXT_ALIGN): void
   
 }
 
@@ -79439,7 +79948,7 @@ declare namespace dragndrop {
   * @param {string} name - If set, the function will return only the panels with this @Panel:Droppable name.
   * @returns {table} - A table of all panels that are being currently dragged, if any.
   **/
-  export function GetDroppable(this: void, name: string): table
+  export function GetDroppable(this: void, name?: string): table
   
   /**
   * 
@@ -79499,7 +80008,7 @@ declare namespace derma {
   * @param {any} fallback - What to return if we failed to retrieve the texture
   * @returns {function} - A function that is created with the @GWEN library to draw a texture.
   **/
-  export function SkinTexture(this: void, name: string, pnl: Panel, fallback: any): UnknownFunc
+  export function SkinTexture(this: void, name: string, pnl: Panel, fallback?: any): UnknownFunc
   
   /**
   * 
@@ -79662,7 +80171,7 @@ declare namespace debugoverlay {
   * @param {boolean} ignoreZ - If true, will draw on top of everything; ignoring the Z buffer
   * @returns {void}
   **/
-  export function Triangle(this: void, pos1: Vector, pos2: Vector, pos3: Vector, lifetime: number, color: Color, ignoreZ: boolean): void
+  export function Triangle(this: void, pos1: Vector, pos2: Vector, pos3: Vector, lifetime?: number, color?: Color, ignoreZ?: boolean): void
   
   /**
   * 
@@ -79679,7 +80188,7 @@ declare namespace debugoverlay {
   * @param {boolean} viewCheck - Clip text that is obscured
   * @returns {void}
   **/
-  export function Text(this: void, origin: Vector, text: string, lifetime: number, viewCheck: boolean): void
+  export function Text(this: void, origin: Vector, text: string, lifetime?: number, viewCheck?: boolean): void
   
   /**
   * 
@@ -79699,7 +80208,7 @@ declare namespace debugoverlay {
   * @param {Color} color - The color of the box. Uses the @IColor structure
   * @returns {void}
   **/
-  export function SweptBox(this: void, vStart: Vector, vEnd: Vector, vMins: Vector, vMaxs: Vector, ang: Angle, lifetime: number, color: Color): void
+  export function SweptBox(this: void, vStart: Vector, vEnd: Vector, vMins: Vector, vMaxs: Vector, ang: Angle, lifetime?: number, color?: Color): void
   
   /**
   * 
@@ -79717,7 +80226,7 @@ declare namespace debugoverlay {
   * @param {boolean} ignoreZ - If true, will draw on top of everything; ignoring the Z buffer
   * @returns {void}
   **/
-  export function Sphere(this: void, origin: Vector, size: number, lifetime: number, color: Color, ignoreZ: boolean): void
+  export function Sphere(this: void, origin: Vector, size: number, lifetime?: number, color?: Color, ignoreZ?: boolean): void
   
   /**
   * 
@@ -79735,7 +80244,7 @@ declare namespace debugoverlay {
   * @param {Color} color - The color of the box. Uses the @IColor structure
   * @returns {void}
   **/
-  export function ScreenText(this: void, x: number, y: number, text: string, lifetime: number, color: Color): void
+  export function ScreenText(this: void, x: number, y: number, text: string, lifetime?: number, color?: Color): void
   
   /**
   * 
@@ -79753,7 +80262,7 @@ declare namespace debugoverlay {
   * @param {boolean} ignoreZ - If true, will draw on top of everything; ignoring the Z buffer
   * @returns {void}
   **/
-  export function Line(this: void, pos1: Vector, pos2: Vector, lifetime: number, color: Color, ignoreZ: boolean): void
+  export function Line(this: void, pos1: Vector, pos2: Vector, lifetime?: number, color?: Color, ignoreZ?: boolean): void
   
   /**
   * 
@@ -79785,7 +80294,7 @@ declare namespace debugoverlay {
   * @param {Color} color - The color of the box. Uses the @IColor structure
   * @returns {void}
   **/
-  export function EntityTextAtPosition(this: void, pos: Vector, line: number, text: string, lifetime: number, color: Color): void
+  export function EntityTextAtPosition(this: void, pos: Vector, line: number, text: string, lifetime?: number, color?: Color): void
   
   /**
   * 
@@ -79803,7 +80312,7 @@ declare namespace debugoverlay {
   * @param {boolean} ignoreZ - If true, will draw on top of everything; ignoring the Z buffer
   * @returns {void}
   **/
-  export function Cross(this: void, position: Vector, size: number, lifetime: number, color: Color, ignoreZ: boolean): void
+  export function Cross(this: void, position: Vector, size: number, lifetime?: number, color?: Color, ignoreZ?: boolean): void
   
   /**
   * 
@@ -79822,7 +80331,7 @@ declare namespace debugoverlay {
   * @param {Color} color - The color of the box. Uses the @IColor structure
   * @returns {void}
   **/
-  export function BoxAngles(this: void, pos: Vector, mins: Vector, maxs: Vector, ang: Angle, lifetime: number, color: Color): void
+  export function BoxAngles(this: void, pos: Vector, mins: Vector, maxs: Vector, ang: Angle, lifetime?: number, color?: Color): void
   
   /**
   * 
@@ -79840,7 +80349,7 @@ declare namespace debugoverlay {
   * @param {Color} color - The color of the box. Uses the @IColor structure
   * @returns {void}
   **/
-  export function Box(this: void, origin: Vector, mins: Vector, maxs: Vector, lifetime: number, color: Color): void
+  export function Box(this: void, origin: Vector, mins: Vector, maxs: Vector, lifetime?: number, color?: Color): void
   
   /**
   * 
@@ -79858,7 +80367,7 @@ declare namespace debugoverlay {
   * @param {boolean} ignoreZ - If true, will draw on top of everything; ignoring the Z buffer
   * @returns {void}
   **/
-  export function Axis(this: void, origin: Vector, ang: Angle, size: number, lifetime: number, ignoreZ: boolean): void
+  export function Axis(this: void, origin: Vector, ang: Angle, size: number, lifetime?: number, ignoreZ?: boolean): void
   
 }
 
@@ -79908,19 +80417,7 @@ declare namespace debug {
   * @param {number} level - Which level to start the traceback.
   * @returns {string} - A dump of the execution stack.
   **/
-  export function traceback(this: void, thread: thread, message: string, level: number): string
-  
-  /**
-  * 
-  * Prints out the lua function call stack to the console.
-  * 
-  * @name debug.Trace
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/debug/Trace
-  * @param {void} this - no description
-  * @returns {void}
-  **/
-  export function Trace(this: void): void
+  export function traceback(this: void, thread?: thread, message?: string, level?: number): string
   
   /**
   * 
@@ -79936,7 +80433,7 @@ declare namespace debug {
   * @param {any} val - The value to set the upvalue to.
   * @returns {string} - Returns nil if there is no upvalue with the given index, otherwise it returns the upvalue's name.
   **/
-  export function setupvalue(this: void, func: UnknownFunc, index: number, val: any): string
+  export function setupvalue(this: void, func: UnknownFunc, index: number, val?: any): string
   
   /**
   * 
@@ -79973,7 +80470,7 @@ declare namespace debug {
   * @param {any} value - The value to set the local to
   * @returns {string} - The name of the local variable if the local at the index exists, otherwise nil is returned.
   **/
-  export function setlocal(this: void, thread: thread, level: number, index: number, value: any): string
+  export function setlocal(this: void, thread?: thread, level: number, index: number, value?: any): string
   
   /**
   * 
@@ -80024,19 +80521,6 @@ declare namespace debug {
   
   /**
   * 
-  * Returns the metatable of an object. This function ignores the metatable's __metatable field.
-  * 
-  * @name debug.getmetatable
-  * @realm client, server, menu
-  * @wiki https://wiki.garrysmod.com/page/debug/getmetatable
-  * @param {void} this - no description
-  * @param {any} object - The object to retrieve the metatable from.
-  * @returns {table} - The metatable of the given object.
-  **/
-  export function getmetatable(this: void, object: any): table
-  
-  /**
-  * 
   * Returns the internal Lua registry table.
   * The Lua registry is used by the engine and binary modules to create references to Lua values. Avoid creating entries into the registry with a number as the key, as they are reserved for the reference system.
   * 
@@ -80051,12 +80535,26 @@ declare namespace debug {
   
   /**
   * 
+  * Returns the metatable of an object. This function ignores the metatable's __metatable field.
+  * 
+  * @name debug.getmetatable
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/debug/getmetatable
+  * @param {void} this - no description
+  * @param {any} object - The object to retrieve the metatable from.
+  * @returns {table} - The metatable of the given object.
+  **/
+  export function getmetatable(this: void, object: any): table
+  
+  /**
+  * 
   * Gets the name and value of a local variable indexed from the level
   * 
   * @name debug.getlocal
   * @realm client, server, menu
   * @wiki https://wiki.garrysmod.com/page/debug/getlocal
   * @note Variables with names starting with **(** are **internal variables**.
+  * @warning When a function has a tailcall return, you cannot access the locals of this function
   * @param {void} this - no description
   * @param {thread} thread - The thread
   * @param {number} level - The level above the thread.
@@ -80073,7 +80571,7 @@ declare namespace debug {
   * @returns {any} - The value of the local variable.
   * @tupleReturn
   **/
-  export function getlocal(this: void, thread: thread, level: number, index: number): [string, any]
+  export function getlocal(this: void, thread?: thread, level: number, index: number): [string, any]
   
   /**
   * 
@@ -80094,7 +80592,7 @@ declare namespace debug {
   * * u - Populates the argument and upvalue fields (isvararg, nparams, nups)
   * @returns {DebugInfo} - A table as a @DebugInfo structure containing information about the function you passed. Can return nil if the stack level didn't point to a valid stack frame.
   **/
-  export function getinfo(this: void, funcOrStackLevel: UnknownFunc, fields: string): DebugInfo
+  export function getinfo(this: void, funcOrStackLevel: UnknownFunc, fields?: string): DebugInfo
   
   /**
   * 
@@ -80110,7 +80608,7 @@ declare namespace debug {
   * @returns {number} - Hook count
   * @tupleReturn
   **/
-  export function gethook(this: void, thread: thread): [UnknownFunc, string, number]
+  export function gethook(this: void, thread?: thread): [UnknownFunc, string, number]
   
   /**
   * 
@@ -80140,6 +80638,18 @@ declare namespace debug {
   **/
   export function debug(this: void): void
   
+  /**
+  * 
+  * Prints out the lua function call stack to the console.
+  * 
+  * @name debug.Trace
+  * @realm client, server, menu
+  * @wiki https://wiki.garrysmod.com/page/debug/Trace
+  * @param {void} this - no description
+  * @returns {void}
+  **/
+  export function Trace(this: void): void
+  
 }
 
 declare namespace cvars {
@@ -80164,7 +80674,7 @@ declare namespace cvars {
   * @param {any} def - The value to return if the console variable does not exist
   * @returns {string} - Retrieved value
   **/
-  export function str(this: void, cvar: string, def: any): string
+  export function str(this: void, cvar: string, def?: any): string
   
   /**
   * 
@@ -80208,7 +80718,7 @@ declare namespace cvars {
   * @param {any} def - The value to return if the console variable does not exist
   * @returns {number} - Retrieved value
   **/
-  export function num(this: void, cvar: string, def: any): number
+  export function num(this: void, cvar: string, def?: any): number
   
   /**
   * 
@@ -80223,7 +80733,7 @@ declare namespace cvars {
   * This argument is internal and should not be used.
   * @returns {table} - A table of the convar's callbacks, or nil if the convar doesn't exist.
   **/
-  export function GetConVarCallbacks(this: void, name: string, createIfNotFound: boolean): table
+  export function GetConVarCallbacks(this: void, name: string, createIfNotFound?: boolean): table
   
   /**
   * 
@@ -80237,7 +80747,7 @@ declare namespace cvars {
   * @param {boolean} def - The value to return if the console variable does not exist
   * @returns {boolean} - Retrieved value
   **/
-  export function Bool(this: void, cvar: string, def: boolean): boolean
+  export function Bool(this: void, cvar: string, def?: boolean): boolean
   
   /**
   * 
@@ -80255,7 +80765,7 @@ declare namespace cvars {
   * @param {string} identifier - If set, you will be able to remove the callback using @cvars.RemoveChangeCallback.
   * @returns {void}
   **/
-  export function AddChangeCallback(this: void, name: string, callback: cvarsAddChangeCallbackCallback, identifier: string): void
+  export function AddChangeCallback(this: void, name: string, callback: cvarsAddChangeCallbackCallback, identifier?: string): void
   
 }
 
@@ -80386,7 +80896,7 @@ declare namespace cookie {
   * @param {any} def - Value to return if the cookie does not exist.
   * @returns {string} - The cookie value
   **/
-  export function GetString(this: void, name: string, def: any): string
+  export function GetString(this: void, name: string, def?: any): string
   
   /**
   * 
@@ -80400,7 +80910,7 @@ declare namespace cookie {
   * @param {any} def - Value to return if the cookie does not exist.
   * @returns {number} - The cookie value
   **/
-  export function GetNumber(this: void, name: string, def: any): number
+  export function GetNumber(this: void, name: string, def?: any): number
   
   /**
   * 
@@ -80488,7 +80998,7 @@ declare namespace construct {
   * @param {boolean} frozen - Freeze the magnet on start
   * @returns {Entity} - The magnet
   **/
-  export function Magnet(this: void, ply: Player, pos: Vector, ang: Angle, model: string, material: string, key: KEY, maxObjects: number, strength: number, nopull: number, allowrot: number, startOn: number, toggle: number, vel: Vector, aVel: Angle, frozen: boolean): Entity
+  export function Magnet(this: void, ply: Player, pos: Vector, ang: Angle, model: string, material: string, key: KEY, maxObjects: number, strength: number, nopull?: number, allowrot?: number, startOn?: number, toggle: number, vel?: Vector, aVel?: Angle, frozen?: boolean): Entity
   
 }
 
@@ -80544,28 +81054,6 @@ declare namespace constraint {
   
   /**
   * 
-  * Creates a slider constraint.
-  * 
-  * @name constraint.Slider
-  * @realm server
-  * @wiki https://wiki.garrysmod.com/page/constraint/Slider
-  * @param {void} this - no description
-  * @param {Entity} Ent1 - First entity.
-  * @param {Entity} Ent2 - Second entity.
-  * @param {number} Bone1 - Bone of first entity (0 for non-ragdolls),
-  * @param {number} Bone2 - Bone of second entity (0 for non-ragdolls).
-  * @param {Vector} LPos1 - no description
-  * @param {Vector} LPos2 - no description
-  * @param {number} width - The width of the rope.
-  * @param {string} material - The material of the rope.
-  * @returns {Entity} - Constraint. Will return false if the constraint could not be created.
-  * @returns {Entity} - rope. Will return nil if the constraint could not be created.
-  * @tupleReturn
-  **/
-  export function Slider(this: void, Ent1: Entity, Ent2: Entity, Bone1: number, Bone2: number, LPos1: Vector, LPos2: Vector, width: number, material: string): [Entity, Entity]
-  
-  /**
-  * 
   * Creates a rope constraint - with rope!
   * 
   * @name constraint.Rope
@@ -80605,6 +81093,28 @@ declare namespace constraint {
   * @tupleReturn
   **/
   export function RemoveConstraints(this: void, ent: Entity, type: string): [boolean, number]
+  
+  /**
+  * 
+  * Creates a slider constraint.
+  * 
+  * @name constraint.Slider
+  * @realm server
+  * @wiki https://wiki.garrysmod.com/page/constraint/Slider
+  * @param {void} this - no description
+  * @param {Entity} Ent1 - First entity.
+  * @param {Entity} Ent2 - Second entity.
+  * @param {number} Bone1 - Bone of first entity (0 for non-ragdolls),
+  * @param {number} Bone2 - Bone of second entity (0 for non-ragdolls).
+  * @param {Vector} LPos1 - no description
+  * @param {Vector} LPos2 - no description
+  * @param {number} width - The width of the rope.
+  * @param {string} material - The material of the rope.
+  * @returns {Entity} - Constraint. Will return false if the constraint could not be created.
+  * @returns {Entity} - rope. Will return nil if the constraint could not be created.
+  * @tupleReturn
+  **/
+  export function Slider(this: void, Ent1: Entity, Ent2: Entity, Bone1: number, Bone2: number, LPos1: Vector, LPos2: Vector, width: number, material: string): [Entity, Entity]
   
   /**
   * 
@@ -80652,6 +81162,7 @@ declare namespace constraint {
   * @name constraint.NoCollide
   * @realm server
   * @wiki https://wiki.garrysmod.com/page/constraint/NoCollide
+  * @note Does not work with players.
   * @param {void} this - no description
   * @param {Entity} Ent1 - First entity.
   * @param {Entity} Ent2 - Second entity.
@@ -80809,7 +81320,7 @@ declare namespace constraint {
   * @param {table} ResultTable - Table used to return result. Optional.
   * @returns {table} - A table containing all of the constrained entities. This includes all entities constrained to entities constrained to the supplied entity, etc.
   **/
-  export function GetAllConstrainedEntities(this: void, ent: Entity, ResultTable: table): table
+  export function GetAllConstrainedEntities(this: void, ent: Entity, ResultTable?: table): table
   
   /**
   * 
@@ -81054,7 +81565,7 @@ declare namespace constraint {
   * @param {Entity} ent4 - Optional. Same as *ent2*.
   * @returns {void}
   **/
-  export function AddConstraintTableNoDelete(this: void, ent1: Entity, constrt: Entity, ent2: Entity, ent3: Entity, ent4: Entity): void
+  export function AddConstraintTableNoDelete(this: void, ent1: Entity, constrt: Entity, ent2?: Entity, ent3?: Entity, ent4?: Entity): void
   
   /**
   * 
@@ -81071,7 +81582,7 @@ declare namespace constraint {
   * @param {Entity} ent4 - Optional. Same as *ent2*.
   * @returns {void}
   **/
-  export function AddConstraintTable(this: void, ent1: Entity, constrt: Entity, ent2: Entity, ent3: Entity, ent4: Entity): void
+  export function AddConstraintTable(this: void, ent1: Entity, constrt: Entity, ent2?: Entity, ent3?: Entity, ent4?: Entity): void
   
 }
 
@@ -81096,7 +81607,8 @@ declare namespace concommand {
   
   /**
   * 
-  * Used by the engine to run a console command's callback function, that was added with @concommand.Add. An error is sent to the player's chat if no callback is found.
+  * Used by the engine to run a console command's callback function. This will only be called for commands that were added with @AddConsoleCommand function, which @concommand.Add calls internally. An error is sent to the player's chat if no callback is found.
+  * This will still be called for concommands removed with @concommand.Remove but will return false.
   * 
   * @name concommand.Run
   * @realm client, server, menu
@@ -81395,7 +81907,7 @@ declare namespace cam {
   
   /**
   * 
-  * Sets up a new 2D rendering context. Must be finished by @cam.End3D2D.
+  * Sets up a new 2D rendering context. Must be finished by @cam.End3D2D. This function pushes a new matrix onto the stack. (@cam.PushModelMatrix)
   * 
   * @name cam.Start3D2D
   * @realm client
@@ -81436,7 +81948,7 @@ declare namespace cam {
   * @param {number} zFar - Distance to far clipping plane.
   * @returns {void}
   **/
-  export function Start3D(this: void, pos: Vector, angles: Angle, fov: number, x: number, y: number, w: number, h: number, zNear: number, zFar: number): void
+  export function Start3D(this: void, pos?: Vector, angles?: Angle, fov?: number, x?: number, y?: number, w?: number, h?: number, zNear?: number, zFar?: number): void
   
   /**
   * 
@@ -81474,12 +81986,12 @@ declare namespace cam {
   * @name cam.PushModelMatrix
   * @realm client
   * @wiki https://wiki.garrysmod.com/page/cam/PushModelMatrix
-  * @bug #1663 This does not work with @cam.Start3D2D in certain hooks.
   * @param {void} this - no description
   * @param {VMatrix} matrix - The matrix to push.
+  * @param {boolean} multiply - If set, multiplies given matrix with currently active matrix (@cam.GetModelMatrix) before pushing.
   * @returns {void}
   **/
-  export function PushModelMatrix(this: void, matrix: VMatrix): void
+  export function PushModelMatrix(this: void, matrix: VMatrix, multiply?: boolean): void
   
   /**
   * 
@@ -81508,6 +82020,18 @@ declare namespace cam {
   
   /**
   * 
+  * Returns the currently active model matrix. (TODO: Does this actually mean the matrix on top of the stack? Probably)
+  * 
+  * @name cam.GetModelMatrix
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/cam/GetModelMatrix
+  * @param {void} this - no description
+  * @returns {VMatrix} - The currently active matrix.
+  **/
+  export function GetModelMatrix(this: void): VMatrix
+  
+  /**
+  * 
   * Switches the renderer back to the previous drawing mode from a 3D orthographic rendering context.
   * 
   * @name cam.EndOrthoView
@@ -81533,19 +82057,6 @@ declare namespace cam {
   
   /**
   * 
-  * Switches the renderer back to the previous drawing mode from a 3D context.
-  * 
-  * @name cam.End3D
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/cam/End3D
-  * @bug #1091 This will crash the game if there is no context to end.
-  * @param {void} this - no description
-  * @returns {void}
-  **/
-  export function End3D(this: void): void
-  
-  /**
-  * 
   * Switches the renderer back to the previous drawing mode from a 2D context.
   * 
   * @name cam.End2D
@@ -81556,6 +82067,19 @@ declare namespace cam {
   * @returns {void}
   **/
   export function End2D(this: void): void
+  
+  /**
+  * 
+  * Switches the renderer back to the previous drawing mode from a 3D context.
+  * 
+  * @name cam.End3D
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/cam/End3D
+  * @bug #1091 This will crash the game if there is no context to end.
+  * @param {void} this - no description
+  * @returns {void}
+  **/
+  export function End3D(this: void): void
   
   /**
   * 
@@ -81601,7 +82125,7 @@ declare namespace bit {
   * @param {number} digits - The number of digits. Optional
   * @returns {string} - hexString
   **/
-  export function tohex(this: void, value: number, digits: number): string
+  export function tohex(this: void, value: number, digits?: number): string
   
   /**
   * 
@@ -81684,7 +82208,7 @@ declare namespace bit {
   * @param {number} otherValues - Values bit xor with. Optional.
   * @returns {number} - bitwiseXOr
   **/
-  export function bxor(this: void, value: number, otherValues: number): number
+  export function bxor(this: void, value: number, otherValues?: number): number
   
   /**
   * 
@@ -81738,7 +82262,7 @@ declare namespace bit {
   * @param {number} otherValues - Values bit to perform bitwise "and" with. Optional.
   * @returns {number} - Result of bitwise "and" operation.
   **/
-  export function band(this: void, value: number, otherValues: number): number
+  export function band(this: void, value: number, otherValues?: number): number
   
   /**
   * 
@@ -81820,9 +82344,9 @@ declare namespace ai_schedule {
   * @wiki https://wiki.garrysmod.com/page/ai schedule/New
   * @param {void} this - no description
   * @param {string} name - Name of the schedule.
-  * @returns {number} - A table containing schedule information to be used with @EntityHooks:StartSchedule.
+  * @returns {table} - A table containing schedule information to be used with @EntityHooks:StartSchedule.
   **/
-  export function New(this: void, name: string): number
+  export function New(this: void, name: string): table
   
 }
 
@@ -81856,19 +82380,6 @@ declare namespace ai {
 }
 
 declare namespace achievements {
-  /**
-  * 
-  * Adds one to the count of how many times the spawnmenu has been opened. Once this count reaches 100,000, the 'Menu User' achievement is unlocked.
-  * 
-  * @name achievements.SpawnMenuOpen
-  * @realm client
-  * @wiki https://wiki.garrysmod.com/page/achievements/SpawnMenuOpen
-  * @internal
-  * @param {void} this - no description
-  * @returns {void}
-  **/
-  export function SpawnMenuOpen(this: void): void
-  
   /**
   * 
   * Adds one to the count of ragdolls spawned. Once this count reaches 2000, the 'Dollhouse' achievement is unlocked.
@@ -81907,6 +82418,19 @@ declare namespace achievements {
   * @returns {void}
   **/
   export function SpawnedNPC(this: void): void
+  
+  /**
+  * 
+  * Adds one to the count of how many times the spawnmenu has been opened. Once this count reaches 100,000, the 'Menu User' achievement is unlocked.
+  * 
+  * @name achievements.SpawnMenuOpen
+  * @realm client
+  * @wiki https://wiki.garrysmod.com/page/achievements/SpawnMenuOpen
+  * @internal
+  * @param {void} this - no description
+  * @returns {void}
+  **/
+  export function SpawnMenuOpen(this: void): void
   
   /**
   * 
@@ -82062,5 +82586,108 @@ declare namespace achievements {
   * @returns {void}
   **/
   export function BalloonPopped(this: void): void
+  
+}
+
+declare namespace GWEN {
+  /**
+  * @type GWENCreateTextureCenteredReturn
+  * @param {void} this - no description
+  * @param {number} x - X coordinate for the box
+  * @param {number} y - Y coordinate for the box
+  * @param {number} w - Width of the box
+  * @param {number} h - Height of the box
+  * @param {IColor} clr - Optional color, default is white. Uses the @IColor structure
+  **/
+  type GWENCreateTextureCenteredReturn = (this: void, x: number, y: number, w: number, h: number, clr: IColor) => unknown
+  
+  /**
+  * @type GWENCreateTextureNormalReturn
+  * @param {void} this - no description
+  * @param {number} x - X coordinate for the box
+  * @param {number} y - Y coordinate for the box
+  * @param {number} w - Width of the box
+  * @param {number} h - Height of the box
+  * @param {IColor} clr - Optional color, default is white. Uses the @IColor structure
+  **/
+  type GWENCreateTextureNormalReturn = (this: void, x: number, y: number, w: number, h: number, clr: IColor) => unknown
+  
+  /**
+  * @type GWENCreateTextureBorderReturn
+  * @param {void} this - no description
+  * @param {number} x - X coordinate for the box
+  * @param {number} y - Y coordinate for the box
+  * @param {number} w - Width of the box
+  * @param {number} h - Height of the box
+  * @param {IColor} clr - Optional color, default is white. Uses the @IColor structure
+  **/
+  type GWENCreateTextureBorderReturn = (this: void, x: number, y: number, w: number, h: number, clr: IColor) => unknown
+  
+  /**
+  * 
+  * When used in a material skin, it returns a color value from a point in the skin image.
+  * 
+  * @name GWEN.TextureColor
+  * @realm client, menu
+  * @wiki https://wiki.garrysmod.com/page/GWEN/TextureColor
+  * @param {void} this - no description
+  * @param {number} x - X position of the pixel to get the color from.
+  * @param {number} y - Y position of the pixel to get the color from.
+  * @returns {IColor} - The color of the point on the skin as a @IColor structure.
+  **/
+  export function TextureColor(this: void, x: number, y: number): IColor
+  
+  /**
+  * 
+  * Used in derma skins to create a rectangle drawing function from an image. The rectangle will not be scaled, but instead it will be drawn in the center of the box. The texture is taken from SKIN.GwenTexture
+  * 
+  * @name GWEN.CreateTextureCentered
+  * @realm client, menu
+  * @wiki https://wiki.garrysmod.com/page/GWEN/CreateTextureCentered
+  * @param {void} this - no description
+  * @param {number} x - The X coordinate on the texture
+  * @param {number} y - The Y coordinate on the texture
+  * @param {number} w - Width of the area on texture
+  * @param {number} h - Height of the area on texture
+  * @returns {function} - The drawing function. Arguments are:
+  **/
+  export function CreateTextureCentered(this: void, x: number, y: number, w: number, h: number): GWENCreateTextureCenteredReturn
+  
+  /**
+  * 
+  * Used in derma skins to create a rectangle drawing function from an image. The texture of the rectangle will be scaled. The texture is taken from SKIN.GwenTexture
+  * 
+  * @name GWEN.CreateTextureNormal
+  * @realm client, menu
+  * @wiki https://wiki.garrysmod.com/page/GWEN/CreateTextureNormal
+  * @param {void} this - no description
+  * @param {number} x - The X coordinate on the texture
+  * @param {number} y - The Y coordinate on the texture
+  * @param {number} w - Width of the area on texture
+  * @param {number} h - Height of the area on texture
+  * @returns {function} - The drawing function. Arguments are:
+  **/
+  export function CreateTextureNormal(this: void, x: number, y: number, w: number, h: number): GWENCreateTextureNormalReturn
+  
+  /**
+  * 
+  * Used in derma skins to create a bordered rectangle drawing function from an image. The texture is taken either from last argument or from SKIN.GwenTexture
+  * 
+  * @name GWEN.CreateTextureBorder
+  * @realm client, menu
+  * @wiki https://wiki.garrysmod.com/page/GWEN/CreateTextureBorder
+  * @param {void} this - no description
+  * @param {number} x - The X coordinate on the texture
+  * @param {number} y - The Y coordinate on the texture
+  * @param {number} w - Width of the area on texture
+  * @param {number} h - Height of the area on texture
+  * @param {number} left - Left width of border
+  * @param {number} top - Top width of border
+  * @param {number} right - Right width of border
+  * @param {number} bottom - Bottom width of border
+  * @param {IMaterial} source - Texture of source image to create a bordered rectangle from. Uses SKIN.GwenTexture if not set.
+  * @returns {function} - The drawing function. Arguments are:
+  **/
+  export function CreateTextureBorder(this: void, x: number, y: number, w: number, h: number, left: number, top: number, right: number, bottom: number, source?: IMaterial): GWENCreateTextureBorderReturn
   
 }

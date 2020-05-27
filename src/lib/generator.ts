@@ -442,7 +442,20 @@ export default class Generator {
     }
 
     const funcOverrides = this.getFuncOverrides(obj)
-    this.typings.push(`${funcOverrides.prefix ? funcOverrides.prefix : ''}(${funcArgs.length > 0 ? funcArgs.map(r => `${r.name}${r.optional ? '?' : ''}: ${r.typing}`).join(', ') : '' }): ${funcReturns.length > 0 ? funcReturns.length > 1 ? `[${funcReturns.map(r => r.typing).join(', ')}]` : funcReturns.map(r => r.typing).join(', ') : 'void' }`)
+
+    const prefix = funcOverrides.prefix ?
+      funcOverrides.prefix :
+      ''
+
+    const argsString = funcArgs.length > 0 ?
+      funcArgs.map(r =>
+        `${r.name}${r.optional || r.default ? '?' : ''}: ${r.typing}`
+      ).join(', ') :
+      ''
+
+    const returnString = funcReturns.length > 0 ? funcReturns.length > 1 ? `[${funcReturns.map(r => r.typing).join(', ')}]` : funcReturns.map(r => r.typing).join(', ') : 'void'
+
+    this.typings.push(`${prefix}(${argsString}): ${returnString}`)
   }
 
   private hook(obj: IFunc, args?: IArgument[], returns?: IReturn[]) {
@@ -797,7 +810,9 @@ export default class Generator {
           }
 
           typing = `(${subs.map(s => `${s.name}${s.optional ? '?' : ''}: ${s.typing}`).join(', ')}) => unknown`
-          comments = comments.concat(subs.map(s => `@param {${s.type}} ${s.name} - ${s.desc ? s.desc : 'no description'}`))
+          comments = comments.concat(subs.map(s =>
+            `@param {${s.type}} ${s.name} - ${s.desc ? s.desc : 'no description'}`
+          ))
 
           arg.typing = name
           arg.args = subs
