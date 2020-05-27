@@ -1,6 +1,6 @@
 {
   "name": "@glua-ts/types",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Typings generation for garrysmod",
   "types": "typings/garrysmod.d.ts",
   "files": [
