@@ -11,7 +11,7 @@
     "wiki:fetch": "ts-node ./src/fetch.ts --verbose",
     "wiki:parse": "ts-node ./src/parse.ts --verbose",
     "wiki:generate": "ts-node ./src/generate.ts --verbose",
-    "lint": "eslint --ext .ts ./src",
+    "lint": "eslint --ext .ts ./src --fix",
     "lint:fix": "npm run lint -- --fix",
     "precommit": "npm run lint",
     "release": "npm run precommit && standard-version",
