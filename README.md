@@ -1,7 +1,7 @@
 <div align="center">
 
-[![NPM version](https://img.shields.io/npm/v/@glua-ts/types.svg?style=flat)](https://www.npmjs.com/package/@glua-ts/types)
-[![NPM downloads](https://img.shields.io/npm/dm/@glua-ts/types.svg?style=flat)](https://www.npmjs.com/package/@glua-ts/types) [![Known Vulnerabilities](https://snyk.io/test/github/glua-ts/types/badge.svg)](https://snyk.io/test/github/glua-ts/types)
+[![NPM version](https://img.shields.io/npm/v/@glua-addon-types/glua-types.svg?style=flat)](https://www.npmjs.com/package/@glua-addon-types/glua-types)
+[![NPM downloads](https://img.shields.io/npm/dm/@glua-addon-types/glua-types.svg?style=flat)](https://www.npmjs.com/package/@glua-addon-types/glua-types) [![Known Vulnerabilities](https://snyk.io/test/github/glua-addon-types/glua-types/badge.svg)](https://snyk.io/test/github/glua-addon-types/glua-types)
 
 
 </div>
@@ -14,7 +14,7 @@ Disclosure](https://img.shields.io/badge/Security-Responsible%20Disclosure-yello
 </div>
 
 
-# @glua-ts/types
+# @glua-addon-types/glua-types
 
 Tool to generate typescript definitions for garrysmod.
 
@@ -28,6 +28,7 @@ If you want to refresh your cache just delete the `./data` folder and rerun.
 
 to install *just* the typings run
 
-```
-npm install --save-dev @glua-ts/types
-```
+`npm install --save-dev @glua-addon-types/glua-types`
+or
+`yarn add -D @glua-addon-types/glua-types`
+
