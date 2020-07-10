@@ -1,6 +1,6 @@
 {
-  "name": "@glua-ts/types",
-  "version": "0.1.1",
+  "name": "@glua-addon-types/glua-types",
+  "version": "0.1.2",
   "description": "Typings generation for garrysmod",
   "types": "typings/garrysmod.d.ts",
   "files": [
@@ -18,15 +18,32 @@
     "publish": "npm run precommit && npm run build && git push --follow-tags origin master && npm publish",
     "clean": "rimraf dist"
   },
+  "maintainers": [
+    {
+      "name": "SupinePandora43",
+      "url": "https://github.com/SupinePandora43"
+    },
+    {
+      "name": "SinusStudios",
+      "url": "https://github.com/SinusStudios"
+    },
+    {
+      "name": "NotMyWing",
+      "url": "https://github.com/NotMyWing"
+    },
+    {
+      "name": "Nurdism",
+      "url": "https://github.com/nurdism"
+    }
+  ],
   "license": "MIT",
-  "author": "Nurdism <https://github.com/nurdism>",
-  "homepage": "https://github.com/glua-ts/types#readme",
+  "homepage": "https://github.com/SupinePandora43/glua-ts-types",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/glua-ts/types.git"
+    "url": "git+https://github.com/SupinePandora43/glua-ts-types.git"
   },
   "bugs": {
-    "url": "https://github.com/glua-ts/types/issues"
+    "url": "https://github.com/SupinePandora43/glua-ts-types/issues"
   },
   "keywords": [
     "gmod",
@@ -35,6 +52,7 @@
     "lua",
     "tool",
     "typings",
+    "types",
     "typescript"
   ],
   "devDependencies": {
